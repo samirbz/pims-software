@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main className="mx-auto">{children}</main>
+        </Providers>
       </body>
     </html>
   )
