@@ -1,17 +1,18 @@
 import { auth, signOut } from "@/auth"
 import { Button } from "@nextui-org/react"
+import Link from "next/link"
 import React from "react"
 import { FaRegSmile } from "react-icons/fa"
 
 export default async function TestPage() {
   const session = await auth()
   return (
-    <div>
-      <h1 className="text-3xl">Hello app!</h1>
-      <h3 className="text-2xl font-semibold">User session data:</h3>
+    <div className="mt-4 flex justify-center gap-4">
+      <h1 className="text-3xl">Hello User!</h1>
+      {/* <h3 className="text-2xl font-semibold">User session data:</h3> */}
       {session ? (
         <div>
-          <pre>{JSON.stringify(session, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(session, null, 2)}</pre> */}
           <form
             action={async () => {
               "use server"
@@ -31,6 +32,9 @@ export default async function TestPage() {
       ) : (
         <div>Not signed in</div>
       )}
+      <Button as={Link} href="/register" color="primary" variant="bordered">
+        Create User
+      </Button>
     </div>
   )
 }
