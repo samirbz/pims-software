@@ -1,4 +1,6 @@
 "use client"
+import { registerSchema, RegisterSchema } from "@/lib/schemas/registerSchema"
+import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Card,
   CardHeader,
@@ -9,9 +11,23 @@ import {
   SelectItem,
 } from "@nextui-org/react"
 import React from "react"
+import { useForm } from "react-hook-form"
 import { GiPadlock } from "react-icons/gi"
 
 export default function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+    mode: "onTouched",
+  })
+
+  const onSubmit = (data: RegisterSchema) => {
+    console.log(data)
+  }
+
   return (
     <div className="vertical-center mt-20 flex h-auto">
       <Card className="mx-auto w-10/12 sm:w-96">
@@ -24,11 +40,26 @@ export default function RegisterForm() {
             <p className="text-neutral-500">Welcome to PIMS software</p>
           </div>
         </CardHeader>
+
         <CardBody>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-4">
-              <Input defaultValue="" label="fullname" variant="bordered" />
-              <Input defaultValue="" label="username" variant="bordered" />
+              <Input
+                defaultValue=""
+                label="fullname"
+                variant="bordered"
+                {...register("fullname")}
+                isInvalid={!!errors.fullname}
+                errorMessage={errors.fullname?.message}
+              />
+              <Input
+                defaultValue=""
+                label="username"
+                variant="bordered"
+                {...register("username")}
+                isInvalid={!!errors.username}
+                errorMessage={errors.username?.message}
+              />
 
               <Select label="role" placeholder="select a role">
                 <SelectItem key="user">user</SelectItem>
@@ -40,9 +71,17 @@ export default function RegisterForm() {
                 label="password"
                 variant="bordered"
                 type="password"
+                {...register("password")}
+                isInvalid={!!errors.password}
+                errorMessage={errors.password?.message}
               />
 
-              <Button fullWidth color="primary" type="submit">
+              <Button
+                fullWidth
+                color="primary"
+                type="submit"
+                isDisabled={!isValid}
+              >
                 Register
               </Button>
             </div>
