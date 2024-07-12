@@ -21,6 +21,14 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(auth)/register/RegisterForm.tsx", "src/app/(auth)/register/data.js", "src/app/(auth)/register/Selects.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/(auth)/register/RegisterForm.tsx",
+    "src/app/(auth)/register/data.js",
+    "src/app/(auth)/register/Selects.jsx"
+  ],
   "exclude": ["node_modules"]
 }
