@@ -31,7 +31,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="vertical-center mt-20 flex h-auto">
+    <div className="vertical-center  mt-20 flex h-auto">
       <Card className="mx-auto w-10/12 sm:w-96">
         <CardHeader className="flex flex-col items-center justify-center">
           <div className="flex flex-col items-center gap-2 text-blue-600">
