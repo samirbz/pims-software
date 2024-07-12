@@ -121,7 +121,6 @@ export default function RegisterForm() {
               <Button
                 as={Link}
                 href="/members"
-                isLoading={isSubmitting}
                 fullWidth
                 color="default"
                 variant="bordered"
