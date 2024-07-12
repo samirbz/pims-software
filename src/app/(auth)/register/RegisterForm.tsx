@@ -40,7 +40,7 @@ export default function RegisterForm() {
             | "username"
             | "name"
             | "password"
-            | "role"
+            | "email"
           setError(fieldName, { message: e.message })
         })
       } else {
@@ -85,9 +85,9 @@ export default function RegisterForm() {
               <Select
                 label="role"
                 placeholder="select a role"
-                {...register("role")}
-                isInvalid={!!errors.role}
-                errorMessage={errors.role?.message}
+                {...register("email")}
+                isInvalid={!!errors.email}
+                errorMessage={errors.email?.message}
               >
                 <SelectItem key="user">user</SelectItem>
                 <SelectItem key="admin">admin</SelectItem>

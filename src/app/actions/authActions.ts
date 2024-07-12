@@ -50,7 +50,7 @@ export async function registerUser(
     if (!validated.success) {
       return { status: "error", error: validated.error.errors }
     }
-    const { name, username, password, role } = validated.data
+    const { name, username, password, email } = validated.data
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -63,7 +63,7 @@ export async function registerUser(
       data: {
         name,
         username,
-        role,
+        email,
         passwordHash: hashedPassword,
       },
     })
