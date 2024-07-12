@@ -6,7 +6,7 @@ export default function TopBanner() {
     <div className="flex w-full items-center justify-between">
       <div className="flex justify-start">
         <Image
-          src="/assets/images/logo.png"
+          src="/images/logo.png"
           className="w-full "
           width={420}
           alt="PIMS"
@@ -14,7 +14,7 @@ export default function TopBanner() {
       </div>
       <div className="flex justify-end">
         <Image
-          src="/assets/images/side-logo.png"
+          src="/images/side-logo.png"
           className="h-auto max-w-full"
           width={120}
           alt="PIMS"

@@ -1,6 +1,6 @@
 "use client"
 import { registerUser } from "@/app/actions/authActions"
-import {RegisterSchema } from "@/lib/schemas/registerSchema"
+import { RegisterSchema } from "@/lib/schemas/registerSchema"
 // import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Card,
@@ -10,10 +10,12 @@ import {
   Input,
   Select,
   SelectItem,
+  Link,
 } from "@nextui-org/react"
 import React from "react"
 import { useForm } from "react-hook-form"
 import { GiPadlock } from "react-icons/gi"
+import { IoArrowBack } from "react-icons/io5"
 
 export default function RegisterForm() {
   const {
@@ -115,6 +117,17 @@ export default function RegisterForm() {
                 isDisabled={!isValid}
               >
                 Register
+              </Button>
+              <Button
+                as={Link}
+                href="/members"
+                isLoading={isSubmitting}
+                fullWidth
+                color="default"
+                variant="bordered"
+                startContent={<IoArrowBack />}
+              >
+                Return back
               </Button>
             </div>
           </form>
