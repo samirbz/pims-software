@@ -61,7 +61,14 @@ export default function RegisterForm() {
                 errorMessage={errors.username?.message}
               />
 
-              <Select label="role" placeholder="select a role">
+              <Select
+                isRequired
+                label="role"
+                placeholder="select a role"
+                {...register("role")}
+                isInvalid={!!errors.role}
+                errorMessage={errors.role?.message}
+              >
                 <SelectItem key="user">user</SelectItem>
                 <SelectItem key="admin">admin</SelectItem>
               </Select>
