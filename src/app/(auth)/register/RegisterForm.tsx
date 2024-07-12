@@ -56,7 +56,7 @@ export default function RegisterForm() {
           <div className="flex flex-col items-center gap-2 text-blue-600">
             <div className=" flex flex-row items-center gap-3">
               <GiPadlock size={30} />
-              <h1 className="text-3xl font-semibold">Register</h1>
+              <h1 className="text-3xl font-semibold">Create User</h1>
             </div>
             <p className="text-neutral-500">Welcome to PIMS software</p>
           </div>
