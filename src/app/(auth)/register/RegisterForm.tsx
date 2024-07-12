@@ -1,7 +1,7 @@
 "use client"
 import { registerUser } from "@/app/actions/authActions"
-import { registerSchema, RegisterSchema } from "@/lib/schemas/registerSchema"
-import { zodResolver } from "@hookform/resolvers/zod"
+import {RegisterSchema } from "@/lib/schemas/registerSchema"
+// import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Card,
   CardHeader,
