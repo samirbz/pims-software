@@ -23,14 +23,7 @@ export default function UserMenu({ user }: Props) {
       >
         Create User
       </Button>
-      <Button
-        as={Link}
-        href="/dashboard"
-        radius="full"
-        className="bg-gradient-to-tr from-blue-700 to-blue-300 text-white shadow-lg"
-      >
-        Dashboard
-      </Button>
+
       <Button onClick={async () => signOutUser()} variant="shadow">
         Log out
       </Button>

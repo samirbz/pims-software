@@ -1,10 +1,10 @@
-import TopBanner from "@/components/TopBanner"
 import React from "react"
+import HomeNavbar from "@/components/navbar/HomeNav"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main>
-      <TopBanner />
+      <HomeNavbar />
       {children}
     </main>
   )
