@@ -2,14 +2,18 @@
 import React from "react"
 import Image from "next/image"
 import Link from "next/link"
+import BSDateDisplay from "./BSDateDisplay"
 
 export default function TopBanner() {
   return (
-    <div className="flex h-[6.4rem] w-full items-center justify-between">
+    <div className="relative flex h-[6.4rem] w-full items-center justify-between">
       <div className="flex justify-start">
-        <Link href="/">
-          <Image src="/images/logo.png" width={420} height={103} alt="PIMS" />
+        <Link href="/" className="mb-4">
+          <Image src="/images/logo.png" width={320} height={70} alt="PIMS" />
         </Link>
+      </div>
+      <div className="absolute bottom-0 left-2">
+      <BSDateDisplay />
       </div>
       <div className="flex justify-end">
         <Image
