@@ -13,8 +13,8 @@ type Props = {
 export default function UserMenu({ user }: Props) {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl">Signed in as {user?.name}</h1>
-      <h1 className="text-3xl">Role: {user?.email}</h1>
+      <h1 className="text-xl">Hi, {user?.name}</h1>
+      <h1 className="text-xl">Role: {user?.email}</h1>
       <Button
         as={Link}
         href="/register"

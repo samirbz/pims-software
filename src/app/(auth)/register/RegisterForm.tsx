@@ -12,12 +12,15 @@ import {
   SelectItem,
   Link,
 } from "@nextui-org/react"
+import { useRouter } from "next/navigation"
 import React from "react"
 import { useForm } from "react-hook-form"
 import { GiPadlock } from "react-icons/gi"
 import { IoArrowBack } from "react-icons/io5"
+import { toast } from "react-toastify"
 
 export default function RegisterForm() {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -32,7 +35,9 @@ export default function RegisterForm() {
     const result = await registerUser(data)
 
     if (result.status === "success") {
-      console.log("User registered successfully")
+      toast.success("User created successfully")
+      router.push("/members")
+      router.refresh()
     } else {
       if (Array.isArray(result.error)) {
         result.error.forEach((e: any) => {
