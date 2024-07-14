@@ -9,7 +9,6 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
-  Link,
   Dropdown,
   Button,
   DropdownItem,
@@ -24,6 +23,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { signOutUser } from "@/app/actions/authActions"
 import { IoLogOut } from "react-icons/io5"
 import Image from "next/image"
+import Link from "next/link"
 
 type Props = {
   user: Session["user"]

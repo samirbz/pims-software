@@ -10,7 +10,6 @@ import {
   Input,
   Select,
   SelectItem,
-  Link,
 } from "@nextui-org/react"
 import { useRouter } from "next/navigation"
 import React from "react"
@@ -18,6 +17,7 @@ import { useForm } from "react-hook-form"
 import { GiPadlock } from "react-icons/gi"
 import { IoArrowBack } from "react-icons/io5"
 import { toast } from "react-toastify"
+import Link from "next/link"
 
 export default function RegisterForm() {
   const router = useRouter()
