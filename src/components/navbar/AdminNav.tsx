@@ -19,6 +19,7 @@ import {
   User,
 } from "@nextui-org/react"
 import { Session } from "next-auth"
+import { PlusIcon } from "./PlusIcon.jsx"
 import { FaUserAlt } from "react-icons/fa"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { signOutUser } from "@/app/actions/authActions"
@@ -29,7 +30,7 @@ type Props = {
   user: Session["user"]
 }
 
-export default function MemberNav({ user }: Props) {
+export default function AdminNav({ user }: Props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   const menuItems = [
@@ -174,7 +175,7 @@ export default function MemberNav({ user }: Props) {
                 />
               </DropdownItem>
 
-              {/* <DropdownItem key="dashboard">
+              <DropdownItem key="dashboard">
                 <Link className="text-black" href="/members/dashboard">
                   Admin Dashboard
                 </Link>
@@ -184,7 +185,7 @@ export default function MemberNav({ user }: Props) {
                 endContent={<PlusIcon className="text-large" />}
               >
                 <Link href="/register">Create User</Link>
-              </DropdownItem> */}
+              </DropdownItem>
 
               <DropdownItem key="settings">
                 <Link className="text-black" href="/members/settings">
