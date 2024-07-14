@@ -18,13 +18,13 @@ import {
   User,
 } from "@nextui-org/react"
 import { Session } from "next-auth"
-import { PlusIcon } from "./PlusIcon.jsx"
 import { FaUserAlt } from "react-icons/fa"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { signOutUser } from "@/app/actions/authActions"
 import { IoLogOut } from "react-icons/io5"
 import Image from "next/image"
 import Link from "next/link"
+import { BsPlusLg } from "react-icons/bs"
 
 type Props = {
   user: Session["user"]
@@ -175,19 +175,20 @@ export default function AdminNav({ user }: Props) {
                 />
               </DropdownItem>
 
-              <DropdownItem key="dashboard">
-                <Link className="text-black" href="/members/dashboard">
-                  Admin Dashboard
-                </Link>
-              </DropdownItem>
-              <DropdownItem
-                key="create-user"
-                endContent={<PlusIcon className="text-large" />}
-              >
-                <Link href="/members/register" className="text-gray-600">
-                  Create User
-                </Link>
-              </DropdownItem>
+              {user?.email === "admin" && (
+                <DropdownItem key="dashboard">
+                  <Link className="text-black" href="/members/dashboard">
+                    Admin Dashboard
+                  </Link>
+                </DropdownItem>
+              )}
+              {user?.email === "admin" && (
+                <DropdownItem key="create-user" endContent={<BsPlusLg />}>
+                  <Link href="/members/register" className="text-gray-600">
+                    Create User
+                  </Link>
+                </DropdownItem>
+              )}
 
               <DropdownItem key="settings">
                 <Link className="text-black" href="/members/settings">
