@@ -54,7 +54,7 @@ export default function AdminNav({ user }: Props) {
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
+          className="xl:hidden"
         />
         <NavbarBrand>
           <Link href="/" className="flex gap-2 text-black">
@@ -70,7 +70,7 @@ export default function AdminNav({ user }: Props) {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
+      <NavbarContent className="hidden gap-4 xl:flex" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#">
             कार्यालय
