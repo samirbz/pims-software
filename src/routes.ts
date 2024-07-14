@@ -1,2 +1,2 @@
 export const authRoutes = ["/"]
-export const adminRoutes = ["/register", "/dashboard"]
+export const adminRoutes = ["/members/register", "/members/dashboard"]

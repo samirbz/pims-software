@@ -14,7 +14,13 @@ export default function TopBanner() {
       </div>
 
       <div className="flex flex-col items-center gap-2 pr-2">
-        <Image src="/images/flag.gif" width={40} height={40} alt="PIMS" />
+        <Image
+          src="/images/flag.gif"
+          unoptimized
+          width={40}
+          height={40}
+          alt="PIMS"
+        />
         <BSDateDisplay />
       </div>
     </div>

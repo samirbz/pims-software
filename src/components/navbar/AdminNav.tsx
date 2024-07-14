@@ -184,7 +184,7 @@ export default function AdminNav({ user }: Props) {
                 key="create-user"
                 endContent={<PlusIcon className="text-large" />}
               >
-                <Link href="/register">Create User</Link>
+                <Link href="/members/register">Create User</Link>
               </DropdownItem>
 
               <DropdownItem key="settings">
