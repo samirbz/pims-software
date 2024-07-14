@@ -1,6 +1,7 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
+
 import {
   Table,
   TableHeader,
@@ -16,21 +17,31 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react"
-import { users } from "./data"
 import { MdOutlineEdit } from "react-icons/md"
+import { getMembers } from "@/app/actions/memberActions"
 
 export default function App() {
+  const [members, setMembers] = useState([])
+
+  useEffect(() => {
+    async function fetchMembers() {
+      const member: any = await getMembers()
+      setMembers(member)
+    }
+    fetchMembers()
+  }, [])
+
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
 
-  const pages = Math.ceil(users.length / rowsPerPage)
+  const pages = Math.ceil(members.length / rowsPerPage)
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
 
-    return users.slice(start, end)
-  }, [page])
+    return members.slice(start, end)
+  }, [page, members])
 
   return (
     <Table
@@ -54,12 +65,11 @@ export default function App() {
     >
       <TableHeader>
         <TableColumn key="name">NAME</TableColumn>
-        <TableColumn key="role">ROLE</TableColumn>
-        <TableColumn key="status">STATUS</TableColumn>
+        <TableColumn key="email">ROLE</TableColumn>
         <TableColumn key="edit">EDIT</TableColumn>
       </TableHeader>
       <TableBody items={items}>
-        {(item) => (
+        {(item: any) => (
           <TableRow key={item.name}>
             {(columnKey) => (
               <TableCell>
@@ -71,10 +81,9 @@ export default function App() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Static Actions">
-                      <DropdownItem key="edit">Edit name</DropdownItem>
-                      <DropdownItem key="edit">Edit role</DropdownItem>
+                      <DropdownItem key="edit-name">Edit name</DropdownItem>
+                      <DropdownItem key="edit-role">Edit role</DropdownItem>
                       <DropdownItem key="new">Reset Password</DropdownItem>
-                      <DropdownItem key="copy">Deactivate</DropdownItem>
                       <DropdownItem
                         key="delete"
                         className="text-danger"
