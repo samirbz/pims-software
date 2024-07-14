@@ -21,7 +21,7 @@ import { MdOutlineEdit } from "react-icons/md"
 
 export default function App() {
   const [page, setPage] = React.useState(1)
-  const rowsPerPage = 10
+  const rowsPerPage = 7
 
   const pages = Math.ceil(users.length / rowsPerPage)
 
