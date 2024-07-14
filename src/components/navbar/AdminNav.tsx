@@ -16,6 +16,7 @@ import {
   DropdownSection,
   DropdownTrigger,
   User,
+  Link,
 } from "@nextui-org/react"
 import { Session } from "next-auth"
 import { FaUserAlt } from "react-icons/fa"
@@ -23,7 +24,6 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { signOutUser } from "@/app/actions/authActions"
 import { IoLogOut } from "react-icons/io5"
 import Image from "next/image"
-import Link from "next/link"
 import { BsPlusLg } from "react-icons/bs"
 
 type Props = {
@@ -175,25 +175,20 @@ export default function AdminNav({ user }: Props) {
                 />
               </DropdownItem>
 
-              {user?.email === "admin" && (
-                <DropdownItem key="dashboard">
-                  <Link className="text-black" href="/members/dashboard">
-                    Admin Dashboard
-                  </Link>
-                </DropdownItem>
-              )}
-              {user?.email === "admin" && (
-                <DropdownItem key="create-user" endContent={<BsPlusLg />}>
-                  <Link href="/members/register" className="text-gray-600">
-                    Create User
-                  </Link>
-                </DropdownItem>
-              )}
+              <DropdownItem key="dashboard" href="/members/dashboard">
+                Admin Dashboard
+              </DropdownItem>
 
-              <DropdownItem key="settings">
-                <Link className="text-black" href="/members/settings">
-                  Settings
-                </Link>
+              <DropdownItem
+                key="create-user"
+                href="/members/register"
+                endContent={<BsPlusLg />}
+              >
+                Create User
+              </DropdownItem>
+
+              <DropdownItem key="settings" href="/members/settings">
+                Settings
               </DropdownItem>
             </DropdownSection>
 
