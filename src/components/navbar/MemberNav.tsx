@@ -174,18 +174,6 @@ export default function MemberNav({ user }: Props) {
                 />
               </DropdownItem>
 
-              {/* <DropdownItem key="dashboard">
-                <Link className="text-black" href="/members/dashboard">
-                  Admin Dashboard
-                </Link>
-              </DropdownItem>
-              <DropdownItem
-                key="create-user"
-                endContent={<PlusIcon className="text-large" />}
-              >
-                <Link href="/register">Create User</Link>
-              </DropdownItem> */}
-
               <DropdownItem key="settings">
                 <Link className="text-black" href="/members/settings">
                   Settings
@@ -221,7 +209,6 @@ export default function MemberNav({ user }: Props) {
               }
               className="w-full"
               href="#"
-              size="lg"
             >
               {item}
             </Link>

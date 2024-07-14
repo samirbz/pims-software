@@ -224,7 +224,6 @@ export default function AdminNav({ user }: Props) {
               }
               className="w-full"
               href="#"
-              size="lg"
             >
               {item}
             </Link>
