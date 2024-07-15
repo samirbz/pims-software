@@ -180,14 +180,13 @@ export default function AdminNav({ user }: Props) {
             </DropdownSection>
 
             <DropdownSection aria-label="Help & Feedback">
-              <DropdownItem key="logout">
-                <p
-                  className="flex items-center gap-2 font-semibold"
-                  onClick={async () => signOutUser()}
-                >
-                  <IoLogOut />
-                  Log Out
-                </p>
+              <DropdownItem
+                key="logout"
+                className="flex items-center gap-2 font-semibold"
+                onClick={async () => signOutUser()}
+                endContent={<IoLogOut />}
+              >
+                Log Out
               </DropdownItem>
             </DropdownSection>
           </DropdownMenu>
