@@ -1,7 +1,5 @@
 "use client"
-
 import React, { useEffect, useState } from "react"
-
 import {
   Table,
   TableHeader,
@@ -31,10 +29,21 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { toast } from "react-toastify"
 
 export default function App() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const {
+    isOpen: isResetPasswordOpen,
+    onOpen: onResetPasswordOpen,
+    onOpenChange: onResetPasswordOpenChange,
+  } = useDisclosure()
+  const {
+    isOpen: isDeleteConfirmationOpen,
+    onOpen: onDeleteConfirmationOpen,
+    onOpenChange: onDeleteConfirmationOpenChange,
+  } = useDisclosure()
+
   const [members, setMembers] = useState([])
   const [pass, setPass] = useState("")
   const [selectedMemberId, setSelectedMemberId] = useState("")
+  const [deleteUserId, setDeleteUserId] = useState("")
 
   const [isVisible, setIsVisible] = React.useState(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
@@ -49,25 +58,17 @@ export default function App() {
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
-
   const pages = Math.ceil(members.length / rowsPerPage)
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
-
     return members.slice(start, end)
   }, [page, members])
 
   const handleDelete = async (id: string) => {
-    try {
-      const result = await deleteMember(id)
-      if (result.status === "success") {
-        window.location.reload()
-      }
-    } catch (error) {
-      console.error("Delete unsuccessful:", error)
-    }
+    setDeleteUserId(id) // Set the ID to be deleted
+    onDeleteConfirmationOpen() // Open the confirmation modal
   }
 
   const handleResetPassword = async () => {
@@ -81,55 +82,96 @@ export default function App() {
     } catch (error) {
       console.error("password reset unsuccessful:", error)
     }
-    onOpenChange()
+    onResetPasswordOpenChange()
+  }
+
+  const confirmDeleteUser = async () => {
+    try {
+      const result = await deleteMember(deleteUserId)
+      if (result.status === "success") {
+        toast.success("User deleted successfully")
+        window.location.reload()
+      } else {
+        console.error("Delete unsuccessful:")
+      }
+    } catch (error) {
+      console.error("Delete unsuccessful:", error)
+    }
+    onDeleteConfirmationOpenChange()
   }
 
   return (
     <>
-      <>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1">
-                  Reset Password
-                </ModalHeader>
-                <ModalBody>
-                  <Input
-                    label="Password"
-                    variant="bordered"
-                    onChange={(e) => setPass(e.target.value)}
-                    placeholder="Enter your password"
-                    endContent={
-                      <button
-                        className="focus:outline-none"
-                        type="button"
-                        onClick={toggleVisibility}
-                      >
-                        {isVisible ? (
-                          <FaRegEye className="pointer-events-none text-2xl text-default-400" />
-                        ) : (
-                          <FaRegEyeSlash className="pointer-events-none text-2xl text-default-400" />
-                        )}
-                      </button>
-                    }
-                    type={isVisible ? "text" : "password"}
-                    className="max-w-xs"
-                  />
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="primary" onPress={onClose}>
-                    Close
-                  </Button>
-                  <Button color="primary" onPress={() => handleResetPassword()}>
-                    Reset
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      </>
+      <Modal
+        isOpen={isResetPasswordOpen}
+        onOpenChange={onResetPasswordOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Reset Password
+              </ModalHeader>
+              <ModalBody>
+                <Input
+                  label="Password"
+                  variant="bordered"
+                  onChange={(e) => setPass(e.target.value)}
+                  placeholder="Enter new password"
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                    >
+                      {isVisible ? (
+                        <FaRegEye className="pointer-events-none text-2xl text-default-400" />
+                      ) : (
+                        <FaRegEyeSlash className="pointer-events-none text-2xl text-default-400" />
+                      )}
+                    </button>
+                  }
+                  type={isVisible ? "text" : "password"}
+                  className="max-w-xs"
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onPress={() => handleResetPassword()}>
+                  Reset
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={isDeleteConfirmationOpen}
+        onOpenChange={onDeleteConfirmationOpenChange}
+      >
+        <ModalContent>
+          <>
+            <ModalHeader className="flex flex-col gap-1">
+              Confirmation
+            </ModalHeader>
+            <ModalBody>
+              <p>Are you sure you want to delete this user?</p>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="danger" onClick={confirmDeleteUser}>
+                Delete
+              </Button>
+              <Button color="primary" onClick={onDeleteConfirmationOpenChange}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </>
+        </ModalContent>
+      </Modal>
+
       <Table
         aria-label="Example table with client side pagination"
         bottomContent={
@@ -171,11 +213,12 @@ export default function App() {
                           key="reset-password"
                           onPress={() => {
                             setSelectedMemberId(item.id)
-                            onOpen()
+                            onResetPasswordOpen()
                           }}
                         >
                           Reset Password
                         </DropdownItem>
+
                         <DropdownItem
                           key="delete"
                           className="text-danger"
