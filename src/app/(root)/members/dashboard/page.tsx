@@ -19,6 +19,7 @@ import {
 } from "@nextui-org/react"
 import { MdOutlineEdit } from "react-icons/md"
 import { getMembers } from "@/app/actions/memberActions"
+import { deleteMember } from "@/app/actions/userActions"
 
 export default function App() {
   const [members, setMembers] = useState([])
@@ -43,6 +44,17 @@ export default function App() {
     return members.slice(start, end)
   }, [page, members])
 
+  const handleDelete = async (id: string) => {
+    try {
+      const result = await deleteMember(id)
+      if (result.status === "success") {
+        window.location.reload()
+      }
+    } catch (error) {
+      console.error("Delete unsuccessful:", error)
+    }
+  }
+
   return (
     <Table
       aria-label="Example table with client side pagination"
@@ -65,12 +77,12 @@ export default function App() {
     >
       <TableHeader>
         <TableColumn key="name">NAME</TableColumn>
-        <TableColumn key="email">ROLE</TableColumn>
+        <TableColumn key="role">ROLE</TableColumn>
         <TableColumn key="edit">EDIT</TableColumn>
       </TableHeader>
       <TableBody items={items}>
         {(item: any) => (
-          <TableRow key={item.name}>
+          <TableRow key={item.id}>
             {(columnKey) => (
               <TableCell>
                 {columnKey === "edit" ? (
@@ -88,6 +100,7 @@ export default function App() {
                         key="delete"
                         className="text-danger"
                         color="danger"
+                        onClick={() => handleDelete(item.id)}
                       >
                         Delete user
                       </DropdownItem>

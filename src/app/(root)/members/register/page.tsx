@@ -18,6 +18,7 @@ import { GiPadlock } from "react-icons/gi"
 import { IoArrowBack } from "react-icons/io5"
 import { toast } from "react-toastify"
 import Link from "next/link"
+import { handleFormServerErrors } from "@/lib/util"
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -39,18 +40,7 @@ export default function RegisterForm() {
       router.push("/members")
       router.refresh()
     } else {
-      if (Array.isArray(result.error)) {
-        result.error.forEach((e: any) => {
-          const fieldName = e.path.join(".") as
-            | "username"
-            | "name"
-            | "password"
-            | "email"
-          setError(fieldName, { message: e.message })
-        })
-      } else {
-        setError("root.serverError", { message: result.error })
-      }
+      handleFormServerErrors(result, setError)
     }
   }
 
