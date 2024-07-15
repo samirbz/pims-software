@@ -112,3 +112,21 @@ export async function resetPassword(oldPassword: string, newPassword: string) {
     throw new Error("Failed to reset password")
   }
 }
+
+export async function resetUserPassword(newPassword: string, id: string) {
+  try {
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+
+    await prisma.user.update({
+      where: { id },
+      data: {
+        passwordHash: hashedPassword,
+      },
+    })
+
+    return { status: "success", message: "Password reset successful" }
+  } catch (error) {
+    console.error("Error resetting password:", error)
+    throw new Error("Failed to reset password")
+  }
+}
