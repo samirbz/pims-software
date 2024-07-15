@@ -25,7 +25,7 @@ import {
   Input,
 } from "@nextui-org/react"
 import { MdOutlineEdit } from "react-icons/md"
-import { getMembers } from "@/app/actions/memberActions"
+import { getMembersExcludeOwn } from "@/app/actions/memberActions"
 import { deleteMember, resetUserPassword } from "@/app/actions/userActions"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { toast } from "react-toastify"
@@ -41,7 +41,7 @@ export default function App() {
 
   useEffect(() => {
     async function fetchMembers() {
-      const member: any = await getMembers()
+      const member: any = await getMembersExcludeOwn()
       setMembers(member)
     }
     fetchMembers()
