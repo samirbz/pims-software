@@ -77,12 +77,12 @@ export default function App() {
     >
       <TableHeader>
         <TableColumn key="name">NAME</TableColumn>
-        <TableColumn key="role">ROLE</TableColumn>
+        <TableColumn key="email">ROLE</TableColumn>
         <TableColumn key="edit">EDIT</TableColumn>
       </TableHeader>
       <TableBody items={items}>
         {(item: any) => (
-          <TableRow key={item.id}>
+          <TableRow key={item.name}>
             {(columnKey) => (
               <TableCell>
                 {columnKey === "edit" ? (
