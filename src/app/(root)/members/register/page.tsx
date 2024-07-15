@@ -19,6 +19,7 @@ import { IoArrowBack } from "react-icons/io5"
 import { toast } from "react-toastify"
 import Link from "next/link"
 import { handleFormServerErrors } from "@/lib/util"
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -43,6 +44,10 @@ export default function RegisterForm() {
       handleFormServerErrors(result, setError)
     }
   }
+
+  const [isVisible, setIsVisible] = React.useState(false)
+
+  const toggleVisibility = () => setIsVisible(!isVisible)
 
   return (
     <div className="vertical-center mt-20 flex h-auto">
@@ -92,10 +97,23 @@ export default function RegisterForm() {
                 defaultValue=""
                 label="password"
                 variant="bordered"
-                type="password"
                 {...register("password")}
                 isInvalid={!!errors.password}
                 errorMessage={errors.password?.message}
+                endContent={
+                  <button
+                    className="focus:outline-none"
+                    type="button"
+                    onClick={toggleVisibility}
+                  >
+                    {isVisible ? (
+                      <FaRegEye className="pointer-events-none text-2xl text-default-400" />
+                    ) : (
+                      <FaRegEyeSlash className="pointer-events-none text-2xl text-default-400" />
+                    )}
+                  </button>
+                }
+                type={isVisible ? "text" : "password"}
               />
 
               {errors.root?.serverError && (

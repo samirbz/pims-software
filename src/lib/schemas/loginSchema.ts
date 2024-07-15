@@ -2,10 +2,10 @@ import { z } from "zod"
 
 export const loginSchema = z.object({
   username: z.string().min(3, {
-    message: "username required",
+    message: "username must be at least 3 character",
   }),
   password: z.string().min(5, {
-    message: "password required",
+    message: "password must be at least 5 character",
   }),
 })
 

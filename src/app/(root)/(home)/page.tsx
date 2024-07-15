@@ -8,6 +8,7 @@ import React from "react"
 import { useForm } from "react-hook-form"
 import { GiPadlock } from "react-icons/gi"
 import { toast } from "react-toastify"
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 
 export default function LoginForm() {
   const router = useRouter()
@@ -29,6 +30,10 @@ export default function LoginForm() {
       toast.error(result.error as string)
     }
   }
+
+  const [isVisible, setIsVisible] = React.useState(false)
+
+  const toggleVisibility = () => setIsVisible(!isVisible)
 
   return (
     <div className="vertical-center  mt-20 flex h-auto">
@@ -58,10 +63,23 @@ export default function LoginForm() {
                 defaultValue=""
                 label="password"
                 variant="bordered"
-                type="password"
                 {...register("password")}
                 isInvalid={!!errors.password}
                 errorMessage={errors.password?.message}
+                endContent={
+                  <button
+                    className="focus:outline-none"
+                    type="button"
+                    onClick={toggleVisibility}
+                  >
+                    {isVisible ? (
+                      <FaRegEye className="pointer-events-none text-2xl text-default-400" />
+                    ) : (
+                      <FaRegEyeSlash className="pointer-events-none text-2xl text-default-400" />
+                    )}
+                  </button>
+                }
+                type={isVisible ? "text" : "password"}
               />
               <Button
                 isLoading={isSubmitting}

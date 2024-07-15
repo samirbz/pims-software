@@ -167,8 +167,6 @@ export default function App() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem key="edit-name">Edit name</DropdownItem>
-                        <DropdownItem key="edit-role">Edit role</DropdownItem>
                         <DropdownItem
                           key="reset-password"
                           onPress={() => {
