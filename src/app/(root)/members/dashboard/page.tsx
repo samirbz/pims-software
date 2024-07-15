@@ -173,6 +173,7 @@ export default function App() {
       </Modal>
 
       <Table
+        align="center"
         aria-label="Example table with client side pagination"
         bottomContent={
           <div className="flex w-full justify-center">
