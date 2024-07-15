@@ -2,7 +2,9 @@ CHECKLIST
 [x] Login register page created with zod validation
 [x] Authentication
 [x] Admin and user created
-[] show all users in admin dashboard
+[x] show all users in admin dashboard
+[x] Delete user by admin
+[x] Reset password by user
 [] edit user delete deactivate user reset password of users
 
 NEED TO CORRECT
