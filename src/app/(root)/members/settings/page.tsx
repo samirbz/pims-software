@@ -6,28 +6,32 @@ import { resetPassword } from "@/app/actions/userActions"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 
 export default function Settings() {
+  const [oldPassword, setOldPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  const toggleVisibility = () => setIsVisible(!isVisible)
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setError(null)
     setSuccess(null)
 
-    // Add any additional validation logic if needed
+    // Add validation logic for new password length
+    if (newPassword.length < 5) {
+      setError("New password must be at least 5 characters long")
+      return
+    }
 
     try {
-      await resetPassword(newPassword)
+      await resetPassword(oldPassword, newPassword)
       setSuccess("Password reset successful")
     } catch (error) {
       setError("Failed to reset password")
     }
   }
-
-  const [isVisible, setIsVisible] = React.useState(false)
-
-  const toggleVisibility = () => setIsVisible(!isVisible)
 
   return (
     <div className="vertical-center mt-20 flex h-auto">
@@ -43,6 +47,28 @@ export default function Settings() {
         <CardBody>
           <form onSubmit={handleSubmit}>
             <div className="space-y-4">
+              <Input
+                label="Old Password"
+                variant="bordered"
+                required
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+                endContent={
+                  <button
+                    className="focus:outline-none"
+                    type="button"
+                    onClick={toggleVisibility}
+                  >
+                    {isVisible ? (
+                      <FaRegEye className="pointer-events-none text-2xl text-default-400" />
+                    ) : (
+                      <FaRegEyeSlash className="pointer-events-none text-2xl text-default-400" />
+                    )}
+                  </button>
+                }
+                type={isVisible ? "text" : "password"}
+              />
+
               <Input
                 label="New Password"
                 variant="bordered"
