@@ -49,18 +49,16 @@ export default function LoginForm() {
             className="mb-20"
           />
           <div className="flex flex-col items-center gap-1">
-            <span className="mr-4 text-2xl font-semibold text-blue-600">
+            <p className="mr-4 text-2xl font-semibold text-blue-600">
               वाणगङ्गा
-            </span>
-            <span className="mr-4 text-2xl font-semibold text-blue-600">
+            </p>
+            <p className="mr-4 text-2xl font-semibold text-blue-600">
               नगरपालिका
-            </span>
-            <span className="mt-2 text-lg font-semibold text-red-600">
+            </p>
+            <p className="mt-2 whitespace-nowrap text-sm font-semibold text-red-600 sm:text-lg">
               नगर कार्यपालिकाको कार्यालय
-            </span>
-            <span className="mr-4 text-lg font-semibold text-red-600">
-              कपिलवस्तु
-            </span>
+            </p>
+            <p className="mr-4 text-lg font-semibold text-red-600">कपिलवस्तु</p>
           </div>
           <Image
             src="/images/flag.gif"
@@ -74,7 +72,7 @@ export default function LoginForm() {
         <CardBody>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="ml-5 flex h-2/5 w-11/12 flex-col items-center space-y-4"
+            className="ml-4 flex h-2/5 w-11/12 flex-col items-center space-y-4"
           >
             <Input
               defaultValue=""
@@ -125,7 +123,7 @@ export default function LoginForm() {
             </div>
           </form>
         </CardBody>
-        <p className="mb-1 flex items-center self-center text-sm text-neutral-500">
+        <p className="mb-2 flex items-center self-center text-sm text-neutral-500">
           <MdCopyright />
           <span>2024 PIMS software</span>
         </p>
