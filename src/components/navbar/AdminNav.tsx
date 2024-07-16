@@ -73,7 +73,7 @@ export default function AdminNav({ user }: Props) {
 
       <NavbarContent className="hidden gap-4 xl:flex" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="/">
             कार्यालय
           </Link>
         </NavbarItem>
@@ -176,7 +176,7 @@ export default function AdminNav({ user }: Props) {
                 />
               </DropdownItem>
 
-              <DropdownItem key="dashboard" href="/members/dashboard">
+              <DropdownItem key="admin" href="/members/admin">
                 Admin Dashboard
               </DropdownItem>
 
