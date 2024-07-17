@@ -1,5 +1,4 @@
 import { ZodIssue } from "zod"
-import React from "react"
 
 type ActionResult<T> =
   | { status: "success"; data: T }
@@ -11,11 +10,3 @@ function fetchData(): ActionResult<string> {
 }
 
 fetchData()
-
-export type SideNavItem = {
-  title: string
-  path: string
-  icon?: React.JSX.Element
-  submenu?: boolean
-  subMenuItems?: SideNavItem[]
-}

@@ -262,7 +262,7 @@ export default function AdminNav({ user }: Props) {
         </Dropdown>
       </NavbarContent>
 
-      <NavbarMenu className="mt-[6.4rem]">
+      <NavbarMenu className="mt-20">
         {menuConfig.map((menu, index) => (
           <NavbarMenuItem key={`${menu.title}-${index}`}>
             <Dropdown>
