@@ -5,7 +5,7 @@ import React, { useState } from "react"
 import { resetPassword } from "@/app/actions/userActions"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 
-export default function Settings() {
+export default function Setting() {
   const [oldPassword, setOldPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [error, setError] = useState<string | null>(null)

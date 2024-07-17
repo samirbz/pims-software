@@ -26,9 +26,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/(root)/members/register/RegisterForm.tsx",
-    "src/app/(root)/members/register/data.js",
-    "src/app/(root)/members/register/Selects.jsx"
+    "src/app/members/register/RegisterForm.tsx",
+    "src/app/members/register/data.js",
+    "src/app/members/register/Selects.jsx"
   ],
   "exclude": ["node_modules"]
 }

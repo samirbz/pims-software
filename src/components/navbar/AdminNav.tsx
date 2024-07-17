@@ -16,7 +16,6 @@ import {
   DropdownSection,
   DropdownTrigger,
   User,
-  Link,
 } from "@nextui-org/react"
 import { Session } from "next-auth"
 import { FaUserAlt } from "react-icons/fa"
@@ -25,6 +24,9 @@ import { signOutUser } from "@/app/actions/authActions"
 import { IoLogOut } from "react-icons/io5"
 import Image from "next/image"
 import { BsPlusLg } from "react-icons/bs"
+import { ChevronDown, Activity, Flash, Server, Scale } from "./Icons.jsx"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 type Props = {
   user: Session["user"]
@@ -32,17 +34,223 @@ type Props = {
 
 export default function AdminNav({ user }: Props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const router = useRouter()
 
-  const menuItems = [
-    "कार्यालय",
-    "सेटअप",
-    "योजना (उ.स/संघ सस्था/व्यक्तिगत (अमनात))",
-    "योजना (बोलपत्र/दरभाउ पत्र / कोटेशन)",
-    "अनुगमन माइन्युट तथा प्रतिवेदन ",
-    "योजना प्रतिवेदन ",
-    "प्रगति प्रतिवेदन",
-    "Tools",
-    "Switch Fiscal Year",
+  const menuConfig = [
+    {
+      title: "कार्यालय",
+      items: [
+        {
+          key: "member",
+          title: "कर्मचारी विवरण",
+          description: "कर्मचारी विवरण",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members/admin",
+        },
+        {
+          key: "usage_metrics",
+          title: " प्रयोग कर्ता",
+          description: " प्रयोग कर्ता",
+          icon: (
+            <Activity
+              className="text-secondary"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+        {
+          key: "Fiscal_year",
+          title: "आर्थिक वर्ष",
+          description: "आर्थिक वर्ष",
+          icon: (
+            <Flash
+              className="text-primary"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+        {
+          key: "99_uptime",
+          title: "टिप्पणी सदर गर्ने कर्मचारी",
+          description: " टिप्पणी सदर गर्ने कर्मचारी",
+          icon: (
+            <Server
+              className="text-success"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "सेटअप",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "योजना (उ.स/संघ सस्था/व्यक्तिगत (अमनात))",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "योजना (बोलपत्र/दरभाउ पत्र / कोटेशन)",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "अनुगमन माइन्युट तथा प्रतिवेदन",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "योजना प्रतिवेदन",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "प्रगति प्रतिवेदन",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "Tools",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "Switch Fiscal Year",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
   ]
 
   return (
@@ -72,52 +280,52 @@ export default function AdminNav({ user }: Props) {
       </NavbarContent>
 
       <NavbarContent className="hidden gap-4 xl:flex" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="/">
-            कार्यालय
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            सेटअप
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            योजना (उ.स/संघ सस्था/व्यक्तिगत (अमनात))
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            योजना (बोलपत्र/दरभाउ पत्र / कोटेशन)
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            अनुगमन माइन्युट तथा प्रतिवेदन
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            योजना प्रतिवेदन
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            प्रगति प्रतिवेदन
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Tools
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Switch Fiscal Year
-          </Link>
-        </NavbarItem>
+        {menuConfig.map((menu) => (
+          <Dropdown key={menu.title}>
+            <NavbarItem>
+              <DropdownTrigger>
+                <Button
+                  disableRipple
+                  className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+                  endContent={
+                    <ChevronDown
+                      fill="currentColor"
+                      size={16}
+                      height={16}
+                      width={16}
+                    />
+                  }
+                  radius="sm"
+                  variant="light"
+                >
+                  {menu.title}
+                </Button>
+              </DropdownTrigger>
+            </NavbarItem>
+            {menu.items.length > 0 && (
+              <DropdownMenu
+                aria-label={menu.title}
+                className="w-[340px]"
+                itemClasses={{
+                  base: "gap-4",
+                }}
+              >
+                {menu.items.map((item) => (
+                  <DropdownItem
+                    key={item.key}
+                    description={item.description}
+                    startContent={item.icon}
+                    onClick={() => router.push(item.link ?? "/")}
+                  >
+                    {item.title}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            )}
+          </Dropdown>
+        ))}
       </NavbarContent>
+
       <NavbarContent justify="end">
         <Dropdown
           showArrow
@@ -179,7 +387,6 @@ export default function AdminNav({ user }: Props) {
               <DropdownItem key="admin" href="/members/admin">
                 Admin Dashboard
               </DropdownItem>
-
               <DropdownItem
                 key="create-user"
                 href="/members/register"
@@ -207,22 +414,51 @@ export default function AdminNav({ user }: Props) {
         </Dropdown>
       </NavbarContent>
 
-      <NavbarMenu className="mt-[6.4rem]">
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2
-                  ? "primary"
-                  : index === menuItems.length - 1
-                    ? "danger"
-                    : "foreground"
-              }
-              className="w-full"
-              href="#"
-            >
-              {item}
-            </Link>
+      <NavbarMenu className="mt-20">
+        {menuConfig.map((menu, index) => (
+          <NavbarMenuItem key={`${menu.title}-${index}`}>
+            <Dropdown>
+              <NavbarItem>
+                <DropdownTrigger>
+                  <Button
+                    disableRipple
+                    className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+                    endContent={
+                      <ChevronDown
+                        fill="currentColor"
+                        size={16}
+                        height={16}
+                        width={16}
+                      />
+                    }
+                    radius="sm"
+                    variant="light"
+                  >
+                    {menu.title}
+                  </Button>
+                </DropdownTrigger>
+              </NavbarItem>
+              {menu.items.length > 0 && (
+                <DropdownMenu
+                  aria-label={menu.title}
+                  className="w-[340px]"
+                  itemClasses={{
+                    base: "gap-4",
+                  }}
+                >
+                  {menu.items.map((item) => (
+                    <DropdownItem
+                      key={item.key}
+                      description={item.description}
+                      startContent={item.icon}
+                      onClick={() => router.push(item.link ?? "/")}
+                    >
+                      {item.title}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              )}
+            </Dropdown>
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
