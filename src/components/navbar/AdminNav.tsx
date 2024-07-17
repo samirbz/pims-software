@@ -451,7 +451,10 @@ export default function AdminNav({ user }: Props) {
                       key={item.key}
                       description={item.description}
                       startContent={item.icon}
-                      onClick={() => router.push(item.link ?? "/")}
+                      onClick={() => {
+                        router.push(item.link ?? "/")
+                        router.refresh()
+                      }}
                     >
                       {item.title}
                     </DropdownItem>
