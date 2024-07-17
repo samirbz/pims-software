@@ -39,7 +39,8 @@ export default function AdminNav({ user }: Props) {
       title: "कार्यालय",
       items: [
         {
-          key: "autoscaling",
+          key: "member",
+          title: "कर्मचारी विवरण",
           description: "कर्मचारी विवरण",
           icon: (
             <Scale
@@ -53,6 +54,7 @@ export default function AdminNav({ user }: Props) {
         },
         {
           key: "usage_metrics",
+          title: " प्रयोग कर्ता",
           description: " प्रयोग कर्ता",
           icon: (
             <Activity
@@ -65,7 +67,8 @@ export default function AdminNav({ user }: Props) {
           ),
         },
         {
-          key: "production_ready",
+          key: "Fiscal_year",
+          title: "आर्थिक वर्ष",
           description: "आर्थिक वर्ष",
           icon: (
             <Flash
@@ -79,6 +82,7 @@ export default function AdminNav({ user }: Props) {
         },
         {
           key: "99_uptime",
+          title: "टिप्पणी सदर गर्ने कर्मचारी",
           description: " टिप्पणी सदर गर्ने कर्मचारी",
           icon: (
             <Server
@@ -92,14 +96,158 @@ export default function AdminNav({ user }: Props) {
         },
       ],
     },
-    { title: "सेटअप", items: [] },
-    { title: "योजना (उ.स/संघ सस्था/व्यक्तिगत (अमनात))", items: [] },
-    { title: "योजना (बोलपत्र/दरभाउ पत्र / कोटेशन)", items: [] },
-    { title: "अनुगमन माइन्युट तथा प्रतिवेदन", items: [] },
-    { title: "योजना प्रतिवेदन", items: [] },
-    { title: "प्रगति प्रतिवेदन", items: [] },
-    { title: "Tools", items: [] },
-    { title: "Switch Fiscal Year", items: [] },
+    {
+      title: "सेटअप",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "योजना (उ.स/संघ सस्था/व्यक्तिगत (अमनात))",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "योजना (बोलपत्र/दरभाउ पत्र / कोटेशन)",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "अनुगमन माइन्युट तथा प्रतिवेदन",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "योजना प्रतिवेदन",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "प्रगति प्रतिवेदन",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "Tools",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
+    {
+      title: "Switch Fiscal Year",
+      items: [
+        {
+          key: "item1",
+          title: "item",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+        },
+      ],
+    },
   ]
 
   return (
@@ -165,7 +313,7 @@ export default function AdminNav({ user }: Props) {
                     description={item.description}
                     startContent={item.icon}
                   >
-                    {item.description}
+                    {item.title}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
@@ -300,7 +448,7 @@ export default function AdminNav({ user }: Props) {
                       description={item.description}
                       startContent={item.icon}
                     >
-                      {item.description}
+                      {item.title}
                     </DropdownItem>
                   ))}
                 </DropdownMenu>
