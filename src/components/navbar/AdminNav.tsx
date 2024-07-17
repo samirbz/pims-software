@@ -151,12 +151,12 @@ export default function AdminNav({ user }: Props) {
                 radius="sm"
                 variant="light"
               >
-                Features
+                कार्यालय
               </Button>
             </DropdownTrigger>
           </NavbarItem>
           <DropdownMenu
-            aria-label="ACME features"
+            aria-label="कार्यालय"
             className="w-[340px]"
             itemClasses={{
               base: "gap-4",
@@ -164,46 +164,34 @@ export default function AdminNav({ user }: Props) {
           >
             <DropdownItem
               key="autoscaling"
-              description="ACME scales apps to meet user demand, automagically, based on load."
+              description="कर्मचारी विवरण"
               startContent={icons.scale}
             >
-              Autoscaling
+              कर्मचारी विवरण
             </DropdownItem>
             <DropdownItem
               key="usage_metrics"
-              description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
+              description=" प्रयोग कर्ता"
               startContent={icons.activity}
             >
-              Usage Metrics
+              प्रयोग कर्ता
             </DropdownItem>
             <DropdownItem
               key="production_ready"
-              description="ACME runs on ACME, join us and others serving requests at web scale."
+              description="आर्थिक वर्ष"
               startContent={icons.flash}
             >
-              Production Ready
+              आर्थिक वर्ष
             </DropdownItem>
             <DropdownItem
               key="99_uptime"
-              description="Applications stay on the grid with high availability and high uptime guarantees."
+              description=" टिप्पणी सदर गर्ने कर्मचारी"
               startContent={icons.server}
             >
-              +99% Uptime
-            </DropdownItem>
-            <DropdownItem
-              key="supreme_support"
-              description="Overcome any challenge with a supporting team ready to respond."
-              startContent={icons.user}
-            >
-              +Supreme Support
+              टिप्पणी सदर गर्ने कर्मचारी
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <NavbarItem>
-          <Link color="foreground" href="/">
-            कार्यालय
-          </Link>
-        </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#">
             सेटअप
