@@ -16,7 +16,6 @@ import {
   DropdownSection,
   DropdownTrigger,
   User,
-  Link,
 } from "@nextui-org/react"
 import { Session } from "next-auth"
 import { FaUserAlt } from "react-icons/fa"
@@ -26,6 +25,8 @@ import { IoLogOut } from "react-icons/io5"
 import Image from "next/image"
 import { BsPlusLg } from "react-icons/bs"
 import { ChevronDown, Activity, Flash, Server, Scale } from "./Icons.jsx"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 type Props = {
   user: Session["user"]
@@ -33,6 +34,7 @@ type Props = {
 
 export default function AdminNav({ user }: Props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const router = useRouter()
 
   const menuConfig = [
     {
@@ -51,6 +53,7 @@ export default function AdminNav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members/admin",
         },
         {
           key: "usage_metrics",
@@ -312,6 +315,7 @@ export default function AdminNav({ user }: Props) {
                     key={item.key}
                     description={item.description}
                     startContent={item.icon}
+                    onClick={() => router.push(item.link ?? "/")}
                   >
                     {item.title}
                   </DropdownItem>
@@ -447,6 +451,7 @@ export default function AdminNav({ user }: Props) {
                       key={item.key}
                       description={item.description}
                       startContent={item.icon}
+                      onClick={() => router.push(item.link ?? "/")}
                     >
                       {item.title}
                     </DropdownItem>
