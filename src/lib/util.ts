@@ -1,5 +1,7 @@
 import { FieldValues, Path, UseFormSetError } from "react-hook-form"
 import { ZodIssue } from "zod"
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
 
 export function handleFormServerErrors<TFieldValues extends FieldValues>(
   errroResponse: { error: string | ZodIssue[] },
@@ -13,4 +15,8 @@ export function handleFormServerErrors<TFieldValues extends FieldValues>(
   } else {
     setError("root.serverError", { message: errroResponse.error })
   }
+}
+
+export const cn = (...inputs: ClassValue[]) => {
+  return twMerge(clsx(inputs))
 }
