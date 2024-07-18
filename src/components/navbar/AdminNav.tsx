@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import {
   Navbar,
   NavbarBrand,
@@ -34,7 +34,16 @@ type Props = {
 
 export default function AdminNav({ user }: Props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const [hoveredMenu, setHoveredMenu] = useState<string | null>(null)
   const router = useRouter()
+
+  const handleMouseEnter = (menuTitle: string) => {
+    setHoveredMenu(menuTitle)
+  }
+
+  const handleMouseLeave = () => {
+    setHoveredMenu(null)
+  }
 
   const menuConfig = [
     {
@@ -281,8 +290,11 @@ export default function AdminNav({ user }: Props) {
 
       <NavbarContent className="hidden gap-4 xl:flex" justify="center">
         {menuConfig.map((menu) => (
-          <Dropdown key={menu.title}>
-            <NavbarItem>
+          <Dropdown key={menu.title} isOpen={hoveredMenu === menu.title}>
+            <NavbarItem
+              onMouseEnter={() => handleMouseEnter(menu.title)}
+              onMouseLeave={handleMouseLeave}
+            >
               <DropdownTrigger>
                 <Button
                   disableRipple
@@ -312,6 +324,8 @@ export default function AdminNav({ user }: Props) {
               >
                 {menu.items.map((item) => (
                   <DropdownItem
+                    onMouseEnter={() => handleMouseEnter(menu.title)}
+                    onMouseLeave={handleMouseLeave}
                     key={item.key}
                     description={item.description}
                     startContent={item.icon}
@@ -331,7 +345,7 @@ export default function AdminNav({ user }: Props) {
           showArrow
           radius="sm"
           classNames={{
-            base: "before:bg-default-200", // change arrow background
+            base: "before:bg-default-200",
             content: "p-0 border-small border-divider bg-background",
           }}
         >
