@@ -9,13 +9,19 @@ export default async function PostsPage({ params }: any) {
       slug: params.slug,
     },
   })
+
   return (
     <main className="flex flex-col items-center gap-y-5 pt-24 text-center">
-      <h1 className="text-3xl font-semibold">All Posts ({posts.length})</h1>
+      <h1 className="text-3xl font-semibold">Comments ({posts.length})</h1>
       <ul className="border-y border-black/10 py-5 leading-8">
         {posts.map((post) => (
           <li key={post.id} className="flex items-center justify-between px-5">
-            <Link href={`/members/posts/${post.slug}`}>{post.title}</Link>
+            <Link
+              href={`/members/posts/${post.slug}`}
+              className="flex items-center justify-center gap-4"
+            >
+              {post.title}
+            </Link>
           </li>
         ))}
       </ul>
@@ -37,7 +43,7 @@ export default async function PostsPage({ params }: any) {
           type="submit"
           className="rounded-lg bg-purple-500 p-2 text-white"
         >
-          Create post
+          Add Feedback
         </Button>
       </form>
     </main>
