@@ -2,7 +2,7 @@
 
 import { Card, CardHeader, CardBody, Button, Input } from "@nextui-org/react"
 import React, { useState } from "react"
-import { resetPassword } from "@/app/actions/userActions"
+import { resetPassword } from "@/actions/userActions"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 
 export default function Settings() {

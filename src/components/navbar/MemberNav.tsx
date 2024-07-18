@@ -20,7 +20,7 @@ import {
 import { Session } from "next-auth"
 import { FaUserAlt } from "react-icons/fa"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
-import { signOutUser } from "@/app/actions/authActions"
+import { signOutUser } from "@/actions/authActions"
 import { IoLogOut } from "react-icons/io5"
 import Image from "next/image"
 import { ChevronDown, Activity, Flash, Server, Scale } from "./Icons.jsx"

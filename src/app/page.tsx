@@ -1,5 +1,5 @@
 "use client"
-import { signInUser } from "@/app/actions/authActions"
+import { signInUser } from "@/actions/authActions"
 import { loginSchema, LoginSchema } from "@/lib/schemas/loginSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react"

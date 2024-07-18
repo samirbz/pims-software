@@ -1,5 +1,5 @@
 "use client"
-import { registerUser } from "@/app/actions/authActions"
+import { registerUser } from "@/actions/authActions"
 import { RegisterSchema } from "@/lib/schemas/registerSchema"
 // import { zodResolver } from "@hookform/resolvers/zod"
 import {

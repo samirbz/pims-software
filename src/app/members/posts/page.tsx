@@ -39,6 +39,9 @@ export default async function PostsPage({ params }: any) {
         >
           Create post
         </Button>
+        <Button as={Link} href="/members" type="submit">
+          Go Back to home
+        </Button>
       </form>
     </main>
   )

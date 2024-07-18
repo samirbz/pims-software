@@ -23,8 +23,8 @@ import {
   Input,
 } from "@nextui-org/react"
 import { MdOutlineEdit } from "react-icons/md"
-import { getMembersExcludeOwn } from "@/app/actions/memberActions"
-import { deleteMember, resetUserPassword } from "@/app/actions/userActions"
+import { getMembersExcludeOwn } from "@/actions/memberActions"
+import { deleteMember, resetUserPassword } from "@/actions/userActions"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { toast } from "react-toastify"
 
