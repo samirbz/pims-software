@@ -76,7 +76,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
-          link: "/members/register",
+          link: "/members/user-setup",
         },
         {
           key: "Fiscal_year",

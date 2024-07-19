@@ -14,10 +14,7 @@ import {
 import { useRouter } from "next/navigation"
 import React from "react"
 import { useForm } from "react-hook-form"
-import { GiPadlock } from "react-icons/gi"
-import { IoArrowBack } from "react-icons/io5"
 import { toast } from "react-toastify"
-import Link from "next/link"
 import { handleFormServerErrors } from "@/lib/util"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 
@@ -50,22 +47,17 @@ export default function RegisterForm() {
   const toggleVisibility = () => setIsVisible(!isVisible)
 
   return (
-    <div className="vertical-center mt-20 flex h-auto">
+    <div className="vertical-center mt-4 flex h-auto">
       <Card className="mx-auto w-10/12 sm:w-96">
-        <CardHeader className="flex flex-col items-center justify-center">
-          <div className="flex flex-col items-center gap-2 text-blue-600">
-            <div className=" flex flex-row items-center gap-3">
-              <GiPadlock size={30} />
-              <h1 className="text-3xl font-semibold">Create User</h1>
-            </div>
-            <p className="text-neutral-500">Welcome to PIMS software</p>
-          </div>
+        <CardHeader className="">
+          <h1 className="text-3xl font-semibold">User Setup</h1>
         </CardHeader>
 
         <CardBody>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-4">
               <Input
+                size="sm"
                 defaultValue=""
                 label="fullname"
                 variant="bordered"
@@ -74,6 +66,7 @@ export default function RegisterForm() {
                 errorMessage={errors.name?.message}
               />
               <Input
+                size="sm"
                 defaultValue=""
                 label="username"
                 variant="bordered"
@@ -83,6 +76,7 @@ export default function RegisterForm() {
               />
 
               <Select
+                size="sm"
                 label="role"
                 placeholder="select a role"
                 {...register("email")}
@@ -94,6 +88,7 @@ export default function RegisterForm() {
               </Select>
 
               <Input
+                size="sm"
                 defaultValue=""
                 label="password"
                 variant="bordered"
@@ -123,23 +118,14 @@ export default function RegisterForm() {
               )}
 
               <Button
+                size="sm"
                 isLoading={isSubmitting}
                 fullWidth
                 color="primary"
                 type="submit"
                 isDisabled={!isValid}
               >
-                Register
-              </Button>
-              <Button
-                as={Link}
-                href="/members"
-                fullWidth
-                color="default"
-                variant="bordered"
-                startContent={<IoArrowBack />}
-              >
-                Return back
+                Save
               </Button>
             </div>
           </form>
