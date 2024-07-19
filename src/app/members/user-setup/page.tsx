@@ -36,7 +36,6 @@ import { RegisterSchema } from "@/lib/schemas/registerSchema"
 // import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { handleFormServerErrors } from "@/lib/util"
 import { IoIosSave } from "react-icons/io"
 
 export default function UserSetup() {
@@ -118,7 +117,6 @@ export default function UserSetup() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid, isSubmitting },
   } = useForm<RegisterSchema>({
     // resolver: zodResolver(registerSchema),
@@ -131,8 +129,14 @@ export default function UserSetup() {
     if (result.status === "success") {
       toast.success("User created successfully")
       router.refresh()
+      // Optionally redirect or refresh
     } else {
-      handleFormServerErrors(result, setError)
+      // Show error message in toast
+      if (result.error === "User already exists") {
+        toast.error("User already exists")
+      } else {
+        toast.error("Something went wrong")
+      }
     }
   }
 
@@ -340,8 +344,8 @@ export default function UserSetup() {
           >
             <TableHeader>
               <TableColumn key="snum">सि.न </TableColumn>
-              <TableColumn key="createdBy">Created By</TableColumn>
-              <TableColumn key="name">कर्मचारीको नाम </TableColumn>
+              <TableColumn key="createdby">कर्मचारीको नाम</TableColumn>
+              <TableColumn key="name">प्रयोगकर्ताको नाम</TableColumn>
               <TableColumn key="email">ROLE</TableColumn>
               <TableColumn key="edit">EDIT</TableColumn>
             </TableHeader>
