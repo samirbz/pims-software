@@ -37,6 +37,7 @@ import { RegisterSchema } from "@/lib/schemas/registerSchema"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { handleFormServerErrors } from "@/lib/util"
+import { IoIosSave } from "react-icons/io"
 
 export default function UserSetup() {
   const {
@@ -226,7 +227,7 @@ export default function UserSetup() {
                         <Input
                           size="sm"
                           defaultValue=""
-                          label="fullname"
+                          label="कर्मचारीको नाम "
                           variant="bordered"
                           {...register("name")}
                           isInvalid={!!errors.name}
@@ -250,8 +251,8 @@ export default function UserSetup() {
                           isInvalid={!!errors.email}
                           errorMessage={errors.email?.message}
                         >
-                          <SelectItem key="user">user</SelectItem>
-                          <SelectItem key="admin">admin</SelectItem>
+                          <SelectItem key="user">Normal User</SelectItem>
+                          <SelectItem key="admin">Admin User</SelectItem>
                         </Select>
 
                         <Input
@@ -293,11 +294,12 @@ export default function UserSetup() {
                           Close
                         </Button>
                         <Button
-                          color="primary"
+                          color="secondary"
                           isLoading={isSubmitting}
                           isDisabled={!isValid}
                           onPress={onClose}
                           type="submit"
+                          startContent={<IoIosSave />}
                         >
                           Save
                         </Button>
@@ -337,9 +339,9 @@ export default function UserSetup() {
             }}
           >
             <TableHeader>
-              <TableColumn key="snum">S.No</TableColumn>
+              <TableColumn key="snum">सि.न </TableColumn>
               <TableColumn key="createdBy">Created By</TableColumn>
-              <TableColumn key="name">NAME</TableColumn>
+              <TableColumn key="name">कर्मचारीको नाम </TableColumn>
               <TableColumn key="email">ROLE</TableColumn>
               <TableColumn key="edit">EDIT</TableColumn>
             </TableHeader>
