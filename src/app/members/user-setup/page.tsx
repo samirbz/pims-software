@@ -324,7 +324,7 @@ export default function UserSetup() {
           <Table
             align="center"
             aria-label="Example table with client side pagination"
-            className="w-[96%] sm:w-1/2"
+            className="w-[96%] sm:w-3/5"
             bottomContent={
               <div className="flex w-full justify-center">
                 <Pagination
@@ -343,7 +343,7 @@ export default function UserSetup() {
             }}
           >
             <TableHeader>
-              <TableColumn key="snum">सि.न </TableColumn>
+              <TableColumn key="snum">सि.न.</TableColumn>
               <TableColumn key="createdby">कर्मचारीको नाम</TableColumn>
               <TableColumn key="name">प्रयोगकर्ताको नाम</TableColumn>
               <TableColumn key="email">ROLE</TableColumn>
