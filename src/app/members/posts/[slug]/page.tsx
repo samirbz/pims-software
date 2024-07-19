@@ -14,7 +14,7 @@ export default async function PostsPage({ params }: any) {
       <p>{post?.content}</p>
 
       <Link
-        href="/members"
+        href="/members/posts"
         className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-400"
       >
         Go Back

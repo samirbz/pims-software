@@ -1,17 +1,12 @@
-import { auth } from "@/auth"
 import React from "react"
-import AdminNav from "./AdminNav"
-import MemberNav from "./MemberNav"
+import Nav from "./Nav"
+import { auth } from "@/auth"
 
 export default async function UserNav() {
   const session = await auth()
   return (
     <div>
-      {session?.user?.email === "admin" ? (
-        <AdminNav user={session?.user} />
-      ) : (
-        <MemberNav user={session?.user} />
-      )}
+      <Nav user={session?.user} />
     </div>
   )
 }

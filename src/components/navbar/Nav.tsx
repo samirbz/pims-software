@@ -23,7 +23,6 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { signOutUser } from "@/actions/authActions"
 import { IoLogOut } from "react-icons/io5"
 import Image from "next/image"
-import { BsPlusLg } from "react-icons/bs"
 import { ChevronDown, Activity, Flash, Server, Scale } from "./Icons.jsx"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -32,7 +31,7 @@ type Props = {
   user: Session["user"]
 }
 
-export default function AdminNav({ user }: Props) {
+export default function Nav({ user }: Props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null)
   const router = useRouter()
@@ -77,6 +76,7 @@ export default function AdminNav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members/register",
         },
         {
           key: "Fiscal_year",
@@ -398,7 +398,7 @@ export default function AdminNav({ user }: Props) {
                 />
               </DropdownItem>
 
-              <DropdownItem key="admin" href="/members/admin">
+              {/* <DropdownItem key="admin" href="/members/admin">
                 Admin Dashboard
               </DropdownItem>
               <DropdownItem
@@ -407,7 +407,7 @@ export default function AdminNav({ user }: Props) {
                 endContent={<BsPlusLg />}
               >
                 Create User
-              </DropdownItem>
+              </DropdownItem> */}
 
               <DropdownItem key="settings" href="/members/settings">
                 Settings
