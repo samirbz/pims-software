@@ -276,19 +276,31 @@ export default function StaffDetailPage() {
                           isInvalid={!!errors.position}
                           errorMessage={errors.position?.message}
                         >
-                          <SelectItem key="one">
+                          <SelectItem key="प्रमुख प्रशासकिय अधिकृत">
                             प्रमुख प्रशासकिय अधिकृत
                           </SelectItem>
-                          <SelectItem key="two">
+                          <SelectItem key=" निमित्त प्रमुख प्रशासकिय अधिकृत">
                             निमित्त प्रमुख प्रशासकिय अधिकृत
                           </SelectItem>
-                          <SelectItem key="three">अधिकृतस्तर आठौँ</SelectItem>
-                          <SelectItem key="four">अधिकृतस्तर सातौँ</SelectItem>
-                          <SelectItem key="five">लेखा अधिकृत</SelectItem>
-                          <SelectItem key="six">अधिकृतस्तर छैठौँ</SelectItem>
-                          <SelectItem key="seven">योजना अधिकृत</SelectItem>
-                          <SelectItem key="eight">सहायकस्तर पाचौँ</SelectItem>
-                          <SelectItem key="nine">सहायकस्तर चौथो</SelectItem>
+                          <SelectItem key="अधिकृतस्तर आठौँ">
+                            अधिकृतस्तर आठौँ
+                          </SelectItem>
+                          <SelectItem key="अधिकृतस्तर सातौँ">
+                            अधिकृतस्तर सातौँ
+                          </SelectItem>
+                          <SelectItem key="लेखा अधिकृत">लेखा अधिकृत</SelectItem>
+                          <SelectItem key="अधिकृतस्तर छैठौँ">
+                            अधिकृतस्तर छैठौँ
+                          </SelectItem>
+                          <SelectItem key="योजना अधिकृत">
+                            योजना अधिकृत
+                          </SelectItem>
+                          <SelectItem key="सहायकस्तर पाचौँ">
+                            सहायकस्तर पाचौँ
+                          </SelectItem>
+                          <SelectItem key="सहायकस्तर चौथो">
+                            सहायकस्तर चौथो
+                          </SelectItem>
                         </Select>
 
                         {errors.root?.serverError && (

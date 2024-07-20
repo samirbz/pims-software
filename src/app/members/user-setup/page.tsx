@@ -235,7 +235,7 @@ export default function UserSetup() {
                       className="flex flex-col gap-4 "
                     >
                       <div className="space-y-4">
-                        <Input
+                        {/* <Input
                           size="sm"
                           defaultValue=""
                           label="कर्मचारीको नाम "
@@ -243,7 +243,17 @@ export default function UserSetup() {
                           {...register("name")}
                           isInvalid={!!errors.name}
                           errorMessage={errors.name?.message}
-                        />
+                        /> */}
+                        <Select
+                          size="sm"
+                          label="कर्मचारीको नाम"
+                          placeholder="select"
+                          {...register("name")}
+                          isInvalid={!!errors.name}
+                          errorMessage={errors.name?.message}
+                        >
+                          <SelectItem key="staff">admin</SelectItem>
+                        </Select>
                         <Input
                           size="sm"
                           defaultValue=""
