@@ -26,14 +26,12 @@ import {
   Input,
   TableColumn,
 } from "@nextui-org/react"
-import { getMembersExcludeOwn, getStaff } from "@/actions/memberActions"
+import { getStaff } from "@/actions/memberActions"
 import { deleteMember, resetUserPassword } from "@/actions/userActions"
 import { FaPlus, FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { toast } from "react-toastify"
 import { MdModeEditOutline } from "react-icons/md"
-import { registerUser, staffRegister } from "@/actions/authActions"
-import { RegisterSchema } from "@/lib/schemas/registerSchema"
-// import { zodResolver } from "@hookform/resolvers/zod"
+import { staffRegister } from "@/actions/authActions"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { IoIosSave } from "react-icons/io"
@@ -248,26 +246,49 @@ export default function StaffDetailPage() {
 
                         <Select
                           size="sm"
-                          label="ranking"
+                          label="वरियता क्रम"
                           placeholder="select"
                           {...register("ranking")}
                           isInvalid={!!errors.ranking}
                           errorMessage={errors.ranking?.message}
                         >
                           <SelectItem key="1">1</SelectItem>
+                          <SelectItem key="2">2</SelectItem>
+                          <SelectItem key="3">3</SelectItem>
+                          <SelectItem key="4">4</SelectItem>
                           <SelectItem key="5">5</SelectItem>
+                          <SelectItem key="6">6</SelectItem>
+                          <SelectItem key="7">7</SelectItem>
+                          <SelectItem key="8">8</SelectItem>
+                          <SelectItem key="9">9</SelectItem>
+                          <SelectItem key="10">10</SelectItem>
+                          <SelectItem key="10">96</SelectItem>
+                          <SelectItem key="10">97</SelectItem>
+                          <SelectItem key="10">98</SelectItem>
+                          <SelectItem key="10">99</SelectItem>
                         </Select>
 
                         <Select
                           size="sm"
-                          label="position"
+                          label="कर्मचारी पद "
                           placeholder="select"
                           {...register("position")}
                           isInvalid={!!errors.position}
                           errorMessage={errors.position?.message}
                         >
-                          <SelectItem key="hakim">hakim</SelectItem>
-                          <SelectItem key="piun">piun</SelectItem>
+                          <SelectItem key="one">
+                            प्रमुख प्रशासकिय अधिकृत
+                          </SelectItem>
+                          <SelectItem key="two">
+                            निमित्त प्रमुख प्रशासकिय अधिकृत
+                          </SelectItem>
+                          <SelectItem key="three">अधिकृतस्तर आठौँ</SelectItem>
+                          <SelectItem key="four">अधिकृतस्तर सातौँ</SelectItem>
+                          <SelectItem key="five">लेखा अधिकृत</SelectItem>
+                          <SelectItem key="six">अधिकृतस्तर छैठौँ</SelectItem>
+                          <SelectItem key="seven">योजना अधिकृत</SelectItem>
+                          <SelectItem key="eight">सहायकस्तर पाचौँ</SelectItem>
+                          <SelectItem key="nine">सहायकस्तर चौथो</SelectItem>
                         </Select>
 
                         {errors.root?.serverError && (
