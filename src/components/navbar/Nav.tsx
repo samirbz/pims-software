@@ -51,7 +51,7 @@ export default function Nav({ user }: Props) {
         {
           key: "member",
           title: "कर्मचारी विवरण",
-          description: "कर्मचारी विवरण",
+          description: "Staff Details",
           icon: (
             <Scale
               className="text-warning"
@@ -61,12 +61,12 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
-          link: "/members/admin",
+          link: "/members/staff-details",
         },
         {
           key: "usage_metrics",
           title: " प्रयोग कर्ता",
-          description: " प्रयोग कर्ता",
+          description: "Users",
           icon: (
             <Activity
               className="text-secondary"
