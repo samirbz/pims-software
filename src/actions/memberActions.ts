@@ -30,3 +30,11 @@ export async function getMemberByUserId(id: string) {
     console.log(error)
   }
 }
+
+export async function getStaff() {
+  try {
+    return prisma.staff.findMany()
+  } catch (error) {
+    console.log(error)
+  }
+}
