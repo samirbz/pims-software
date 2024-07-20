@@ -38,6 +38,13 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { IoIosSave } from "react-icons/io"
 
+interface Member {
+  id: string
+  createdby: string
+  name: string
+  email: string
+}
+
 export default function UserSetup() {
   const {
     isOpen: isResetPasswordOpen,
@@ -72,7 +79,7 @@ export default function UserSetup() {
   const rowsPerPage = 7
   const pages = Math.ceil(members.length / rowsPerPage)
 
-  const items = React.useMemo(() => {
+  const items: Member[] = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
     return members.slice(start, end)
@@ -324,7 +331,7 @@ export default function UserSetup() {
           <Table
             align="center"
             aria-label="Example table with client side pagination"
-            className="w-[96%] sm:w-3/5"
+            className="w-[96%] sm:w-full"
             bottomContent={
               <div className="flex w-full justify-center">
                 <Pagination
@@ -345,13 +352,14 @@ export default function UserSetup() {
             <TableHeader>
               <TableColumn key="snum">सि.न.</TableColumn>
               <TableColumn key="createdby">कर्मचारीको नाम</TableColumn>
+              <TableColumn key="username">प्रयोगकर्ताको ID</TableColumn>
               <TableColumn key="name">प्रयोगकर्ताको नाम</TableColumn>
               <TableColumn key="email">ROLE</TableColumn>
               <TableColumn key="edit">EDIT</TableColumn>
             </TableHeader>
             <TableBody items={items}>
-              {(item: any) => (
-                <TableRow key={item.name}>
+              {(item: Member) => (
+                <TableRow key={item.id}>
                   {(columnKey) => (
                     <TableCell>
                       {columnKey === "edit" ? (
@@ -382,6 +390,8 @@ export default function UserSetup() {
                             </DropdownItem>
                           </DropdownMenu>
                         </Dropdown>
+                      ) : columnKey === "snum" ? (
+                        items.indexOf(item) + 1 + (page - 1) * rowsPerPage
                       ) : (
                         getKeyValue(item, columnKey)
                       )}
