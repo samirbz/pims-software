@@ -52,19 +52,22 @@ export async function registerUser(
     const validated = registerSchema.safeParse(data)
 
     if (!validated.success) {
+      console.error("Validation failed:", validated.error.errors)
       return { status: "error", error: validated.error.errors }
     }
-    const { name, username, password, email } = validated.data
+
+    const { name, username, password, email, createdby } = validated.data
 
     const hashedPassword = await bcrypt.hash(password, 10)
-
-    const session = await auth()
-    const createdBy = session?.user?.name
 
     const existingUser = await prisma.user.findUnique({
       where: { username },
     })
-    if (existingUser) return { status: "error", error: "User already exists" }
+
+    if (existingUser) {
+      console.error("User already exists:", username)
+      return { status: "error", error: "User already exists" }
+    }
 
     const user = await prisma.user.create({
       data: {
@@ -72,12 +75,13 @@ export async function registerUser(
         username,
         email,
         passwordHash: hashedPassword,
-        createdby: createdBy,
+        createdby,
       },
     })
+
     return { status: "success", data: user }
   } catch (error) {
-    console.log(error)
+    console.error("Error in registerUser:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }

@@ -26,14 +26,13 @@ import {
   Input,
   TableColumn,
 } from "@nextui-org/react"
-import { getMembersExcludeOwn } from "@/actions/memberActions"
+import { fetchStaffNames, getMembersExcludeOwn } from "@/actions/memberActions"
 import { deleteMember, resetUserPassword } from "@/actions/userActions"
 import { FaPlus, FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { toast } from "react-toastify"
 import { MdModeEditOutline } from "react-icons/md"
 import { registerUser } from "@/actions/authActions"
 import { RegisterSchema } from "@/lib/schemas/registerSchema"
-// import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { IoIosSave } from "react-icons/io"
@@ -43,6 +42,10 @@ interface Member {
   createdby: string
   name: string
   email: string
+}
+
+interface StaffMember {
+  name: string
 }
 
 export default function UserSetup() {
@@ -147,6 +150,21 @@ export default function UserSetup() {
     }
   }
 
+  const [staffNames, setStaffNames] = useState<StaffMember[]>([])
+
+  useEffect(() => {
+    const getStaffNames = async () => {
+      try {
+        const staff: any = await fetchStaffNames()
+        setStaffNames(staff)
+      } catch (error) {
+        console.error("Error fetching staff names:", error)
+      }
+    }
+
+    getStaffNames()
+  }, [])
+
   return (
     <>
       <Modal
@@ -235,25 +253,28 @@ export default function UserSetup() {
                       className="flex flex-col gap-4 "
                     >
                       <div className="space-y-4">
-                        {/* <Input
+                        <Select
+                          size="sm"
+                          items={staffNames}
+                          label="कर्मचारीको नाम"
+                          placeholder="select"
+                          {...register("createdby")}
+                          isInvalid={!!errors.createdby}
+                          errorMessage={errors.createdby?.message}
+                        >
+                          {(item) => (
+                            <SelectItem key={item.name}>{item.name}</SelectItem>
+                          )}
+                        </Select>
+                        <Input
                           size="sm"
                           defaultValue=""
-                          label="कर्मचारीको नाम "
+                          label="fullname"
                           variant="bordered"
                           {...register("name")}
                           isInvalid={!!errors.name}
                           errorMessage={errors.name?.message}
-                        /> */}
-                        <Select
-                          size="sm"
-                          label="कर्मचारीको नाम"
-                          placeholder="select"
-                          {...register("name")}
-                          isInvalid={!!errors.name}
-                          errorMessage={errors.name?.message}
-                        >
-                          <SelectItem key="staff">admin</SelectItem>
-                        </Select>
+                        />
                         <Input
                           size="sm"
                           defaultValue=""
@@ -267,7 +288,7 @@ export default function UserSetup() {
                         <Select
                           size="sm"
                           label="role"
-                          placeholder="select a role"
+                          placeholder="select"
                           {...register("email")}
                           isInvalid={!!errors.email}
                           errorMessage={errors.email?.message}

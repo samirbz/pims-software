@@ -38,3 +38,13 @@ export async function getStaff() {
     console.log(error)
   }
 }
+
+export const fetchStaffNames = async () => {
+  try {
+    const staff = await prisma.staff.findMany()
+    return staff
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}

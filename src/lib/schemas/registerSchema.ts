@@ -13,10 +13,11 @@ export const registerSchema = z.object({
     .min(3, {
       message: "Username must be at least 3 characters",
     }),
-  email: z.string().min(3),
   password: z.string().min(5, {
     message: "password must be at least 5 characters",
   }),
+  email: z.string().min(3),
+  createdby: z.string(),
 })
 
 export type RegisterSchema = z.infer<typeof registerSchema>
