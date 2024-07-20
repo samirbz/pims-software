@@ -4,7 +4,12 @@ import { auth, signIn, signOut } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { LoginSchema } from "@/lib/schemas/loginSchema"
 import { registerSchema, RegisterSchema } from "@/lib/schemas/registerSchema"
+import {
+  StaffRegisterSchema,
+  staffRegisterSchema,
+} from "@/lib/schemas/staffRegisterSchema"
 import { ActionResult } from "@/types"
+import { user } from "@nextui-org/react"
 import { User } from "@prisma/client"
 import bcrypt from "bcryptjs"
 import { AuthError } from "next-auth"
@@ -77,43 +82,6 @@ export async function registerUser(
   }
 }
 
-// export async function registerUser(
-//   data: RegisterSchema
-// ): Promise<ActionResult<User>> {
-//   try {
-//     const validated = registerSchema.safeParse(data)
-
-//     if (!validated.success) {
-//       return { status: "error", error: validated.error.errors }
-//     }
-
-//     const { name, username, password, email, createdby } = validated.data
-
-//     const hashedPassword = await bcrypt.hash(password, 10)
-
-//     const existingUser = await prisma.user.findUnique({
-//       where: { username },
-//     })
-
-//     if (existingUser) return { status: "error", error: "User already exists" }
-
-//     const user = await prisma.user.create({
-//       data: {
-//         name,
-//         username,
-//         email,
-//         passwordHash: hashedPassword,
-//         createdby,
-//       },
-//     })
-
-//     return { status: "success", data: user }
-//   } catch (error) {
-//     console.error(error)
-//     return { status: "error", error: "Something went wrong" }
-//   }
-// }
-
 export async function getUserByUsername(username: string) {
   return prisma.user.findUnique({ where: { username } })
 }
@@ -128,4 +96,36 @@ export async function getAuthUserId() {
   if (!userId) throw new Error("Unauthorised")
 
   return userId
+}
+
+export async function staffRegister(
+  data: StaffRegisterSchema
+): Promise<ActionResult<User>> {
+  try {
+    // Validate input data
+    const validated = staffRegisterSchema.safeParse(data)
+
+    if (!validated.success) {
+      // Return validation errors
+      return { status: "error", error: validated.error.errors }
+    }
+
+    const { name, position, ranking } = validated.data
+
+    // Create staff record in the database
+    const staff = await prisma.staff.create({
+      data: {
+        name,
+        position,
+        ranking,
+      },
+    })
+
+    // Return success result with created staff data
+    return { status: "success", data: staff }
+  } catch (error) {
+    // Handle and log error
+    console.error("Error creating staff:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
 }

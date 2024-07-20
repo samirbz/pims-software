@@ -31,8 +31,8 @@ import { deleteMember, resetUserPassword } from "@/actions/userActions"
 import { FaPlus, FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { toast } from "react-toastify"
 import { MdModeEditOutline } from "react-icons/md"
-import { registerUser } from "@/actions/authActions"
-import { RegisterSchema } from "@/lib/schemas/registerSchema"
+import { staffRegister } from "@/actions/authActions"
+import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
 // import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
@@ -125,13 +125,13 @@ export default function UserSetup() {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<RegisterSchema>({
+  } = useForm<StaffRegisterSchema>({
     // resolver: zodResolver(registerSchema),
     mode: "onTouched",
   })
 
-  const onSubmit = async (data: RegisterSchema) => {
-    const result = await registerUser(data)
+  const onSubmit = async (data: StaffRegisterSchema) => {
+    const result = await staffRegister(data)
 
     if (result.status === "success") {
       toast.success("User created successfully")
@@ -244,51 +244,26 @@ export default function UserSetup() {
                           isInvalid={!!errors.name}
                           errorMessage={errors.name?.message}
                         />
-                        <Input
-                          size="sm"
-                          defaultValue=""
-                          label="username"
-                          variant="bordered"
-                          {...register("username")}
-                          isInvalid={!!errors.username}
-                          errorMessage={errors.username?.message}
-                        />
 
                         <Select
                           size="sm"
-                          label="role"
+                          label="वरियता क्रम"
                           placeholder="select a role"
-                          {...register("email")}
-                          isInvalid={!!errors.email}
-                          errorMessage={errors.email?.message}
+                          {...register("position")}
                         >
-                          <SelectItem key="user">Normal User</SelectItem>
-                          <SelectItem key="admin">Admin User</SelectItem>
+                          <SelectItem key="user">1</SelectItem>
+                          <SelectItem key="admin">2</SelectItem>
                         </Select>
 
-                        <Input
+                        <Select
                           size="sm"
-                          defaultValue=""
-                          label="password"
-                          variant="bordered"
-                          {...register("password")}
-                          isInvalid={!!errors.password}
-                          errorMessage={errors.password?.message}
-                          endContent={
-                            <button
-                              className="focus:outline-none"
-                              type="button"
-                              onClick={toggleVisibilitys}
-                            >
-                              {isVisibles ? (
-                                <FaRegEye className="pointer-events-none text-2xl text-default-400" />
-                              ) : (
-                                <FaRegEyeSlash className="pointer-events-none text-2xl text-default-400" />
-                              )}
-                            </button>
-                          }
-                          type={isVisibles ? "text" : "password"}
-                        />
+                          label="कर्मचारीको पद "
+                          placeholder="select a role"
+                          {...register("position")}
+                        >
+                          <SelectItem key="user">item</SelectItem>
+                          <SelectItem key="admin">item</SelectItem>
+                        </Select>
 
                         {errors.root?.serverError && (
                           <p className="text-sm text-danger">
@@ -350,12 +325,10 @@ export default function UserSetup() {
             }}
           >
             <TableHeader>
-              <TableColumn key="snum">सि.न.</TableColumn>
-              <TableColumn key="createdby">कर्मचारीको नाम</TableColumn>
-              <TableColumn key="username">प्रयोगकर्ताको ID</TableColumn>
-              <TableColumn key="name">प्रयोगकर्ताको नाम</TableColumn>
-              <TableColumn key="email">ROLE</TableColumn>
-              <TableColumn key="edit">EDIT</TableColumn>
+              <TableColumn key="name">कर्मचारीको नाम </TableColumn>
+              <TableColumn key="ranking">वरियता क्रम</TableColumn>
+              <TableColumn key="position">कर्मचारीको पद </TableColumn>
+              <TableColumn key="edit">edit </TableColumn>
             </TableHeader>
             <TableBody items={items}>
               {(item: Member) => (
