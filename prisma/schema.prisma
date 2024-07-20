@@ -23,5 +23,5 @@ model Staff {
   id       String  @id @default(cuid())
   name     String?
   position String
-  ranking  Int
+  ranking  String
 }

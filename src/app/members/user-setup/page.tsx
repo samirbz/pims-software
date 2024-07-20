@@ -325,6 +325,7 @@ export default function UserSetup() {
       </Modal>
       <div className="flex w-full justify-center">
         <div className="mt-8 flex w-[97%] flex-col items-center gap-2 sm:w-1/2">
+          <h1 className="text-2xl font-semibold">User Setup</h1>
           <Button onPress={onOpen} startContent={<FaPlus />} color="primary">
             Add User
           </Button>

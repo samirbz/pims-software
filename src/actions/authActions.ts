@@ -4,11 +4,15 @@ import { auth, signIn, signOut } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { LoginSchema } from "@/lib/schemas/loginSchema"
 import { registerSchema, RegisterSchema } from "@/lib/schemas/registerSchema"
+import {
+  StaffRegisterSchema,
+  staffRegisterSchema,
+} from "@/lib/schemas/staffRegisterSchema"
 
 import { ActionResult } from "@/types"
-import { User } from "@prisma/client"
+import { Staff } from "@prisma/client"
 import bcrypt from "bcryptjs"
-import { AuthError } from "next-auth"
+import { AuthError, User } from "next-auth"
 
 export async function signInUser(
   data: LoginSchema
@@ -69,6 +73,31 @@ export async function registerUser(
         email,
         passwordHash: hashedPassword,
         createdby: createdBy,
+      },
+    })
+    return { status: "success", data: user }
+  } catch (error) {
+    console.log(error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function staffRegister(
+  data: StaffRegisterSchema
+): Promise<ActionResult<Staff>> {
+  try {
+    const validated = staffRegisterSchema.safeParse(data)
+
+    if (!validated.success) {
+      return { status: "error", error: validated.error?.errors }
+    }
+    const { name, ranking, position } = validated.data
+
+    const user = await prisma.staff.create({
+      data: {
+        name,
+        ranking,
+        position,
       },
     })
     return { status: "success", data: user }

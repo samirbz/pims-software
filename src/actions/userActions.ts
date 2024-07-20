@@ -48,6 +48,17 @@ export async function deleteMember(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+export async function deleteStaff(id: string) {
+  try {
+    await prisma.staff.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete member:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
 
 // export async function resetPassword(newPassword: string) {
 //   const session = await auth()
