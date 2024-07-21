@@ -61,7 +61,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
-          link: "/members/staff-details",
+          link: "/members/office/staff-details",
         },
         {
           key: "usage_metrics",
@@ -76,7 +76,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
-          link: "/members/user-setup",
+          link: "/members/office/user-setup",
         },
         {
           key: "Fiscal_year",
@@ -91,6 +91,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members/office/fiscal-year",
         },
         {
           key: "99_uptime",
@@ -105,6 +106,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -124,6 +126,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -143,6 +146,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -162,6 +166,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -181,6 +186,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -200,6 +206,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -219,6 +226,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -238,6 +246,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -257,6 +266,7 @@ export default function Nav({ user }: Props) {
               width={30}
             />
           ),
+          link: "/members",
         },
       ],
     },
@@ -329,7 +339,10 @@ export default function Nav({ user }: Props) {
                     key={item.key}
                     description={item.description}
                     startContent={item.icon}
-                    onClick={() => router.push(item.link ?? "/")}
+                    onPress={() => {
+                      router.push(item.link ?? "/")
+                      router.refresh()
+                    }}
                   >
                     {item.title}
                   </DropdownItem>
@@ -407,7 +420,7 @@ export default function Nav({ user }: Props) {
               <DropdownItem
                 key="logout"
                 className="flex items-center gap-2 font-semibold"
-                onClick={async () => signOutUser()}
+                onPress={async () => signOutUser()}
                 endContent={<IoLogOut />}
               >
                 Log Out
@@ -454,12 +467,8 @@ export default function Nav({ user }: Props) {
                       key={item.key}
                       description={item.description}
                       startContent={item.icon}
-                      onPress={() => {
-                        router.push(item.link ?? "/")
-                        router.refresh()
-                      }}
                     >
-                      {item.title}
+                      <a href={item.link}>{item.title}</a>
                     </DropdownItem>
                   ))}
                 </DropdownMenu>

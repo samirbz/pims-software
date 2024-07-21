@@ -26,10 +26,8 @@ export default auth((req) => {
   if (isAdminRoute && user?.email !== "admin") {
     return NextResponse.redirect(new URL("/", nextUrl))
   }
-
   return NextResponse.next()
 })
-
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|images/).*)"],
 }
