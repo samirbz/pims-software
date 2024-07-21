@@ -113,8 +113,7 @@ export default function UserSetup() {
     try {
       const result = await deleteMember(deleteUserId)
       if (result.status === "success") {
-        toast.success("User deleted successfully")
-        router.refresh()
+        window.location.reload()
       } else {
         console.error("Delete unsuccessful:")
       }

@@ -85,8 +85,7 @@ export default function StaffDetailPage() {
     try {
       const result = await deleteStaff(deleteUserId)
       if (result.status === "success") {
-        toast.success("User deleted successfully")
-        router.refresh()
+        window.location.reload()
       } else {
         console.error("Delete unsuccessful:")
       }
