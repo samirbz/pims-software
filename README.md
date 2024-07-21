@@ -20,3 +20,9 @@ PRISMA
 DOCKER
 
 - docker compose up -d
+
+ICEBOX
+
+- in staff detail if we delete delte user id alos
+- instaff detail we can delete own account fix it
+- Add edit menu in users
