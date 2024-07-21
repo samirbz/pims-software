@@ -55,6 +55,7 @@ export default function StaffDetailPage() {
   const [members, setMembers] = useState([])
   const [deleteUserId, setDeleteUserId] = useState("")
 
+
   useEffect(() => {
     async function fetchMembers() {
       const member: any = await getStaff()
@@ -76,6 +77,10 @@ export default function StaffDetailPage() {
   const handleDelete = async (id: string) => {
     setDeleteUserId(id) // Set the ID to be deleted
     onDeleteConfirmationOpen() // Open the confirmation modal
+  }
+
+  const handleEdit=async()=>{
+
   }
 
   const confirmDeleteUser = async () => {
@@ -319,12 +324,18 @@ export default function StaffDetailPage() {
                           </DropdownTrigger>
                           <DropdownMenu aria-label="Static Actions">
                             <DropdownItem
+                              key="edit-user"
+                              onClick={() => handleEdit(item.id)}
+                            >
+                              Edit
+                            </DropdownItem>
+                            <DropdownItem
                               key="delete"
                               className="text-danger"
                               color="danger"
                               onClick={() => handleDelete(item.id)}
                             >
-                              Delete user
+                              De-activate
                             </DropdownItem>
                           </DropdownMenu>
                         </Dropdown>
