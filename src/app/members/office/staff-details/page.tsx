@@ -43,6 +43,7 @@ interface Member {
   name: string
   ranking: string
   position: string
+  isUser: boolean
 }
 
 export default function StaffDetailPage() {
@@ -231,10 +232,11 @@ export default function StaffDetailPage() {
                             सहायकस्तर चौथो
                           </SelectItem>
                         </Select>
-                        <Checkbox>
+
+                        <Checkbox {...register("isuser")}>
                           <span className="flex items-center text-sm">
                             यदी कर्मचारी सिस्टम प्रयोग कर्ता भएमा (
-                            {<IoMdCheckmark />}) लगाउनुहोस ।
+                            <IoMdCheckmark />) लगाउनुहोस ।
                           </span>
                         </Checkbox>
 

@@ -10,7 +10,6 @@ async function main() {
         email: "admin",
         passwordHash:
           "$2a$10$FNNpHEghXzmMucQpJZlXcOkYOPoyWgLVLqYzxWKaZq7Gcpk9ZdZn2",
-        createdby: "admin",
       },
     ],
     skipDuplicates: true, // Skip inserting users if they already exist

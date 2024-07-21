@@ -57,7 +57,7 @@ export async function registerUser(
       return { status: "error", error: validated.error.errors }
     }
 
-    const { name, username, password, email, createdby } = validated.data
+    const { name, username, password, email } = validated.data
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -76,7 +76,6 @@ export async function registerUser(
         username,
         email,
         passwordHash: hashedPassword,
-        createdby,
       },
     })
     revalidatePath("/members/user-setup")
@@ -96,13 +95,14 @@ export async function staffRegister(
     if (!validated.success) {
       return { status: "error", error: validated.error?.errors }
     }
-    const { name, ranking, position } = validated.data
+    const { name, ranking, position, isuser } = validated.data
 
     const user = await prisma.staff.create({
       data: {
         name,
         ranking,
         position,
+        isuser,
       },
     })
     revalidatePath("/members/staff-details")
