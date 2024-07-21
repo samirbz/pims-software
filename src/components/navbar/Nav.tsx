@@ -115,8 +115,188 @@ export default function Nav({ user }: Props) {
       items: [
         {
           key: "item1",
-          title: "item",
-          description: "item description",
+          title: "मुख्य समिति ",
+          description: "मुख्य समिति ",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "अनुदान किसिम",
+          description: "अनुदान किसिम",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "लागत श्रोत",
+          description: "लागत श्रोत",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना प्रकार",
+          description: "योजना प्रकार",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना कार्य विवरण",
+          description: "योजना कार्य विवरण",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना छनोट निकाय",
+          description: "योजना छनोट निकाय",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "गा.पा/नगरपालिका नाम",
+          description: "गा.पा/नगरपालिका नाम",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "वडा न",
+          description: "वडा न",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "बैंक विवरण",
+          description: "बैंक विवरण",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना बजेड बाँडफाड",
+          description: "योजना बजेड बाँडफाड",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सुचिकृत फर्म/कम्पनी",
+          description: "सुचिकृत फर्म/कम्पनी",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सुचना प्रकाशन पत्रपत्रिकाहरु",
+          description: "सुचना प्रकाशन पत्रपत्रिकाहरु",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "ल्याप टेष्ट कार्यालय",
+          description: "ल्याप टेष्ट कार्यालय",
           icon: (
             <Scale
               className="text-warning"
@@ -135,7 +315,142 @@ export default function Nav({ user }: Props) {
       items: [
         {
           key: "item1",
-          title: "item",
+          title: "योजना दर्ता",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्झौताको स्वीकृत टिप्पणी",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना सम्झौता",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "कार्यादेश (उपभोक्ता समिति/सस्था कम्पनी)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "बैक खाता सिफारिस",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "बैक खाता बन्द सिफारिस",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना दर्ता वडा तथा अन्य",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना टिप्पणी आदेश",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "उपभोक्ता दर्ता प्रमाण पत्र",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "म्याद थप पत्र / टिप्पणी आदेश",
           description: "item description",
           icon: (
             <Scale
@@ -155,7 +470,202 @@ export default function Nav({ user }: Props) {
       items: [
         {
           key: "item1",
-          title: "item",
+          title: "दररेट पेश पत्र",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: " लई स्वीकृत पत्र",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "बोलपत्र/दरभाउपत्र मुल्याङकन",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "बोलपत्र/दरभाउ पत्र स्वीकृत ( Bid Bond)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "जमानत पत्र Bid Security",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "ठेक्का मुचुल्का",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "तुलनात्मक चार्ट (Comparative Chart)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्झौताको गर्न आउने पत्र",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना दर्ता",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना सम्झौता",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "कार्यादेश पत्र",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "टिप्पणी आदेश",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "म्याद थप / टिप्पणी र पत्र",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "ल्याब टेष्ट (Lab Testing)",
           description: "item description",
           icon: (
             <Scale
@@ -175,7 +685,112 @@ export default function Nav({ user }: Props) {
       items: [
         {
           key: "item1",
-          title: "item",
+          title: "अनुगमन प्रतिवेदन अनुसूची- ३",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "अनुगमन प्रतिवेदन (सयुक्तरुपमा)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "अनुगमन माइन्युट",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "जासँपास तथा फरफारक समितिको बैठक",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना जासपास",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना हस्तान्तरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "जासँपास तथा फरफारक प्रतिवेदन",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "अनुगमन गरेको मिति अनुसार प्रतिवेदन",
           description: "item description",
           icon: (
             <Scale
@@ -195,7 +810,277 @@ export default function Nav({ user }: Props) {
       items: [
         {
           key: "item1",
-          title: "item",
+          title: "सम्झौता भएका (सबै)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्झौता भएका ठेक्का निर्माण व्यवसायी",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "उ.स को लगत विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "समितिका आधार सम्झौता भएका योजना",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "लागत श्रोतका आधार सम्झौता भएका योजना",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "प्रकारका आधारमा सम्झौता भएका योजना",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "बजेट अनुसार योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "वडागतरुपमा सम्झौता भएका योजना",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "कार्यगत समुहअनुसार सम्झौता भएका योजना",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "कर कट्टीका आधार योजना विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "पेश्की निकासा भएका योजनाहरु",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "धरौटी कट्टी विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "अपलोड भएका मध्ये सम्झौता हुन बांकी योजना",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "संस्था/कम्पनिको भ्याट कट्टी विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "बजेट बाँडफाडमा सहायक योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना प्रकार अनुसार गणना विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्झौता मात्र भएका भुक्तानी नभएका योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "आ.व.मा पेश्की र रनिङ विल निकासा योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्झौता भई भुक्तानी हुन बाँकी योजनाको विवरण",
           description: "item description",
           icon: (
             <Scale
@@ -215,7 +1100,247 @@ export default function Nav({ user }: Props) {
       items: [
         {
           key: "item1",
-          title: "item",
+          title: "योजना प्रगति (सबै हेर्ने",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्पन्न योजना प्रगति (सबै हेर्ने)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्पन्न योजना प्रगति ( बजेट स्वीकृत)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "मुख्य समितिको आधारमा सम्पन्न योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "लागत श्रोतको आधारमा सम्पन्न योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "योजना किसिम अनुसार सम्पन्न योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "शर्शत/निशर्त अनुसार सम्पन्न योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "वडा अनुसार सम्पन्न योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "बजेट अनुसार सम्पन्न योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "अनुगमन प्रतिवेदन",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "भौतिक प्रगति विवरण १७.२",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्पन्न योजनाको एकिकृत प्रतिवेदन (उ.स. संस्थागत र व्यक्तिगत)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "सम्पन्न योजनाको एकिकृत प्रतिवेदन (ठेक्का)",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "उपभोक्ता समितिबाट सम्पन्न योजनाको विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "ठेक्का पट्टा कन्टेन्जेन्सी विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "उपभोक्ता समिति कन्टेन्जेन्सी विवरण",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "कर कट्टी तथा जरिवाना लागेका योजना विवरण",
           description: "item description",
           icon: (
             <Scale
@@ -235,7 +1360,7 @@ export default function Nav({ user }: Props) {
       items: [
         {
           key: "item1",
-          title: "item",
+          title: "Upload Excel Files",
           description: "item description",
           icon: (
             <Scale
@@ -248,14 +1373,39 @@ export default function Nav({ user }: Props) {
           ),
           link: "/members",
         },
-      ],
-    },
-    {
-      title: "Switch Fiscal Year",
-      items: [
         {
           key: "item1",
-          title: "item",
+          title: "Daily Data Backup",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "Online Service Anydesk",
+          description: "item description",
+          icon: (
+            <Scale
+              className="text-warning"
+              fill="currentColor"
+              size={30}
+              height={30}
+              width={30}
+            />
+          ),
+          link: "/members",
+        },
+        {
+          key: "item1",
+          title: "PDF Files",
           description: "item description",
           icon: (
             <Scale
@@ -337,8 +1487,8 @@ export default function Nav({ user }: Props) {
                     onMouseEnter={() => handleMouseEnter(menu.title)}
                     onMouseLeave={handleMouseLeave}
                     key={item.key}
-                    description={item.description}
-                    startContent={item.icon}
+                    // description={item.description}
+                    // startContent={item.icon}
                     onPress={() => {
                       router.push(item.link ?? "/")
                       router.refresh()
@@ -351,6 +1501,9 @@ export default function Nav({ user }: Props) {
             )}
           </Dropdown>
         ))}
+        <Link href="/" className="rounded-md p-1 hover:bg-gray-300">
+          Switch fiscal year
+        </Link>
       </NavbarContent>
 
       <NavbarContent justify="end">
@@ -457,7 +1610,7 @@ export default function Nav({ user }: Props) {
               {menu.items.length > 0 && (
                 <DropdownMenu
                   aria-label={menu.title}
-                  className="w-[340px]"
+                  className="max-h-[300px] w-[340px] overflow-y-auto"
                   itemClasses={{
                     base: "gap-4",
                   }}
@@ -465,8 +1618,8 @@ export default function Nav({ user }: Props) {
                   {menu.items.map((item) => (
                     <DropdownItem
                       key={item.key}
-                      description={item.description}
-                      startContent={item.icon}
+                      // description={item.description}
+                      // startContent={item.icon}
                     >
                       <a href={item.link}>{item.title}</a>
                     </DropdownItem>
@@ -476,6 +1629,7 @@ export default function Nav({ user }: Props) {
             </Dropdown>
           </NavbarMenuItem>
         ))}
+        <Link href="/">Switch fiscal year</Link>
       </NavbarMenu>
     </Navbar>
   )
