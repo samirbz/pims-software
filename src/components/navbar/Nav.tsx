@@ -454,7 +454,7 @@ export default function Nav({ user }: Props) {
                       key={item.key}
                       description={item.description}
                       startContent={item.icon}
-                      onClick={() => {
+                      onPress={() => {
                         router.push(item.link ?? "/")
                         router.refresh()
                       }}
