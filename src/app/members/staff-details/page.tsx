@@ -151,7 +151,7 @@ export default function StaffDetailPage() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                User setup
+                Staff Setup
               </ModalHeader>
 
               <ModalBody>

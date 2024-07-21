@@ -66,7 +66,7 @@ export default function Nav({ user }: Props) {
         {
           key: "usage_metrics",
           title: " प्रयोग कर्ता",
-          description: "Users",
+          description: "User Setup",
           icon: (
             <Activity
               className="text-secondary"
@@ -81,7 +81,7 @@ export default function Nav({ user }: Props) {
         {
           key: "Fiscal_year",
           title: "आर्थिक वर्ष",
-          description: "आर्थिक वर्ष",
+          description: "Fiscal Year",
           icon: (
             <Flash
               className="text-primary"
@@ -397,17 +397,6 @@ export default function Nav({ user }: Props) {
                   }}
                 />
               </DropdownItem>
-
-              {/* <DropdownItem key="admin" href="/members/admin">
-                Admin Dashboard
-              </DropdownItem>
-              <DropdownItem
-                key="create-user"
-                href="/members/register"
-                endContent={<BsPlusLg />}
-              >
-                Create User
-              </DropdownItem> */}
 
               <DropdownItem key="settings" href="/members/settings">
                 Settings
