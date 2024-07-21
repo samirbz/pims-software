@@ -258,23 +258,15 @@ export default function UserSetup() {
                           items={staffNames}
                           label="कर्मचारीको नाम"
                           placeholder="select"
-                          {...register("createdby")}
-                          isInvalid={!!errors.createdby}
-                          errorMessage={errors.createdby?.message}
+                          {...register("name")}
+                          isInvalid={!!errors.name}
+                          errorMessage={errors.name?.message}
                         >
                           {(item) => (
                             <SelectItem key={item.name}>{item.name}</SelectItem>
                           )}
                         </Select>
-                        <Input
-                          size="sm"
-                          defaultValue=""
-                          label="fullname"
-                          variant="bordered"
-                          {...register("name")}
-                          isInvalid={!!errors.name}
-                          errorMessage={errors.name?.message}
-                        />
+
                         <Input
                           size="sm"
                           defaultValue=""

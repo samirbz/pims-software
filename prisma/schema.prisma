@@ -13,8 +13,6 @@ model User {
   username     String? @unique
   email        String?
   passwordHash String
-  image        String?
-  createdby    String?
 
   @@map("users")
 }
@@ -24,4 +22,5 @@ model Staff {
   name     String?
   position String
   ranking  String
+  isuser   Boolean
 }

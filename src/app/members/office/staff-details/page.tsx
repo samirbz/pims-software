@@ -25,6 +25,7 @@ import {
   CardBody,
   Input,
   TableColumn,
+  Checkbox,
 } from "@nextui-org/react"
 import { getStaff } from "@/actions/memberActions"
 import { deleteStaff } from "@/actions/userActions"
@@ -34,7 +35,7 @@ import { MdModeEditOutline } from "react-icons/md"
 import { staffRegister } from "@/actions/authActions"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { IoIosSave } from "react-icons/io"
+import { IoIosSave, IoMdCheckmark } from "react-icons/io"
 import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
 
 interface Member {
@@ -230,6 +231,12 @@ export default function StaffDetailPage() {
                             सहायकस्तर चौथो
                           </SelectItem>
                         </Select>
+                        <Checkbox>
+                          <span className="flex items-center text-sm">
+                            यदी कर्मचारी सिस्टम प्रयोग कर्ता भएमा (
+                            {<IoMdCheckmark />}) लगाउनुहोस ।
+                          </span>
+                        </Checkbox>
 
                         {errors.root?.serverError && (
                           <p className="text-sm text-danger">
