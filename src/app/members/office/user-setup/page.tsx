@@ -35,6 +35,7 @@ import { registerUser } from "@/actions/authActions"
 import { RegisterSchema } from "@/lib/schemas/registerSchema"
 import { useForm } from "react-hook-form"
 import { IoIosSave } from "react-icons/io"
+import { useRouter } from "next/navigation"
 
 interface Member {
   id: string
@@ -58,6 +59,8 @@ export default function UserSetup() {
     onOpen: onDeleteConfirmationOpen,
     onOpenChange: onDeleteConfirmationOpenChange,
   } = useDisclosure()
+
+  const router = useRouter()
 
   const [members, setMembers] = useState([])
   const [pass, setPass] = useState("")
@@ -111,7 +114,7 @@ export default function UserSetup() {
       const result = await deleteMember(deleteUserId)
       if (result.status === "success") {
         toast.success("User deleted successfully")
-        window.location.reload()
+        router.refresh()
       } else {
         console.error("Delete unsuccessful:")
       }
@@ -135,8 +138,8 @@ export default function UserSetup() {
     const result = await registerUser(data)
 
     if (result.status === "success") {
-      window.location.reload()
       toast.success("User created successfully")
+      router.refresh()
       // Optionally redirect or refresh
     } else {
       // Show error message in toast

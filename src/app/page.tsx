@@ -49,11 +49,8 @@ export default function LoginForm() {
             className="mb-20"
           />
           <div className="flex flex-col items-center gap-1">
-            <p className="mr-4 text-2xl font-semibold text-blue-600">
-              वाणगङ्गा
-            </p>
-            <p className="mr-4 text-2xl font-semibold text-blue-600">
-              नगरपालिका
+            <p className="mr-4 text-[1rem] font-semibold text-blue-600 sm:text-2xl">
+              वाणगङ्गा नगरपालिका
             </p>
             <p className="mt-2 whitespace-nowrap text-sm font-semibold text-red-600 sm:text-lg">
               नगर कार्यपालिकाको कार्यालय

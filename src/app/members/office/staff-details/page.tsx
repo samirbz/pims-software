@@ -36,6 +36,7 @@ import { staffRegister } from "@/actions/authActions"
 import { useForm } from "react-hook-form"
 import { IoIosSave, IoMdCheckmark } from "react-icons/io"
 import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
+import { useRouter } from "next/navigation"
 
 interface Member {
   id: string
@@ -51,6 +52,8 @@ export default function StaffDetailPage() {
     onOpen: onDeleteConfirmationOpen,
     onOpenChange: onDeleteConfirmationOpenChange,
   } = useDisclosure()
+
+  const router = useRouter()
 
   const [members, setMembers] = useState([])
   const [deleteUserId, setDeleteUserId] = useState("")
@@ -83,7 +86,7 @@ export default function StaffDetailPage() {
       const result = await deleteStaff(deleteUserId)
       if (result.status === "success") {
         toast.success("User deleted successfully")
-        window.location.reload()
+        router.refresh()
       } else {
         console.error("Delete unsuccessful:")
       }
@@ -107,8 +110,8 @@ export default function StaffDetailPage() {
     const result = await staffRegister(data)
 
     if (result.status === "success") {
-      window.location.reload()
       toast.success("User created successfully")
+      router.refresh()
       // Optionally redirect or refresh
     } else {
       // Show error message in toast
