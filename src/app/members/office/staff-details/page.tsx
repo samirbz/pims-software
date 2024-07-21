@@ -33,7 +33,6 @@ import { FaPlus } from "react-icons/fa"
 import { toast } from "react-toastify"
 import { MdModeEditOutline } from "react-icons/md"
 import { staffRegister } from "@/actions/authActions"
-import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { IoIosSave, IoMdCheckmark } from "react-icons/io"
 import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
@@ -95,7 +94,6 @@ export default function StaffDetailPage() {
   }
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -109,8 +107,8 @@ export default function StaffDetailPage() {
     const result = await staffRegister(data)
 
     if (result.status === "success") {
+      window.location.reload()
       toast.success("User created successfully")
-      router.refresh()
       // Optionally redirect or refresh
     } else {
       // Show error message in toast

@@ -33,14 +33,13 @@ import { toast } from "react-toastify"
 import { MdModeEditOutline } from "react-icons/md"
 import { registerUser } from "@/actions/authActions"
 import { RegisterSchema } from "@/lib/schemas/registerSchema"
-import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { IoIosSave } from "react-icons/io"
 
 interface Member {
   id: string
-  createdby: string
   name: string
+  username: string
   email: string
 }
 
@@ -123,7 +122,6 @@ export default function UserSetup() {
   }
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -137,8 +135,8 @@ export default function UserSetup() {
     const result = await registerUser(data)
 
     if (result.status === "success") {
+      window.location.reload()
       toast.success("User created successfully")
-      router.refresh()
       // Optionally redirect or refresh
     } else {
       // Show error message in toast
@@ -375,9 +373,8 @@ export default function UserSetup() {
           >
             <TableHeader>
               <TableColumn key="snum">सि.न.</TableColumn>
-              <TableColumn key="createdby">कर्मचारीको नाम</TableColumn>
+              <TableColumn key="name">कर्मचारीको नाम</TableColumn>
               <TableColumn key="username">प्रयोगकर्ताको ID</TableColumn>
-              <TableColumn key="name">प्रयोगकर्ताको नाम</TableColumn>
               <TableColumn key="email">ROLE</TableColumn>
               <TableColumn key="edit">EDIT</TableColumn>
             </TableHeader>

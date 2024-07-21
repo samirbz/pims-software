@@ -57,7 +57,7 @@ export async function registerUser(
       return { status: "error", error: validated.error.errors }
     }
 
-    const { name, username, password, email } = validated.data
+    const { name, username, email, password } = validated.data
 
     const hashedPassword = await bcrypt.hash(password, 10)
 

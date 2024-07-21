@@ -41,7 +41,11 @@ export async function getStaff() {
 
 export const fetchStaffNames = async () => {
   try {
-    const staff = await prisma.staff.findMany()
+    const staff = await prisma.staff.findMany({
+      where: {
+        isuser: true,
+      },
+    })
     return staff
   } catch (error) {
     console.error("Error fetching staff names:", error)
