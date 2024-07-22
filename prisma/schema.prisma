@@ -31,3 +31,30 @@ model Fiscalyear {
   endDate   String
   fy        String
 }
+
+model TskData {
+  id String @id @default(cuid())
+
+  tayarGarneKoName              String?
+  tayarGarneKoPad               String?
+  tippaniMaDekhauneHo           Boolean
+  tayarGarneKoNaamPadDekhauneHo Boolean
+
+  peshGarneKoName              String?
+  peshGarneKoPad               String?
+  peshTippaniMaDekhauneHo      Boolean
+  peshGarneKoNaamPadDekhauneHo Boolean
+
+  sifarishRujuGarne                String?
+  sifarishRujuGarneKoPad           String?
+  sifarisTippaniMaDekhauneHo       Boolean
+  sifarishGarneKoNaamPadDekhauneHo Boolean
+
+  sadarGarneKoName              String?
+  sadarGarneKopad               String?
+  sadarTippaniMaDekhauneHo      Boolean
+  sadarGarneKoNaamPadDekhauneHo Boolean
+
+  sifarishRujuGarneAmaanKoNaam    Boolean
+  sifarishRujuGarneUpovoktaKoNaam Boolean
+}
