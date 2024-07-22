@@ -47,24 +47,24 @@ export async function deleteFyDate(id: string) {
 }
 
 export async function saveTskData(
-  tayarGarneKoName,
-  tayarGarneKoPad,
-  tippaniMaDekhauneHo,
-  tayarGarneKoNaamPadDekhauneHo,
-  peshGarneKoName,
-  peshGarneKoPad,
-  peshTippaniMaDekhauneHo,
-  peshGarneKoNaamPadDekhauneHo,
-  sifarishRujuGarne,
-  sifarishRujuGarneKoPad,
-  sifarisTippaniMaDekhauneHo,
-  sifarishGarneKoNaamPadDekhauneHo,
-  sadarGarneKoName,
-  sadarGarneKopad,
-  sadarTippaniMaDekhauneHo,
-  sadarGarneKoNaamPadDekhauneHo,
-  sifarishRujuGarneAmaanKoNaam,
-  sifarishRujuGarneUpovoktaKoNaam
+  tayarGarneKoName: string,
+  tayarGarneKoPad: string,
+  tippaniMaDekhauneHo: boolean,
+  tayarGarneKoNaamPadDekhauneHo: boolean,
+  peshGarneKoName: string,
+  peshGarneKoPad: string,
+  peshTippaniMaDekhauneHo: boolean,
+  peshGarneKoNaamPadDekhauneHo: boolean,
+  sifarishRujuGarne: string,
+  sifarishRujuGarneKoPad: string,
+  sifarisTippaniMaDekhauneHo: boolean,
+  sifarishGarneKoNaamPadDekhauneHo: boolean,
+  sadarGarneKoName: string,
+  sadarGarneKopad: string,
+  sadarTippaniMaDekhauneHo: boolean,
+  sadarGarneKoNaamPadDekhauneHo: boolean,
+  sifarishRujuGarneAmaanKoNaam: boolean,
+  sifarishRujuGarneUpovoktaKoNaam: boolean
 ) {
   try {
     const tskRecord = await prisma.tskData.create({
@@ -83,7 +83,7 @@ export async function saveTskData(
         sifarishRujuGarneKoPad,
         sifarisTippaniMaDekhauneHo,
         sifarishGarneKoNaamPadDekhauneHo,
-        
+
         sadarGarneKoName,
         sadarGarneKopad,
         sadarTippaniMaDekhauneHo,

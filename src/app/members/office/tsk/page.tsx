@@ -108,7 +108,7 @@ export default function TskPage() {
           टिप्पणी सदर गर्ने कर्मचारीको विवरण
         </h1>
         <br />
-        <div className="flex flex-col gap-2">
+        <div className="flex w-auto flex-col sm:gap-2">
           <div className="flex w-full gap-2">
             <Input
               type="text"
@@ -275,7 +275,7 @@ export default function TskPage() {
           </Button>
         </div>
         <br />
-        <div className="max-h-[22rem] w-auto overflow-auto">
+        <div className="mb-2 max-h-[22rem] w-auto overflow-auto sm:mb-0">
           <table className="min-w-[40rem] border-collapse border ">
             <thead className="sticky top-0 z-50 border-r-2 bg-purple-400 ">
               <tr>
