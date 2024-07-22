@@ -16,7 +16,6 @@ export async function saveFiscalYearDate(
         fy,
       },
     })
-    revalidatePath("/members/office/fiscal-year")
     return { status: "success", data: fyRecord }
   } catch (error) {
     console.error("Error in registerUser:", error)
@@ -31,5 +30,18 @@ export async function fetchFyData() {
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
+  }
+}
+
+export async function deleteFyDate(id: string) {
+  try {
+    await prisma.fiscalyear.delete({
+      where: { id },
+    })
+    revalidatePath("/members/office/fiscal-year")
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
   }
 }

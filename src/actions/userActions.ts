@@ -61,7 +61,6 @@ export async function deleteStaff(id: string) {
   }
 }
 
-
 // export async function resetPassword(newPassword: string) {
 //   const session = await auth()
 //   const id = session?.user?.id

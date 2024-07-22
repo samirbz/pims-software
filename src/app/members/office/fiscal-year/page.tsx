@@ -11,7 +11,11 @@ import { FaRegSave } from "react-icons/fa"
 import { FaCirclePlus } from "react-icons/fa6"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
-import { fetchFyData, saveFiscalYearDate } from "@/actions/formAction"
+import {
+  deleteFyDate,
+  fetchFyData,
+  saveFiscalYearDate,
+} from "@/actions/formAction"
 import { MdModeEditOutline } from "react-icons/md"
 
 export default function FiscalYearPage() {
@@ -21,7 +25,12 @@ export default function FiscalYearPage() {
   const [fiscalYears, setFiscalYears] = useState<any[]>([])
 
   const onSubmit = async () => {
-    saveFiscalYearDate(startDate, endDate, fy)
+    const result = await saveFiscalYearDate(startDate, endDate, fy)
+    if (result.status === "success") {
+      window.location.reload()
+    } else {
+      console.error("Delete unsuccessful:")
+    }
   }
 
   const fetchDate = async () => {
@@ -36,6 +45,15 @@ export default function FiscalYearPage() {
   useEffect(() => {
     fetchDate()
   }, [])
+
+  const handleDelete = async (id: string) => {
+    const result = await deleteFyDate(id)
+    if (result.status === "success") {
+      window.location.reload()
+    } else {
+      console.error("Delete unsuccessful:")
+    }
+  }
 
   return (
     <div className="mt-8 flex flex-col items-center">
@@ -135,6 +153,7 @@ export default function FiscalYearPage() {
                           key="delete"
                           className="text-danger"
                           color="danger"
+                          onPress={() => handleDelete(year.id)}
                         >
                           Delete
                         </DropdownItem>
