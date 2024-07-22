@@ -1,7 +1,23 @@
-import React from 'react'
+"use client"
+import React, { useState } from "react"
+import { NepaliDatePicker } from "nepali-datepicker-reactjs"
+import "nepali-datepicker-reactjs/dist/index.css"
 
-export default function page() {
+const App = () => {
+  const [date, setDate] = useState<string>("")
+
   return (
-    <div>page</div>
+    <form>
+      <label htmlFor="date">Date</label>
+      <NepaliDatePicker
+        inputClassName="form-control"
+        className=""
+        value={date}
+        onChange={(value: string) => setDate(value)}
+        options={{ calenderLocale: "ne", valueLocale: "en" }}
+      />
+    </form>
   )
 }
+
+export default App

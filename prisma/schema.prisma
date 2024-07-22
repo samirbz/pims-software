@@ -24,3 +24,10 @@ model Staff {
   ranking  String
   isuser   Boolean
 }
+
+model Fiscalyear {
+  id        String @id @default(cuid())
+  startDate String
+  endDate   String
+  fy        String
+}

@@ -65,7 +65,7 @@ export default function Nav({ user }: Props) {
         {
           key: "99_uptime",
           title: "टिप्पणी सदर गर्ने कर्मचारी",
-          link: "/members",
+          link: "/members/office/tsk",
         },
       ],
     },
