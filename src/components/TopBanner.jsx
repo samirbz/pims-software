@@ -6,7 +6,13 @@ import BSDateDisplay from "./BSDateDisplay"
 
 export default function TopBanner() {
   return (
-    <div className="flex w-full items-center justify-between py-1 ">
+    <div className="flex w-full items-center justify-between bg-gradient-to-b from-blue-700 to-blue-300 py-1 sm:px-10">
+      <Link
+        href="/"
+        className="hidden text-5xl font-bold text-red-600 sm:block"
+      >
+        PIMS
+      </Link>
       <Link href="/" className="flex justify-start">
         <Image
           src="/images/logo.png"
@@ -17,7 +23,7 @@ export default function TopBanner() {
         />
       </Link>
 
-      <div className="flex flex-col items-center gap-2 pr-2 ">
+      <div className="flex flex-col items-center gap-2 pr-2 sm:w-40 ">
         <Image
           src="/images/flag.gif"
           unoptimized

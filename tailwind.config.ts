@@ -9,7 +9,11 @@ const config: Config = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        glow: "0 0 20px rgba(255, 0, 0, 0.8)", // Customize as needed
+      },
+    },
   },
   fontFamily: {
     inter: ["var(--font-inter)"],

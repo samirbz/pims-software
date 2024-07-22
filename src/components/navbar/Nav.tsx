@@ -3,7 +3,6 @@
 import React, { useState } from "react"
 import {
   Navbar,
-  NavbarBrand,
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle,
@@ -22,7 +21,6 @@ import { FaAngleDown, FaUserAlt } from "react-icons/fa"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { signOutUser } from "@/actions/authActions"
 import { IoLogOut } from "react-icons/io5"
-import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -536,32 +534,19 @@ export default function Nav({ user }: Props) {
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
       maxWidth="full"
-      className="bg-blue-400 sm:h-12"
+      className="bg-gradient-to-b from-blue-500 to-blue-400 sm:h-12"
     >
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="xl:hidden"
         />
-        <NavbarBrand>
-          <Link href="/" className="flex gap-2 text-black">
-            <Image
-              unoptimized
-              src="/images/pims-logo.png"
-              className="h-auto max-w-full"
-              width={18}
-              height={18}
-              alt="PIMS"
-            />
-            <p className="font-bold text-inherit">PIMS</p>
-          </Link>
-        </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden gap-4 xl:flex" justify="center">
         {menuConfig.map((menu) => (
           <Dropdown
-            className="mb-4 bg-gray-100"
+            className="mb-4 bg-gray-100 "
             key={menu.title}
             isOpen={hoveredMenu === menu.title}
           >
@@ -584,7 +569,7 @@ export default function Nav({ user }: Props) {
             {menu.items.length > 0 && (
               <DropdownMenu
                 aria-label={menu.title}
-                className="w-[340px]"
+                className="w-auto"
                 itemClasses={{
                   base: "gap-4",
                 }}
@@ -608,7 +593,10 @@ export default function Nav({ user }: Props) {
             )}
           </Dropdown>
         ))}
-        <Link href="/" className="rounded-md p-1 hover:bg-gray-300">
+        <Link
+          href="/"
+          className="rounded-md p-1 text-lg font-semibold text-gray-200 hover:text-gray-300"
+        >
           Switch fiscal year
         </Link>
       </NavbarContent>
