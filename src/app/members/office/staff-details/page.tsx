@@ -36,7 +36,6 @@ import { staffRegister } from "@/actions/authActions"
 import { useForm } from "react-hook-form"
 import { IoIosSave, IoMdCheckmark } from "react-icons/io"
 import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
-import { useRouter } from "next/navigation"
 
 interface Member {
   id: string
@@ -52,8 +51,6 @@ export default function StaffDetailPage() {
     onOpen: onDeleteConfirmationOpen,
     onOpenChange: onDeleteConfirmationOpenChange,
   } = useDisclosure()
-
-  const router = useRouter()
 
   const [members, setMembers] = useState([])
   const [deleteUserId, setDeleteUserId] = useState("")
@@ -110,7 +107,7 @@ export default function StaffDetailPage() {
 
     if (result.status === "success") {
       toast.success("User created successfully")
-      router.refresh()
+      window.location.reload()
       // Optionally redirect or refresh
     } else {
       // Show error message in toast
