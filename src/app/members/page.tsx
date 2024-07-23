@@ -1,4 +1,3 @@
-import { table } from "console"
 import React from "react"
 
 export default function Home() {
@@ -18,8 +17,8 @@ export default function Home() {
       <table>
         {paragraphs.map((text, index) => (
           <tr key={index} className="border border-gray-300">
-            <td className="border border-gray-300 p-3 px-4">{text}</td>
-            <td className="border border-gray-300 p-3 px-4">
+            <td className="border border-gray-300 px-3 py-2">{text}</td>
+            <td className="border border-gray-300 px-3 py-2">
               {getRandomNumber()}
             </td>
           </tr>
