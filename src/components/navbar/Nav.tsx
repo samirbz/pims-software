@@ -1190,40 +1190,75 @@ export default function Nav({ user }: Props) {
       </NavbarContent>
 
       <NavbarMenu className="mt-20">
-        {menuConfig.map((menu, index) => (
-          <NavbarMenuItem key={`${menu.title}-${index}`}>
-            <Dropdown>
-              <NavbarItem>
-                <DropdownTrigger>
-                  <Button
-                    disableRipple
-                    className="bg-transparent p-0 data-[hover=true]:bg-transparent"
-                    endContent={<FaAngleDown />}
-                    radius="sm"
-                    variant="light"
-                  >
-                    {menu.title}
-                  </Button>
-                </DropdownTrigger>
-              </NavbarItem>
-              {menu.items.length > 0 && (
-                <DropdownMenu
-                  aria-label={menu.title}
-                  className="max-h-[300px] w-[340px] overflow-y-auto"
-                  itemClasses={{
-                    base: "gap-4",
-                  }}
-                >
-                  {menu.items.map((item) => (
-                    <DropdownItem key={item.key}>
-                      <a href={item.link}>{item.title}</a>
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              )}
-            </Dropdown>
-          </NavbarMenuItem>
-        ))}
+        {user?.email === "user"
+          ? menuConfig.map((menu, index) => (
+              <NavbarMenuItem key={`${menu.title}-${index}`}>
+                <Dropdown>
+                  <NavbarItem>
+                    <DropdownTrigger>
+                      <Button
+                        disableRipple
+                        className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+                        endContent={<FaAngleDown />}
+                        radius="sm"
+                        variant="light"
+                      >
+                        {menu.title}
+                      </Button>
+                    </DropdownTrigger>
+                  </NavbarItem>
+                  {menu.items.length > 0 && (
+                    <DropdownMenu
+                      aria-label={menu.title}
+                      className="max-h-[300px] w-[340px] overflow-y-auto"
+                      itemClasses={{
+                        base: "gap-4",
+                      }}
+                    >
+                      {menu.items.map((item) => (
+                        <DropdownItem key={item.key}>
+                          <a href={item.link}>{item.title}</a>
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  )}
+                </Dropdown>
+              </NavbarMenuItem>
+            ))
+          : adminMenuConfig.map((menu, index) => (
+              <NavbarMenuItem key={`${menu.title}-${index}`}>
+                <Dropdown>
+                  <NavbarItem>
+                    <DropdownTrigger>
+                      <Button
+                        disableRipple
+                        className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+                        endContent={<FaAngleDown />}
+                        radius="sm"
+                        variant="light"
+                      >
+                        {menu.title}
+                      </Button>
+                    </DropdownTrigger>
+                  </NavbarItem>
+                  {menu.items.length > 0 && (
+                    <DropdownMenu
+                      aria-label={menu.title}
+                      className="max-h-[300px] w-[340px] overflow-y-auto"
+                      itemClasses={{
+                        base: "gap-4",
+                      }}
+                    >
+                      {menu.items.map((item) => (
+                        <DropdownItem key={item.key}>
+                          <a href={item.link}>{item.title}</a>
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  )}
+                </Dropdown>
+              </NavbarMenuItem>
+            ))}
         <Link href="/">Switch fiscal year</Link>
       </NavbarMenu>
     </Navbar>
