@@ -6,7 +6,7 @@ import BSDateDisplay from "./BSDateDisplay"
 
 export default function TopBanner() {
   return (
-    <div className="flex w-full items-center justify-between bg-gradient-to-b from-blue-700 to-blue-300 py-1 sm:px-10">
+    <div className="flex w-full items-center justify-between py-1 sm:px-10">
       <Link
         href="/"
         className="hidden text-5xl font-bold text-red-600 sm:block"

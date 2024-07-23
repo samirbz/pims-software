@@ -38,11 +38,8 @@ export default function LoginForm() {
   const toggleVisibility = () => setIsVisible(!isVisible)
 
   return (
-    <div
-      className="flex h-screen w-full grow justify-center bg-cover bg-center"
-      style={{ backgroundImage: 'url("/images/lumbini1.jpg")' }}
-    >
-      <Card className=" relative mt-32 h-[27.2rem] w-10/12  sm:w-[26rem]">
+    <div className="flex h-screen w-full justify-center bg-gradient-to-t from-blue-200 to-blue-800">
+      <Card className=" relative mt-32 h-[27rem] w-10/12 sm:w-[26rem]">
         <CardHeader className="flex justify-between">
           <Image
             src="/images/gov-logo.png"

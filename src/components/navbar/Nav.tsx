@@ -534,7 +534,7 @@ export default function Nav({ user }: Props) {
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
       maxWidth="full"
-      className="bg-gradient-to-b from-blue-500 to-blue-400 sm:h-12"
+      className="bg-gradient-to-b from-blue-600 to-blue-500 sm:h-12"
     >
       <NavbarContent>
         <NavbarMenuToggle
@@ -557,7 +557,7 @@ export default function Nav({ user }: Props) {
               <DropdownTrigger>
                 <Button
                   disableRipple
-                  className="bg-transparent p-0 data-[hover=true]:bg-transparent"
+                  className="bg-transparent p-0 text-lg text-white data-[hover=true]:bg-transparent"
                   endContent={<FaAngleDown />}
                   radius="sm"
                   variant="light"
