@@ -384,7 +384,7 @@ export default function UserSetup() {
               {(item: Member) => (
                 <TableRow key={item.id}>
                   {(columnKey) => (
-                    <TableCell>
+                    <TableCell className="border">
                       {columnKey === "edit" ? (
                         <Dropdown>
                           <DropdownTrigger>
