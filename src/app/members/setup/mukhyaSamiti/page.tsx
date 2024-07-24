@@ -15,9 +15,7 @@ export default function MukhyaSamiti() {
   return (
     <div className="mt-8 flex flex-col items-center">
       <div className="w-full px-4 sm:w-auto">
-        <h1 className="self-start text-2xl">मुख्य समिती को नाम</h1>
-        <br />
-
+        <h1 className="form-title">मुख्य समिती को नाम</h1>
         <br />
         <div className="flex w-auto flex-col sm:gap-2">
           <div className="flex gap-2">

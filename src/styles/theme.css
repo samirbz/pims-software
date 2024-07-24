@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .form-title {
+    @apply self-start text-center text-2xl font-semibold text-orange-600;
+  }
+}

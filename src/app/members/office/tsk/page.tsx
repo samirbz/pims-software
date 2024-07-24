@@ -104,9 +104,7 @@ export default function TskPage() {
   return (
     <div className="mt-8 flex flex-col items-center">
       <div className="w-full px-4 sm:w-auto">
-        <h1 className="self-start text-2xl">
-          टिप्पणी सदर गर्ने कर्मचारीको विवरण
-        </h1>
+        <h1 className="form-title">टिप्पणी सदर गर्ने कर्मचारीको विवरण</h1>
         <br />
         <div className="flex w-auto flex-col sm:gap-2">
           <div className="flex w-full gap-2">

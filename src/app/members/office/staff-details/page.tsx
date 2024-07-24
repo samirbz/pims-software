@@ -270,10 +270,15 @@ export default function StaffDetailPage() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex w-full justify-center">
-        <div className="mt-8 flex w-[97%] flex-col items-center gap-2 sm:w-1/2">
-          <h1 className="text-2xl font-semibold">कर्मचारी विवरण</h1>
-          <Button onPress={onOpen} startContent={<FaPlus />} color="primary">
+      <div className="mt-8 flex flex-col items-center ">
+        <div className=" w-full px-4 text-center sm:w-auto">
+          <h1 className="form-title">कर्मचारी विवरण</h1>
+          <Button
+            onPress={onOpen}
+            startContent={<FaPlus />}
+            color="primary"
+            className="mb-2 mt-4"
+          >
             Add Staff
           </Button>
           <Table

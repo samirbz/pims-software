@@ -346,10 +346,15 @@ export default function UserSetup() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex w-full justify-center">
-        <div className="mt-8 flex w-[97%] flex-col items-center gap-3 sm:w-1/2">
-          <h1 className="text-2xl font-semibold">USER SETUP</h1>
-          <Button onPress={onOpen} startContent={<FaPlus />} color="primary">
+      <div className="mt-8 flex w-full justify-center">
+        <div className=" w-full px-4 text-center sm:w-auto">
+          <h1 className="form-title">USER SETUP</h1>
+          <Button
+            onPress={onOpen}
+            startContent={<FaPlus />}
+            color="primary"
+            className="mb-2 mt-4"
+          >
             Add User
           </Button>
           <Table

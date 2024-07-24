@@ -9,7 +9,7 @@ export default function TopBanner() {
     <div className="flex w-full items-center justify-between py-1 sm:px-10">
       <Link
         href="/"
-        className="hidden text-5xl font-bold text-red-600 sm:block"
+        className="hidden text-5xl font-bold text-orange-600 sm:block"
       >
         PIMS
       </Link>
