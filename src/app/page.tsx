@@ -46,7 +46,8 @@ export default function LoginForm() {
             alt="logo"
             width={70}
             height={70}
-            className="mb-20"
+            className="mb-20 size-auto"
+            priority
           />
           <div className="flex flex-col items-center gap-1">
             <p className="mr-4 text-[1rem] font-semibold text-blue-600 sm:text-2xl">
