@@ -21,7 +21,6 @@ import { FaAngleDown, FaUserAlt } from "react-icons/fa"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { signOutUser } from "@/actions/authActions"
 import { IoLogOut } from "react-icons/io5"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 type Props = {
@@ -526,6 +525,11 @@ export default function Nav({ user }: Props) {
           title: "PDF Files",
           link: "/members",
         },
+        {
+          key: "item86",
+          title: "Switch fiscal year",
+          link: "/members",
+        },
       ],
     },
   ]
@@ -990,6 +994,11 @@ export default function Nav({ user }: Props) {
           title: "PDF Files",
           link: "/members",
         },
+        {
+          key: "item86",
+          title: "Switch fiscal year",
+          link: "/members",
+        },
       ],
     },
   ]
@@ -1003,11 +1012,11 @@ export default function Nav({ user }: Props) {
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="xl:hidden"
+          className="2xl:hidden"
         />
       </NavbarContent>
 
-      <NavbarContent className="hidden gap-4 xl:flex" justify="center">
+      <NavbarContent className="hidden gap-4 2xl:flex" justify="center">
         {user?.email === "user"
           ? menuConfig.map((menu) => (
               <Dropdown
@@ -1070,7 +1079,7 @@ export default function Nav({ user }: Props) {
                     <Button
                       disableRipple
                       className="bg-transparent p-0 text-lg text-white data-[hover=true]:bg-transparent"
-                      endContent={<FaAngleDown />}
+                      // endContent={<FaAngleDown />}
                       radius="sm"
                       variant="light"
                     >
@@ -1103,13 +1112,6 @@ export default function Nav({ user }: Props) {
                 )}
               </Dropdown>
             ))}
-
-        <Link
-          href="/"
-          className="rounded-md p-1 text-lg font-semibold text-gray-200 hover:text-gray-300"
-        >
-          Switch fiscal year
-        </Link>
       </NavbarContent>
 
       <NavbarContent justify="end">
@@ -1259,7 +1261,6 @@ export default function Nav({ user }: Props) {
                 </Dropdown>
               </NavbarMenuItem>
             ))}
-        <Link href="/">Switch fiscal year</Link>
       </NavbarMenu>
     </Navbar>
   )
