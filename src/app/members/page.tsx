@@ -9,20 +9,18 @@ export default function Home() {
     "चालुमा आ.व सम्पन्न योजना",
   ]
 
-  const getRandomNumber = () => Math.floor(Math.random() * 10) + 1
-
   return (
     <div className="mt-16 flex w-full flex-col items-center justify-center">
       <p className="p-2 font-semibold underline">हाल सम्मको योजनको जानकारी</p>
       <table>
-        {paragraphs.map((text, index) => (
-          <tr key={index} className="border border-gray-300">
-            <td className="border border-gray-300 px-3 py-2">{text}</td>
-            <td className="border border-gray-300 px-3 py-2">
-              {getRandomNumber()}
-            </td>
-          </tr>
-        ))}
+        <tbody>
+          {paragraphs.map((text, index) => (
+            <tr key={index} className="border border-gray-300">
+              <td className="border border-gray-300 px-3 py-2">{text}</td>
+              <td className="border border-gray-300 px-3 py-2">{index}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   )

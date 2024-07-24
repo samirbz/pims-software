@@ -20,6 +20,7 @@ export default function TopBanner() {
           height={100}
           alt="PIMS"
           priority
+          className="size-auto"
         />
       </Link>
 
@@ -31,6 +32,7 @@ export default function TopBanner() {
           height={40}
           alt="flag"
           priority
+          className="size-auto"
         />
         <BSDateDisplay />
       </div>
