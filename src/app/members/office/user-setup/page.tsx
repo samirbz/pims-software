@@ -357,88 +357,90 @@ export default function UserSetup() {
           >
             Add User
           </Button>
-          <Table
-            align="center"
-            aria-label="Example table with client side pagination"
-            className="w-[96%] min-w-[40rem] border-collapse border sm:w-full"
-            bottomContent={
-              <div className="flex w-full justify-center">
-                <Pagination
-                  isCompact
-                  showControls
-                  showShadow
-                  color="secondary"
-                  page={page}
-                  total={pages}
-                  onChange={(page) => setPage(page)}
-                />
-              </div>
-            }
-            classNames={{
-              wrapper: "min-h-[222px]",
-            }}
-          >
-            <TableHeader>
-              <TableColumn className=" bg-gray-200 text-black" key="snum">
-                सि.न.
-              </TableColumn>
-              <TableColumn className="bg-gray-200 text-black" key="name">
-                कर्मचारीको नाम
-              </TableColumn>
-              <TableColumn className="bg-gray-200 text-black" key="username">
-                प्रयोगकर्ताको ID
-              </TableColumn>
-              <TableColumn className="bg-gray-200 text-black" key="email">
-                ROLE
-              </TableColumn>
-              <TableColumn className="bg-gray-200 text-black" key="edit">
-                EDIT
-              </TableColumn>
-            </TableHeader>
-            <TableBody items={items}>
-              {(item: Member) => (
-                <TableRow key={item.id}>
-                  {(columnKey) => (
-                    <TableCell className="border">
-                      {columnKey === "edit" ? (
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button variant="shadow" size="sm">
-                              <MdModeEditOutline />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu aria-label="Static Actions">
-                            <DropdownItem
-                              key="reset-password"
-                              onPress={() => {
-                                setSelectedMemberId(item.id)
-                                onResetPasswordOpen()
-                              }}
-                            >
-                              Reset Password
-                            </DropdownItem>
+          <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-auto sm:mb-0 ">
+            <Table
+              align="center"
+              aria-label="Example table with client side pagination"
+              className="min-w-[40rem] border-collapse border"
+              bottomContent={
+                <div className="flex w-full justify-center">
+                  <Pagination
+                    isCompact
+                    showControls
+                    showShadow
+                    color="secondary"
+                    page={page}
+                    total={pages}
+                    onChange={(page) => setPage(page)}
+                  />
+                </div>
+              }
+              classNames={{
+                wrapper: "min-h-[222px]",
+              }}
+            >
+              <TableHeader>
+                <TableColumn className=" bg-gray-200 text-black" key="snum">
+                  सि.न.
+                </TableColumn>
+                <TableColumn className="bg-gray-200 text-black" key="name">
+                  कर्मचारीको नाम
+                </TableColumn>
+                <TableColumn className="bg-gray-200 text-black" key="username">
+                  प्रयोगकर्ताको ID
+                </TableColumn>
+                <TableColumn className="bg-gray-200 text-black" key="email">
+                  ROLE
+                </TableColumn>
+                <TableColumn className="bg-gray-200 text-black" key="edit">
+                  EDIT
+                </TableColumn>
+              </TableHeader>
+              <TableBody items={items}>
+                {(item: Member) => (
+                  <TableRow key={item.id}>
+                    {(columnKey) => (
+                      <TableCell className="border">
+                        {columnKey === "edit" ? (
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button variant="shadow" size="sm">
+                                <MdModeEditOutline />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Static Actions">
+                              <DropdownItem
+                                key="reset-password"
+                                onPress={() => {
+                                  setSelectedMemberId(item.id)
+                                  onResetPasswordOpen()
+                                }}
+                              >
+                                Reset Password
+                              </DropdownItem>
 
-                            <DropdownItem
-                              key="delete"
-                              className="text-danger"
-                              color="danger"
-                              onClick={() => handleDelete(item.id)}
-                            >
-                              Delete user
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      ) : columnKey === "snum" ? (
-                        items.indexOf(item) + 1 + (page - 1) * rowsPerPage
-                      ) : (
-                        getKeyValue(item, columnKey)
-                      )}
-                    </TableCell>
-                  )}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                              <DropdownItem
+                                key="delete"
+                                className="text-danger"
+                                color="danger"
+                                onClick={() => handleDelete(item.id)}
+                              >
+                                Delete user
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        ) : columnKey === "snum" ? (
+                          items.indexOf(item) + 1 + (page - 1) * rowsPerPage
+                        ) : (
+                          getKeyValue(item, columnKey)
+                        )}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </div>
     </>

@@ -270,7 +270,7 @@ export default function StaffDetailPage() {
           )}
         </ModalContent>
       </Modal>
-      <div className="mt-8 flex flex-col items-center ">
+      <div className="mt-8 flex w-full justify-center">
         <div className=" w-full px-4 text-center sm:w-auto">
           <h1 className="form-title">कर्मचारी विवरण</h1>
           <Button
@@ -281,97 +281,99 @@ export default function StaffDetailPage() {
           >
             Add Staff
           </Button>
-          <Table
-            align="center"
-            aria-label="Example table with client side pagination"
-            className="w-[96%] min-w-[40rem] border-collapse border sm:w-full"
-            bottomContent={
-              <div className="flex w-full justify-center">
-                <Pagination
-                  isCompact
-                  showControls
-                  showShadow
-                  color="secondary"
-                  page={page}
-                  total={pages}
-                  onChange={(page) => setPage(page)}
-                />
-              </div>
-            }
-            classNames={{
-              wrapper: "min-h-[222px]",
-            }}
-          >
-            <TableHeader>
-              <TableColumn
-                key="snum"
-                className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-              >
-                सि.न.
-              </TableColumn>
-              <TableColumn
-                key="name"
-                className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-              >
-                कर्मचारीको नाम
-              </TableColumn>
-              <TableColumn
-                key="position"
-                className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-              >
-                पद{" "}
-              </TableColumn>
-              <TableColumn
-                key="ranking"
-                className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-              >
-                वरियता क्रम
-              </TableColumn>
-              <TableColumn
-                key="edit"
-                className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-              >
-                EDIT
-              </TableColumn>
-            </TableHeader>
-            <TableBody items={items}>
-              {(item: Member) => (
-                <TableRow key={item.id}>
-                  {(columnKey) => (
-                    <TableCell className="border">
-                      {columnKey === "edit" ? (
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button
-                              className="-z-10"
-                              variant="shadow"
-                              size="sm"
-                            >
-                              <MdModeEditOutline />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu aria-label="Static Actions">
-                            <DropdownItem
-                              key="delete"
-                              className="text-danger"
-                              color="danger"
-                              onClick={() => handleDelete(item.id)}
-                            >
-                              De-activate
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      ) : columnKey === "snum" ? (
-                        items.indexOf(item) + 1 + (page - 1) * rowsPerPage
-                      ) : (
-                        getKeyValue(item, columnKey)
-                      )}
-                    </TableCell>
-                  )}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-auto sm:mb-0 ">
+            <Table
+              align="center"
+              aria-label="Example table with client side pagination"
+              className="min-w-[40rem] border-collapse border"
+              bottomContent={
+                <div className="flex w-full justify-center">
+                  <Pagination
+                    isCompact
+                    showControls
+                    showShadow
+                    color="secondary"
+                    page={page}
+                    total={pages}
+                    onChange={(page) => setPage(page)}
+                  />
+                </div>
+              }
+              classNames={{
+                wrapper: "min-h-[222px]",
+              }}
+            >
+              <TableHeader>
+                <TableColumn
+                  key="snum"
+                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                >
+                  सि.न.
+                </TableColumn>
+                <TableColumn
+                  key="name"
+                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                >
+                  कर्मचारीको नाम
+                </TableColumn>
+                <TableColumn
+                  key="position"
+                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                >
+                  पद{" "}
+                </TableColumn>
+                <TableColumn
+                  key="ranking"
+                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                >
+                  वरियता क्रम
+                </TableColumn>
+                <TableColumn
+                  key="edit"
+                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                >
+                  EDIT
+                </TableColumn>
+              </TableHeader>
+              <TableBody items={items}>
+                {(item: Member) => (
+                  <TableRow key={item.id}>
+                    {(columnKey) => (
+                      <TableCell className="border">
+                        {columnKey === "edit" ? (
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button
+                                className="-z-10"
+                                variant="shadow"
+                                size="sm"
+                              >
+                                <MdModeEditOutline />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Static Actions">
+                              <DropdownItem
+                                key="delete"
+                                className="text-danger"
+                                color="danger"
+                                onClick={() => handleDelete(item.id)}
+                              >
+                                De-activate
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                        ) : columnKey === "snum" ? (
+                          items.indexOf(item) + 1 + (page - 1) * rowsPerPage
+                        ) : (
+                          getKeyValue(item, columnKey)
+                        )}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </div>
     </>

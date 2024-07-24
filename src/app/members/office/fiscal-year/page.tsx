@@ -109,8 +109,8 @@ export default function FiscalYearPage() {
           </Button>
         </div>
         <br />
-        <div className="mb-2 max-h-[22rem] w-auto overflow-auto sm:mb-0">
-          <table className="min-w-[40rem]">
+        <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-auto sm:mb-0">
+          <table className="min-w-[40rem]  ">
             <thead className="sticky top-0 border-r-2 bg-purple-400">
               <tr>
                 <th className=" px-4 py-2">सि.न.</th>
