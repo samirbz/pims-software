@@ -57,8 +57,8 @@ export default function FiscalYearPage() {
 
   return (
     <div className="mt-8 flex flex-col items-center">
-      <div className="w-full px-4 sm:w-auto">
-        <h1 className="self-start text-2xl">अर्थिक बर्ष सेट अप</h1>
+      <div className="w-full px-4 text-center sm:w-auto">
+        <h1 className="text-2xl font-semibold">अर्थिक बर्ष सेट अप</h1>
         <br />
         <div className="flex flex-col gap-8 md:flex-row">
           <div className="flex items-center gap-4">
@@ -86,7 +86,7 @@ export default function FiscalYearPage() {
         </div>
         <br />
         <div className="flex items-center gap-4">
-          <p>arthik barsha</p>
+          <p>आर्थिक बर्ष </p>
           <select
             className="rounded-lg  border p-1 "
             value={fy}

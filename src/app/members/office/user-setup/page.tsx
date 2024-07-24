@@ -241,7 +241,7 @@ export default function UserSetup() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className="flex flex-col gap-1 ">
                 User setup
               </ModalHeader>
 
@@ -347,8 +347,8 @@ export default function UserSetup() {
         </ModalContent>
       </Modal>
       <div className="flex w-full justify-center">
-        <div className="mt-8 flex w-[97%] flex-col items-center gap-2 sm:w-1/2">
-          <h1 className="text-2xl font-semibold">User Setup</h1>
+        <div className="mt-8 flex w-[97%] flex-col items-center gap-3 sm:w-1/2">
+          <h1 className="text-2xl font-semibold">USER SETUP</h1>
           <Button onPress={onOpen} startContent={<FaPlus />} color="primary">
             Add User
           </Button>
@@ -374,19 +374,19 @@ export default function UserSetup() {
             }}
           >
             <TableHeader>
-              <TableColumn className=" bg-purple-400 text-black" key="snum">
+              <TableColumn className=" bg-gray-200 text-black" key="snum">
                 सि.न.
               </TableColumn>
-              <TableColumn className="bg-purple-400 text-black" key="name">
+              <TableColumn className="bg-gray-200 text-black" key="name">
                 कर्मचारीको नाम
               </TableColumn>
-              <TableColumn className="bg-purple-400 text-black" key="username">
+              <TableColumn className="bg-gray-200 text-black" key="username">
                 प्रयोगकर्ताको ID
               </TableColumn>
-              <TableColumn className="bg-purple-400 text-black" key="email">
+              <TableColumn className="bg-gray-200 text-black" key="email">
                 ROLE
               </TableColumn>
-              <TableColumn className="bg-purple-400 text-black" key="edit">
+              <TableColumn className="bg-gray-200 text-black" key="edit">
                 EDIT
               </TableColumn>
             </TableHeader>
