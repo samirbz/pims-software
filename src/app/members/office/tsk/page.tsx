@@ -294,7 +294,7 @@ export default function TskPage() {
             <tbody>
               {tskDetails.map((item, index) => (
                 <tr key={item.id}>
-                  <td className="border  px-4 py-2">{index + 1}</td>
+                  <td className="border px-4 py-2">{index + 1}</td>
                   <td className="border px-4 py-2">{item.tayarGarneKoName}</td>
                   <td className="border px-4 py-2">{item.tayarGarneKoPad}</td>
                   <td className="border px-4 py-2">{item.peshGarneKoName}</td>

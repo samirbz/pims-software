@@ -109,19 +109,15 @@ export default function FiscalYearPage() {
           </Button>
         </div>
         <br />
-        <div className="overflow-x-auto">
-          <table className="min-w-[40rem] border-collapse border border-gray-200">
-            <thead>
+        <div className="mb-2 max-h-[22rem] w-auto overflow-auto sm:mb-0">
+          <table className="min-w-[40rem]">
+            <thead className="sticky top-0 z-50 border-r-2 bg-purple-400">
               <tr>
-                <th className="border border-gray-200 px-4 py-2">सि.न.</th>
-                <th className="border border-gray-200 px-4 py-2">
-                  आ.व सुरु मिति
-                </th>
-                <th className="border border-gray-200 px-4 py-2">
-                  आ.व अन्तिम मिति
-                </th>
-                <th className="border border-gray-200 px-4 py-2">आ.व</th>
-                <th className="border border-gray-200 px-4 py-2">Edit</th>
+                <th className=" px-4 py-2">सि.न.</th>
+                <th className=" px-4 py-2">आ.व सुरु मिति</th>
+                <th className=" px-4 py-2">आ.व अन्तिम मिति</th>
+                <th className=" px-4 py-2">आ.व</th>
+                <th className=" px-4 py-2">Edit</th>
               </tr>
             </thead>
             <tbody>

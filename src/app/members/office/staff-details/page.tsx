@@ -279,7 +279,7 @@ export default function StaffDetailPage() {
           <Table
             align="center"
             aria-label="Example table with client side pagination"
-            className="w-[96%] sm:w-full"
+            className="w-[96%] min-w-[40rem] border-collapse border sm:w-full"
             bottomContent={
               <div className="flex w-full justify-center">
                 <Pagination
@@ -298,11 +298,36 @@ export default function StaffDetailPage() {
             }}
           >
             <TableHeader>
-              <TableColumn key="snum">सि.न.</TableColumn>
-              <TableColumn key="name">कर्मचारीको नाम</TableColumn>
-              <TableColumn key="position">पद </TableColumn>
-              <TableColumn key="ranking">वरियता क्रम</TableColumn>
-              <TableColumn key="edit">EDIT</TableColumn>
+              <TableColumn
+                key="snum"
+                className="sticky top-0 z-50  bg-purple-400 px-4 py-2 text-black"
+              >
+                सि.न.
+              </TableColumn>
+              <TableColumn
+                key="name"
+                className="sticky top-0 z-50  bg-purple-400 px-4 py-2 text-black"
+              >
+                कर्मचारीको नाम
+              </TableColumn>
+              <TableColumn
+                key="position"
+                className="sticky top-0 z-50  bg-purple-400 px-4 py-2 text-black"
+              >
+                पद{" "}
+              </TableColumn>
+              <TableColumn
+                key="ranking"
+                className="sticky top-0 z-50  bg-purple-400 px-4 py-2 text-black"
+              >
+                वरियता क्रम
+              </TableColumn>
+              <TableColumn
+                key="edit"
+                className="sticky top-0 z-50  bg-purple-400 px-4 py-2 text-black"
+              >
+                EDIT
+              </TableColumn>
             </TableHeader>
             <TableBody items={items}>
               {(item: Member) => (

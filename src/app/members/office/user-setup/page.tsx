@@ -355,7 +355,7 @@ export default function UserSetup() {
           <Table
             align="center"
             aria-label="Example table with client side pagination"
-            className="w-[96%] sm:w-full"
+            className="w-[96%] min-w-[40rem] border-collapse border sm:w-full"
             bottomContent={
               <div className="flex w-full justify-center">
                 <Pagination
@@ -374,11 +374,21 @@ export default function UserSetup() {
             }}
           >
             <TableHeader>
-              <TableColumn key="snum">सि.न.</TableColumn>
-              <TableColumn key="name">कर्मचारीको नाम</TableColumn>
-              <TableColumn key="username">प्रयोगकर्ताको ID</TableColumn>
-              <TableColumn key="email">ROLE</TableColumn>
-              <TableColumn key="edit">EDIT</TableColumn>
+              <TableColumn className=" bg-purple-400 text-black" key="snum">
+                सि.न.
+              </TableColumn>
+              <TableColumn className="bg-purple-400 text-black" key="name">
+                कर्मचारीको नाम
+              </TableColumn>
+              <TableColumn className="bg-purple-400 text-black" key="username">
+                प्रयोगकर्ताको ID
+              </TableColumn>
+              <TableColumn className="bg-purple-400 text-black" key="email">
+                ROLE
+              </TableColumn>
+              <TableColumn className="bg-purple-400 text-black" key="edit">
+                EDIT
+              </TableColumn>
             </TableHeader>
             <TableBody items={items}>
               {(item: Member) => (
