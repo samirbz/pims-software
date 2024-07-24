@@ -20,20 +20,15 @@ export default function MukhyaSamiti() {
 
         <br />
         <div className="flex w-auto flex-col sm:gap-2">
-          <div className="flex w-full gap-2">
-            <Input
-              type="text"
-              label="मुख्य समिती को नाम"
-              size="sm"
-              className="w-full"
-            />
+          <div className="flex gap-2">
+            <Input type="text" label="मुख्य समिती को नाम" size="sm" />
             <Button color="secondary" startContent={<FaRegSave />}>
               Save
             </Button>
           </div>
           <br />
           <div className="mb-2 max-h-[22rem] w-auto overflow-auto sm:mb-0">
-            <table className="min-w-[40rem] border-collapse border ">
+            <table className="min-w-[30rem] border-collapse border ">
               <thead className="sticky top-0  border-r-2 bg-purple-400 ">
                 <tr>
                   <th className=" px-4 py-2">सि.न.</th>
@@ -42,9 +37,9 @@ export default function MukhyaSamiti() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="border px-4 py-2"></td>
-                  <td className="border px-4 py-2"></td>
+                <tr className="w-auto text-center">
+                  <td className="border px-4 py-2">dfdffgfgfgfgfgfgfgfd</td>
+                  <td className="border px-4 py-2">dfdfdf</td>
                   <td className="border px-4 py-2">
                     <Dropdown>
                       <DropdownTrigger>
