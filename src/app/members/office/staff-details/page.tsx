@@ -337,7 +337,11 @@ export default function StaffDetailPage() {
                       {columnKey === "edit" ? (
                         <Dropdown>
                           <DropdownTrigger>
-                            <Button variant="shadow" size="sm">
+                            <Button
+                              className="-z-10"
+                              variant="shadow"
+                              size="sm"
+                            >
                               <MdModeEditOutline />
                             </Button>
                           </DropdownTrigger>
