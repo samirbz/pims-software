@@ -111,7 +111,7 @@ export default function FiscalYearPage() {
         <br />
         <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-auto sm:mb-0">
           <table className="min-w-[40rem]  ">
-            <thead className="sticky top-0 border-r-2 bg-purple-400">
+            <thead className="sticky top-0 z-20 border-r-2 bg-purple-400">
               <tr>
                 <th className=" px-4 py-2">सि.न.</th>
                 <th className=" px-4 py-2">आ.व सुरु मिति</th>
@@ -138,7 +138,7 @@ export default function FiscalYearPage() {
                   <td className="border border-gray-200 px-4 py-2">
                     <Dropdown>
                       <DropdownTrigger>
-                        <Button className="-z-10" variant="shadow" size="sm">
+                        <Button className="z-10" variant="shadow" size="sm">
                           <MdModeEditOutline />
                         </Button>
                       </DropdownTrigger>

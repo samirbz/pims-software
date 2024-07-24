@@ -379,7 +379,7 @@ export default function UserSetup() {
                 wrapper: "min-h-[222px]",
               }}
             >
-              <TableHeader>
+              <TableHeader className="z-20">
                 <TableColumn className=" bg-gray-200 text-black" key="snum">
                   सि.न.
                 </TableColumn>
@@ -404,7 +404,11 @@ export default function UserSetup() {
                         {columnKey === "edit" ? (
                           <Dropdown>
                             <DropdownTrigger>
-                              <Button variant="shadow" size="sm">
+                              <Button
+                                variant="shadow"
+                                size="sm"
+                                className="z-10"
+                              >
                                 <MdModeEditOutline />
                               </Button>
                             </DropdownTrigger>

@@ -1191,7 +1191,7 @@ export default function Nav({ user }: Props) {
         </Dropdown>
       </NavbarContent>
 
-      <NavbarMenu className="mt-20">
+      <NavbarMenu className="z-50 mt-20">
         {user?.email === "user"
           ? menuConfig.map((menu, index) => (
               <NavbarMenuItem key={`${menu.title}-${index}`}>

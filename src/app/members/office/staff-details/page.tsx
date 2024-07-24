@@ -303,7 +303,7 @@ export default function StaffDetailPage() {
                 wrapper: "min-h-[222px]",
               }}
             >
-              <TableHeader>
+              <TableHeader className="z-20">
                 <TableColumn
                   key="snum"
                   className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
@@ -344,7 +344,7 @@ export default function StaffDetailPage() {
                           <Dropdown>
                             <DropdownTrigger>
                               <Button
-                                className="-z-10"
+                                className="z-10"
                                 variant="shadow"
                                 size="sm"
                               >
