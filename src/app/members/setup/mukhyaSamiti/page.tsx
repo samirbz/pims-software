@@ -36,8 +36,8 @@ export default function MukhyaSamiti() {
               </thead>
               <tbody>
                 <tr className="w-auto text-center">
-                  <td className="border px-4 py-2">dfdffgfgfgfgfgfgfgfd</td>
-                  <td className="border px-4 py-2">dfdfdf</td>
+                  <td className="border px-4 py-2"></td>
+                  <td className="border px-4 py-2"></td>
                   <td className="border px-4 py-2">
                     <Dropdown>
                       <DropdownTrigger>

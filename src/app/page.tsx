@@ -38,19 +38,19 @@ export default function LoginForm() {
   const toggleVisibility = () => setIsVisible(!isVisible)
 
   return (
-    <div className="flex h-screen w-full justify-center bg-gradient-to-t from-blue-200 to-blue-800">
-      <Card className=" relative mt-32 h-[27rem] w-10/12 sm:w-[26rem]">
-        <CardHeader className="flex justify-between">
-          <Image
-            src="/images/gov-logo.png"
-            alt="logo"
-            width={70}
-            height={70}
-            className="mb-20 size-auto"
-            priority
-          />
-          <div className="flex flex-col items-center gap-1">
-            <p className="mr-4 text-[1rem] font-semibold text-blue-600 sm:text-2xl">
+    <div className="flex h-screen w-full items-center justify-center bg-gradient-to-t from-blue-200 to-blue-800">
+      <Card className=" h-[29rem] w-10/12 sm:w-[26rem]">
+        <CardHeader className="flex justify-center">
+          <div className="flex flex-col items-center">
+            <Image
+              src="/images/gov-logo.png"
+              alt="logo"
+              width={50}
+              height={50}
+              className=" size-auto"
+              priority
+            />
+            <p className="mr-4 text-xl font-semibold text-blue-600 sm:text-2xl">
               वाणगङ्गा नगरपालिका
             </p>
             <p className="mt-2 whitespace-nowrap text-sm font-semibold text-red-600 sm:text-lg">
@@ -58,19 +58,19 @@ export default function LoginForm() {
             </p>
             <p className="mr-4 text-lg font-semibold text-red-600">कपिलवस्तु</p>
           </div>
-          <Image
+          {/* <Image
             src="/images/flag.gif"
             alt="flag"
             width={40}
             height={50}
             className="mb-24"
-          />
+          /> */}
         </CardHeader>
 
         <CardBody>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="ml-4 flex h-2/5 w-11/12 flex-col items-center space-y-4"
+            className="ml-4 flex h-2/5 w-11/12 flex-col items-center space-y-6"
           >
             <Input
               defaultValue=""
