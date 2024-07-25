@@ -281,11 +281,11 @@ export default function StaffDetailPage() {
           >
             Add Staff
           </Button>
-          <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-x-auto sm:mb-0 ">
+          <div className="mb-2 size-auto max-w-[90rem] overflow-x-auto sm:mb-0 ">
             <Table
               align="center"
               aria-label="Example table with client side pagination"
-              className="min-w-[40rem] border-collapse border"
+              className="min-w-[40rem] border-collapse"
               bottomContent={
                 <div className="flex w-full justify-center">
                   <Pagination
