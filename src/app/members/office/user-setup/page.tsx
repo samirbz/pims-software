@@ -357,7 +357,7 @@ export default function UserSetup() {
           >
             Add User
           </Button>
-          <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] sm:mb-0 ">
+          <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-x-auto sm:mb-0 ">
             <Table
               align="center"
               aria-label="Example table with client side pagination"
