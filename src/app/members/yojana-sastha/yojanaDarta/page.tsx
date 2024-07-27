@@ -16,7 +16,7 @@ import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import "nepali-datepicker-reactjs/dist/index.css"
 
-export const animals = [
+const animals = [
   { key: "cat", label: "1234567890123456789" },
   { key: "dog", label: "Dog" },
   { key: "elephant", label: "Elephant" },
