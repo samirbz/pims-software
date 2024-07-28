@@ -10,9 +10,10 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react"
+import React, { useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
-import { useState } from "react"
-import { FaRegSave } from "react-icons/fa"
+
+import { FaPlus, FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import "nepali-datepicker-reactjs/dist/index.css"
 
@@ -34,6 +35,27 @@ const animals = [
 
 export default function YojanaDarta() {
   const [date, setDate] = useState<string>("")
+  const [divs, setDivs] = useState<React.JSX.Element[]>([])
+
+  const addDiv = () => {
+    setDivs([
+      ...divs,
+      <div className="flex w-full items-center gap-2" key={divs.length}>
+        <p className="text-sm">लागत&nbsp;श्रोत</p>
+        <Select label="" className="w-1/4" size="sm">
+          {animals.map((animal) => (
+            <SelectItem key={animal.key}>{animal.label}</SelectItem>
+          ))}
+        </Select>
+        <Select label="" className="w-1/2" size="sm">
+          {animals.map((animal) => (
+            <SelectItem key={animal.key}>{animal.label}</SelectItem>
+          ))}
+        </Select>
+        <Input type="text" className="w-1/4" size="sm" />
+      </div>,
+    ])
+  }
 
   return (
     <div>
@@ -72,7 +94,7 @@ export default function YojanaDarta() {
                   <SelectItem key={animal.key}>{animal.label}</SelectItem>
                 ))}
               </Select>
-              <div className="flex w-full items-center gap-2">
+              {/* <div className="flex w-full items-center gap-2">
                 <p className="text-sm">लागत&nbsp;श्रोत</p>
                 <Select label="" className="w-1/4" size="sm">
                   {animals.map((animal) => (
@@ -85,7 +107,28 @@ export default function YojanaDarta() {
                   ))}
                 </Select>
                 <Input type="text" className="w-1/4" size="sm" />
+              </div> */}
+              <div className="flex flex-col gap-2">
+                <div className="flex w-full items-center gap-2">
+                  <p className="text-sm">लागत&nbsp;श्रोत</p>
+                  <Select label="" className="w-1/4" size="sm">
+                    {animals.map((animal) => (
+                      <SelectItem key={animal.key}>{animal.label}</SelectItem>
+                    ))}
+                  </Select>
+                  <Select label="" className="w-1/2" size="sm">
+                    {animals.map((animal) => (
+                      <SelectItem key={animal.key}>{animal.label}</SelectItem>
+                    ))}
+                  </Select>
+                  <Input type="text" className="w-1/4" size="sm" />
+                </div>
+                {divs.map((div, index) => (
+                  <div key={index}>{div}</div>
+                ))}
+                <FaPlus className="self-end text-blue-600" onClick={addDiv} />
               </div>
+
               <Select label="आयोजना उपक्षेत्र" className="w-full" size="sm">
                 {animals.map((animal) => (
                   <SelectItem key={animal.key}>{animal.label}</SelectItem>
@@ -197,7 +240,7 @@ export default function YojanaDarta() {
               <Button
                 color="secondary"
                 startContent={<FaRegSave />}
-                className="w-12"
+                className="mb-1 w-12"
               >
                 Save
               </Button>
