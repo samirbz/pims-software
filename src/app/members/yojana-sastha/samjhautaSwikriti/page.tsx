@@ -57,7 +57,6 @@ export default function SamjhautaSwikriti() {
               label="संस्थाको व्यक्तिको नाम"
               size="sm"
               className="w-[66.66%]"
-              value="12345"
             />
             <br />
             <div className="flex gap-2">
