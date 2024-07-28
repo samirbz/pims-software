@@ -58,7 +58,6 @@ export default function SamjhautaSwikriti() {
               size="sm"
               className="w-[66.66%]"
             />
-            <br />
             <div className="flex gap-2">
               <Input
                 isDisabled
@@ -107,7 +106,6 @@ export default function SamjhautaSwikriti() {
               className="w-2/5"
             />
             <Input type="text" label="मुख्य समितिको नाम" size="sm" />
-            <br />
             <Textarea label="अन्य टिप्पणी विवरण" className="w-full" />
 
             <Button
