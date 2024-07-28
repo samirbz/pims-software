@@ -234,8 +234,8 @@ export default function YojanaDarta() {
                 <Input type="text" size="sm" />
               </div>
               <div className="flex gap-4">
-                <Checkbox defaultSelected>वार्षिक&nbsp;योजना</Checkbox>
-                <Checkbox defaultSelected>क्रमागत&nbsp;योजना</Checkbox>
+                <Checkbox>वार्षिक&nbsp;योजना</Checkbox>
+                <Checkbox>क्रमागत&nbsp;योजना</Checkbox>
               </div>
               <Button
                 color="secondary"
