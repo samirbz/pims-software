@@ -25,13 +25,13 @@ export default function MyadThapPatra() {
   ]
 
   return (
-    <div className="mt-8 flex w-full flex-col items-center">
+    <div className="mt-8 flex w-full flex-col items-center overflow-auto">
       <div className="w-full px-4 sm:w-2/5">
         <h1 className="form-title">योजनाको म्याद थप टिप्पणी र चिठ्ठी</h1>
         <br />
         <div className="flex w-auto flex-col sm:gap-2">
           <div className="flex flex-col gap-2">
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-col justify-between gap-2 sm:flex-row">
               <Input type="text" label="आ.व." size="sm" className="w-1/4" />
               <Checkbox className="mr-8">यदी पुरानो आ.व. को योजना</Checkbox>
               <form className="flex items-center gap-2 ">

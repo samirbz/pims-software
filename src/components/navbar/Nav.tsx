@@ -173,12 +173,12 @@ export default function Nav({ user }: Props) {
         {
           key: "item20",
           title: "योजना दर्ता वडा तथा अन्य",
-          link: "/members/yojanaDarta",
+          link: "/members/yojana-sastha/yojanaDartaWoda",
         },
         {
           key: "item21",
           title: "योजना टिप्पणी आदेश",
-          link: "/members/yojana-sastha/yojana-sastha/",
+          link: "/members/yojana-sastha/yojanaTippani/",
         },
         {
           key: "item22",
@@ -641,12 +641,12 @@ export default function Nav({ user }: Props) {
         {
           key: "item20",
           title: "योजना दर्ता वडा तथा अन्य",
-          link: "/members/yojanaDarta",
+          link: "/members/yojana-sastha/yojanaDartaWoda",
         },
         {
           key: "item21",
           title: "योजना टिप्पणी आदेश",
-          link: "/members/yojana-sastha/yojana-sastha/",
+          link: "/members/yojana-sastha/yojanaTippani/",
         },
         {
           key: "item22",
