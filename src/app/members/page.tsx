@@ -17,7 +17,7 @@ export default function Home() {
         </h1>
         <table className="min-w-80 border-collapse overflow-hidden rounded-lg border shadow-lg">
           <thead>
-            <tr className="bg-blue-600 text-white">
+            <tr className="bg-purple-600 text-white">
               <th className="px-3 py-2 text-left">योजना</th>
               <th className="px-3 py-2 text-left">क्रम संख्या</th>
             </tr>
