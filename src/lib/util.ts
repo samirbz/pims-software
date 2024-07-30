@@ -20,3 +20,17 @@ export function handleFormServerErrors<TFieldValues extends FieldValues>(
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }
+
+export const ConvertToNepaliNumerals = (number: string): string => {
+  const nepaliNumerals = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"]
+  return number
+    .split("")
+    .map((char) => {
+      if (char >= "0" && char <= "9") {
+        return nepaliNumerals[parseInt(char)]
+      }
+      return char
+    })
+    .join("")
+}
+
