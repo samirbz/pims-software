@@ -1,14 +1,10 @@
-import UserNav from "@/components/navbar/UserNav"
-import TopBanner from "@/components/TopBanner"
 import React from "react"
+import { AntdRegistry } from "@ant-design/nextjs-registry"
 
-
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: React.PropsWithChildren) {
   return (
     <main>
-      <TopBanner />
-      <UserNav />
-      {children}
+      <AntdRegistry>{children}</AntdRegistry>
     </main>
   )
 }
