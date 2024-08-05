@@ -14,6 +14,10 @@ import type { MenuProps } from "antd"
 import { Breadcrumb, Layout, Menu, theme } from "antd"
 import Link from "next/link"
 import Image from "next/image"
+import StaffDetailPage from "@/components/menuItems/office/StaffDetails"
+import UserSetup from "@/components/menuItems/office/UserSetup"
+import FiscalYearPage from "@/components/menuItems/office/FiscalYear"
+import TskPage from "@/components/menuItems/office/Tsk"
 
 const { Header, Content, Sider } = Layout
 
@@ -160,9 +164,37 @@ const items: MenuItem[] = [
 
 const Nav = () => {
   const [collapsed, setCollapsed] = useState(false)
+  const [selectedKey, setSelectedKey] = useState("1")
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
+
+  const handleMenuClick = ({ key }: { key: string }) => {
+    setSelectedKey(key)
+  }
+
+  const renderContent = () => {
+    switch (selectedKey) {
+      case "1":
+        return <StaffDetailPage />
+      case "2":
+        return <UserSetup />
+      case "3":
+        return <FiscalYearPage />
+      case "4":
+        return <TskPage />
+      case "5":
+        return <div>Team </div>
+      case "6":
+        return <div>Team 1 Content</div>
+      case "8":
+        return <div>Team 2 Content</div>
+      case "9":
+        return <div>Files Content</div>
+      default:
+        return <div>Home Content</div>
+    }
+  }
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -183,6 +215,7 @@ const Nav = () => {
           mode="inline"
           items={items}
           style={{ fontSize: "1rem" }}
+          onClick={handleMenuClick}
         />
       </Sider>
       <Layout>
@@ -213,7 +246,7 @@ const Nav = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            Dashboard
+            {renderContent()} {/* Render content based on selected key */}
           </div>
         </Content>
       </Layout>
