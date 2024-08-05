@@ -58,13 +58,6 @@ export default function LoginForm() {
             </p>
             <p className="mr-4 text-lg font-semibold text-red-600">कपिलवस्तु</p>
           </div>
-          {/* <Image
-            src="/images/flag.gif"
-            alt="flag"
-            width={40}
-            height={50}
-            className="mb-24"
-          /> */}
         </CardHeader>
 
         <CardBody>

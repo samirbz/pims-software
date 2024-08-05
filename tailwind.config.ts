@@ -16,8 +16,7 @@ const config: Config = {
     },
   },
   fontFamily: {
-    inter: ["var(--font-inter)"],
-    spaceGrotesk: ["var(--font-spaceGrotesk)"],
+    mukta: ["var(--font-mukta)"],
   },
   darkMode: "class",
   plugins: [nextui()],
