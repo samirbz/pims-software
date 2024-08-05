@@ -4,7 +4,7 @@ import ProjectCount from "./ProjectCount"
 
 export default function Dashboard() {
   return (
-    <div className="flex justify-center gap-40">
+    <div className="flex gap-40">
       <ProjectCount />
       <BarChart />
     </div>
