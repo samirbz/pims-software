@@ -18,6 +18,7 @@ import StaffDetailPage from "@/components/menuItems/office/StaffDetails"
 import UserSetup from "@/components/menuItems/office/UserSetup"
 import FiscalYearPage from "@/components/menuItems/office/FiscalYear"
 import TskPage from "@/components/menuItems/office/Tsk"
+import Dashboard from "@/components/menuItems/Dashboard"
 
 const { Header, Content, Sider } = Layout
 
@@ -164,7 +165,7 @@ const items: MenuItem[] = [
 
 const Nav = () => {
   const [collapsed, setCollapsed] = useState(false)
-  const [selectedKey, setSelectedKey] = useState("1")
+  const [selectedKey, setSelectedKey] = useState("0")
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
@@ -192,7 +193,7 @@ const Nav = () => {
       case "9":
         return <div>Files Content</div>
       default:
-        return <div>Home Content</div>
+        return <Dashboard />
     }
   }
 
