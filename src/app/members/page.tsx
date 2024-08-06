@@ -12,7 +12,6 @@ import {
 } from "@ant-design/icons"
 import type { MenuProps } from "antd"
 import { Breadcrumb, Layout, Menu, theme } from "antd"
-import Link from "next/link"
 import Image from "next/image"
 import { getSessionDetail } from "@/actions/authActions"
 
