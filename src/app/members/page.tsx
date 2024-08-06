@@ -10,6 +10,8 @@ import {
   SketchOutlined,
   CopyOutlined,
 } from "@ant-design/icons"
+import { MdOutlinePhonelinkSetup } from "react-icons/md"
+
 import type { MenuProps } from "antd"
 import { Layout, Menu, theme } from "antd"
 import Image from "next/image"
@@ -105,7 +107,7 @@ const menuItems: MenuItem[] = [
     getItem("आर्थिक वर्ष", "3"),
     getItem("टिप्पणी सदर गर्ने कर्मचारी", "4"),
   ]),
-  getItem("सेटअप", "sub2", <UserOutlined />, [
+  getItem("सेटअप", "sub2", <MdOutlinePhonelinkSetup />, [
     getItem("मुख्य समिति", "5"),
     getItem(" अनुदान किसिम", "6"),
     getItem("लागत श्रोत", "7"),
@@ -454,8 +456,6 @@ const Nav = () => {
     setOpenKeys(keys.length ? [keys[keys.length - 1]] : [])
   }
 
-  const defaultSelectedKeys = userd?.email === "admin" ? ["1"] : ["5"]
-
   const filteredMenuItems =
     userd?.email === "admin"
       ? menuItems
@@ -499,7 +499,6 @@ const Nav = () => {
 
         <Menu
           theme="dark"
-          defaultSelectedKeys={defaultSelectedKeys}
           mode="inline"
           items={filteredMenuItems}
           onClick={handleMenuClick}
