@@ -105,7 +105,6 @@ export async function staffRegister(
         isuser,
       },
     })
-    revalidatePath("/members/staff-details")
     return { status: "success", data: user }
   } catch (error) {
     console.log(error)

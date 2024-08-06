@@ -38,7 +38,6 @@ export async function deleteFyDate(id: string) {
     await prisma.fiscalyear.delete({
       where: { id },
     })
-    revalidatePath("/members/office/fiscal-year")
     return { status: "success" }
   } catch (error) {
     console.error("Failed to delete date:", error)

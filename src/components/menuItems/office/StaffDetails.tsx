@@ -55,11 +55,12 @@ export default function StaffDetailPage() {
   const [members, setMembers] = useState([])
   const [deleteUserId, setDeleteUserId] = useState("")
 
+  async function fetchMembers() {
+    const member: any = await getStaff()
+    setMembers(member)
+  }
+
   useEffect(() => {
-    async function fetchMembers() {
-      const member: any = await getStaff()
-      setMembers(member)
-    }
     fetchMembers()
   }, [])
 
@@ -82,7 +83,8 @@ export default function StaffDetailPage() {
     try {
       const result = await deleteStaff(deleteUserId)
       if (result.status === "success") {
-        window.location.reload()
+        // window.location.reload()
+        fetchMembers()
       } else {
         console.error("Delete unsuccessful:")
       }
@@ -96,6 +98,7 @@ export default function StaffDetailPage() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid, isSubmitting },
   } = useForm<StaffRegisterSchema>({
     // resolver: zodResolver(registerSchema),
@@ -107,8 +110,9 @@ export default function StaffDetailPage() {
 
     if (result.status === "success") {
       toast.success("User created successfully")
-      window.location.reload()
-      // Optionally redirect or refresh
+      // window.location.reload()
+      reset()
+      fetchMembers()
     } else {
       // Show error message in toast
       if (result.error === "User already exists") {

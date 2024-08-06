@@ -24,16 +24,7 @@ export default function FiscalYearPage() {
   const [fy, setFy] = useState<string>("")
   const [fiscalYears, setFiscalYears] = useState<any[]>([])
 
-  const onSubmit = async () => {
-    const result = await saveFiscalYearDate(startDate, endDate, fy)
-    if (result.status === "success") {
-      window.location.reload()
-    } else {
-      console.error("Delete unsuccessful:")
-    }
-  }
-
-  const fetchDate = async () => {
+  const fetchFiscalYears = async () => {
     try {
       const data = await fetchFyData()
       setFiscalYears(data)
@@ -42,22 +33,33 @@ export default function FiscalYearPage() {
     }
   }
 
+  const onSubmit = async () => {
+    const result = await saveFiscalYearDate(startDate, endDate, fy)
+    if (result.status === "success") {
+      // Fetch the updated list of fiscal years
+      fetchFiscalYears()
+    } else {
+      console.error("Error occurred")
+    }
+  }
+
   useEffect(() => {
-    fetchDate()
+    fetchFiscalYears()
   }, [])
 
   const handleDelete = async (id: string) => {
     const result = await deleteFyDate(id)
     if (result.status === "success") {
-      window.location.reload()
+      // Fetch the updated list of fiscal years
+      fetchFiscalYears()
     } else {
       console.error("Delete unsuccessful:")
     }
   }
 
   return (
-    <div className="mt-8 flex flex-col items-center">
-      <div className="w-full px-4 text-center sm:w-auto">
+    <div className="flex flex-col items-center">
+      <div className="w-auto text-center">
         <h1 className="form-title">अर्थिक बर्ष सेट अप</h1>
         <br />
         <div className="flex flex-col gap-8 md:flex-row">
@@ -109,7 +111,7 @@ export default function FiscalYearPage() {
           </Button>
         </div>
         <br />
-        <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-auto sm:mb-0">
+        <div className="mb-2 max-h-[28rem] w-auto overflow-auto sm:mb-0">
           <table className="min-w-[40rem]  ">
             <thead className="sticky top-0 z-20 border-r-2 bg-purple-400">
               <tr>
