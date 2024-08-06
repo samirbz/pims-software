@@ -35,7 +35,6 @@ import { registerUser } from "@/actions/authActions"
 import { RegisterSchema } from "@/lib/schemas/registerSchema"
 import { useForm } from "react-hook-form"
 import { IoIosSave } from "react-icons/io"
-import { useRouter } from "next/navigation"
 
 interface Member {
   id: string
@@ -60,8 +59,6 @@ export default function UserSetup() {
     onOpenChange: onDeleteConfirmationOpenChange,
   } = useDisclosure()
 
-  const router = useRouter()
-
   const [members, setMembers] = useState([])
   const [pass, setPass] = useState("")
   const [selectedMemberId, setSelectedMemberId] = useState("")
@@ -72,11 +69,12 @@ export default function UserSetup() {
   const [isVisibles, setIsVisibles] = React.useState(false)
   const toggleVisibilitys = () => setIsVisibles(!isVisible)
 
+  async function fetchMembers() {
+    const member: any = await getMembersExcludeOwn()
+    setMembers(member)
+  }
+
   useEffect(() => {
-    async function fetchMembers() {
-      const member: any = await getMembersExcludeOwn()
-      setMembers(member)
-    }
     fetchMembers()
   }, [])
 
@@ -113,7 +111,8 @@ export default function UserSetup() {
     try {
       const result = await deleteMember(deleteUserId)
       if (result.status === "success") {
-        window.location.reload()
+        // window.location.reload()
+        fetchMembers()
       } else {
         console.error("Delete unsuccessful:")
       }
@@ -127,6 +126,7 @@ export default function UserSetup() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid, isSubmitting },
   } = useForm<RegisterSchema>({
     // resolver: zodResolver(registerSchema),
@@ -138,8 +138,8 @@ export default function UserSetup() {
 
     if (result.status === "success") {
       toast.success("User created successfully")
-      router.refresh()
-      // Optionally redirect or refresh
+      reset()
+      fetchMembers()
     } else {
       // Show error message in toast
       if (result.error === "User already exists") {

@@ -1,7 +1,6 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { revalidatePath } from "next/cache"
 
 export async function saveFiscalYearDate(
   startDate: string,
@@ -114,7 +113,6 @@ export async function deleteTskData(id: string) {
     await prisma.tskData.delete({
       where: { id },
     })
-    revalidatePath("/members/office/tsk")
     return { status: "success" }
   } catch (error) {
     console.error("Failed to delete date:", error)

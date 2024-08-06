@@ -13,7 +13,6 @@ import { ActionResult } from "@/types"
 import { Staff } from "@prisma/client"
 import bcrypt from "bcryptjs"
 import { AuthError, User } from "next-auth"
-import { revalidatePath } from "next/cache"
 
 export async function signInUser(
   data: LoginSchema
@@ -78,7 +77,6 @@ export async function registerUser(
         passwordHash: hashedPassword,
       },
     })
-    revalidatePath("/members/user-setup")
     return { status: "success", data: user }
   } catch (error) {
     console.error("Error in registerUser:", error)

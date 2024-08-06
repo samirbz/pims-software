@@ -563,7 +563,6 @@ const Nav = () => {
   }
 
   const handleClick = () => {
-    console.log("Image clicked")
     window.location.reload()
   }
 

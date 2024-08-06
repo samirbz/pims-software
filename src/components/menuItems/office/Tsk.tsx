@@ -73,7 +73,7 @@ export default function TskPage() {
       sifarishRujuGarneUpovoktaKoNaam
     )
     if (result.status === "success") {
-      window.location.reload()
+      fetchDate()
     } else {
       console.error("Delete unsuccessful:")
     }
@@ -95,7 +95,7 @@ export default function TskPage() {
   const handleDelete = async (id: string) => {
     const result = await deleteTskData(id)
     if (result.status === "success") {
-      window.location.reload()
+      fetchDate()
     } else {
       console.error("Delete unsuccessful:")
     }

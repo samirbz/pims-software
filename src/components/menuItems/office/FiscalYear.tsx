@@ -8,7 +8,6 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
-import { FaCirclePlus } from "react-icons/fa6"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
 import {
@@ -105,9 +104,6 @@ export default function FiscalYearPage() {
             onClick={onSubmit}
           >
             Save
-          </Button>
-          <Button color="secondary" startContent={<FaCirclePlus />}>
-            AddNew
           </Button>
         </div>
         <br />
