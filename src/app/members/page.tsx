@@ -451,9 +451,14 @@ const Nav = () => {
   }
 
   const [openKeys, setOpenKeys] = useState<string[]>([])
+  const nonClosableKeys = ["sub3-1", "sub4-1", "sub4-2"]
+
   const handleOpenChange = (keys: string[]) => {
-    // This will set the openKeys to the currently opened submenu key only
-    setOpenKeys(keys.length ? [keys[keys.length - 1]] : [])
+    if (keys.some((key) => nonClosableKeys.includes(key))) {
+      setOpenKeys(keys)
+    } else {
+      setOpenKeys(keys.length ? [keys[keys.length - 1]] : [])
+    }
   }
 
   const filteredMenuItems =
