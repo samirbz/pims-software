@@ -576,7 +576,7 @@ const Nav = () => {
         theme="dark"
         width={250}
       >
-        <div className="mb-4 ml-4 mt-6 flex gap-4 font-semibold ">
+        <div className="my-4 ml-6 flex gap-4 font-semibold ">
           <Image
             src="/PIMS.ico"
             width={40}
@@ -621,28 +621,34 @@ const Nav = () => {
         <Header
           style={{
             padding: 0,
-            background: "linear-gradient(to right, #337BB5, #55BEC2)",
-            height: 65,
+            background: "#F5F5F5",
+            height: 60,
+            boxShadow:
+              "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
           }}
           className="flex justify-center "
         >
-          <Image
+          {/* <Image
             src="/logo.png"
             width={270}
             height={100}
             alt="PIMS"
             priority
             onClick={handleClick}
-            className="flex cursor-pointer justify-start py-1"
-          />
+            className="flex cursor-pointer justify-start py-2"
+          /> */}
+          <div className="ml-4 flex w-full items-center justify-between">
+            <BSDateDisplay />
+            <AccountButton />
+          </div>
         </Header>
-        <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb>
+        <Content style={{ margin: "16px 16px" }}>
+          {/* <Breadcrumb>
             <div className="flex w-full items-center justify-between">
               <BSDateDisplay />
               <AccountButton />
             </div>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <div
             style={{
               padding: 24,
