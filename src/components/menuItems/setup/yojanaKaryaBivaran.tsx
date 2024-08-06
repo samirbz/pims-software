@@ -27,7 +27,7 @@ const selectConfig = [
 
 export default function YojanaKaryaBivaran() {
   return (
-    <div className="mt-8 flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <div className="w-full px-4 sm:w-auto">
         <h1 className="form-title">योजनाको किसिम अनुसार कार्य बिवरण </h1>
         <br />

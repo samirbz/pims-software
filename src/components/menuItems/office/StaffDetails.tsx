@@ -274,7 +274,7 @@ export default function StaffDetailPage() {
           )}
         </ModalContent>
       </Modal>
-      <div className="mt-8 flex w-full justify-center">
+      <div className="flex w-full justify-center">
         <div className=" w-full px-4 text-center sm:w-auto">
           <h1 className="form-title">कर्मचारी विवरण</h1>
           <Button

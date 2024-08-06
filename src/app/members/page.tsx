@@ -608,7 +608,7 @@ const Nav = () => {
         ) : (
           <Menu
             theme="dark"
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={["5"]}
             mode="inline"
             items={itemsUser}
             className="text-sm"
@@ -627,27 +627,12 @@ const Nav = () => {
           }}
           className="flex justify-center "
         >
-          {/* <Image
-            src="/logo.png"
-            width={270}
-            height={100}
-            alt="PIMS"
-            priority
-            onClick={handleClick}
-            className="flex cursor-pointer justify-start py-2"
-          /> */}
           <div className="ml-4 flex w-full items-center justify-between">
             <BSDateDisplay />
             <AccountButton />
           </div>
         </Header>
         <Content style={{ margin: "16px 16px" }}>
-          {/* <Breadcrumb>
-            <div className="flex w-full items-center justify-between">
-              <BSDateDisplay />
-              <AccountButton />
-            </div>
-          </Breadcrumb> */}
           <div
             style={{
               padding: 24,

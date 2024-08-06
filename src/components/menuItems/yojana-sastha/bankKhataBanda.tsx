@@ -25,8 +25,8 @@ export default function BankKhataBanda() {
   ]
 
   return (
-    <div className="mt-8 flex w-full flex-col items-center">
-      <div className="w-full px-4 sm:w-2/5">
+    <div className="flex w-auto flex-col items-center">
+      <div className="w-auto px-4 ">
         <h1 className="form-title">योजनाको बैक खाता बन्द सिफारिस</h1>
         <br />
         <div className="flex w-auto flex-col sm:gap-2">
@@ -64,7 +64,7 @@ export default function BankKhataBanda() {
                 size="sm"
                 className="w-[67%]"
               />
-              <Input type="text" label="वडा न." size="sm" className="w-[10%]" />
+              <Input type="text" label="वडा न." size="sm" className="w-24" />
             </div>
             <Input
               type="text"

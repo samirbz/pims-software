@@ -35,8 +35,8 @@ export default function PeskiVuktani() {
     { key: "crocodile", label: "Crocodile" },
   ]
   return (
-    <div className="mt-8 flex w-full justify-center ">
-      <div className="flex w-full flex-col  sm:w-3/5">
+    <div className="flex w-full justify-center ">
+      <div className="flex w-auto flex-col">
         <div className="overflow-auto">
           <h1 className="form-title">पहिलो किस्ता पेश्की निकासा</h1>
           <br />
@@ -219,7 +219,7 @@ export default function PeskiVuktani() {
               </div>
             </section>
           </div>
-          <div className="mb-2 max-h-[22rem] w-auto overflow-auto sm:mb-0">
+          <div className="mb-2 flex max-h-[22rem] w-auto justify-center overflow-auto">
             <table className="min-w-[30rem] border-collapse border ">
               <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
                 <tr>

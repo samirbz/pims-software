@@ -13,7 +13,7 @@ import { MdModeEditOutline } from "react-icons/md"
 
 export default function SuchanaPrakasan() {
   return (
-    <div className="mt-8 flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <div className="w-full px-4 sm:w-auto">
         <h1 className="form-title">
           बोलपत्र/दरभाउ प्रकासन गर्ने पत्रिकाको बिवरण{" "}

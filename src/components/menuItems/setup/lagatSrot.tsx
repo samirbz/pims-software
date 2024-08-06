@@ -27,7 +27,7 @@ const selectConfig = [
 
 export default function LagatSrot() {
   return (
-    <div className="mt-8 flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <div className="w-full px-4 sm:w-auto">
         <h1 className="form-title">लागत श्रोतहरु</h1>
         <br />

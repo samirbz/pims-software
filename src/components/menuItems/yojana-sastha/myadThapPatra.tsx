@@ -25,8 +25,8 @@ export default function MyadThapPatra() {
   ]
 
   return (
-    <div className="mt-8 flex w-full flex-col items-center overflow-auto">
-      <div className="w-full px-4 sm:w-2/5">
+    <div className="flex w-auto flex-col items-center overflow-auto">
+      <div className="w-auto px-4 ">
         <h1 className="form-title">योजनाको म्याद थप टिप्पणी र चिठ्ठी</h1>
         <br />
         <div className="flex w-auto flex-col sm:gap-2">

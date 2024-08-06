@@ -25,8 +25,8 @@ export default function BankKhataSifaris() {
   ]
 
   return (
-    <div className="mt-8 flex w-full flex-col items-center">
-      <div className="w-full px-4 sm:w-[30%]">
+    <div className="flex w-auto flex-col items-center">
+      <div className="w-auto px-4 ">
         <h1 className="form-title">बैक खाता खोल्ने सिफारिस</h1>
         <br />
         <div className="flex w-auto flex-col sm:gap-2">

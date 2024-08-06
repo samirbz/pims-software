@@ -25,7 +25,7 @@ export default function SamjhautaSwikriti() {
   ]
 
   return (
-    <div className="mt-8 flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <div className="w-full px-4 sm:w-auto">
         <h1 className="form-title">
           योजना / कार्यक्रम प्रस्ताव स्वीकृत टिप्पणी

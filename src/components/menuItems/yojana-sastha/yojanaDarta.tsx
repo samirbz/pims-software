@@ -59,7 +59,7 @@ export default function YojanaDarta() {
 
   return (
     <div>
-      <div className="mt-8 flex flex-col items-center">
+      <div className="flex flex-col items-center">
         <div className="w-full px-4">
           <h1 className="text-center text-xl font-semibold text-orange-600">
             योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
