@@ -31,8 +31,8 @@ export default function ProjectCount() {
   }
 
   return (
-    <div className="px-4">
-      <h1 className="form-title mb-4 text-xl font-bold ">
+    <div className="ml-4">
+      <h1 className="mb-4 text-xl font-bold text-orange-600">
         हाल सम्मको योजनको जानकारी
       </h1>
       <div>
@@ -66,7 +66,7 @@ export default function ProjectCount() {
           onChange={handleChange}
           value={inputValue}
           size="sm"
-          className="mt-8 "
+          className="mt-8 w-72"
           color="success"
         />
       </div>

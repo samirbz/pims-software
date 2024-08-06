@@ -14,6 +14,12 @@ const config: Config = {
         glow: "0 0 20px rgba(255, 0, 0, 0.8)", // Customize as needed
       },
     },
+    screens: {
+      sm: "640px", // Small screens
+      md: "768px", // Medium screens
+      lg: "1024px", // Large screens
+      xl: "1280px", // Extra large screens
+    },
   },
   fontFamily: {
     mukta: ["var(--font-mukta)"],

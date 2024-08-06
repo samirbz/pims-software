@@ -35,7 +35,7 @@ export default function UpvoktaDarta() {
   const [date, setDate] = useState<string>("")
 
   return (
-    <div className="mt-8 flex w-full flex-col items-center">
+    <div className="mt-8 flex flex-col items-center overflow-auto">
       <div className=" w-3/5 px-4 sm:w-auto">
         <h1 className="form-title">उपभोक्ता समिति दर्ता प्रमाण पत्र</h1>
         <br />

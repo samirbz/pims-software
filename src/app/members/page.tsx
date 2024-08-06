@@ -574,7 +574,7 @@ const Nav = () => {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
         theme="dark"
-        width={300}
+        width={250}
       >
         <div className="mb-4 ml-4 mt-6 flex gap-4 font-semibold ">
           <Image
@@ -603,7 +603,7 @@ const Nav = () => {
             defaultSelectedKeys={["1"]}
             mode="inline"
             items={itemsAdmin}
-            style={{ fontSize: "1rem" }}
+            className="text-sm"
             onClick={handleMenuClick}
           />
         ) : (
@@ -612,29 +612,33 @@ const Nav = () => {
             defaultSelectedKeys={["1"]}
             mode="inline"
             items={itemsUser}
-            style={{ fontSize: "1rem" }}
+            className="text-sm"
             onClick={handleMenuClick}
           />
         )}
       </Sider>
       <Layout>
         <Header
-          style={{ padding: 0, background: colorBgContainer, height: 90 }}
-          className="flex justify-center"
+          style={{
+            padding: 0,
+            background: "linear-gradient(to right, #337BB5, #55BEC2)",
+            height: 65,
+          }}
+          className="flex justify-center "
         >
           <Image
             src="/logo.png"
-            width={300}
+            width={270}
             height={100}
             alt="PIMS"
             priority
             onClick={handleClick}
-            className="flex cursor-pointer justify-start py-2"
+            className="flex cursor-pointer justify-start py-1"
           />
         </Header>
         <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb style={{ margin: "8px 0" }}>
-            <div className="mr-4 flex w-full items-center justify-between">
+          <Breadcrumb>
+            <div className="flex w-full items-center justify-between">
               <BSDateDisplay />
               <AccountButton />
             </div>
@@ -646,6 +650,7 @@ const Nav = () => {
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
+            className="overflow-auto"
           >
             {renderContent()} {/* Render content based on selected key */}
           </div>

@@ -60,12 +60,12 @@ export default function YojanaDarta() {
   return (
     <div>
       <div className="mt-8 flex flex-col items-center">
-        <div className="w-full px-4 sm:w-auto">
-          <h1 className="form-title">
+        <div className="w-full px-4">
+          <h1 className="text-center text-xl font-semibold text-orange-600">
             योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
           </h1>
           <br />
-          <div className="flex w-auto max-w-[90rem] flex-col gap-2 overflow-auto lg:flex-row">
+          <div className="flex flex-row justify-center gap-2 overflow-auto ">
             <div className="flex w-[40rem] flex-col gap-2 sm:gap-2">
               <div className="flex justify-between gap-10">
                 <form className="flex items-center gap-2 ">
@@ -94,20 +94,7 @@ export default function YojanaDarta() {
                   <SelectItem key={animal.key}>{animal.label}</SelectItem>
                 ))}
               </Select>
-              {/* <div className="flex w-full items-center gap-2">
-                <p className="text-sm">लागत&nbsp;श्रोत</p>
-                <Select label="" className="w-1/4" size="sm">
-                  {animals.map((animal) => (
-                    <SelectItem key={animal.key}>{animal.label}</SelectItem>
-                  ))}
-                </Select>
-                <Select label="" className="w-1/2" size="sm">
-                  {animals.map((animal) => (
-                    <SelectItem key={animal.key}>{animal.label}</SelectItem>
-                  ))}
-                </Select>
-                <Input type="text" className="w-1/4" size="sm" />
-              </div> */}
+
               <div className="flex flex-col gap-2">
                 <div className="flex w-full items-center gap-2">
                   <p className="text-sm">लागत&nbsp;श्रोत</p>
@@ -246,7 +233,7 @@ export default function YojanaDarta() {
               </Button>
             </div>
           </div>
-          <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-auto sm:mb-0">
+          <div className="mb-2 flex max-h-[22rem] justify-center overflow-auto">
             <table className="min-w-[55rem]  border-collapse border ">
               <thead className="sticky top-0 z-20 border-r-2 bg-purple-400 ">
                 <tr>
