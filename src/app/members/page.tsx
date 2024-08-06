@@ -566,6 +566,12 @@ const Nav = () => {
     window.location.reload()
   }
 
+  const [openKeys, setOpenKeys] = useState<string[]>([])
+  const handleOpenChange = (keys: string[]) => {
+    // This will set the openKeys to the currently opened submenu key only
+    setOpenKeys(keys.length ? [keys[keys.length - 1]] : [])
+  }
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -575,8 +581,8 @@ const Nav = () => {
         theme="dark"
         width={250}
         style={{
-          height: "100vh", // Full height of the viewport
-          overflow: "auto", // Enable scrolling
+          height: "100vh",
+          overflow: "auto",
         }}
         className="scrollbar-hide"
       >
@@ -608,6 +614,8 @@ const Nav = () => {
             mode="inline"
             items={itemsAdmin}
             onClick={handleMenuClick}
+            openKeys={openKeys}
+            onOpenChange={handleOpenChange}
           />
         ) : (
           <Menu
