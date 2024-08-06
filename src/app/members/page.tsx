@@ -574,6 +574,11 @@ const Nav = () => {
         onCollapse={(value) => setCollapsed(value)}
         theme="dark"
         width={250}
+        style={{
+          height: "100vh", // Full height of the viewport
+          overflow: "auto", // Enable scrolling
+        }}
+        className="scrollbar-hide"
       >
         <div className="my-4 ml-6 flex gap-4 font-semibold ">
           <Image
@@ -632,7 +637,13 @@ const Nav = () => {
             <AccountButton />
           </div>
         </Header>
-        <Content style={{ margin: "16px 16px" }}>
+        <Content
+          style={{
+            margin: "16px 16px",
+            overflow: "auto", // Enable scrolling
+          }}
+          className="vertical-center scrollbar-hide"
+        >
           <div
             style={{
               padding: 24,

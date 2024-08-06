@@ -12,4 +12,20 @@
   .form-title {
     @apply self-start text-center text-2xl font-semibold text-orange-600;
   }
+  .scrollbar-hide {
+    overflow: hidden;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Webkit browsers */
+  }
+}
+
+@layer components {
+  /* calc(100vh - 64px) here - 64px is height of navbar so i can remove scroll in page */
+  .vertical-center {
+    height: calc(100vh - 95px);
+  }
 }
