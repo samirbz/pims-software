@@ -563,6 +563,11 @@ const Nav = () => {
     }
   }
 
+  const handleClick = () => {
+    console.log("Image clicked")
+    window.location.reload()
+  }
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -573,8 +578,25 @@ const Nav = () => {
         width={300}
       >
         <div className="mb-4 ml-4 mt-6 flex gap-4 font-semibold ">
-          <Image src="/PIMS.ico" width={40} height={40} alt="logo" />
-          {collapsed ? "" : <h2 className="text-3xl text-orange-500">PIMS</h2>}
+          <Image
+            src="/PIMS.ico"
+            width={40}
+            height={40}
+            alt="logo"
+            onClick={handleClick}
+            className="cursor-pointer"
+          />
+
+          {collapsed ? (
+            ""
+          ) : (
+            <p
+              onClick={handleClick}
+              className="cursor-pointer text-3xl text-orange-500"
+            >
+              PIMS
+            </p>
+          )}
         </div>
         {userd?.email === "admin" ? (
           <Menu
@@ -601,15 +623,15 @@ const Nav = () => {
           style={{ padding: 0, background: colorBgContainer, height: 90 }}
           className="flex justify-center"
         >
-          <Link href="/" className="flex justify-start py-2">
-            <Image
-              src="/logo.png"
-              width={300}
-              height={100}
-              alt="PIMS"
-              priority
-            />
-          </Link>
+          <Image
+            src="/logo.png"
+            width={300}
+            height={100}
+            alt="PIMS"
+            priority
+            onClick={handleClick}
+            className="flex cursor-pointer justify-start py-2"
+          />
         </Header>
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "8px 0" }}>
