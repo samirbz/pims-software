@@ -10,7 +10,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 
-export default function suchikritForm() {
+export default function SuchikritForm() {
   return (
     <div className="mt-8 flex flex-col items-center">
       <div className="w-full px-4 sm:w-auto">

@@ -14,6 +14,8 @@ import type { MenuProps } from "antd"
 import { Breadcrumb, Layout, Menu, theme } from "antd"
 import Link from "next/link"
 import Image from "next/image"
+import { getSessionDetail } from "@/actions/authActions"
+
 import StaffDetailPage from "@/components/menuItems/office/StaffDetails"
 import UserSetup from "@/components/menuItems/office/UserSetup"
 import FiscalYearPage from "@/components/menuItems/office/FiscalYear"
@@ -21,7 +23,58 @@ import TskPage from "@/components/menuItems/office/Tsk"
 import Dashboard from "@/components/menuItems/Dashboard"
 import BSDateDisplay from "@/components/BSDateDisplay"
 import AccountButton from "@/components/AccountButton"
-import { getSessionDetail } from "@/actions/authActions"
+import MukhyaSamiti from "@/components/menuItems/setup/mukhyaSamiti"
+import AnudanKisim from "@/components/menuItems/setup/anudanKisim"
+import YojanaPrakar from "@/components/menuItems/setup/yojanaPrakar"
+import YojanaKaryaBivaran from "@/components/menuItems/setup/yojanaKaryaBivaran"
+import YojanaChanotNikaya from "@/components/menuItems/setup/yojanaChanotNikaya"
+import Gapa from "@/components/menuItems/setup/gapa"
+import Wada from "@/components/menuItems/setup/wadaNum"
+import BankBivaran from "@/components/menuItems/setup/bankBivaran"
+import YojanaBudget from "@/components/menuItems/setup/yojanaBudget"
+import SuchikritForm from "@/components/menuItems/setup/suchikritForm"
+import SuchanaPrakasan from "@/components/menuItems/setup/suchanaPrakasan"
+import LabTest from "@/components/menuItems/setup/labTest"
+import LagatSrot from "@/components/menuItems/setup/lagatSrot"
+import YojanaDarta from "@/components/menuItems/yojana-sastha/yojanaDarta"
+import SamjhautaSwikriti from "@/components/menuItems/yojana-sastha/samjhautaSwikriti"
+import YojanaSamjhauta from "@/components/menuItems/yojana-sastha/yojanaSamjhauta"
+import Karyadesh from "@/components/menuItems/yojana-sastha/karyadesh"
+import BankKhataSifaris from "@/components/menuItems/yojana-sastha/bankKhataSifaris"
+import BankKhataBanda from "@/components/menuItems/yojana-sastha/bankKhataBanda"
+import YojanaDartaWoda from "@/components/menuItems/yojana-sastha/yojanaDartaWoda"
+import UpvoktaDarta from "@/components/menuItems/yojana-sastha/upvoktaDarta"
+import MyadThapPatra from "@/components/menuItems/yojana-sastha/myadThapPatra"
+import PeskiVuktani from "@/components/menuItems/yojana-sastha/yojanaTippani/peskiVuktani"
+import RunningBilVuktani from "@/components/menuItems/yojana-sastha/yojanaTippani/runningBilVuktani"
+import AntimKistaFarFarak from "@/components/menuItems/yojana-sastha/yojanaTippani/antimKistaFarFarak"
+import SansthagatAnudan from "@/components/menuItems/yojana-sastha/yojanaTippani/sansthagatAnudan"
+import VuktaniKarobar from "@/components/menuItems/yojana-sastha/yojanaTippani/vuktaniKarobar"
+import DarRatePeshPatra from "@/components/menuItems/yojana-bolpatra/darRatePeshPatra"
+import LayiSwikritiPatra from "@/components/menuItems/yojana-bolpatra/layiSwikritiPatra"
+import BolpatraDarvauSwikriti from "@/components/menuItems/yojana-bolpatra/bolpatraDarvauSwikriti"
+import BolpatraBolbhauMulyankan from "@/components/menuItems/yojana-bolpatra/bolpatraBolbhauMulyankan"
+import JamanatPatra from "@/components/menuItems/yojana-bolpatra/jamanatPatra"
+import ThekkaMuchulka from "@/components/menuItems/yojana-bolpatra/thekkaMuchulka"
+import TulanatmakChart from "@/components/menuItems/yojana-bolpatra/tulanatmakChart"
+import SamjhautaGarnaAunePatra from "@/components/menuItems/yojana-bolpatra/samjhautaGarnaAunePatra"
+import YojanaDarta2 from "@/components/menuItems/yojana-bolpatra/yojanaDarta"
+import YojanaSamjhauta2 from "@/components/menuItems/yojana-bolpatra/yojanaSamjhauta"
+import KaryaDeshPatra from "@/components/menuItems/yojana-bolpatra/karyaDeshPatra"
+import Mobilization from "@/components/menuItems/yojana-bolpatra/tippaniAdesh/mobilization"
+import RunningBillVuktani2 from "@/components/menuItems/yojana-bolpatra/tippaniAdesh/runningBillVuktani2"
+import AntimBillVuktani from "@/components/menuItems/yojana-bolpatra/tippaniAdesh/antimBillVuktani"
+import MyadThapTippani2 from "@/components/menuItems/yojana-bolpatra/myadThap/MyadThapTippani2"
+import MyadThapChitti from "@/components/menuItems/yojana-bolpatra/myadThap/MyadThapChitti"
+import LabTest2 from "@/components/menuItems/yojana-bolpatra/labTest"
+import AnugamanPratibedanAnusuchi from "@/components/menuItems/anugaman/anugamanPratibedanAnusuchi"
+import AnugamanPratibedanSangyuta from "@/components/menuItems/anugaman/anugamanPratibedanSangyuta"
+import AnugamanMinute from "@/components/menuItems/anugaman/anugamanMinute"
+import JachPasTathaForfarakSamitiKoBaithak from "@/components/menuItems/anugaman/jachPasTathaForfarakSamitiKoBaithak"
+import YojanaJachpass from "@/components/menuItems/anugaman/yojanaJachpass"
+import YojanaHastantaran from "@/components/menuItems/anugaman/yojanaHastantaran"
+import JachPassTathafarfarakPratibedan from "@/components/menuItems/anugaman/jachPassTathafarfarakPratibedan"
+import AnugamanGarekoMiti from "@/components/menuItems/anugaman/anugamanGarekoMiti"
 
 const { Header, Content, Sider } = Layout
 
@@ -322,12 +375,188 @@ const Nav = () => {
       case "4":
         return <TskPage />
       case "5":
-        return <div>Team </div>
+        return <MukhyaSamiti />
       case "6":
-        return <div>Team 1 Content</div>
+        return <AnudanKisim />
+      case "7":
+        return <LagatSrot />
       case "8":
-        return <div>Team 2 Content</div>
+        return <YojanaPrakar />
       case "9":
+        return <YojanaKaryaBivaran />
+      case "10":
+        return <YojanaChanotNikaya />
+      case "11":
+        return <Gapa />
+      case "12":
+        return <Wada />
+      case "13":
+        return <BankBivaran />
+      case "14":
+        return <YojanaBudget />
+      case "15":
+        return <SuchikritForm />
+      case "16":
+        return <SuchanaPrakasan />
+      case "17":
+        return <LabTest />
+      case "18":
+        return <YojanaDarta />
+      case "19":
+        return <SamjhautaSwikriti />
+      case "20":
+        return <YojanaSamjhauta />
+      case "21":
+        return <Karyadesh />
+      case "22":
+        return <BankKhataSifaris />
+      case "23":
+        return <BankKhataBanda />
+      case "24":
+        return <YojanaDartaWoda />
+      case "25":
+        return <PeskiVuktani />
+      case "26":
+        return <RunningBilVuktani />
+      case "27":
+        return <AntimKistaFarFarak />
+      case "28":
+        return <SansthagatAnudan />
+      case "29":
+        return <VuktaniKarobar />
+      case "30":
+        return <UpvoktaDarta />
+      case "31":
+        return <MyadThapPatra />
+      case "32":
+        return <DarRatePeshPatra />
+      case "33":
+        return <LayiSwikritiPatra />
+      case "34":
+        return <BolpatraBolbhauMulyankan />
+      case "35":
+        return <BolpatraDarvauSwikriti />
+      case "36":
+        return <JamanatPatra />
+      case "37":
+        return <ThekkaMuchulka />
+      case "38":
+        return <TulanatmakChart />
+      case "39":
+        return <SamjhautaGarnaAunePatra />
+      case "40":
+        return <YojanaDarta2 />
+      case "41":
+        return <YojanaSamjhauta2 />
+      case "42":
+        return <KaryaDeshPatra />
+      case "43":
+        return <Mobilization />
+      case "44":
+        return <RunningBillVuktani2 />
+      case "45":
+        return <AntimBillVuktani />
+      case "46":
+        return <MyadThapTippani2 />
+      case "47":
+        return <MyadThapChitti />
+      case "48":
+        return <LabTest2 />
+      case "49":
+        return <AnugamanPratibedanAnusuchi />
+      case "50":
+        return <AnugamanPratibedanSangyuta />
+      case "51":
+        return <AnugamanMinute />
+      case "52":
+        return <JachPasTathaForfarakSamitiKoBaithak />
+      case "53":
+        return <YojanaJachpass />
+      case "54":
+        return <YojanaHastantaran />
+      case "55":
+        return <JachPassTathafarfarakPratibedan />
+      case "56":
+        return <AnugamanGarekoMiti />
+      case "57":
+        return <div>Files Content</div>
+      case "58":
+        return <div>Files Content</div>
+      case "59":
+        return <div>Files Content</div>
+      case "60":
+        return <div>Files Content</div>
+      case "61":
+        return <div>Files Content</div>
+      case "62":
+        return <div>Files Content</div>
+      case "63":
+        return <div>Files Content</div>
+      case "64":
+        return <div>Files Content</div>
+      case "65":
+        return <div>Files Content</div>
+      case "66":
+        return <div>Files Content</div>
+      case "67":
+        return <div>Files Content</div>
+      case "68":
+        return <div>Files Content</div>
+      case "69":
+        return <div>Files Content</div>
+      case "70":
+        return <div>Files Content</div>
+      case "71":
+        return <div>Files Content</div>
+      case "72":
+        return <div>Files Content</div>
+      case "73":
+        return <div>Files Content</div>
+      case "74":
+        return <div>Files Content</div>
+      case "75":
+        return <div>Files Content</div>
+      case "76":
+        return <div>Files Content</div>
+      case "77":
+        return <div>Files Content</div>
+      case "78":
+        return <div>Files Content</div>
+      case "79":
+        return <div>Files Content</div>
+      case "80":
+        return <div>Files Content</div>
+      case "81":
+        return <div>Files Content</div>
+      case "82":
+        return <div>Files Content</div>
+      case "83":
+        return <div>Files Content</div>
+      case "84":
+        return <div>Files Content</div>
+      case "85":
+        return <div>Files Content</div>
+      case "86":
+        return <div>Files Content</div>
+      case "87":
+        return <div>Files Content</div>
+      case "88":
+        return <div>Files Content</div>
+      case "89":
+        return <div>Files Content</div>
+      case "90":
+        return <div>Files Content</div>
+      case "91":
+        return <div>Files Content</div>
+      case "92":
+        return <div>Files Content</div>
+      case "93":
+        return <div>Files Content</div>
+      case "94":
+        return <div>Files Content</div>
+      case "95":
+        return <div>Files Content</div>
+      case "96":
         return <div>Files Content</div>
       default:
         return <Dashboard />
