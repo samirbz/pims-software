@@ -13,6 +13,9 @@ const config: Config = {
       boxShadow: {
         glow: "0 0 20px rgba(255, 0, 0, 0.8)", // Customize as needed
       },
+      fontFamily: {
+        mukta: ["var(--font-mukta)", "sans-serif"],
+      },
     },
     screens: {
       sm: "640px", // Small screens
@@ -21,9 +24,7 @@ const config: Config = {
       xl: "1280px", // Extra large screens
     },
   },
-  fontFamily: {
-    mukta: ["var(--font-mukta)"],
-  },
+
   darkMode: "class",
   plugins: [nextui()],
 }

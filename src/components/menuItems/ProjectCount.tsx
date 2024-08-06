@@ -32,7 +32,7 @@ export default function ProjectCount() {
 
   return (
     <div className="ml-4">
-      <h1 className="mb-4 text-xl font-bold text-orange-600">
+      <h1 className="mb-4 font-mukta text-xl font-bold text-orange-600">
         हाल सम्मको योजनको जानकारी
       </h1>
       <div>

@@ -5,7 +5,7 @@ import Providers from "@/components/Provider"
 import { Mukta } from "next/font/google"
 
 const mukta = Mukta({
-  subsets: ["devanagari"],
+  subsets: ["latin-ext"],
   weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-mukta",
   display: "swap",
@@ -23,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html className={mukta.className}>
-      <body>
+    <html>
+      <body className={mukta.variable}>
         <Providers>
           <main>{children}</main>
         </Providers>
