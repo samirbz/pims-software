@@ -607,7 +607,6 @@ const Nav = () => {
             defaultSelectedKeys={["1"]}
             mode="inline"
             items={itemsAdmin}
-            className="text-sm"
             onClick={handleMenuClick}
           />
         ) : (
@@ -616,7 +615,6 @@ const Nav = () => {
             defaultSelectedKeys={["5"]}
             mode="inline"
             items={itemsUser}
-            className="text-sm"
             onClick={handleMenuClick}
           />
         )}
