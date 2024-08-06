@@ -19,6 +19,8 @@ import UserSetup from "@/components/menuItems/office/UserSetup"
 import FiscalYearPage from "@/components/menuItems/office/FiscalYear"
 import TskPage from "@/components/menuItems/office/Tsk"
 import Dashboard from "@/components/menuItems/Dashboard"
+import BSDateDisplay from "@/components/BSDateDisplay"
+import AccountButton from "@/components/AccountButton"
 
 const { Header, Content, Sider } = Layout
 
@@ -235,9 +237,11 @@ const Nav = () => {
           </Link>
         </Header>
         <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>path</Breadcrumb.Item>
-            <Breadcrumb.Item>1</Breadcrumb.Item>
+          <Breadcrumb style={{ margin: "8px 0" }}>
+            <div className="mr-4 flex w-full items-center justify-between">
+              <BSDateDisplay />
+              <AccountButton />
+            </div>
           </Breadcrumb>
           <div
             style={{

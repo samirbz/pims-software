@@ -128,3 +128,13 @@ export async function getAuthUserId() {
 
   return userId
 }
+
+export async function getSessionDetail() {
+  try {
+    const session = await auth()
+    return session?.user || null
+  } catch (error) {
+    console.error("Failed to fetch session data:", error)
+    return null
+  }
+}
