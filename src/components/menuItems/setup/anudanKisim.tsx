@@ -25,8 +25,8 @@ export default function AnudanKisim() {
             </Button>
           </div>
           <br />
-          <div className="mb-2 max-h-[22rem] w-auto max-w-[90rem] overflow-auto sm:mb-0">
-            <table className="min-w-[30rem] border-collapse border ">
+          <div className="mb-2 max-h-[22rem] w-auto overflow-auto sm:mb-0">
+            <table className="border-collapse border ">
               <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
                 <tr>
                   <th className=" px-4 py-2">सि.न.</th>

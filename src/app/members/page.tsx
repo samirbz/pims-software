@@ -475,8 +475,8 @@ const Nav = () => {
         theme="dark"
         width={250}
         style={{
-          height: "100vh",
           overflow: "auto",
+          height: "100vh",
         }}
         className="scrollbar-hide"
       >

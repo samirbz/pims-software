@@ -234,7 +234,7 @@ export default function YojanaDarta() {
             </div>
           </div>
           <div className="mb-2 flex max-h-[22rem] justify-center overflow-auto">
-            <table className="min-w-[55rem]  border-collapse border ">
+            <table className="border-collapse border ">
               <thead className="sticky top-0 z-20 border-r-2 bg-purple-400 ">
                 <tr>
                   <th className="px-4 py-2">सि.न.</th>
