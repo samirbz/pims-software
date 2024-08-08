@@ -1,5 +1,5 @@
 import React from "react"
-import BarChart from "../charts/BarChart"
+import BarChart from "./BarChart"
 import ProjectCount from "./ProjectCount"
 
 export default function Dashboard() {
