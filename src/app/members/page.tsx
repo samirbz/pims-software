@@ -43,7 +43,6 @@ import YojanaSamjhauta from "@/components/menuItems/yojana-sastha/yojanaSamjhaut
 import Karyadesh from "@/components/menuItems/yojana-sastha/karyadesh"
 import BankKhataSifaris from "@/components/menuItems/yojana-sastha/bankKhataSifaris"
 import BankKhataBanda from "@/components/menuItems/yojana-sastha/bankKhataBanda"
-import YojanaDartaWoda from "@/components/menuItems/yojana-sastha/yojanaDartaWoda"
 import UpvoktaDarta from "@/components/menuItems/yojana-sastha/upvoktaDarta"
 import MyadThapPatra from "@/components/menuItems/yojana-sastha/myadThapPatra"
 import PeskiVuktani from "@/components/menuItems/yojana-sastha/yojanaTippani/peskiVuktani"
@@ -129,7 +128,7 @@ const menuItems: MenuItem[] = [
     getItem("कार्यादेश (उपभोक्ता समिति/सस्था कम्पनी)", "21"),
     getItem("बैक खाता सिफारिस", "22"),
     getItem("बैक खाता बन्द सिफारिस", "23"),
-    getItem("योजना दर्ता वडा तथा अन्य", "24"),
+    // getItem("योजना दर्ता वडा तथा अन्य", "24"),
     getItem("योजना टिप्पणी आदेश", "sub3-1", null, [
       getItem("पेश्की भुक्तानी", "25"),
       getItem("रनिङ बिल भुक्तानी", "26"),
@@ -295,8 +294,8 @@ const Nav = () => {
         return <BankKhataSifaris />
       case "23":
         return <BankKhataBanda />
-      case "24":
-        return <YojanaDartaWoda />
+      // case "24":
+      //   return <YojanaDartaWoda />
       case "25":
         return <PeskiVuktani />
       case "26":
