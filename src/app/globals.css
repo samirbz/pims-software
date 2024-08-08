@@ -6,7 +6,7 @@
   --font-mukta: "Mukta", sans-serif;
 }
 
-body {
+* {
   font-family: var(--font-mukta), sans-serif;
 }
 
@@ -18,7 +18,7 @@ body {
 
 @layer utilities {
   .form-title {
-    @apply self-start text-center text-2xl font-semibold text-orange-600;
+    @apply self-start text-center font-mukta text-2xl font-semibold text-orange-600;
   }
   .scrollbar-hide {
     overflow: hidden;
@@ -29,7 +29,6 @@ body {
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Webkit browsers */
   }
-
 }
 
 @layer components {

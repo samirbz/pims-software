@@ -13,7 +13,7 @@ import {
 import React, { useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 
-import { FaPlus, FaRegSave } from "react-icons/fa"
+import { FaMinus, FaPlus, FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import "nepali-datepicker-reactjs/dist/index.css"
 
@@ -55,6 +55,14 @@ export default function YojanaDarta() {
         <Input type="text" className="w-1/4" size="sm" />
       </div>,
     ])
+  }
+
+  const removeDiv = () => {
+    setDivs((prevDivs) => {
+      const newDivs = [...prevDivs]
+      newDivs.pop()
+      return newDivs
+    })
   }
 
   return (
@@ -113,7 +121,16 @@ export default function YojanaDarta() {
                 {divs.map((div, index) => (
                   <div key={index}>{div}</div>
                 ))}
-                <FaPlus className="self-end text-blue-600" onClick={addDiv} />
+                <div className="flex justify-end gap-2">
+                  <FaPlus
+                    className="cursor-pointer self-end text-blue-600"
+                    onClick={addDiv}
+                  />
+                  <FaMinus
+                    className="cursor-pointer self-end text-red-600"
+                    onClick={removeDiv}
+                  />
+                </div>
               </div>
 
               <Select label="आयोजना उपक्षेत्र" className="w-full" size="sm">
