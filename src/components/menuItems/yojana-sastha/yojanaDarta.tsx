@@ -164,14 +164,15 @@ export default function YojanaDarta() {
                   ))}
                 </Select>
               </div>
+              <Input
+                type="text"
+                label="बजेट किताब सि.न."
+                color="primary"
+                size="sm"
+                className="w-36"
+              />
             </div>
-            <Input
-              type="text"
-              label="बजेट किताब सि.न."
-              color="primary"
-              size="sm"
-              className="w-36"
-            />
+
             <div className="flex w-72 flex-col gap-2">
               <div className="flex gap-1">
                 <Input
