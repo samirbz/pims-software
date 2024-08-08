@@ -13,7 +13,7 @@ import { MdModeEditOutline } from "react-icons/md"
 
 export default function MukhyaSamiti() {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-start">
       <div className="w-full px-4 sm:w-auto">
         <h1 className="form-title">मुख्य समिती को नाम</h1>
         <br />
