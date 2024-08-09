@@ -63,3 +63,8 @@ model MukhyaSamitiKoNaam {
   id                 String @id @default(cuid())
   mukhyaSamitiKoNaam String
 }
+
+model AnudaanKoNaam {
+  id                 String @id @default(cuid())
+  anudaanKoNaam String
+}

@@ -138,8 +138,8 @@ export async function saveMukyaSamiti(mukhyaSamitiKoNaam: string) {
 
 export async function fetchMukyaSamitiData() {
   try {
-    const fy = await prisma.mukhyaSamitiKoNaam.findMany()
-    return fy
+    const data = await prisma.mukhyaSamitiKoNaam.findMany()
+    return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
@@ -157,3 +157,38 @@ export async function deleteMukyaSamitiKoNaam(id: string) {
   }
 }
 
+//  anudan kisim
+export async function saveAnudaanKoNaam(anudaanKoNaam: string) {
+  try {
+    const anudaan = await prisma.anudaanKoNaam.create({
+      data: {
+        anudaanKoNaam,
+      },
+    })
+    return { status: "success", data: anudaan }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchAnudaanKoNaamData() {
+  try {
+    const data = await prisma.anudaanKoNaam.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteAnudaanKoNaam(id: string) {
+  try {
+    await prisma.anudaanKoNaam.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
