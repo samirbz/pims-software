@@ -68,7 +68,7 @@ export default function YojanaDarta() {
   return (
     <div className="flex flex-col items-center">
       <div className="w-full px-4">
-        <h1 className="text-center text-xl font-semibold text-orange-600">
+        <h1 className="form-title">
           योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
         </h1>
         <br />
@@ -250,8 +250,8 @@ export default function YojanaDarta() {
             </Button>
           </div>
         </div>
-        <div className="mb-2 flex max-h-[22rem] justify-center overflow-auto">
-          <table className="border-collapse border ">
+        <div className="mb-2 flex max-h-[22rem] w-auto justify-center overflow-auto">
+          <table className="w-full border-collapse border">
             <thead className="sticky top-0 z-20 border-r-2 bg-purple-400 ">
               <tr>
                 <th className="px-4 py-2">सि.न.</th>
