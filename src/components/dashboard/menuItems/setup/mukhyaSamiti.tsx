@@ -11,7 +11,11 @@ import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import { useState, useEffect } from "react"
 
-import { saveMukyaSamiti, fetchMukyaSamitiData } from "@/actions/formAction"
+import {
+  saveMukyaSamiti,
+  fetchMukyaSamitiData,
+  deleteMukyaSamitiKoNaam,
+} from "@/actions/formAction"
 
 export default function MukhyaSamiti() {
   const [mukhyaSamitiKoNaam, setMukhyaSamitiKoNaam] = useState("")
@@ -31,6 +35,16 @@ export default function MukhyaSamiti() {
   useEffect(() => {
     fetchMukhyaSamiti() // Fetch data when the component mounts
   }, [])
+
+  const handleDelete = async (id: string) => {
+    const result = await deleteMukyaSamitiKoNaam(id)
+    if (result.status === "success") {
+      // Fetch the updated list of fiscal years
+      fetchMukhyaSamiti()
+    } else {
+      console.error("Delete unsuccessful:")
+    }
+  }
 
   const onSubmit = async () => {
     const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
@@ -89,6 +103,7 @@ export default function MukhyaSamiti() {
                       key="delete"
                       className="text-danger"
                       color="danger"
+                      onPress={() => handleDelete(item.id)}
                     >
                       Delete
                     </DropdownItem>

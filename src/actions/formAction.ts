@@ -145,3 +145,15 @@ export async function fetchMukyaSamitiData() {
     throw error
   }
 }
+export async function deleteMukyaSamitiKoNaam(id: string) {
+  try {
+    await prisma.mukhyaSamitiKoNaam.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+
