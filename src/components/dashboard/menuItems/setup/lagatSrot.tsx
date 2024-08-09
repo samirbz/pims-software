@@ -27,68 +27,62 @@ const selectConfig = [
 
 export default function LagatSrot() {
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-full px-4 sm:w-auto">
-        <h1 className="form-title">लागत श्रोतहरु</h1>
-        <br />
-        <div className="flex w-auto flex-col sm:gap-2">
-          <div className="flex flex-col gap-2">
-            <Select label="अनुदान को किसिम " className="max-w-xs">
-              {selectConfig.map((item) => (
-                <SelectItem key={item.key}>{item.label}</SelectItem>
-              ))}
-            </Select>
-            <Input type="text" label="लागत श्रोत नाम" size="sm" />
-
-            <Button
-              color="secondary"
-              className="w-10 self-center"
-              startContent={<FaRegSave />}
-            >
-              Save
-            </Button>
-          </div>
-          <div className="mb-2 max-h-[22rem] w-auto overflow-auto sm:mb-0">
-            <table className="border-collapse border ">
-              <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
-                <tr>
-                  <th className=" px-4 py-2">सि.न.</th>
-                  <th className=" px-4 py-2">लागत श्रोत</th>
-                  <th className=" px-4 py-2">अनुदान किसिम</th>
-                  <th className=" px-4 py-2">Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="w-auto text-center">
-                  <td className="border px-4 py-2"></td>
-                  <td className="border px-4 py-2"></td>
-                  <td className="border px-4 py-2"></td>
-                  <td className="border px-4 py-2">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="z-10" variant="shadow" size="sm">
-                          <MdModeEditOutline />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
-
-                        <DropdownItem
-                          key="delete"
-                          className="text-danger"
-                          color="danger"
-                        >
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <div className="flex flex-col items-start gap-2 xxl:w-1/2">
+      <h1 className="form-title">लागत श्रोतहरु</h1>
+      <div className="flex w-full flex-col gap-2">
+        <Select label="अनुदान को किसिम ">
+          {selectConfig.map((item) => (
+            <SelectItem key={item.key}>{item.label}</SelectItem>
+          ))}
+        </Select>
+        <div className="flex gap-2">
+          <Input type="text" label="लागत श्रोत नाम" size="sm" />
+          <Button
+            color="secondary"
+            className="w-10 self-center"
+            startContent={<FaRegSave />}
+          >
+            Save
+          </Button>
         </div>
       </div>
+      <table className=" w-full border-collapse border ">
+        <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
+          <tr>
+            <th className="w-24 px-4 py-2">सि.न.</th>
+            <th className=" px-4 py-2">लागत श्रोत</th>
+            <th className=" px-4 py-2">अनुदान किसिम</th>
+            <th className="w-24 px-4 py-2">Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="w-auto text-center">
+            <td className="border px-4 py-2"></td>
+            <td className="border px-4 py-2"></td>
+            <td className="border px-4 py-2"></td>
+            <td className="border px-4 py-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="z-10" variant="shadow" size="sm">
+                    <MdModeEditOutline />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  <DropdownItem>Edit</DropdownItem>
+
+                  <DropdownItem
+                    key="delete"
+                    className="text-danger"
+                    color="danger"
+                  >
+                    Delete
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   )
 }
