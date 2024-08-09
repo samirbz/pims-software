@@ -119,3 +119,29 @@ export async function deleteTskData(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+
+//  setup
+//  mukhya samiti
+export async function saveMukyaSamiti(mukhyaSamitiKoNaam: string) {
+  try {
+    const mukhyaSamiti = await prisma.mukhyaSamitiKoNaam.create({
+      data: {
+        mukhyaSamitiKoNaam,
+      },
+    })
+    return { status: "success", data: mukhyaSamiti }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchMukyaSamitiData() {
+  try {
+    const fy = await prisma.mukhyaSamitiKoNaam.findMany()
+    return fy
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}

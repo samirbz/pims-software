@@ -58,3 +58,8 @@ model TskData {
   sifarishRujuGarneAmaanKoNaam    Boolean
   sifarishRujuGarneUpovoktaKoNaam Boolean
 }
+
+model MukhyaSamitiKoNaam {
+  id                 String @id @default(cuid())
+  mukhyaSamitiKoNaam String
+}
