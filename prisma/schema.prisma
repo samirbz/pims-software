@@ -65,6 +65,43 @@ model MukhyaSamitiKoNaam {
 }
 
 model AnudaanKoNaam {
-  id                 String @id @default(cuid())
+  id            String @id @default(cuid())
   anudaanKoNaam String
+}
+
+model LagatSrot {
+  id              String @id @default(cuid())
+  anudanKoKisim   String
+  lagatSrotKoNaam String
+}
+
+model YojanaPrakar {
+  id           String @id @default(cuid())
+  yojanaPrakar String
+}
+
+model YojanaChanotNikaya {
+  id                 String @id @default(cuid())
+  yojanaChanotNikaya String
+}
+
+model Gapa {
+  id   String @id @default(cuid())
+  gapa String
+}
+
+model WadaNum {
+  id      String @id @default(cuid())
+  wadaNum String
+}
+
+model BankBivaran {
+  id         String @id @default(cuid())
+  bankKoNaam String
+  sakha      String
+}
+
+model SuchanaPrakasan {
+  id              String @id @default(cuid())
+  suchanaPrakasan String
 }

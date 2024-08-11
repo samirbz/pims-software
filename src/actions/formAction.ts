@@ -120,8 +120,8 @@ export async function deleteTskData(id: string) {
   }
 }
 
-//  setup
-//  mukhya samiti
+//  ***************setup menu item********************************
+// 1. mukhya samiti
 export async function saveMukyaSamiti(mukhyaSamitiKoNaam: string) {
   try {
     const mukhyaSamiti = await prisma.mukhyaSamitiKoNaam.create({
@@ -157,7 +157,7 @@ export async function deleteMukyaSamitiKoNaam(id: string) {
   }
 }
 
-//  anudan kisim
+//  2. anudan kisim
 export async function saveAnudaanKoNaam(anudaanKoNaam: string) {
   try {
     const anudaan = await prisma.anudaanKoNaam.create({
@@ -184,6 +184,257 @@ export async function fetchAnudaanKoNaamData() {
 export async function deleteAnudaanKoNaam(id: string) {
   try {
     await prisma.anudaanKoNaam.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+
+// 3.Lagat srot
+export async function saveLagatSrot(anudanKoKisim: string, lagatSrotKoNaam: string) {
+  try {
+    const dt = await prisma.lagatSrot.create({
+      data: {
+        anudanKoKisim,
+        lagatSrotKoNaam,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchLagatSrotData() {
+  try {
+    const data = await prisma.lagatSrot.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteLagatSrot(id: string) {
+  try {
+    await prisma.lagatSrot.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+
+
+// 4.yojana prakar
+export async function saveYojanaPrakar(yojanaPrakar: string) {
+  try {
+    const yojana = await prisma.yojanaPrakar.create({
+      data: {
+        yojanaPrakar,
+      },
+    })
+    return { status: "success", data: yojana }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchYojanaPrakarData() {
+  try {
+    const data = await prisma.yojanaPrakar.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteYojanaPrakar(id: string) {
+  try {
+    await prisma.yojanaPrakar.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+// 6.yojana chanot nikaya
+export async function saveYojanaChanotNikaya(yojanaChanotNikaya: string) {
+  try {
+    const yojana = await prisma.yojanaChanotNikaya.create({
+      data: {
+        yojanaChanotNikaya,
+      },
+    })
+    return { status: "success", data: yojana }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchYojanaChanotNikayaData() {
+  try {
+    const data = await prisma.yojanaChanotNikaya.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteYojanaChanotNikaya(id: string) {
+  try {
+    await prisma.yojanaChanotNikaya.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+// 7.gapa/nagarpalikako naam
+export async function saveGapa(gapa: string) {
+  try {
+    const dt = await prisma.gapa.create({
+      data: {
+        gapa,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchGapaData() {
+  try {
+    const data = await prisma.gapa.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteGapa(id: string) {
+  try {
+    await prisma.gapa.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+// 8.wada num
+export async function savewadaNum(wadaNum: string) {
+  try {
+    const dt = await prisma.wadaNum.create({
+      data: {
+        wadaNum,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchWadaNumData() {
+  try {
+    const data = await prisma.wadaNum.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteWadaNum(id: string) {
+  try {
+    await prisma.wadaNum.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+// 9.Bank bivaran
+export async function saveBankBivaran(bankKoNaam: string, sakha: string) {
+  try {
+    const dt = await prisma.bankBivaran.create({
+      data: {
+        bankKoNaam,
+        sakha,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchBankBivaranData() {
+  try {
+    const data = await prisma.bankBivaran.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteBankBivaran(id: string) {
+  try {
+    await prisma.bankBivaran.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+
+// 12. suchana prakasan
+export async function saveSuchanaPrakasan(suchanaPrakasan: string) {
+  try {
+    const dt = await prisma.suchanaPrakasan.create({
+      data: {
+        suchanaPrakasan,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchSuchanaPrakasanData() {
+  try {
+    const data = await prisma.suchanaPrakasan.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteSuchanaPrakasan(id: string) {
+  try {
+    await prisma.suchanaPrakasan.delete({
       where: { id },
     })
     return { status: "success" }

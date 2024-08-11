@@ -66,8 +66,8 @@ export default function MukhyaSamiti() {
           type="text"
           label="मुख्य समिती को नाम"
           size="sm"
-          value={mukhyaSamitiKoNaam} // Bind the input value to the state
-          onChange={(e) => setMukhyaSamitiKoNaam(e.target.value)} // Handle input change
+          value={mukhyaSamitiKoNaam} 
+          onChange={(e) => setMukhyaSamitiKoNaam(e.target.value)} 
         />
         <Button
           color="secondary"
