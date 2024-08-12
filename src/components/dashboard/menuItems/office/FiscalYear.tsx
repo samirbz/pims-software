@@ -6,6 +6,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Spinner,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
@@ -23,12 +24,17 @@ export default function FiscalYearPage() {
   const [fy, setFy] = useState<string>("")
   const [fiscalYears, setFiscalYears] = useState<any[]>([])
 
+  const [loading, setLoading] = useState(true)
+
   const fetchFiscalYears = async () => {
     try {
+      setLoading(true) // Set loading to true before fetching data
       const data = await fetchFyData()
       setFiscalYears(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
+    } finally {
+      setLoading(false) // Set loading to false after fetching data
     }
   }
 
@@ -107,58 +113,64 @@ export default function FiscalYearPage() {
           </Button>
         </div>
         <br />
-        <div className="mb-2 max-h-[28rem] w-auto overflow-auto sm:mb-0">
-          <table className="min-w-[40rem]  ">
-            <thead className="sticky top-0 z-20 border-r-2 bg-purple-400">
-              <tr>
-                <th className=" px-4 py-2">सि.न.</th>
-                <th className=" px-4 py-2">आ.व सुरु मिति</th>
-                <th className=" px-4 py-2">आ.व अन्तिम मिति</th>
-                <th className=" px-4 py-2">आ.व</th>
-                <th className=" px-4 py-2">Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {fiscalYears.map((year, index) => (
-                <tr key={year.id}>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {index + 1}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {year.startDate}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {year.endDate}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    {year.fy}
-                  </td>
-                  <td className="border border-gray-200 px-4 py-2">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button className="z-10" variant="shadow" size="sm">
-                          <MdModeEditOutline />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
-
-                        <DropdownItem
-                          key="delete"
-                          className="text-danger"
-                          color="danger"
-                          onPress={() => handleDelete(year.id)}
-                        >
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </td>
+        {loading ? ( // Show loading spinner while data is being fetched
+          <div className="my-4 flex w-full justify-center">
+            <Spinner color="primary" />
+          </div>
+        ) : (
+          <div className="mb-2 max-h-[28rem] w-auto overflow-auto sm:mb-0">
+            <table className="min-w-[40rem]  ">
+              <thead className="sticky top-0 z-20 border-r-2 bg-purple-400">
+                <tr>
+                  <th className=" px-4 py-2">सि.न.</th>
+                  <th className=" px-4 py-2">आ.व सुरु मिति</th>
+                  <th className=" px-4 py-2">आ.व अन्तिम मिति</th>
+                  <th className=" px-4 py-2">आ.व</th>
+                  <th className=" px-4 py-2">Edit</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {fiscalYears.map((year, index) => (
+                  <tr key={year.id}>
+                    <td className="border border-gray-200 px-4 py-2">
+                      {index + 1}
+                    </td>
+                    <td className="border border-gray-200 px-4 py-2">
+                      {year.startDate}
+                    </td>
+                    <td className="border border-gray-200 px-4 py-2">
+                      {year.endDate}
+                    </td>
+                    <td className="border border-gray-200 px-4 py-2">
+                      {year.fy}
+                    </td>
+                    <td className="border border-gray-200 px-4 py-2">
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button className="z-10" variant="shadow" size="sm">
+                            <MdModeEditOutline />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Static Actions">
+                          <DropdownItem>Edit</DropdownItem>
+
+                          <DropdownItem
+                            key="delete"
+                            className="text-danger"
+                            color="danger"
+                            onPress={() => handleDelete(year.id)}
+                          >
+                            Delete
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   )
