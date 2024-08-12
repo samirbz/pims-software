@@ -26,6 +26,7 @@ import {
   Input,
   TableColumn,
   Checkbox,
+  Spinner,
 } from "@nextui-org/react"
 import { getStaff } from "@/actions/memberActions"
 import { deleteStaff } from "@/actions/userActions"
@@ -47,6 +48,7 @@ interface Member {
 }
 
 export default function StaffDetailPage() {
+  const [loading, setLoading] = useState(true)
   const {
     isOpen: isDeleteConfirmationOpen,
     onOpen: onDeleteConfirmationOpen,
@@ -57,8 +59,15 @@ export default function StaffDetailPage() {
   const [deleteUserId, setDeleteUserId] = useState("")
 
   async function fetchMembers() {
-    const member: any = await getStaff()
-    setMembers(member)
+    try {
+      setLoading(true)
+      const member: any = await getStaff()
+      setMembers(member)
+    } catch (error) {
+      console.error("Error fetching staff detail", error)
+    } finally {
+      setLoading(false) // Set loading to false after fetching data
+    }
   }
 
   useEffect(() => {
@@ -303,99 +312,106 @@ export default function StaffDetailPage() {
               Export to Excel
             </Button>
           </div>
-          <div className="mb-2 size-auto max-w-[90rem] overflow-x-auto sm:mb-0 ">
-            <Table
-              align="center"
-              aria-label="Example table with client side pagination"
-              className="min-w-[40rem] border-collapse"
-              bottomContent={
-                <div className="flex w-full justify-center">
-                  <Pagination
-                    isCompact
-                    showControls
-                    showShadow
-                    color="secondary"
-                    page={page}
-                    total={pages}
-                    onChange={(page) => setPage(page)}
-                  />
-                </div>
-              }
-              classNames={{
-                wrapper: "min-h-[222px]",
-              }}
-            >
-              <TableHeader className="z-20">
-                <TableColumn
-                  key="snum"
-                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                >
-                  सि.न.
-                </TableColumn>
-                <TableColumn
-                  key="name"
-                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                >
-                  कर्मचारीको नाम
-                </TableColumn>
-                <TableColumn
-                  key="position"
-                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                >
-                  पद{" "}
-                </TableColumn>
-                <TableColumn
-                  key="ranking"
-                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                >
-                  वरियता क्रम
-                </TableColumn>
-                <TableColumn
-                  key="edit"
-                  className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                >
-                  EDIT
-                </TableColumn>
-              </TableHeader>
-              <TableBody items={items}>
-                {(item: Member) => (
-                  <TableRow key={item.id}>
-                    {(columnKey) => (
-                      <TableCell className="border">
-                        {columnKey === "edit" ? (
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button
-                                className="z-10"
-                                variant="shadow"
-                                size="sm"
-                              >
-                                <MdModeEditOutline />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu aria-label="Static Actions">
-                              <DropdownItem
-                                key="delete"
-                                className="text-danger"
-                                color="danger"
-                                onClick={() => handleDelete(item.id)}
-                              >
-                                De-activate
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
-                        ) : columnKey === "snum" ? (
-                          items.indexOf(item) + 1 + (page - 1) * rowsPerPage
-                        ) : (
-                          getKeyValue(item, columnKey)
-                        )}
-                      </TableCell>
-                    )}
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
+
+          {loading ? ( // Show loading spinner while data is being fetched
+            <div className="my-4 flex w-full justify-center">
+              <Spinner color="primary" />
+            </div>
+          ) : (
+            <div className="mb-2 size-auto max-w-[90rem] overflow-x-auto sm:mb-0 ">
+              <Table
+                align="center"
+                aria-label="Example table with client side pagination"
+                className="min-w-[40rem] border-collapse"
+                bottomContent={
+                  <div className="flex w-full justify-center">
+                    <Pagination
+                      isCompact
+                      showControls
+                      showShadow
+                      color="secondary"
+                      page={page}
+                      total={pages}
+                      onChange={(page) => setPage(page)}
+                    />
+                  </div>
+                }
+                classNames={{
+                  wrapper: "min-h-[222px]",
+                }}
+              >
+                <TableHeader className="z-20">
+                  <TableColumn
+                    key="snum"
+                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                  >
+                    सि.न.
+                  </TableColumn>
+                  <TableColumn
+                    key="name"
+                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                  >
+                    कर्मचारीको नाम
+                  </TableColumn>
+                  <TableColumn
+                    key="position"
+                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                  >
+                    पद{" "}
+                  </TableColumn>
+                  <TableColumn
+                    key="ranking"
+                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                  >
+                    वरियता क्रम
+                  </TableColumn>
+                  <TableColumn
+                    key="edit"
+                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
+                  >
+                    EDIT
+                  </TableColumn>
+                </TableHeader>
+                <TableBody items={items}>
+                  {(item: Member) => (
+                    <TableRow key={item.id}>
+                      {(columnKey) => (
+                        <TableCell className="border">
+                          {columnKey === "edit" ? (
+                            <Dropdown>
+                              <DropdownTrigger>
+                                <Button
+                                  className="z-10"
+                                  variant="shadow"
+                                  size="sm"
+                                >
+                                  <MdModeEditOutline />
+                                </Button>
+                              </DropdownTrigger>
+                              <DropdownMenu aria-label="Static Actions">
+                                <DropdownItem
+                                  key="delete"
+                                  className="text-danger"
+                                  color="danger"
+                                  onClick={() => handleDelete(item.id)}
+                                >
+                                  De-activate
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          ) : columnKey === "snum" ? (
+                            items.indexOf(item) + 1 + (page - 1) * rowsPerPage
+                          ) : (
+                            getKeyValue(item, columnKey)
+                          )}
+                        </TableCell>
+                      )}
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </div>
       </div>
     </>

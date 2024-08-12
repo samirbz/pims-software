@@ -25,6 +25,7 @@ import {
   CardBody,
   Input,
   TableColumn,
+  Spinner,
 } from "@nextui-org/react"
 import { fetchStaffNames, getMembersExcludeOwn } from "@/actions/memberActions"
 import { deleteMember, resetUserPassword } from "@/actions/userActions"
@@ -48,6 +49,7 @@ interface StaffMember {
 }
 
 export default function UserSetup() {
+  const [loading, setLoading] = useState(true)
   const {
     isOpen: isResetPasswordOpen,
     onOpen: onResetPasswordOpen,
@@ -70,8 +72,15 @@ export default function UserSetup() {
   const toggleVisibilitys = () => setIsVisibles(!isVisible)
 
   async function fetchMembers() {
-    const member: any = await getMembersExcludeOwn()
-    setMembers(member)
+    try {
+      setLoading(true) // Set loading to true before fetching data
+      const member: any = await getMembersExcludeOwn()
+      setMembers(member)
+    } catch (error) {
+      console.error("Error fetching users", error)
+    } finally {
+      setLoading(false) // Set loading to false after fetching data
+    }
   }
 
   useEffect(() => {
@@ -357,94 +366,104 @@ export default function UserSetup() {
           >
             Add User
           </Button>
-          <div className="mb-2 size-auto overflow-x-auto sm:mb-0 ">
-            <Table
-              align="center"
-              aria-label="Example table with client side pagination"
-              className=" border-collapse"
-              bottomContent={
-                <div className="flex w-full justify-center">
-                  <Pagination
-                    isCompact
-                    showControls
-                    showShadow
-                    color="secondary"
-                    page={page}
-                    total={pages}
-                    onChange={(page) => setPage(page)}
-                  />
-                </div>
-              }
-              classNames={{
-                wrapper: "min-h-[222px]",
-              }}
-            >
-              <TableHeader className="z-20">
-                <TableColumn className=" bg-gray-200 text-black" key="snum">
-                  सि.न.
-                </TableColumn>
-                <TableColumn className="bg-gray-200 text-black" key="name">
-                  कर्मचारीको नाम
-                </TableColumn>
-                <TableColumn className="bg-gray-200 text-black" key="username">
-                  प्रयोगकर्ताको ID
-                </TableColumn>
-                <TableColumn className="bg-gray-200 text-black" key="email">
-                  ROLE
-                </TableColumn>
-                <TableColumn className="bg-gray-200 text-black" key="edit">
-                  EDIT
-                </TableColumn>
-              </TableHeader>
-              <TableBody items={items}>
-                {(item: Member) => (
-                  <TableRow key={item.id}>
-                    {(columnKey) => (
-                      <TableCell className="border">
-                        {columnKey === "edit" ? (
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button
-                                variant="shadow"
-                                size="sm"
-                                className="z-10"
-                              >
-                                <MdModeEditOutline />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu aria-label="Static Actions">
-                              <DropdownItem
-                                key="reset-password"
-                                onPress={() => {
-                                  setSelectedMemberId(item.id)
-                                  onResetPasswordOpen()
-                                }}
-                              >
-                                Reset Password
-                              </DropdownItem>
 
-                              <DropdownItem
-                                key="delete"
-                                className="text-danger"
-                                color="danger"
-                                onClick={() => handleDelete(item.id)}
-                              >
-                                Delete user
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
-                        ) : columnKey === "snum" ? (
-                          items.indexOf(item) + 1 + (page - 1) * rowsPerPage
-                        ) : (
-                          getKeyValue(item, columnKey)
-                        )}
-                      </TableCell>
-                    )}
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
+          {loading ? ( // Show loading spinner while data is being fetched
+            <div className="my-4 flex w-full justify-center">
+              <Spinner color="primary" />
+            </div>
+          ) : (
+            <div className="mb-2 size-auto overflow-x-auto sm:mb-0 ">
+              <Table
+                align="center"
+                aria-label="Example table with client side pagination"
+                className=" border-collapse"
+                bottomContent={
+                  <div className="flex w-full justify-center">
+                    <Pagination
+                      isCompact
+                      showControls
+                      showShadow
+                      color="secondary"
+                      page={page}
+                      total={pages}
+                      onChange={(page) => setPage(page)}
+                    />
+                  </div>
+                }
+                classNames={{
+                  wrapper: "min-h-[222px]",
+                }}
+              >
+                <TableHeader className="z-20">
+                  <TableColumn className=" bg-gray-200 text-black" key="snum">
+                    सि.न.
+                  </TableColumn>
+                  <TableColumn className="bg-gray-200 text-black" key="name">
+                    कर्मचारीको नाम
+                  </TableColumn>
+                  <TableColumn
+                    className="bg-gray-200 text-black"
+                    key="username"
+                  >
+                    प्रयोगकर्ताको ID
+                  </TableColumn>
+                  <TableColumn className="bg-gray-200 text-black" key="email">
+                    ROLE
+                  </TableColumn>
+                  <TableColumn className="bg-gray-200 text-black" key="edit">
+                    EDIT
+                  </TableColumn>
+                </TableHeader>
+                <TableBody items={items}>
+                  {(item: Member) => (
+                    <TableRow key={item.id}>
+                      {(columnKey) => (
+                        <TableCell className="border">
+                          {columnKey === "edit" ? (
+                            <Dropdown>
+                              <DropdownTrigger>
+                                <Button
+                                  variant="shadow"
+                                  size="sm"
+                                  className="z-10"
+                                >
+                                  <MdModeEditOutline />
+                                </Button>
+                              </DropdownTrigger>
+                              <DropdownMenu aria-label="Static Actions">
+                                <DropdownItem
+                                  key="reset-password"
+                                  onPress={() => {
+                                    setSelectedMemberId(item.id)
+                                    onResetPasswordOpen()
+                                  }}
+                                >
+                                  Reset Password
+                                </DropdownItem>
+
+                                <DropdownItem
+                                  key="delete"
+                                  className="text-danger"
+                                  color="danger"
+                                  onClick={() => handleDelete(item.id)}
+                                >
+                                  Delete user
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          ) : columnKey === "snum" ? (
+                            items.indexOf(item) + 1 + (page - 1) * rowsPerPage
+                          ) : (
+                            getKeyValue(item, columnKey)
+                          )}
+                        </TableCell>
+                      )}
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </div>
       </div>
     </>
