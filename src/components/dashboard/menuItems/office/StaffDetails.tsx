@@ -25,6 +25,7 @@ import {
   Input,
   TableColumn,
   Checkbox,
+  Spinner,
 } from "@nextui-org/react"
 import { getStaff } from "@/actions/memberActions"
 import { deleteStaff, updateStaff } from "@/actions/userActions"
@@ -45,6 +46,7 @@ interface Member {
 }
 
 export default function StaffDetailPage() {
+  const [loading, setLoading] = useState(true)
   const {
     isOpen: isDeleteConfirmationOpen,
     onOpen: onDeleteConfirmationOpen,
@@ -57,10 +59,13 @@ export default function StaffDetailPage() {
 
   async function fetchMembers() {
     try {
+      setLoading(true)
       const member: any = await getStaff()
       setMembers(member)
     } catch (error) {
       console.error("Error fetching staff detail", error)
+    } finally {
+      setLoading(false) // Set loading to false after fetching data
     }
   }
 
@@ -113,7 +118,7 @@ export default function StaffDetailPage() {
   const onSubmit = async (data: StaffRegisterSchema) => {
     if (editMember) {
       // Update the existing member
-      const result = await updateStaff(editMember.id,data)
+      const result = await updateStaff(editMember.id, data)
       if (result.status === "success") {
         toast.success("User updated successfully")
         reset()
@@ -324,47 +329,54 @@ export default function StaffDetailPage() {
           </Button>
         </div>
       </div>
-      <Table
-        aria-label="Example table with dynamic content"
-        className="h-auto min-w-full"
-      >
-        <TableHeader>
-          <TableColumn>कर्मचारीको नाम</TableColumn>
-          <TableColumn>वरियता क्रम</TableColumn>
-          <TableColumn>कर्मचारी पद</TableColumn>
-          <TableColumn>Actions</TableColumn>
-        </TableHeader>
-        <TableBody>
-          {items.map((member) => (
-            <TableRow key={member.id}>
-              <TableCell>{member.name}</TableCell>
-              <TableCell>{member.ranking}</TableCell>
-              <TableCell>{member.position}</TableCell>
-              <TableCell>
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button color="primary">Actions</Button>
-                  </DropdownTrigger>
-                  <DropdownMenu aria-label="Actions">
-                    <DropdownItem
-                      key="edit"
-                      onClick={() => handleEdit(member)} // Handle edit action
-                    >
-                      Edit
-                    </DropdownItem>
-                    <DropdownItem
-                      key="delete"
-                      onClick={() => handleDelete(member.id)} // Handle delete action
-                    >
-                      Delete
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+
+      {loading ? (
+        <div className="my-4 flex w-full justify-center">
+          <Spinner color="primary" />
+        </div>
+      ) : (
+        <Table
+          aria-label="Example table with dynamic content"
+          className="h-auto min-w-full"
+        >
+          <TableHeader>
+            <TableColumn>कर्मचारीको नाम</TableColumn>
+            <TableColumn>वरियता क्रम</TableColumn>
+            <TableColumn>कर्मचारी पद</TableColumn>
+            <TableColumn>Actions</TableColumn>
+          </TableHeader>
+          <TableBody>
+            {items.map((member) => (
+              <TableRow key={member.id}>
+                <TableCell>{member.name}</TableCell>
+                <TableCell>{member.ranking}</TableCell>
+                <TableCell>{member.position}</TableCell>
+                <TableCell>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button color="primary">Actions</Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Actions">
+                      <DropdownItem
+                        key="edit"
+                        onClick={() => handleEdit(member)} // Handle edit action
+                      >
+                        Edit
+                      </DropdownItem>
+                      <DropdownItem
+                        key="delete"
+                        onClick={() => handleDelete(member.id)} // Handle delete action
+                      >
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
       <Pagination
         total={pages}
         color="primary"
