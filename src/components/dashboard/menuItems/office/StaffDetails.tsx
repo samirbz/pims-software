@@ -294,7 +294,7 @@ export default function StaffDetailPage() {
                           Close
                         </Button>
                         <Button
-                          color="secondary"
+                          color="primary"
                           isLoading={isSubmitting}
                           isDisabled={!isValid}
                           onPress={onClose}
@@ -314,7 +314,7 @@ export default function StaffDetailPage() {
       </Modal>
       <div className="flex flex-row items-center justify-between bg-white p-5">
         <h1 className="text-lg font-semibold">Staff Details</h1>
-        <div className="space-x-2">
+        <div className="flex gap-2">
           <Button
             color="success"
             onClick={() => {
