@@ -36,6 +36,7 @@ import { staffRegister } from "@/actions/authActions"
 import { useForm } from "react-hook-form"
 import { IoIosSave, IoMdCheckmark } from "react-icons/io"
 import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
+import * as XLSX from "xlsx" // Import xlsx
 
 interface Member {
   id: string
@@ -121,6 +122,14 @@ export default function StaffDetailPage() {
         toast.error("Something went wrong")
       }
     }
+  }
+
+  // Function to export the table data to Excel
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(members)
+    const workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
+    XLSX.writeFile(workbook, "StaffDetails.xlsx")
   }
 
   return (
@@ -277,14 +286,23 @@ export default function StaffDetailPage() {
       <div className="flex w-full justify-center">
         <div className=" w-full px-4 text-center sm:w-auto">
           <h1 className="form-title">कर्मचारी विवरण</h1>
-          <Button
-            onPress={onOpen}
-            startContent={<FaPlus />}
-            color="primary"
-            className="mb-2 mt-4"
-          >
-            Add Staff
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onPress={onOpen}
+              startContent={<FaPlus />}
+              color="primary"
+              className="mb-2 mt-4"
+            >
+              Add Staff
+            </Button>
+            <Button
+              onPress={exportToExcel} // Add export button
+              color="secondary"
+              className="mb-2 mt-4"
+            >
+              Export to Excel
+            </Button>
+          </div>
           <div className="mb-2 size-auto max-w-[90rem] overflow-x-auto sm:mb-0 ">
             <Table
               align="center"
