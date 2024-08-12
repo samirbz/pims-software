@@ -4,6 +4,7 @@ import {
   memberEditSchema,
   MemberEditSchema,
 } from "@/lib/schemas/memberEditSchema"
+import { staffEditSchema, StaffEditSchema } from "@/lib/schemas/staffEditSchema"
 import { ActionResult } from "@/types"
 import { getAuthUserId } from "./authActions"
 import { prisma } from "@/lib/prisma"
@@ -61,29 +62,6 @@ export async function deleteStaff(id: string) {
   }
 }
 
-// export async function resetPassword(newPassword: string) {
-//   const session = await auth()
-//   const id = session?.user?.id
-
-//   try {
-//     // Hash the new password
-//     const hashedPassword = await bcrypt.hash(newPassword, 10)
-
-//     // Update the user's password in the database
-//     await prisma.user.update({
-//       where: { id },
-//       data: {
-//         passwordHash: hashedPassword,
-//       },
-//     })
-
-//     return { message: "Password reset successful" }
-//   } catch (error) {
-//     console.error("Error resetting password:", error)
-//     throw new Error("Failed to reset password")
-//   }
-// }
-
 export async function resetPassword(oldPassword: string, newPassword: string) {
   const session = await auth()
   const id = session?.user?.id
@@ -140,5 +118,32 @@ export async function resetUserPassword(newPassword: string, id: string) {
   } catch (error) {
     console.error("Error resetting password:", error)
     throw new Error("Failed to reset password")
+  }
+}
+
+export async function updateStaff(id: string, data: StaffEditSchema) {
+  try {
+    const validated = staffEditSchema.safeParse(data)
+
+    if (!validated.success) {
+      return { status: "error", error: validated.error.errors }
+    }
+
+    const { name, ranking, position, isuser } = validated.data
+
+    const staff = await prisma.staff.update({
+      where: { id },
+      data: {
+        name,
+        ranking,
+        position,
+        isuser, // Optional field, ensure this matches your Prisma schema
+      },
+    })
+
+    return { status: "success", data: staff }
+  } catch (error) {
+    console.error("Failed to update staff:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }

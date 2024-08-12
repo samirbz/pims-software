@@ -7,7 +7,6 @@ import {
   TableRow,
   TableCell,
   Pagination,
-  getKeyValue,
   Button,
   Dropdown,
   DropdownItem,
@@ -26,13 +25,11 @@ import {
   Input,
   TableColumn,
   Checkbox,
-  Spinner,
 } from "@nextui-org/react"
 import { getStaff } from "@/actions/memberActions"
-import { deleteStaff } from "@/actions/userActions"
+import { deleteStaff, updateStaff } from "@/actions/userActions"
 import { FaPlus } from "react-icons/fa"
 import { toast } from "react-toastify"
-import { MdModeEditOutline } from "react-icons/md"
 import { staffRegister } from "@/actions/authActions"
 import { useForm } from "react-hook-form"
 import { IoIosSave, IoMdCheckmark } from "react-icons/io"
@@ -48,7 +45,6 @@ interface Member {
 }
 
 export default function StaffDetailPage() {
-  const [loading, setLoading] = useState(true)
   const {
     isOpen: isDeleteConfirmationOpen,
     onOpen: onDeleteConfirmationOpen,
@@ -57,16 +53,14 @@ export default function StaffDetailPage() {
 
   const [members, setMembers] = useState([])
   const [deleteUserId, setDeleteUserId] = useState("")
+  const [editMember, setEditMember] = useState<Member | null>(null)
 
   async function fetchMembers() {
     try {
-      setLoading(true)
       const member: any = await getStaff()
       setMembers(member)
     } catch (error) {
       console.error("Error fetching staff detail", error)
-    } finally {
-      setLoading(false) // Set loading to false after fetching data
     }
   }
 
@@ -109,6 +103,7 @@ export default function StaffDetailPage() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isValid, isSubmitting },
   } = useForm<StaffRegisterSchema>({
     // resolver: zodResolver(registerSchema),
@@ -116,29 +111,49 @@ export default function StaffDetailPage() {
   })
 
   const onSubmit = async (data: StaffRegisterSchema) => {
-    const result = await staffRegister(data)
-
-    if (result.status === "success") {
-      toast.success("User created successfully")
-      // window.location.reload()
-      reset()
-      fetchMembers()
-    } else {
-      // Show error message in toast
-      if (result.error === "User already exists") {
-        toast.error("User already exists")
+    if (editMember) {
+      // Update the existing member
+      const result = await updateStaff(editMember.id,data)
+      if (result.status === "success") {
+        toast.success("User updated successfully")
+        reset()
+        fetchMembers()
+        setEditMember(null) // Clear the editing state
       } else {
         toast.error("Something went wrong")
       }
+    } else {
+      // Register a new member
+      const result = await staffRegister(data)
+      if (result.status === "success") {
+        toast.success("User created successfully")
+        reset()
+        fetchMembers()
+      } else {
+        if (result.error === "User already exists") {
+          toast.error("User already exists")
+        } else {
+          toast.error("Something went wrong")
+        }
+      }
     }
+    onOpenChange() // Close the modal
   }
-
   // Function to export the table data to Excel
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(members)
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
     XLSX.writeFile(workbook, "StaffDetails.xlsx")
+  }
+
+  const handleEdit = (member: Member) => {
+    setEditMember(member)
+    setValue("name", member.name) // Pre-fill the form fields
+    setValue("ranking", member.ranking)
+    setValue("position", member.position)
+    setValue("isuser", member.isUser)
+    onOpen()
   }
 
   return (
@@ -292,128 +307,69 @@ export default function StaffDetailPage() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex w-full justify-center">
-        <div className=" w-full px-4 text-center sm:w-auto">
-          <h1 className="form-title">कर्मचारी विवरण</h1>
-          <div className="flex gap-2">
-            <Button
-              onPress={onOpen}
-              startContent={<FaPlus />}
-              color="primary"
-              className="mb-2 mt-4"
-            >
-              Add Staff
-            </Button>
-            <Button
-              onPress={exportToExcel} // Add export button
-              color="secondary"
-              className="mb-2 mt-4"
-            >
-              Export to Excel
-            </Button>
-          </div>
-
-          {loading ? ( // Show loading spinner while data is being fetched
-            <div className="my-4 flex w-full justify-center">
-              <Spinner color="primary" />
-            </div>
-          ) : (
-            <div className="mb-2 size-auto max-w-[90rem] overflow-x-auto sm:mb-0 ">
-              <Table
-                align="center"
-                aria-label="Example table with client side pagination"
-                className="min-w-[40rem] border-collapse"
-                bottomContent={
-                  <div className="flex w-full justify-center">
-                    <Pagination
-                      isCompact
-                      showControls
-                      showShadow
-                      color="secondary"
-                      page={page}
-                      total={pages}
-                      onChange={(page) => setPage(page)}
-                    />
-                  </div>
-                }
-                classNames={{
-                  wrapper: "min-h-[222px]",
-                }}
-              >
-                <TableHeader className="z-20">
-                  <TableColumn
-                    key="snum"
-                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                  >
-                    सि.न.
-                  </TableColumn>
-                  <TableColumn
-                    key="name"
-                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                  >
-                    कर्मचारीको नाम
-                  </TableColumn>
-                  <TableColumn
-                    key="position"
-                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                  >
-                    पद{" "}
-                  </TableColumn>
-                  <TableColumn
-                    key="ranking"
-                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                  >
-                    वरियता क्रम
-                  </TableColumn>
-                  <TableColumn
-                    key="edit"
-                    className="sticky top-0 z-50  bg-gray-200 px-4 py-2 text-black"
-                  >
-                    EDIT
-                  </TableColumn>
-                </TableHeader>
-                <TableBody items={items}>
-                  {(item: Member) => (
-                    <TableRow key={item.id}>
-                      {(columnKey) => (
-                        <TableCell className="border">
-                          {columnKey === "edit" ? (
-                            <Dropdown>
-                              <DropdownTrigger>
-                                <Button
-                                  className="z-10"
-                                  variant="shadow"
-                                  size="sm"
-                                >
-                                  <MdModeEditOutline />
-                                </Button>
-                              </DropdownTrigger>
-                              <DropdownMenu aria-label="Static Actions">
-                                <DropdownItem
-                                  key="delete"
-                                  className="text-danger"
-                                  color="danger"
-                                  onClick={() => handleDelete(item.id)}
-                                >
-                                  De-activate
-                                </DropdownItem>
-                              </DropdownMenu>
-                            </Dropdown>
-                          ) : columnKey === "snum" ? (
-                            items.indexOf(item) + 1 + (page - 1) * rowsPerPage
-                          ) : (
-                            getKeyValue(item, columnKey)
-                          )}
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          )}
+      <div className="flex flex-row items-center justify-between bg-white p-5">
+        <h1 className="text-lg font-semibold">Staff Details</h1>
+        <div className="space-x-2">
+          <Button
+            color="success"
+            onClick={() => {
+              setEditMember(null) // Reset the editing state for new member
+              onOpen()
+            }}
+          >
+            <FaPlus /> Add Staff
+          </Button>
+          <Button color="primary" onClick={exportToExcel}>
+            Export to Excel
+          </Button>
         </div>
       </div>
+      <Table
+        aria-label="Example table with dynamic content"
+        className="h-auto min-w-full"
+      >
+        <TableHeader>
+          <TableColumn>कर्मचारीको नाम</TableColumn>
+          <TableColumn>वरियता क्रम</TableColumn>
+          <TableColumn>कर्मचारी पद</TableColumn>
+          <TableColumn>Actions</TableColumn>
+        </TableHeader>
+        <TableBody>
+          {items.map((member) => (
+            <TableRow key={member.id}>
+              <TableCell>{member.name}</TableCell>
+              <TableCell>{member.ranking}</TableCell>
+              <TableCell>{member.position}</TableCell>
+              <TableCell>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button color="primary">Actions</Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Actions">
+                    <DropdownItem
+                      key="edit"
+                      onClick={() => handleEdit(member)} // Handle edit action
+                    >
+                      Edit
+                    </DropdownItem>
+                    <DropdownItem
+                      key="delete"
+                      onClick={() => handleDelete(member.id)} // Handle delete action
+                    >
+                      Delete
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Pagination
+        total={pages}
+        color="primary"
+        onChange={(page) => setPage(page)}
+      />
     </>
   )
 }
