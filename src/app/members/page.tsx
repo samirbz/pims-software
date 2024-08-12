@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 
 import { getSessionDetail } from "@/actions/authActions"
@@ -23,7 +23,6 @@ import Title from "@/components/dashboard/topNavItems/Title"
 import AccountButton from "@/components/dashboard/topNavItems/AccountButton"
 
 import Dashboard from "@/components/dashboard/Dashboard"
-
 import StaffDetailPage from "@/components/dashboard/menuItems/office/StaffDetails"
 import UserSetup from "@/components/dashboard/menuItems/office/UserSetup"
 import FiscalYearPage from "@/components/dashboard/menuItems/office/FiscalYear"
@@ -454,20 +453,21 @@ const Nav = () => {
   }
 
   const [openKeys, setOpenKeys] = useState<string[]>([])
-  const nonClosableKeys = ["sub3-1", "sub4-1", "sub4-2"]
 
   const handleOpenChange = (keys: string[]) => {
-    if (keys.some((key) => nonClosableKeys.includes(key))) {
-      setOpenKeys(keys)
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
+    if (latestOpenKey) {
+      setOpenKeys([latestOpenKey])
     } else {
-      setOpenKeys(keys.length ? [keys[keys.length - 1]] : [])
+      setOpenKeys([])
     }
   }
 
-  const filteredMenuItems =
-    userd?.email === "admin"
+  const filteredMenuItems = useMemo(() => {
+    return userd?.email === "admin"
       ? menuItems
       : menuItems.filter((item: any) => item.key !== "sub1")
+  }, [userd?.email])
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
