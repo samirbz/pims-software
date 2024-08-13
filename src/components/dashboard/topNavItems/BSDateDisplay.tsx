@@ -21,7 +21,7 @@ export default function BSDateDisplay() {
 
   return (
     <div>
-      <p className="text-[0.6rem] sm:w-40 sm:text-[1rem]">
+      <p className="text-[0.6rem] sm:text-[1rem]">
         <span className="text-[1rem]">मिति:</span>{" "}
         <span className="text-[1rem] font-semibold text-red-500">
           {ConvertToNepaliNumerals(now)}
