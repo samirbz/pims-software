@@ -338,6 +338,19 @@ export default function StaffDetailPage() {
         <Table
           aria-label="Example table with dynamic content"
           className="h-auto min-w-full"
+          bottomContent={
+            <div className="flex w-full justify-center">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="secondary"
+                page={page}
+                total={pages}
+                onChange={(page) => setPage(page)}
+              />
+            </div>
+          }
         >
           <TableHeader>
             <TableColumn>कर्मचारीको नाम</TableColumn>
@@ -377,11 +390,6 @@ export default function StaffDetailPage() {
           </TableBody>
         </Table>
       )}
-      <Pagination
-        total={pages}
-        color="primary"
-        onChange={(page) => setPage(page)}
-      />
     </>
   )
 }
