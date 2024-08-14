@@ -63,14 +63,18 @@ export default function FiscalYearPage() {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-auto text-center">
-        <h1 className="form-title">अर्थिक बर्ष सेट अप</h1>
+    <div className="flex flex-col items-center px-4 sm:px-0">
+      <div className="w-full max-w-2xl text-center">
+        <h1 className="form-title text-xl font-semibold sm:text-2xl">
+          अर्थिक बर्ष सेट अप
+        </h1>
         <br />
         <div className="flex flex-col gap-8 md:flex-row">
-          <div className="flex items-center gap-4">
-            <form className="flex gap-2">
-              <label htmlFor="date">आ.व सुरु मिति</label>
+          <div className="flex flex-col items-center gap-4 md:flex-row">
+            <form className="flex flex-col gap-2 md:flex-row">
+              <label htmlFor="date" className="text-sm md:text-base">
+                आ.व सुरु मिति
+              </label>
               <NepaliDatePicker
                 inputClassName="form-control"
                 className="rounded-lg border p-1"
@@ -80,8 +84,8 @@ export default function FiscalYearPage() {
               />
             </form>
           </div>
-          <div className="flex items-center gap-4">
-            <p>आ.व अन्तिम मिति</p>
+          <div className="flex flex-col items-center gap-4 md:flex-row">
+            <p className="text-sm md:text-base">आ.व अन्तिम मिति</p>
             <NepaliDatePicker
               inputClassName="form-control"
               className="rounded-lg border p-1 "
@@ -92,10 +96,10 @@ export default function FiscalYearPage() {
           </div>
         </div>
         <br />
-        <div className="flex items-center gap-4">
-          <p>आर्थिक बर्ष </p>
+        <div className="flex flex-col items-center gap-4 md:flex-row">
+          <p className="text-sm md:text-base">आर्थिक बर्ष</p>
           <select
-            className="rounded-lg  border p-1 "
+            className="w-full rounded-lg border p-1 md:w-auto"
             value={fy}
             onChange={(event) => setFy(event.target.value)}
           >
@@ -108,6 +112,7 @@ export default function FiscalYearPage() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
+            className="w-full md:w-auto"
           >
             Save
           </Button>
@@ -118,33 +123,35 @@ export default function FiscalYearPage() {
             <Spinner color="primary" />
           </div>
         ) : (
-          <div className="mb-2 max-h-[28rem] w-auto overflow-auto sm:mb-0">
-            <table className="min-w-[40rem]  ">
+          <div className="mb-2 max-h-[28rem] w-full overflow-auto sm:mb-0">
+            <table className="min-w-full sm:min-w-[40rem]">
               <thead className="sticky top-0 z-20 border-r-2 bg-purple-400">
                 <tr>
-                  <th className=" px-4 py-2">सि.न.</th>
-                  <th className=" px-4 py-2">आ.व सुरु मिति</th>
-                  <th className=" px-4 py-2">आ.व अन्तिम मिति</th>
-                  <th className=" px-4 py-2">आ.व</th>
-                  <th className=" px-4 py-2">Edit</th>
+                  <th className="p-2 text-sm sm:px-4 sm:py-2">सि.न.</th>
+                  <th className="p-2 text-sm sm:px-4 sm:py-2">आ.व सुरु मिति</th>
+                  <th className="p-2 text-sm sm:px-4 sm:py-2">
+                    आ.व अन्तिम मिति
+                  </th>
+                  <th className="p-2 text-sm sm:px-4 sm:py-2">आ.व</th>
+                  <th className="p-2 text-sm sm:px-4 sm:py-2">Edit</th>
                 </tr>
               </thead>
               <tbody>
                 {fiscalYears.map((year, index) => (
                   <tr key={year.id}>
-                    <td className="border border-gray-200 px-4 py-2">
+                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
                       {index + 1}
                     </td>
-                    <td className="border border-gray-200 px-4 py-2">
+                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
                       {year.startDate}
                     </td>
-                    <td className="border border-gray-200 px-4 py-2">
+                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
                       {year.endDate}
                     </td>
-                    <td className="border border-gray-200 px-4 py-2">
+                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
                       {year.fy}
                     </td>
-                    <td className="border border-gray-200 px-4 py-2">
+                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
                       <Dropdown>
                         <DropdownTrigger>
                           <Button className="z-10" variant="shadow" size="sm">
