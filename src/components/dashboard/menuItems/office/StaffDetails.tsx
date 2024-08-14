@@ -358,7 +358,7 @@ export default function StaffDetailPage() {
             <TableColumn>कर्मचारीको नाम</TableColumn>
             <TableColumn>वरियता क्रम</TableColumn>
             <TableColumn>कर्मचारी पद</TableColumn>
-            <TableColumn>Actions</TableColumn>
+            <TableColumn>Edit</TableColumn>
           </TableHeader>
           <TableBody>
             {items.map((member) => (
@@ -380,6 +380,8 @@ export default function StaffDetailPage() {
                       </DropdownItem>
                       <DropdownItem
                         key="delete"
+                        className="text-danger"
+                        color="danger"
                         onClick={() => handleDelete(member.id)} // Handle delete action
                       >
                         Delete
