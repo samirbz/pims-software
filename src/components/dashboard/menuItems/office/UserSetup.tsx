@@ -392,14 +392,16 @@ export default function UserSetup() {
           }
         >
           <TableHeader>
+            <TableColumn>सि.न.</TableColumn>
             <TableColumn>कर्मचारीको नाम</TableColumn>
             <TableColumn>प्रयोगकर्ताको ID</TableColumn>
             <TableColumn>ROLE</TableColumn>
             <TableColumn>EDIT</TableColumn>
           </TableHeader>
           <TableBody>
-            {items.map((member) => (
+            {items.map((member, index) => (
               <TableRow key={member.id}>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{member.name}</TableCell>
                 <TableCell>{member.username}</TableCell>
                 <TableCell>{member.email}</TableCell>

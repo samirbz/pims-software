@@ -355,14 +355,16 @@ export default function StaffDetailPage() {
           }
         >
           <TableHeader>
+            <TableColumn>सि.न.</TableColumn>
             <TableColumn>कर्मचारीको नाम</TableColumn>
             <TableColumn>वरियता क्रम</TableColumn>
             <TableColumn>कर्मचारी पद</TableColumn>
             <TableColumn>Edit</TableColumn>
           </TableHeader>
           <TableBody>
-            {items.map((member) => (
+            {items.map((member, index) => (
               <TableRow key={member.id}>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{member.name}</TableCell>
                 <TableCell>{member.ranking}</TableCell>
                 <TableCell>{member.position}</TableCell>
