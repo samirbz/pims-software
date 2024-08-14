@@ -6,7 +6,14 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Pagination,
   Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
@@ -25,6 +32,18 @@ export default function FiscalYearPage() {
   const [fiscalYears, setFiscalYears] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
+
+  const [page, setPage] = React.useState(1)
+  const rowsPerPage = 7
+
+  const pages = Math.ceil(fiscalYears.length / rowsPerPage)
+
+  const items = React.useMemo(() => {
+    const start = (page - 1) * rowsPerPage
+    const end = start + rowsPerPage
+
+    return fiscalYears.slice(start, end)
+  }, [page, fiscalYears])
 
   const fetchFiscalYears = async () => {
     try {
@@ -63,8 +82,8 @@ export default function FiscalYearPage() {
   }
 
   return (
-    <div className="flex flex-col items-center px-4 sm:px-0">
-      <div className="w-full max-w-2xl text-center">
+    <>
+      <div className="flex flex-col justify-between bg-white p-5">
         <h1 className="form-title text-xl font-semibold sm:text-2xl">
           अर्थिक बर्ष सेट अप
         </h1>
@@ -118,67 +137,69 @@ export default function FiscalYearPage() {
           </Button>
         </div>
         <br />
-        {loading ? ( // Show loading spinner while data is being fetched
+        {loading ? (
           <div className="my-4 flex w-full justify-center">
             <Spinner color="primary" />
           </div>
         ) : (
-          <div className="mb-2 max-h-[28rem] w-full overflow-auto sm:mb-0">
-            <table className="min-w-full sm:min-w-[40rem]">
-              <thead className="sticky top-0 z-20 border-r-2 bg-purple-400">
-                <tr>
-                  <th className="p-2 text-sm sm:px-4 sm:py-2">सि.न.</th>
-                  <th className="p-2 text-sm sm:px-4 sm:py-2">आ.व सुरु मिति</th>
-                  <th className="p-2 text-sm sm:px-4 sm:py-2">
-                    आ.व अन्तिम मिति
-                  </th>
-                  <th className="p-2 text-sm sm:px-4 sm:py-2">आ.व</th>
-                  <th className="p-2 text-sm sm:px-4 sm:py-2">Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {fiscalYears.map((year, index) => (
-                  <tr key={year.id}>
-                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
-                      {index + 1}
-                    </td>
-                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
-                      {year.startDate}
-                    </td>
-                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
-                      {year.endDate}
-                    </td>
-                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
-                      {year.fy}
-                    </td>
-                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
-                      <Dropdown>
-                        <DropdownTrigger>
-                          <Button className="z-10" variant="shadow" size="sm">
-                            <MdModeEditOutline />
-                          </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu aria-label="Static Actions">
-                          <DropdownItem>Edit</DropdownItem>
+          <Table
+            aria-label="Example table with dynamic content"
+            className="h-auto min-w-full"
+            bottomContent={
+              <div className="flex w-full justify-center">
+                <Pagination
+                  isCompact
+                  showControls
+                  showShadow
+                  color="secondary"
+                  page={page}
+                  total={pages}
+                  onChange={(page) => setPage(page)}
+                />
+              </div>
+            }
+          >
+            <TableHeader>
+              <TableColumn>सि.न.</TableColumn>
+              <TableColumn>आ.व सुरु मिति</TableColumn>
+              <TableColumn>आ.व अन्तिम मिति</TableColumn>
+              <TableColumn>आ.व</TableColumn>
+              <TableColumn>Edit</TableColumn>
+            </TableHeader>
+            <TableBody>
+              {items.map((year, index) => (
+                <TableRow key={year.id}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{year.startDate}</TableCell>
+                  <TableCell>{year.endDate}</TableCell>
+                  <TableCell>{year.fy}</TableCell>
+                  <TableCell>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button className="z-10" variant="shadow" size="sm">
+                          <MdModeEditOutline />
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="Static Actions">
+                        <DropdownItem>Edit</DropdownItem>
 
-                          <DropdownItem
-                            key="delete"
-                            className="text-danger"
-                            color="danger"
-                            onPress={() => handleDelete(year.id)}
-                          >
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                        <DropdownItem
+                          key="delete"
+                          className="text-danger"
+                          color="danger"
+                          onPress={() => handleDelete(year.id)}
+                        >
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         )}
       </div>
-    </div>
+    </>
   )
 }
