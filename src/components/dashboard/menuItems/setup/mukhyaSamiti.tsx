@@ -61,67 +61,79 @@ export default function MukhyaSamiti() {
   }
 
   return (
-    <div className="flex flex-col items-start gap-2 xxl:w-1/2">
-      <h1 className="form-title">मुख्य समिती को नाम</h1>
-      <div className="flex w-full gap-2">
-        <Input
-          type="text"
-          label="मुख्य समिती को नाम"
-          size="sm"
-          value={mukhyaSamitiKoNaam}
-          onChange={(e) => setMukhyaSamitiKoNaam(e.target.value)}
-        />
-        <Button
-          color="secondary"
-          startContent={<FaRegSave />}
-          onClick={onSubmit}
-        >
-          Save
-        </Button>
-      </div>
-      {loading ? ( // Show loading spinner while data is being fetched
-        <div className="my-4 flex w-full justify-center">
-          <Spinner color="primary" />
+    <div className="flex w-full flex-col items-center sm:px-0">
+      <div className="w-full text-center">
+        <h1 className="form-title text-xl font-semibold sm:text-2xl">
+          मुख्य समिती को नाम
+        </h1>
+        <br />
+        <div className="flex w-full gap-2">
+          <Input
+            type="text"
+            label="मुख्य समिती को नाम"
+            size="sm"
+            value={mukhyaSamitiKoNaam}
+            onChange={(e) => setMukhyaSamitiKoNaam(e.target.value)}
+          />
+          <Button
+            color="secondary"
+            startContent={<FaRegSave />}
+            onClick={onSubmit}
+          >
+            Save
+          </Button>
         </div>
-      ) : (
-        <table className="w-full border-collapse border">
-          <thead className="sticky top-0 z-20 border-r-2 bg-purple-400">
-            <tr>
-              <th className="w-24 px-4 py-2">सि.न.</th>
-              <th className="px-4 py-2">समिती को नाम</th>
-              <th className="w-24 px-4 py-2">Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mukhyaSamitiKoNaamData.map((item, index) => (
-              <tr className="w-auto text-center" key={item.id}>
-                <td className="border px-4 py-2">{index + 1}</td>
-                <td className="border px-4 py-2">{item.mukhyaSamitiKoNaam}</td>
-                <td className="border px-4 py-2">
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button className="z-10" variant="shadow" size="sm">
-                        <MdModeEditOutline />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label="Static Actions">
-                      <DropdownItem>Edit</DropdownItem>
-                      <DropdownItem
-                        key="delete"
-                        className="text-danger"
-                        color="danger"
-                        onPress={() => handleDelete(item.id)}
-                      >
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+        <br />
+        {loading ? ( // Show loading spinner while data is being fetched
+          <div className="my-4 flex w-full justify-center">
+            <Spinner color="primary" />
+          </div>
+        ) : (
+          <div className="mb-2 max-h-[28rem] w-full overflow-auto sm:mb-0">
+            <table className="min-w-full ">
+              <thead className="sticky top-0 z-20 border-r-2 bg-purple-400">
+                <tr>
+                  <th className="p-2 text-sm sm:px-4 sm:py-2">सि.न.</th>
+                  <th className="p-2 text-sm sm:px-4 sm:py-2">समिती को नाम</th>
+                  <th className="p-2 text-sm sm:px-4 sm:py-2">Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {mukhyaSamitiKoNaamData.map((item, index) => (
+                  <tr key={item.id}>
+                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
+                      {index + 1}
+                    </td>
+                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
+                      {item.mukhyaSamitiKoNaam}
+                    </td>
+                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button className="z-10" variant="shadow" size="sm">
+                            <MdModeEditOutline />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Static Actions">
+                          <DropdownItem>Edit</DropdownItem>
+                          <DropdownItem
+                            key="delete"
+                            className="text-danger"
+                            color="danger"
+                            onPress={() => handleDelete(item.id)}
+                          >
+                            Delete
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
