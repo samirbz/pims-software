@@ -8,6 +8,14 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Pagination,
+  Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react"
 import { deleteTskData, fetchTskData, saveTskData } from "@/actions/formAction"
 import { FaRegSave } from "react-icons/fa"
@@ -78,13 +86,28 @@ export default function TskPage() {
       console.error("Delete unsuccessful:")
     }
   }
+  const [loading, setLoading] = useState(true)
+  const [page, setPage] = React.useState(1)
+  const rowsPerPage = 7
+
+  const pages = Math.ceil(tskDetails.length / rowsPerPage)
+
+  const items = React.useMemo(() => {
+    const start = (page - 1) * rowsPerPage
+    const end = start + rowsPerPage
+
+    return tskDetails.slice(start, end)
+  }, [page, tskDetails])
 
   const fetchDate = async () => {
     try {
+      setLoading(true)
       const data = await fetchTskData()
       setTskDetails(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
+    } finally {
+      setLoading(false) // Set loading to false after fetching data
     }
   }
 
@@ -102,233 +125,259 @@ export default function TskPage() {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-full px-4 sm:w-auto">
-        <h1 className="form-title">टिप्पणी सदर गर्ने कर्मचारीको विवरण</h1>
-        <br />
-        <div className="flex w-auto flex-col sm:gap-2">
-          <div className="flex w-full gap-2">
-            <Input
-              type="text"
-              label="तयार गर्नेको नाम"
-              size="sm"
-              value={tayarGarneKoName}
-              onChange={(e) => setTayarGarneKoName(e.target.value)}
-            />
-            <Input
-              type="text"
-              label="पद"
-              size="sm"
-              value={tayarGarneKoPad}
-              onChange={(e) => setTayarGarneKoPad(e.target.value)}
-            />
-            <div className="w-full flex-col sm:flex">
-              <Checkbox
+    <>
+      <div className="flex flex-col justify-between bg-white p-5">
+          <h1 className="form-title text-xl font-semibold sm:text-2xl">
+            टिप्पणी सदर गर्ने कर्मचारीको विवरण
+          </h1>
+          <br />
+          <div className="flex w-auto flex-col sm:gap-2">
+            <div className="flex w-full gap-2">
+              <Input
+                type="text"
+                label="तयार गर्नेको नाम"
                 size="sm"
-                checked={tippaniMaDekhauneHo}
-                onChange={(e) => SetTippaniMaDekhauneHo(e.target.checked)}
-              >
-                टिप्पणीमा देखाउने हो ?
-              </Checkbox>
-              <Checkbox
+                value={tayarGarneKoName}
+                onChange={(e) => setTayarGarneKoName(e.target.value)}
+              />
+              <Input
+                type="text"
+                label="पद"
                 size="sm"
-                checked={tayarGarneKoNaamPadDekhauneHo}
-                onChange={(e) =>
-                  SetTayarGarneKoNaamPadDekhauneHo(e.target.checked)
-                }
-              >
-                तयार गर्नेको नाम पद देखाउने हो ?
-              </Checkbox>
+                value={tayarGarneKoPad}
+                onChange={(e) => setTayarGarneKoPad(e.target.value)}
+              />
+              <div className="w-full flex-col sm:flex">
+                <Checkbox
+                  size="sm"
+                  checked={tippaniMaDekhauneHo}
+                  onChange={(e) => SetTippaniMaDekhauneHo(e.target.checked)}
+                >
+                  टिप्पणीमा देखाउने हो ?
+                </Checkbox>
+                <Checkbox
+                  size="sm"
+                  checked={tayarGarneKoNaamPadDekhauneHo}
+                  onChange={(e) =>
+                    SetTayarGarneKoNaamPadDekhauneHo(e.target.checked)
+                  }
+                >
+                  तयार गर्नेको नाम पद देखाउने हो ?
+                </Checkbox>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                label="पेश गर्नेको नाम"
+                size="sm"
+                value={peshGarneKoName}
+                onChange={(e) => setPeshGarneKoName(e.target.value)}
+              />
+              <Input
+                type="text"
+                label="पद"
+                size="sm"
+                value={peshGarneKoPad}
+                onChange={(e) => setPeshGarneKo(e.target.value)}
+              />
+              <div className="w-full flex-col sm:flex">
+                <Checkbox
+                  size="sm"
+                  checked={peshTippaniMaDekhauneHo}
+                  onChange={(e) => SetPeshTippaniMaDekhauneHo(e.target.checked)}
+                >
+                  टिप्पणीमा देखाउने हो ?
+                </Checkbox>
+                <Checkbox
+                  size="sm"
+                  checked={peshGarneKoNaamPadDekhauneHo}
+                  onChange={(e) =>
+                    SetPeshGarneKoNaamPadDekhauneHo(e.target.checked)
+                  }
+                >
+                  पेश गर्नेको नाम पद देखाउने हो ?
+                </Checkbox>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                label="सिफारिस/रुजु गर्ने "
+                size="sm"
+                value={sifarishRujuGarne}
+                onChange={(e) => setSifarishRujuGarne(e.target.value)}
+              />
+              <Input
+                type="text"
+                label="पद"
+                size="sm"
+                value={sifarishRujuGarneKoPad}
+                onChange={(e) => setSifarishRujuGarneKoPad(e.target.value)}
+              />
+              <div className="w-full flex-col sm:flex">
+                <Checkbox
+                  size="sm"
+                  checked={sifarisTippaniMaDekhauneHo}
+                  onChange={(e) =>
+                    SetSifarisTippaniMaDekhauneHo(e.target.checked)
+                  }
+                >
+                  टिप्पणीमा देखाउने हो ?
+                </Checkbox>
+                <Checkbox
+                  size="sm"
+                  checked={sifarishGarneKoNaamPadDekhauneHo}
+                  onChange={(e) =>
+                    SetSifarishGarneKoNaamPadDekhauneHo(e.target.checked)
+                  }
+                >
+                  सिफारिस गर्नेको नाम पद देखाउने हो ?
+                </Checkbox>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                label="सदर गर्नेको नाम"
+                size="sm"
+                value={sadarGarneKoName}
+                onChange={(e) => setSadarGarneKoName(e.target.value)}
+              />
+              <Input
+                type="text"
+                label="पद"
+                size="sm"
+                value={sadarGarneKopad}
+                onChange={(e) => setSadarGarneKopad(e.target.value)}
+              />
+              <div className="w-full flex-col sm:flex">
+                <Checkbox
+                  size="sm"
+                  checked={sadarTippaniMaDekhauneHo}
+                  onChange={(e) =>
+                    SetSadarTippaniMaDekhauneHo(e.target.checked)
+                  }
+                >
+                  टिप्पणीमा देखाउने हो ?
+                </Checkbox>
+                <Checkbox
+                  size="sm"
+                  checked={sadarGarneKoNaamPadDekhauneHo}
+                  onChange={(e) =>
+                    SetSadarishGarneKoNaamPadDekhauneHo(e.target.checked)
+                  }
+                >
+                  सदर गर्नेको नाम पद देखाउने हो ?
+                </Checkbox>
+              </div>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Input
-              type="text"
-              label="पेश गर्नेको नाम"
+          <br />
+          <div className="flex gap-4">
+            <Checkbox
               size="sm"
-              value={peshGarneKoName}
-              onChange={(e) => setPeshGarneKoName(e.target.value)}
-            />
-            <Input
-              type="text"
-              label="पद"
+              checked={sifarishRujuGarneAmaanKoNaam}
+              onChange={(e) =>
+                setSifarishRujuGarneAmaanKoNaam(e.target.checked)
+              }
+            >
+              सिफारिस / रुजु गर्ने अमानतको टिप्पणीमा देखाउने हो ?{" "}
+            </Checkbox>
+            <Checkbox
               size="sm"
-              value={peshGarneKoPad}
-              onChange={(e) => setPeshGarneKo(e.target.value)}
-            />
-            <div className="w-full flex-col sm:flex">
-              <Checkbox
-                size="sm"
-                checked={peshTippaniMaDekhauneHo}
-                onChange={(e) => SetPeshTippaniMaDekhauneHo(e.target.checked)}
-              >
-                टिप्पणीमा देखाउने हो ?
-              </Checkbox>
-              <Checkbox
-                size="sm"
-                checked={peshGarneKoNaamPadDekhauneHo}
-                onChange={(e) =>
-                  SetPeshGarneKoNaamPadDekhauneHo(e.target.checked)
-                }
-              >
-                पेश गर्नेको नाम पद देखाउने हो ?
-              </Checkbox>
-            </div>
+              checked={sifarishRujuGarneUpovoktaKoNaam}
+              onChange={(e) =>
+                setSifarishRujuGarneUpovoktaKoNaam(e.target.checked)
+              }
+            >
+              सिफारिस / रुजु गर्ने उपभोक्तको टिप्पणीमा देखाउने हो ?
+            </Checkbox>
+            <Button
+              color="secondary"
+              startContent={<FaRegSave />}
+              onClick={onSubmit}
+            >
+              Save
+            </Button>
           </div>
-          <div className="flex gap-2">
-            <Input
-              type="text"
-              label="सिफारिस/रुजु गर्ने "
-              size="sm"
-              value={sifarishRujuGarne}
-              onChange={(e) => setSifarishRujuGarne(e.target.value)}
-            />
-            <Input
-              type="text"
-              label="पद"
-              size="sm"
-              value={sifarishRujuGarneKoPad}
-              onChange={(e) => setSifarishRujuGarneKoPad(e.target.value)}
-            />
-            <div className="w-full flex-col sm:flex">
-              <Checkbox
-                size="sm"
-                checked={sifarisTippaniMaDekhauneHo}
-                onChange={(e) =>
-                  SetSifarisTippaniMaDekhauneHo(e.target.checked)
-                }
-              >
-                टिप्पणीमा देखाउने हो ?
-              </Checkbox>
-              <Checkbox
-                size="sm"
-                checked={sifarishGarneKoNaamPadDekhauneHo}
-                onChange={(e) =>
-                  SetSifarishGarneKoNaamPadDekhauneHo(e.target.checked)
-                }
-              >
-                सिफारिस गर्नेको नाम पद देखाउने हो ?
-              </Checkbox>
+          <br />
+          {loading ? (
+            <div className="my-4 flex w-full justify-center">
+              <Spinner color="primary" />
             </div>
-          </div>
-          <div className="flex gap-2">
-            <Input
-              type="text"
-              label="सदर गर्नेको नाम"
-              size="sm"
-              value={sadarGarneKoName}
-              onChange={(e) => setSadarGarneKoName(e.target.value)}
-            />
-            <Input
-              type="text"
-              label="पद"
-              size="sm"
-              value={sadarGarneKopad}
-              onChange={(e) => setSadarGarneKopad(e.target.value)}
-            />
-            <div className="w-full flex-col sm:flex">
-              <Checkbox
-                size="sm"
-                checked={sadarTippaniMaDekhauneHo}
-                onChange={(e) => SetSadarTippaniMaDekhauneHo(e.target.checked)}
-              >
-                टिप्पणीमा देखाउने हो ?
-              </Checkbox>
-              <Checkbox
-                size="sm"
-                checked={sadarGarneKoNaamPadDekhauneHo}
-                onChange={(e) =>
-                  SetSadarishGarneKoNaamPadDekhauneHo(e.target.checked)
-                }
-              >
-                सदर गर्नेको नाम पद देखाउने हो ?
-              </Checkbox>
-            </div>
-          </div>
+          ) : (
+            <Table
+              aria-label="Example table with dynamic content"
+              className="h-auto min-w-full"
+              bottomContent={
+                <div className="flex w-full justify-center">
+                  <Pagination
+                    isCompact
+                    showControls
+                    showShadow
+                    color="secondary"
+                    page={page}
+                    total={pages}
+                    onChange={(page) => setPage(page)}
+                  />
+                </div>
+              }
+            >
+              <TableHeader>
+                <TableColumn>सि.न.</TableColumn>
+                <TableColumn>सदर गर्नेको नाम</TableColumn>
+                <TableColumn>सदर गर्नेको पद</TableColumn>
+                <TableColumn>सिफारिस गर्नेको नाम</TableColumn>
+                <TableColumn>सिफारिस गर्नेको पद</TableColumn>
+                <TableColumn>पेश गर्नेको नाम</TableColumn>
+                <TableColumn>पेश गर्ने पद</TableColumn>
+                <TableColumn>तयार गर्ने</TableColumn>
+                <TableColumn>तयार गर्नेको पद</TableColumn>
+                <TableColumn>Edit</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {items.map((item, index) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{item.tayarGarneKoName}</TableCell>
+                    <TableCell>{item.tayarGarneKoPad}</TableCell>
+                    <TableCell>{item.peshGarneKoName}</TableCell>
+                    <TableCell>{item.peshGarneKoPad}</TableCell>
+                    <TableCell>{item.sifarishRujuGarne}</TableCell>
+                    <TableCell>{item.sifarishRujuGarneKoPad}</TableCell>
+                    <TableCell>{item.sadarGarneKoName}</TableCell>
+                    <TableCell>{item.sadarGarneKopad}</TableCell>
+                    <TableCell>
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            variant="solid"
+                            size="sm"
+                            className="z-10 w-2 "
+                          >
+                            <MdModeEditOutline />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Static Actions">
+                          <DropdownItem>Edit</DropdownItem>
+                          <DropdownItem
+                            key="delete"
+                            className="text-danger"
+                            color="danger"
+                            onPress={() => handleDelete(item.id)}
+                          >
+                            Delete
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </div>
-        <br />
-        <div className="flex gap-4">
-          <Checkbox
-            size="sm"
-            checked={sifarishRujuGarneAmaanKoNaam}
-            onChange={(e) => setSifarishRujuGarneAmaanKoNaam(e.target.checked)}
-          >
-            सिफारिस / रुजु गर्ने अमानतको टिप्पणीमा देखाउने हो ?{" "}
-          </Checkbox>
-          <Checkbox
-            size="sm"
-            checked={sifarishRujuGarneUpovoktaKoNaam}
-            onChange={(e) =>
-              setSifarishRujuGarneUpovoktaKoNaam(e.target.checked)
-            }
-          >
-            सिफारिस / रुजु गर्ने उपभोक्तको टिप्पणीमा देखाउने हो ?
-          </Checkbox>
-          <Button
-            color="secondary"
-            startContent={<FaRegSave />}
-            onClick={onSubmit}
-          >
-            Save
-          </Button>
-        </div>
-        <br />
-        <div className="mb-2 max-h-[22rem] w-auto overflow-auto ">
-          <table className="border-collapse border ">
-            <thead className="sticky top-0 z-20 border-r-2 bg-purple-400 ">
-              <tr>
-                <th className="px-4 py-2">सि.न.</th>
-                <th className="px-4 py-2">सदर गर्नेको नाम</th>
-                <th className="px-4 py-2">सदर गर्नेको पद</th>
-                <th className="px-4 py-2">सिफारिस गर्नेको नाम</th>
-                <th className="px-4 py-2">सिफारिस गर्नेको पद</th>
-                <th className="px-4 py-2">पेश गर्नेको नाम</th>
-                <th className="px-4 py-2">पेश गर्ने पद</th>
-                <th className="px-4 py-2">तयार गर्ने</th>
-                <th className="px-4 py-2">तयार गर्नेको पद</th>
-                <th className="px-4 py-2">Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tskDetails.map((item, index) => (
-                <tr key={item.id}>
-                  <td className="border px-4 py-2">{index + 1}</td>
-                  <td className="border px-4 py-2">{item.tayarGarneKoName}</td>
-                  <td className="border px-4 py-2">{item.tayarGarneKoPad}</td>
-                  <td className="border px-4 py-2">{item.peshGarneKoName}</td>
-                  <td className="border px-4 py-2">{item.peshGarneKoPad}</td>
-                  <td className="border px-4 py-2">{item.sifarishRujuGarne}</td>
-                  <td className="border px-4 py-2">
-                    {item.sifarishRujuGarneKoPad}
-                  </td>
-                  <td className="border px-4 py-2">{item.sadarGarneKoName}</td>
-                  <td className="border px-4 py-2">{item.sadarGarneKopad}</td>
-                  <td className="border px-4 py-2">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button variant="solid" size="sm" className="z-10 w-2 ">
-                          <MdModeEditOutline />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
-                        <DropdownItem
-                          key="delete"
-                          className="text-danger"
-                          color="danger"
-                          onPress={() => handleDelete(item.id)}
-                        >
-                          Delete
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    </>
   )
 }

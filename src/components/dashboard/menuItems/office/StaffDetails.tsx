@@ -313,7 +313,9 @@ export default function StaffDetailPage() {
         </ModalContent>
       </Modal>
       <div className="flex flex-row items-center justify-between bg-white p-5">
-        <h1 className="text-lg font-semibold">Staff Details</h1>
+        <h1 className="form-title text-xl font-semibold sm:text-2xl">
+          कर्मचारी विवरण सेटअप
+        </h1>
         <div className="flex gap-2">
           <Button
             color="success"

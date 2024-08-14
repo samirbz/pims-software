@@ -354,7 +354,9 @@ export default function UserSetup() {
         </ModalContent>
       </Modal>
       <div className="flex flex-row items-center justify-between bg-white p-5">
-        <h1 className="text-lg font-semibold">USER SETUP</h1>
+        <h1 className="form-title text-xl font-semibold sm:text-2xl">
+          प्रयोगकर्ता सेटअप
+        </h1>
         <div className="flex gap-2">
           <Button
             onPress={onOpen}
