@@ -170,8 +170,8 @@ export default function YojanaSamjhauta() {
       <div className="flex w-full flex-col ">
         <div className="overflow-auto">
           <div>
-            <h1 className="form-title">
-              योजना / कार्यक्रम प्रस्ताव स्वीकृत टिप्पणी
+            <h1 className="form-title text-center">
+              उपभोक्ता समिति/सस्थागत / व्यक्तिगत र अनुदानको सम्झौता
             </h1>
             <br />
             <div className="flex items-center justify-between">
