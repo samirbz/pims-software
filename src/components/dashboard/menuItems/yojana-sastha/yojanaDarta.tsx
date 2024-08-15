@@ -82,9 +82,6 @@ export default function YojanaDarta() {
         <br />
 
         <div className="flex gap-2">
-          <Button onPress={onOpen}>
-            Open table <RiArrowDownDoubleFill />
-          </Button>
           <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="full">
             <ModalContent>
               {(onClose) => (
@@ -265,6 +262,9 @@ export default function YojanaDarta() {
               size="sm"
               className="w-36"
             />
+            <Button onPress={onOpen} className="mt-4 w-32">
+              Open table <RiArrowDownDoubleFill />
+            </Button>
           </div>
 
           <div className="flex w-72 flex-col gap-2">
