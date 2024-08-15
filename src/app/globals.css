@@ -10,15 +10,9 @@
   font-family: var(--font-mukta), sans-serif;
 }
 
-@layer components {
-  .vertical-center {
-    height: calc(100vh - 159px);
-  }
-}
-
 @layer utilities {
   .form-title {
-    @apply self-start text-center font-mukta text-2xl font-semibold text-orange-600;
+    @apply font-mukta text-2xl font-semibold text-orange-600;
   }
   .scrollbar-hide {
     overflow: hidden;
