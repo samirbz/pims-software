@@ -35,7 +35,8 @@ import { staffRegister } from "@/actions/authActions"
 import { useForm } from "react-hook-form"
 import { IoIosSave, IoMdCheckmark } from "react-icons/io"
 import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
-import * as XLSX from "xlsx" // Import xlsx
+// import * as XLSX from "xlsx" // Import xlsx
+import { MdModeEditOutline } from "react-icons/md"
 
 interface Member {
   id: string
@@ -145,12 +146,12 @@ export default function StaffDetailPage() {
     onOpenChange() // Close the modal
   }
   // Function to export the table data to Excel
-  const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(members)
-    const workbook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
-    XLSX.writeFile(workbook, "StaffDetails.xlsx")
-  }
+  // const exportToExcel = () => {
+  //   const worksheet = XLSX.utils.json_to_sheet(members)
+  //   const workbook = XLSX.utils.book_new()
+  //   XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
+  //   XLSX.writeFile(workbook, "StaffDetails.xlsx")
+  // }
 
   const handleEdit = (member: Member) => {
     setEditMember(member)
@@ -318,17 +319,18 @@ export default function StaffDetailPage() {
         </h1>
         <div className="flex gap-2">
           <Button
-            color="success"
+            color="primary"
+            startContent={<FaPlus />}
             onClick={() => {
               setEditMember(null) // Reset the editing state for new member
               onOpen()
             }}
           >
-            <FaPlus /> Add Staff
+            Add Staff
           </Button>
-          <Button color="primary" onClick={exportToExcel}>
+          {/* <Button color="primary" onClick={exportToExcel}>
             Export to Excel
-          </Button>
+          </Button> */}
         </div>
       </div>
 
@@ -371,7 +373,9 @@ export default function StaffDetailPage() {
                 <TableCell>
                   <Dropdown>
                     <DropdownTrigger>
-                      <Button color="primary">Actions</Button>
+                      <Button className="z-10" variant="shadow" size="sm">
+                        <MdModeEditOutline />
+                      </Button>
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Actions">
                       <DropdownItem

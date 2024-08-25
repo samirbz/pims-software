@@ -80,12 +80,12 @@ export default function MukhyaSamiti() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between bg-white p-5">
+      <div className="flex flex-col justify-between bg-white p-5">
         <h1 className="form-title text-xl font-semibold sm:text-2xl">
           मुख्य समिती को नाम
         </h1>
         <br />
-        <div className="flex w-full gap-2">
+        <div className="flex w-full gap-2 ">
           <Input
             type="text"
             label="मुख्य समिती को नाम"

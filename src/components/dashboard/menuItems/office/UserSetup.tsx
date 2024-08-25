@@ -34,6 +34,7 @@ import { registerUser } from "@/actions/authActions"
 import { RegisterSchema } from "@/lib/schemas/registerSchema"
 import { useForm } from "react-hook-form"
 import { IoIosSave } from "react-icons/io"
+import { MdModeEditOutline } from "react-icons/md"
 
 interface Member {
   id: string
@@ -358,12 +359,7 @@ export default function UserSetup() {
           प्रयोगकर्ता सेटअप
         </h1>
         <div className="flex gap-2">
-          <Button
-            onPress={onOpen}
-            startContent={<FaPlus />}
-            color="primary"
-            className="mb-2 mt-4"
-          >
+          <Button onPress={onOpen} startContent={<FaPlus />} color="primary">
             Add User
           </Button>
         </div>
@@ -408,7 +404,9 @@ export default function UserSetup() {
                 <TableCell>
                   <Dropdown>
                     <DropdownTrigger>
-                      <Button color="primary">Actions</Button>
+                      <Button className="z-10" variant="shadow" size="sm">
+                        <MdModeEditOutline />
+                      </Button>
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Actions">
                       <DropdownItem
