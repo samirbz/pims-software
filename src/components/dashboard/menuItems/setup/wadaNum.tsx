@@ -6,6 +6,14 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Pagination,
+  Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import "nepali-datepicker-reactjs/dist/index.css"
@@ -16,18 +24,35 @@ import {
   fetchWadaNumData,
   deleteWadaNum,
 } from "@/actions/formAction"
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 
 export default function Wada() {
   const [wadaNum, setWadaNum] = useState("")
   const [wadaNumData, setWadaNumData] = useState<any[]>([])
 
+  const [loading, setLoading] = useState(true)
+
+  const [page, setPage] = React.useState(1)
+  const rowsPerPage = 7
+
+  const pages = Math.ceil(wadaNumData.length / rowsPerPage)
+
+  const items = React.useMemo(() => {
+    const start = (page - 1) * rowsPerPage
+    const end = start + rowsPerPage
+
+    return wadaNumData.slice(start, end)
+  }, [page, wadaNumData])
+
   const fetchWadaNum = async () => {
     try {
+      setLoading(true)
       const data = await fetchWadaNumData()
       setWadaNumData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -58,8 +83,10 @@ export default function Wada() {
   }
 
   return (
-    <div className="flex flex-col items-start gap-2 xxl:w-1/2">
-      <h1 className="form-title">वडा सेटअप </h1>
+    <div className="flex flex-col justify-between bg-white p-5">
+      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+        वडा सेटअप
+      </h1>
       <div className="flex w-full gap-2">
         <Input
           type="text"
@@ -76,7 +103,68 @@ export default function Wada() {
           Save
         </Button>
       </div>
-      <table className=" w-full border-collapse border ">
+      <br />
+      {loading ? ( // Show loading spinner while data is being fetched
+        <div className="my-4 flex w-full justify-center">
+          <Spinner color="primary" />
+        </div>
+      ) : (
+        <Table
+          aria-label="Example table with dynamic content"
+          className="h-auto min-w-full"
+          bottomContent={
+            <div className="flex w-full justify-center">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="secondary"
+                page={page}
+                total={pages}
+                onChange={(page) => setPage(page)}
+              />
+            </div>
+          }
+        >
+          <TableHeader>
+            <TableColumn>सि.न.</TableColumn>
+            <TableColumn>वडा न.</TableColumn>
+            <TableColumn>Edit</TableColumn>
+          </TableHeader>
+          <TableBody>
+            {items.map((item, index) => (
+              <TableRow key={item.id}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{item.wadaNum}</TableCell>
+                <TableCell>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="z-10"
+                        variant="shadow"
+                        size="sm"
+                        startContent={<MdModeEditOutline />}
+                      ></Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Static Actions">
+                      <DropdownItem>Edit</DropdownItem>
+                      <DropdownItem
+                        key="delete"
+                        className="text-danger"
+                        color="danger"
+                        onPress={() => handleDelete(item.id)}
+                      >
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+      {/* <table className=" w-full border-collapse border ">
         <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
           <tr>
             <th className="w-24 px-4 py-2">सि.न.</th>
@@ -113,7 +201,7 @@ export default function Wada() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
     </div>
   )
 }
