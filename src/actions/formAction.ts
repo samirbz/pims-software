@@ -194,7 +194,10 @@ export async function deleteAnudaanKoNaam(id: string) {
 }
 
 // 3.Lagat srot
-export async function saveLagatSrot(anudanKoKisim: string, lagatSrotKoNaam: string) {
+export async function saveLagatSrot(
+  anudanKoKisim: string,
+  lagatSrotKoNaam: string
+) {
   try {
     const dt = await prisma.lagatSrot.create({
       data: {
@@ -229,7 +232,6 @@ export async function deleteLagatSrot(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
-
 
 // 4.yojana prakar
 export async function saveYojanaPrakar(yojanaPrakar: string) {
@@ -435,6 +437,43 @@ export async function fetchSuchanaPrakasanData() {
 export async function deleteSuchanaPrakasan(id: string) {
   try {
     await prisma.suchanaPrakasan.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+
+// 13.Lab Test
+export async function saveLabTest(karyalayaKoNaam: string, thegana: string) {
+  try {
+    const dt = await prisma.labTest.create({
+      data: {
+        karyalayaKoNaam,
+        thegana,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchLabTestData() {
+  try {
+    const data = await prisma.labTest.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteLabTest(id: string) {
+  try {
+    await prisma.labTest.delete({
       where: { id },
     })
     return { status: "success" }

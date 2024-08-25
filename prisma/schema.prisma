@@ -105,3 +105,9 @@ model SuchanaPrakasan {
   id              String @id @default(cuid())
   suchanaPrakasan String
 }
+
+model LabTest {
+  id              String @id @default(cuid())
+  karyalayaKoNaam String
+  thegana         String
+}
