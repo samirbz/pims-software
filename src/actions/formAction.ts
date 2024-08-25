@@ -268,6 +268,45 @@ export async function deleteYojanaPrakar(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+// 5.Yojaana karya bivaran
+export async function saveYonanaKaryaBivaran(
+  anudanKoKisim: string,
+  lagatSrot: string
+) {
+  try {
+    const dt = await prisma.yojanaKaryaBivaran.create({
+      data: {
+        anudanKoKisim,
+        lagatSrot,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchYojanaKaryaBivaranData() {
+  try {
+    const data = await prisma.yojanaKaryaBivaran.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteYojanaKarayBivaran(id: string) {
+  try {
+    await prisma.yojanaKaryaBivaran.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
 // 6.yojana chanot nikaya
 export async function saveYojanaChanotNikaya(yojanaChanotNikaya: string) {
   try {
@@ -401,6 +440,109 @@ export async function fetchBankBivaranData() {
 export async function deleteBankBivaran(id: string) {
   try {
     await prisma.bankBivaran.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+
+// 10.yojana budget badfat
+export async function saveYojanaBudget(
+  yojanaKoNaam: string,
+  wadaNum: string,
+  anudanKisim: string,
+  biniyojanBudget: string,
+  budgetKaryakram: string,
+  yojanaKisim: string,
+  mukhyaSamiti: string
+) {
+  try {
+    const dt = await prisma.yojanaBudget.create({
+      data: {
+        yojanaKoNaam,
+        wadaNum,
+        anudanKisim,
+        biniyojanBudget,
+        budgetKaryakram,
+        yojanaKisim,
+        mukhyaSamiti,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchYojanaBudgetData() {
+  try {
+    const data = await prisma.yojanaBudget.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteYojanaBudget(id: string) {
+  try {
+    await prisma.yojanaBudget.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+// 11.yojana budget badfat
+export async function saveSuchikritForm(
+  formKoNaam: string,
+  dartaMiti: string,
+  formKoThegana: string,
+  panVat: string,
+  companyDartaNum: string,
+  pramanPatraSankhya: string,
+  phoneNum: string,
+  suchiDartaNum: string,
+  suchikritHunaChahekoKharid: string
+) {
+  try {
+    const dt = await prisma.suchikritFarm.create({
+      data: {
+        formKoNaam,
+        dartaMiti,
+        formKoThegana,
+        panVat,
+        companyDartaNum,
+        pramanPatraSankhya,
+        phoneNum,
+        suchiDartaNum,
+        suchikritHunaChahekoKharid,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchSuchikritFormData() {
+  try {
+    const data = await prisma.suchikritFarm.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteSuchikritForm(id: string) {
+  try {
+    await prisma.suchikritFarm.delete({
       where: { id },
     })
     return { status: "success" }

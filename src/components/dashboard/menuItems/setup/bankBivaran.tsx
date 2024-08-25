@@ -89,6 +89,7 @@ export default function BankBivaran() {
       <h1 className="form-title text-xl font-semibold sm:text-2xl">
         करोवार गर्ने बैंकहरु
       </h1>
+      <br />
       <div className="flex w-full flex-col gap-2">
         <Input
           type="text"
@@ -179,46 +180,6 @@ export default function BankBivaran() {
           </TableBody>
         </Table>
       )}
-      {/* <table className=" w-full border-collapse border ">
-        <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
-          <tr>
-            <th className="w-24 px-4 py-2">सि.न.</th>
-            <th className=" px-4 py-2">बैंकको नाम</th>
-            <th className=" px-4 py-2">शाखा रहेको स्थान </th>
-            <th className="w-24 px-4 py-2">Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bankBivaranData.map((item, index) => (
-            <tr className="w-auto text-center" key={item.id}>
-              <td className="border px-4 py-2">{index + 1}</td>
-              <td className="border px-4 py-2">{item.bankKoNaam}</td>
-              <td className="border px-4 py-2">{item.sakha}</td>
-              <td className="border px-4 py-2">
-                <Dropdown>
-                  <DropdownTrigger>
-                    <Button className="z-10" variant="shadow" size="sm">
-                      <MdModeEditOutline />
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu aria-label="Static Actions">
-                    <DropdownItem>Edit</DropdownItem>
-
-                    <DropdownItem
-                      key="delete"
-                      className="text-danger"
-                      color="danger"
-                      onPress={() => handleDelete(item.id)}
-                    >
-                      Delete
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </div>
   )
 }

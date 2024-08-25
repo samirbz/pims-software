@@ -80,6 +80,12 @@ model YojanaPrakar {
   yojanaPrakar String
 }
 
+model YojanaKaryaBivaran {
+  id            String @id @default(cuid())
+  anudanKoKisim String
+  lagatSrot     String
+}
+
 model YojanaChanotNikaya {
   id                 String @id @default(cuid())
   yojanaChanotNikaya String
@@ -99,6 +105,30 @@ model BankBivaran {
   id         String @id @default(cuid())
   bankKoNaam String
   sakha      String
+}
+
+model yojanaBudget {
+  id              String @id @default(cuid())
+  yojanaKoNaam    String
+  wadaNum         String
+  anudanKisim     String
+  biniyojanBudget String
+  budgetKaryakram String
+  yojanaKisim     String
+  mukhyaSamiti    String
+}
+
+model suchikritFarm {
+  id                         String @id @default(cuid())
+  formKoNaam                 String
+  dartaMiti                  String
+  formKoThegana              String
+  panVat                     String
+  companyDartaNum            String
+  pramanPatraSankhya         String
+  phoneNum                   String
+  suchiDartaNum              String
+  suchikritHunaChahekoKharid String
 }
 
 model SuchanaPrakasan {
