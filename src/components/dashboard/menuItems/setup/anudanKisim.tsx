@@ -6,7 +6,14 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Pagination,
   Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import "nepali-datepicker-reactjs/dist/index.css"
@@ -17,13 +24,25 @@ import {
   fetchAnudaanKoNaamData,
   deleteAnudaanKoNaam,
 } from "@/actions/formAction"
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 
 export default function AnudanKisim() {
   const [anudaanKoNaam, setAnudaanKoNaam] = useState("")
   const [anudaanKoNaamData, setanudaanKoNaamData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true) // State for loading
+
+  const [page, setPage] = React.useState(1)
+  const rowsPerPage = 7
+
+  const pages = Math.ceil(anudaanKoNaamData.length / rowsPerPage)
+
+  const items = React.useMemo(() => {
+    const start = (page - 1) * rowsPerPage
+    const end = start + rowsPerPage
+
+    return anudaanKoNaamData.slice(start, end)
+  }, [page, anudaanKoNaamData])
 
   const fetchMukhyaSamiti = async () => {
     try {
@@ -64,78 +83,88 @@ export default function AnudanKisim() {
   }
 
   return (
-    <div className="flex w-full flex-col items-center sm:px-0">
-      <div className="w-full text-center">
-        <h1 className="form-title">सशर्त/निशर्त अनुदान </h1>
-        <br />
-        <div className="flex w-full gap-2">
-          <Input
-            type="text"
-            label="अनुदान को नाम"
-            size="sm"
-            value={anudaanKoNaam} // Bind the input value to the state
-            onChange={(e) => setAnudaanKoNaam(e.target.value)}
-          />
-          <Button
-            color="secondary"
-            startContent={<FaRegSave />}
-            onClick={onSubmit}
-          >
-            Save
-          </Button>
-        </div>
-        <br />
-        {loading ? ( // Show loading spinner while data is being fetched
-          <div className="my-4 flex w-full justify-center">
-            <Spinner color="primary" />
-          </div>
-        ) : (
-          <div className="mb-2 max-h-[28rem] w-full overflow-auto sm:mb-0">
-            <table className="min-w-full ">
-              <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
-                <tr>
-                  <th className="p-2 text-sm sm:px-4 sm:py-2">सि.न.</th>
-                  <th className="p-2 text-sm sm:px-4 sm:py-2">समिती को नाम</th>
-                  <th className="p-2 text-sm sm:px-4 sm:py-2">Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {anudaanKoNaamData.map((item, index) => (
-                  <tr className="w-auto text-center" key={item.id}>
-                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
-                      {index + 1}
-                    </td>
-                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
-                      {item.anudaanKoNaam}
-                    </td>
-                    <td className="border border-gray-200 p-2 text-sm sm:px-4 sm:py-2">
-                      <Dropdown>
-                        <DropdownTrigger>
-                          <Button className="z-10" variant="shadow" size="sm">
-                            <MdModeEditOutline />
-                          </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu aria-label="Static Actions">
-                          <DropdownItem>Edit</DropdownItem>
-
-                          <DropdownItem
-                            key="delete"
-                            className="text-danger"
-                            color="danger"
-                            onPress={() => handleDelete(item.id)}
-                          >
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+    <div className="flex flex-col justify-between bg-white p-5">
+      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+        सशर्त/निशर्त अनुदान{" "}
+      </h1>
+      <br />
+      <div className="flex w-full gap-2">
+        <Input
+          type="text"
+          label="अनुदान को नाम"
+          size="sm"
+          value={anudaanKoNaam} // Bind the input value to the state
+          onChange={(e) => setAnudaanKoNaam(e.target.value)}
+        />
+        <Button
+          color="secondary"
+          startContent={<FaRegSave />}
+          onClick={onSubmit}
+        >
+          Save
+        </Button>
       </div>
+      <br />
+      {loading ? ( // Show loading spinner while data is being fetched
+        <div className="my-4 flex w-full justify-center">
+          <Spinner color="primary" />
+        </div>
+      ) : (
+        <Table
+          aria-label="Example table with dynamic content"
+          className="h-auto min-w-full"
+          bottomContent={
+            <div className="flex w-full justify-center">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="secondary"
+                page={page}
+                total={pages}
+                onChange={(page) => setPage(page)}
+              />
+            </div>
+          }
+        >
+          <TableHeader>
+            <TableColumn>सि.न.</TableColumn>
+            <TableColumn>समिती को नाम</TableColumn>
+            <TableColumn>Edit</TableColumn>
+          </TableHeader>
+          <TableBody>
+            {items.map((item, index) => (
+              <TableRow key={item.id}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{item.anudaanKoNaam}</TableCell>
+                <TableCell>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="z-10"
+                        variant="shadow"
+                        size="sm"
+                        startContent={<MdModeEditOutline />}
+                      ></Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Static Actions">
+                      <DropdownItem>Edit</DropdownItem>
+                      <DropdownItem
+                        key="delete"
+                        className="text-danger"
+                        color="danger"
+                        onPress={() => handleDelete(item.id)}
+                      >
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   )
 }
