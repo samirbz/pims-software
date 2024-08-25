@@ -107,7 +107,7 @@ export default function LagatSrot() {
       <div className="flex w-full flex-col gap-2">
         <Select
           label="अनुदान को किसिम"
-          placeholder="select"
+          size="sm"
           onChange={(e) => setAnudanKoKisim(e.target.value)}
         >
           {selectConfig.map((item) => (
