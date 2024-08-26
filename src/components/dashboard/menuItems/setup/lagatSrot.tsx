@@ -1,12 +1,6 @@
 "use client"
 import {
   Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Input,
-  Pagination,
   Select,
   SelectItem,
   Spinner,
@@ -16,38 +10,30 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Pagination,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
-import "nepali-datepicker-reactjs/dist/index.css"
 import { MdModeEditOutline } from "react-icons/md"
-
 import {
   saveLagatSrot,
   fetchLagatSrotData,
   deleteLagatSrot,
+  fetchAnudaanKoNaamData,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
-
-const selectConfig = [
-  { key: "1", label: "सशर्त अनुदान" },
-  { key: "2", label: "निशर्त अनुदान" },
-  { key: "3", label: "समपुरक अनुदान " },
-  { key: "4", label: "बिशेष अनुदान" },
-  { key: "5", label: "समानिकरण अनुदान" },
-  { key: "6", label: "आन्तरिक श्रोत" },
-  { key: "7", label: "संघिय सरकार " },
-  { key: "8", label: "प्रदेश सरकार " },
-  { key: "9", label: "प्रदेश सर्शत" },
-]
 
 export default function LagatSrot() {
   const [anudanKoKisim, setAnudanKoKisim] = useState("")
   const [lagatSrotKoNaam, setLagatSrotKoNaam] = useState("")
   const [lagatSrotData, setLagatSrotData] = useState<any[]>([])
-
-  const [loading, setLoading] = useState(true) // State for loading
-
-  const [page, setPage] = React.useState(1)
+  const [anudanData, setAnudanData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
   const rowsPerPage = 7
 
   const pages = Math.ceil(lagatSrotData.length / rowsPerPage)
@@ -55,7 +41,6 @@ export default function LagatSrot() {
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
-
     return lagatSrotData.slice(start, end)
   }, [page, lagatSrotData])
 
@@ -65,36 +50,52 @@ export default function LagatSrot() {
       const data = await fetchLagatSrotData()
       setLagatSrotData(data)
     } catch (error) {
-      console.error("Error fetching fiscal years:", error)
+      console.error("Error fetching lagat srot data:", error)
     } finally {
-      setLoading(false) // Set loading to false after fetching data
+      setLoading(false)
+    }
+  }
+
+  const fetchAnudaanData = async () => {
+    try {
+      const data = await fetchAnudaanKoNaamData()
+      console.log("Fetched Anudaan Data:", data) // For debugging
+      setAnudanData(data)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
     }
   }
 
   useEffect(() => {
-    fetchLagatSrot() // Fetch data when the component mounts
+    fetchLagatSrot()
+    fetchAnudaanData()
   }, [])
 
   const handleDelete = async (id: string) => {
-    const result = await deleteLagatSrot(id)
-    if (result.status === "success") {
-      // Fetch the updated list of fiscal years
-      fetchLagatSrot()
-    } else {
-      console.error("Delete unsuccessful:")
+    try {
+      const result = await deleteLagatSrot(id)
+      if (result.status === "success") {
+        fetchLagatSrot()
+      } else {
+        console.error("Delete unsuccessful:", result)
+      }
+    } catch (error) {
+      console.error("Error deleting lagat srot:", error)
     }
   }
 
   const onSubmit = async () => {
-    const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setAnudanKoKisim("")
-      setLagatSrotKoNaam("")
-      // Fetch the updated list of data
-      fetchLagatSrot()
-    } else {
-      console.error("Error occurred")
+    try {
+      const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
+      if (result.status === "success") {
+        setAnudanKoKisim("")
+        setLagatSrotKoNaam("")
+        fetchLagatSrot()
+      } else {
+        console.error("Error occurred while saving:", result)
+      }
+    } catch (error) {
+      console.error("Error saving lagat srot:", error)
     }
   }
 
@@ -104,16 +105,19 @@ export default function LagatSrot() {
         लागत श्रोतहरु
       </h1>
       <br />
-      <div className="flex w-full flex-col gap-2">
+      <div className="flex w-full flex-col gap-4">
         <Select
           label="अनुदान को किसिम"
           size="sm"
-          onChange={(e) => setAnudanKoKisim(e.target.value)}
+          onChange={(e) => setAnudanKoKisim(e.target.value)} // Correct this line
         >
-          {selectConfig.map((item) => (
-            <SelectItem key={item.label}>{item.label}</SelectItem>
+          {anudanData.map((item) => (
+            <SelectItem key={item.anudaanKoNaam}>
+              {item.anudaanKoNaam}
+            </SelectItem>
           ))}
         </Select>
+
         <div className="flex gap-2">
           <Input
             type="text"
@@ -124,9 +128,10 @@ export default function LagatSrot() {
           />
           <Button
             color="secondary"
-            className="w-10 self-center"
+            className="w-10 self-end"
             startContent={<FaRegSave />}
             onClick={onSubmit}
+            isDisabled={!anudanKoKisim || !lagatSrotKoNaam} // Disable if inputs are empty
           >
             Save
           </Button>
@@ -134,13 +139,13 @@ export default function LagatSrot() {
       </div>
       <br />
 
-      {loading ? ( // Show loading spinner while data is being fetched
+      {loading ? (
         <div className="my-4 flex w-full justify-center">
           <Spinner color="primary" />
         </div>
       ) : (
         <Table
-          aria-label="Example table with dynamic content"
+          aria-label="Lagat Srot Table"
           className="h-auto min-w-full"
           bottomContent={
             <div className="flex w-full justify-center">
@@ -165,7 +170,7 @@ export default function LagatSrot() {
           <TableBody>
             {items.map((item, index) => (
               <TableRow key={item.id}>
-                <TableCell>{index + 1}</TableCell>
+                <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                 <TableCell>{item.anudanKoKisim}</TableCell>
                 <TableCell>{item.lagatSrotKoNaam}</TableCell>
                 <TableCell>
@@ -176,13 +181,12 @@ export default function LagatSrot() {
                         variant="shadow"
                         size="sm"
                         startContent={<MdModeEditOutline />}
-                      ></Button>
+                      />
                     </DropdownTrigger>
-                    <DropdownMenu aria-label="Static Actions">
+                    <DropdownMenu aria-label="Actions">
                       <DropdownItem>Edit</DropdownItem>
                       <DropdownItem
                         key="delete"
-                        className="text-danger"
                         color="danger"
                         onPress={() => handleDelete(item.id)}
                       >
