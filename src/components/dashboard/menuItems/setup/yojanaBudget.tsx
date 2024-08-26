@@ -101,7 +101,7 @@ export default function YojanaBudget() {
     }
   }
   return (
-    <div className="flex flex-col justify-between bg-white p-5">
+    <div className="flex flex-col justify-between bg-white">
       <h1 className="form-title text-xl font-semibold sm:text-2xl">
         अपलोड योजनाहरु (एक मुष्ठ रकम बाट सहायक योजनाम बाँडफाड)
       </h1>

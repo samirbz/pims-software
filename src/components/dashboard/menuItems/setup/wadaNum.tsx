@@ -83,10 +83,11 @@ export default function Wada() {
   }
 
   return (
-    <div className="flex flex-col justify-between bg-white p-5">
+    <div className="flex flex-col justify-between bg-white ">
       <h1 className="form-title text-xl font-semibold sm:text-2xl">
         वडा सेटअप
       </h1>
+      <br />
       <div className="flex w-full gap-2">
         <Input
           type="text"

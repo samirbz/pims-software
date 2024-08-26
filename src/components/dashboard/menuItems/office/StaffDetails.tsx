@@ -313,7 +313,7 @@ export default function StaffDetailPage() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-row items-center justify-between bg-white p-5">
+      <div className="flex flex-row items-center justify-between bg-white ">
         <h1 className="form-title text-xl font-semibold sm:text-2xl">
           कर्मचारी विवरण सेटअप
         </h1>
@@ -333,6 +333,7 @@ export default function StaffDetailPage() {
           </Button> */}
         </div>
       </div>
+      <br />
 
       {loading ? (
         <div className="my-4 flex w-full justify-center">

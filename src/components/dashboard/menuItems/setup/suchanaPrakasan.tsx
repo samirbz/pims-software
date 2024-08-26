@@ -82,10 +82,11 @@ export default function SuchanaPrakasan() {
   }
 
   return (
-    <div className="flex flex-col justify-between bg-white p-5">
+    <div className="flex flex-col justify-between bg-white">
       <h1 className="form-title text-xl font-semibold sm:text-2xl">
         बोलपत्र/दरभाउ प्रकासन गर्ने पत्रिकाको बिवरण{" "}
       </h1>
+      <br />
       <div className="flex w-full gap-2">
         <Input
           type="text"

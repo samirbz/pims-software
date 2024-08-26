@@ -74,8 +74,8 @@ export default function YojanaDarta() {
   }
 
   return (
-    <div className="flex flex-col items-center overflow-auto ">
-      <h1 className="text-2xl font-bold text-orange-600">
+    <div className="flex flex-col justify-between bg-white ">
+      <h1 className="form-title text-xl font-semibold sm:text-2xl">
         योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
       </h1>
       <br />

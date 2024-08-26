@@ -126,7 +126,7 @@ export default function TskPage() {
 
   return (
     <>
-      <div className="flex flex-col justify-between bg-white p-5">
+      <div className="flex flex-col justify-between bg-white">
         <h1 className="form-title text-xl font-semibold sm:text-2xl">
           टिप्पणी सदर गर्ने कर्मचारीको विवरण
         </h1>

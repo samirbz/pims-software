@@ -25,44 +25,18 @@ export default function MyadThapPatra() {
   ]
 
   return (
-    <div className="flex w-auto flex-col items-center overflow-auto">
-      <div className="w-auto px-4 ">
-        <h1 className="form-title">योजनाको म्याद थप टिप्पणी र चिठ्ठी</h1>
-        <br />
-        <div className="flex w-auto flex-col sm:gap-2">
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col justify-between gap-2 sm:flex-row">
-              <Input type="text" label="आ.व." size="sm" className="w-1/4" />
-              <Checkbox className="mr-8">यदी पुरानो आ.व. को योजना</Checkbox>
-              <form className="flex items-center gap-2 ">
-                <label htmlFor="date">मिति</label>
-                <NepaliDatePicker
-                  inputClassName="form-control"
-                  className="rounded-lg border p-1 "
-                  value={date}
-                  onChange={(value: string) => setDate(value)}
-                  options={{ calenderLocale: "ne", valueLocale: "en" }}
-                />
-              </form>
-            </div>
-
-            <Select label="योजना/कार्यक्रमको नाम" size="sm" fullWidth>
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
-              ))}
-            </Select>
-
-            <Input type="text" label="उ.स./ सस्थाको नाम" size="sm" />
-
-            <Input
-              type="text"
-              label="अध्यक्ष/कर्मचारीको नाम"
-              size="sm"
-              className="w-1/2"
-            />
-
+    <div className="flex flex-col justify-between bg-white">
+      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+        योजनाको म्याद थप टिप्पणी र चिठ्ठी
+      </h1>
+      <br />
+      <div className="flex w-auto flex-col sm:gap-2">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col  gap-2 sm:flex-row">
+            <Input type="text" label="आ.व." size="sm" className="w-1/4" />
+            <Checkbox className="mr-8">यदी पुरानो आ.व. को योजना</Checkbox>
             <form className="flex items-center gap-2 ">
-              <label htmlFor="date">आयोजना सम्पन्न हुने मिति</label>
+              <label htmlFor="date">मिति</label>
               <NepaliDatePicker
                 inputClassName="form-control"
                 className="rounded-lg border p-1 "
@@ -71,47 +45,73 @@ export default function MyadThapPatra() {
                 options={{ calenderLocale: "ne", valueLocale: "en" }}
               />
             </form>
-            <div className="flex gap-8">
-              <form className="flex items-center gap-2  ">
-                <label htmlFor="date">म्याद थप हुने अन्तिम मिति</label>
-                <NepaliDatePicker
-                  inputClassName="form-control"
-                  className="rounded-lg border p-1 "
-                  value={date}
-                  onChange={(value: string) => setDate(value)}
-                  options={{ calenderLocale: "ne", valueLocale: "en" }}
-                />
-              </form>
-              <form className="flex items-center gap-2 ">
-                <label htmlFor="date">निवेदन प्राप्त भएको मिति</label>
-                <NepaliDatePicker
-                  inputClassName="form-control"
-                  className="rounded-lg border p-1 "
-                  value={date}
-                  onChange={(value: string) => setDate(value)}
-                  options={{ calenderLocale: "ne", valueLocale: "en" }}
-                />
-              </form>
-            </div>
-            <Select label="कर्मचारीको नाम" size="sm" className="w-1/2">
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
-              ))}
-            </Select>
-            <Select label="कर्मचारीको पद" size="sm" className="w-1/2">
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
-              ))}
-            </Select>
-
-            <Button
-              color="secondary"
-              className="w-10 self-center"
-              startContent={<FaRegSave />}
-            >
-              Save
-            </Button>
           </div>
+
+          <Select label="योजना/कार्यक्रमको नाम" size="sm" fullWidth>
+            {animals.map((animal) => (
+              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+            ))}
+          </Select>
+
+          <Input type="text" label="उ.स./ सस्थाको नाम" size="sm" />
+
+          <Input
+            type="text"
+            label="अध्यक्ष/कर्मचारीको नाम"
+            size="sm"
+            className="w-1/2"
+          />
+
+          <form className="flex items-center gap-2 ">
+            <label htmlFor="date">आयोजना सम्पन्न हुने मिति</label>
+            <NepaliDatePicker
+              inputClassName="form-control"
+              className="rounded-lg border p-1 "
+              value={date}
+              onChange={(value: string) => setDate(value)}
+              options={{ calenderLocale: "ne", valueLocale: "en" }}
+            />
+          </form>
+          <div className="flex gap-8">
+            <form className="flex items-center gap-2  ">
+              <label htmlFor="date">म्याद थप हुने अन्तिम मिति</label>
+              <NepaliDatePicker
+                inputClassName="form-control"
+                className="rounded-lg border p-1 "
+                value={date}
+                onChange={(value: string) => setDate(value)}
+                options={{ calenderLocale: "ne", valueLocale: "en" }}
+              />
+            </form>
+            <form className="flex items-center gap-2 ">
+              <label htmlFor="date">निवेदन प्राप्त भएको मिति</label>
+              <NepaliDatePicker
+                inputClassName="form-control"
+                className="rounded-lg border p-1 "
+                value={date}
+                onChange={(value: string) => setDate(value)}
+                options={{ calenderLocale: "ne", valueLocale: "en" }}
+              />
+            </form>
+          </div>
+          <Select label="कर्मचारीको नाम" size="sm" className="w-1/2">
+            {animals.map((animal) => (
+              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+            ))}
+          </Select>
+          <Select label="कर्मचारीको पद" size="sm" className="w-1/2">
+            {animals.map((animal) => (
+              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+            ))}
+          </Select>
+
+          <Button
+            color="secondary"
+            className="w-10 self-center"
+            startContent={<FaRegSave />}
+          >
+            Save
+          </Button>
         </div>
       </div>
     </div>

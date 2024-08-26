@@ -354,16 +354,18 @@ export default function UserSetup() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-row items-center justify-between bg-white p-5">
+      <div className="flex flex-row items-center justify-between bg-white">
         <h1 className="form-title text-xl font-semibold sm:text-2xl">
           प्रयोगकर्ता सेटअप
         </h1>
+
         <div className="flex gap-2">
           <Button onPress={onOpen} startContent={<FaPlus />} color="primary">
             Add User
           </Button>
         </div>
       </div>
+      <br />
 
       {loading ? (
         <div className="my-4 flex w-full justify-center">

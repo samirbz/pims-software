@@ -83,7 +83,7 @@ export default function FiscalYearPage() {
 
   return (
     <>
-      <div className="flex flex-col justify-between bg-white p-5">
+      <div className="flex flex-col justify-between bg-white">
         <h1 className="form-title text-xl font-semibold sm:text-2xl">
           अर्थिक बर्ष सेटअप
         </h1>
