@@ -170,7 +170,7 @@ export default function YojanaSamjhauta() {
       <div className="flex w-full flex-col ">
         <div className="overflow-auto">
           <div>
-            <h1 className="form-title text-xl font-semibold sm:text-2xl">
+            <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
               उपभोक्ता समिति/सस्थागत / व्यक्तिगत र अनुदानको सम्झौता
             </h1>
             <br />

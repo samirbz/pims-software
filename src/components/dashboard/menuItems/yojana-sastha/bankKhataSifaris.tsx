@@ -26,7 +26,7 @@ export default function BankKhataSifaris() {
 
   return (
     <div className="flex flex-col justify-between bg-white ">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+      <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
         बैक खाता खोल्ने सिफारिस
       </h1>
       <br />

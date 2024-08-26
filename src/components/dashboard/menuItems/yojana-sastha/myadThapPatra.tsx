@@ -26,7 +26,7 @@ export default function MyadThapPatra() {
 
   return (
     <div className="flex flex-col justify-between bg-white">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+      <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
         योजनाको म्याद थप टिप्पणी र चिठ्ठी
       </h1>
       <br />

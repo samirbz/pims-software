@@ -36,7 +36,7 @@ export default function PeskiVuktani() {
   ]
   return (
     <div className="flex flex-col justify-between bg-white">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+      <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
         पहिलो किस्ता पेश्की निकासा
       </h1>
       <br />

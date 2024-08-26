@@ -26,7 +26,7 @@ export default function Karyadesh() {
 
   return (
     <div className="flex flex-col justify-between bg-white ">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+      <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
         योजना/कार्यक्रमको कार्यादेश पत्र
       </h1>
       <br />
