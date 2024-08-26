@@ -81,7 +81,7 @@ export default function MukhyaSamiti() {
   return (
     <>
       <div className="flex flex-col justify-between bg-white">
-        <h1 className="form-title text-xl font-semibold sm:text-2xl text-center">
+        <h1 className="form-title text-xl font-semibold sm:text-2xl">
           मुख्य समिती को नाम
         </h1>
         <br />
