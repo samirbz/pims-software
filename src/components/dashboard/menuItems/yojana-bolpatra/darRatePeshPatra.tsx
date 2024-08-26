@@ -37,7 +37,7 @@ export default function DarRatePeshPatra() {
 
   return (
     <div className="flex flex-col justify-between bg-white ">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+      <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
         बोलपत्र/दरभाउ पत्र/कोटेशन दररेट माग
       </h1>
       <br />

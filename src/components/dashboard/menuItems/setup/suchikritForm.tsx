@@ -110,7 +110,7 @@ export default function SuchikritForm() {
   }
   return (
     <div className="flex flex-col justify-between bg-white">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+      <h1 className="form-title text-xl font-semibold sm:text-2xl text-center">
         फर्म कम्पनी सुची दार्त
       </h1>
       <br />

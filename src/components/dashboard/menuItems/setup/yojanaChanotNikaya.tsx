@@ -86,7 +86,7 @@ export default function YojanaChanotNikaya() {
 
   return (
     <div className="flex flex-col justify-between bg-white">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl">
+      <h1 className="form-title text-xl font-semibold sm:text-2xl text-center">
         योजना छनौत गर्ने निकाय
       </h1>
       <br />
