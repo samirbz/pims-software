@@ -498,6 +498,58 @@ export async function deleteYojanaBudget(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+
+// 10-2yojana budget badfat
+export async function saveYojanaBudgetDt(
+  yojanaKoNaamDt: string,
+  wadaNumDt: string,
+  anudanKisimDt: string,
+  biniyojanBudgetDt: string,
+  budgetKaryakramDt: string,
+  yojanaKisimDt: string,
+  mukhyaSamitiDt: string,
+  chaniyekoMukhyaYojana:string,
+) {
+  try {
+    const dt = await prisma.yojanaBudgetSecond.create({
+      data: {
+        yojanaKoNaamDt,
+        wadaNumDt,
+        anudanKisimDt,
+        biniyojanBudgetDt,
+        budgetKaryakramDt,
+        yojanaKisimDt,
+        mukhyaSamitiDt,
+        chaniyekoMukhyaYojana,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in registerUser:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchYojanaBudgetDataSecond() {
+  try {
+    const data = await prisma.yojanaBudgetSecond.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteYojanaBudgetSecond(id: string) {
+  try {
+    await prisma.yojanaBudgetSecond.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
 // 11.yojana budget badfat
 export async function saveSuchikritForm(
   formKoNaam: string,

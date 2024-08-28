@@ -118,6 +118,18 @@ model yojanaBudget {
   mukhyaSamiti    String
 }
 
+model yojanaBudgetSecond {
+  id                    String @id @default(cuid())
+  yojanaKoNaamDt        String
+  wadaNumDt             String
+  anudanKisimDt         String
+  biniyojanBudgetDt     String
+  budgetKaryakramDt     String
+  yojanaKisimDt         String
+  mukhyaSamitiDt        String
+  chaniyekoMukhyaYojana String
+}
+
 model suchikritFarm {
   id                         String @id @default(cuid())
   formKoNaam                 String

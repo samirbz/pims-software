@@ -25,6 +25,9 @@ import {
   saveYojanaBudget,
   fetchYojanaBudgetData,
   deleteYojanaBudget,
+  saveYojanaBudgetDt,
+  fetchYojanaBudgetDataSecond,
+  deleteYojanaBudgetSecond,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -39,9 +42,19 @@ export default function YojanaBudget() {
   const [yojanaBudgetData, setYojanaBudgetData] = useState<any[]>([])
 
   const [selectedItem, setSelectedItem] = useState<any | null>(null)
+  const [yojanaKoNaamDt, setYojanaKoNaamDt] = useState("")
+  const [chaniyekoMukhyaYojana, setChaniyekoMukhyaYojana] = useState("")
+  const [wadaNumDt, setWadaNumDt] = useState("")
+  const [biniyojanBudgetDt, setBiniyojanBudgetDt] = useState("")
+  const [anudanKisimDt, setAnudanKisimDt] = useState("")
+  const [budgetKaryakramDt, setBudgetKaryakramDt] = useState("")
+  const [yojanaKisimDt, setYojanaKisimDt] = useState("")
+  const [mukhyaSamitiDt, setMukhyaSamitiDt] = useState("")
+  const [yojanaBudgetDataDt, setYojanaBudgetDataDt] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
 
+  // first table
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 4
 
@@ -54,7 +67,20 @@ export default function YojanaBudget() {
     return yojanaBudgetData.slice(start, end)
   }, [page, yojanaBudgetData])
 
-  const fetchBankBivaran = async () => {
+  //  second table
+  const [pageSecond, setPageSecond] = React.useState(1)
+  const rowsPerPageSecond = 4
+
+  const pagesSecond = Math.ceil(yojanaBudgetDataDt.length / rowsPerPageSecond)
+
+  const itemsSecond = React.useMemo(() => {
+    const start = (pageSecond - 1) * rowsPerPageSecond
+    const end = start + rowsPerPageSecond
+
+    return yojanaBudgetDataDt.slice(start, end)
+  }, [pageSecond, yojanaBudgetDataDt])
+
+  const fetchYojanaBudgetLocal = async () => {
     try {
       setLoading(false)
       const data = await fetchYojanaBudgetData()
@@ -65,16 +91,37 @@ export default function YojanaBudget() {
       setLoading(false)
     }
   }
+  const fetchYojanaBudgetSecondLocal = async () => {
+    try {
+      setLoading(false)
+      const data = await fetchYojanaBudgetDataSecond()
+      setYojanaBudgetDataDt(data)
+    } catch (error) {
+      console.error("Error fetching fiscal years:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    fetchBankBivaran() // Fetch data when the component mounts
+    fetchYojanaBudgetLocal()
+    fetchYojanaBudgetSecondLocal()
   }, [])
 
   const handleDelete = async (id: string) => {
     const result = await deleteYojanaBudget(id)
     if (result.status === "success") {
       // Fetch the updated list of fiscal years
-      fetchBankBivaran()
+      fetchYojanaBudgetLocal()
+    } else {
+      console.error("Delete unsuccessful:")
+    }
+  }
+  const handleDeleteSecond = async (id: string) => {
+    const result = await deleteYojanaBudgetSecond(id)
+    if (result.status === "success") {
+      // Fetch the updated list of fiscal years
+      fetchYojanaBudgetSecondLocal()
     } else {
       console.error("Delete unsuccessful:")
     }
@@ -100,7 +147,35 @@ export default function YojanaBudget() {
       setYojanaKisim("")
       setMukyaSamiti("")
       // Fetch the updated list of data
-      fetchBankBivaran()
+      fetchYojanaBudgetLocal()
+    } else {
+      console.error("Error occurred")
+    }
+  }
+
+  const onSubmitDt = async () => {
+    const result = await saveYojanaBudgetDt(
+      yojanaKoNaamDt,
+      wadaNumDt,
+      anudanKisimDt,
+      biniyojanBudgetDt,
+      budgetKaryakramDt,
+      yojanaKisimDt,
+      mukhyaSamitiDt,
+      chaniyekoMukhyaYojana
+    )
+    if (result.status === "success") {
+      // Reset the input field after successful submission
+      setYojanaKoNaamDt("")
+      setWadaNumDt("")
+      setAnudanKisimDt("")
+      setBiniyojanBudgetDt("")
+      setBudgetKaryakramDt("")
+      setYojanaKisimDt("")
+      setMukhyaSamitiDt("")
+      setChaniyekoMukhyaYojana("")
+      // Fetch the updated list of data
+      fetchYojanaBudgetSecondLocal()
     } else {
       console.error("Error occurred")
     }
@@ -272,8 +347,7 @@ export default function YojanaBudget() {
                 const selected = yojanaBudgetData.find(
                   (item) => item.id === value
                 )
-                console.log("Selected Item:", selected)
-                setSelectedItem(selected || null) // Update the state with the selected item
+                setSelectedItem(selected || null)
               }}
               value={selectedItem?.id}
               options={yojanaBudgetData.map((item) => ({
@@ -294,17 +368,16 @@ export default function YojanaBudget() {
               type="text"
               label="योजनाको नाम"
               size="sm"
-              value={anudanKisim}
-              onChange={(e) => setAnudanKisim(e.target.value)}
+              value={yojanaKoNaamDt}
+              onChange={(e) => setYojanaKoNaamDt(e.target.value)}
             />
 
             <Input
               type="text"
               label="छानिएको मुख्य आयोजना"
               size="sm"
-              isDisabled
               value={selectedItem?.yojanaKoNaam}
-              onChange={(e) => setBiniyojanBudget(e.target.value)}
+              onChange={(e) => setChaniyekoMukhyaYojana(e.target.value)}
             />
           </div>
         </div>
@@ -313,15 +386,15 @@ export default function YojanaBudget() {
             type="text"
             label="वडा न."
             size="sm"
-            value={budgetKaryakram}
-            onChange={(e) => setBudgetKaryakram(e.target.value)}
+            value={wadaNumDt}
+            // onChange={(e) => setWadaNumDt(e.target.value)}
           />
           <Input
             type="text"
             label="विनियोजन बजेट रु. "
             size="sm"
-            value={yojanaKisim}
-            onChange={(e) => setYojanaKisim(e.target.value)}
+            value={biniyojanBudgetDt}
+            onChange={(e) => setBiniyojanBudgetDt(e.target.value)}
           />
         </div>
         <div className="flex gap-2">
@@ -329,15 +402,11 @@ export default function YojanaBudget() {
             color="secondary"
             startContent={<FaRegSave />}
             className="w-12"
-            onClick={onSubmit}
+            onClick={onSubmitDt}
           >
             Save
           </Button>
-          <Button
-            startContent={<SiMicrosoftexcel />}
-            className="w-12"
-            onClick={onSubmit}
-          >
+          <Button startContent={<SiMicrosoftexcel />} className="w-12">
             Excel
           </Button>
         </div>
@@ -358,9 +427,9 @@ export default function YojanaBudget() {
                 showControls
                 showShadow
                 color="secondary"
-                page={page}
-                total={pages}
-                onChange={(page) => setPage(page)}
+                page={pageSecond}
+                total={pagesSecond}
+                onChange={(page) => setPageSecond(page)}
               />
             </div>
           }
@@ -374,19 +443,21 @@ export default function YojanaBudget() {
             <TableColumn>बजेट कार्यक्रम</TableColumn>
             <TableColumn>योजना किसिम</TableColumn>
             <TableColumn>मुख्य समिति</TableColumn>
+            <TableColumn>छानिएको मुख्य आयोजना</TableColumn>
             <TableColumn>Edit</TableColumn>
           </TableHeader>
           <TableBody>
-            {items.map((item, index) => (
+            {itemsSecond.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item.yojanaKoNaam}</TableCell>
-                <TableCell>{item.wadaNum}</TableCell>
-                <TableCell>{item.anudanKisim}</TableCell>
-                <TableCell>{item.biniyojanBudget}</TableCell>
-                <TableCell>{item.budgetKaryakram}</TableCell>
-                <TableCell>{item.yojanaKisim}</TableCell>
-                <TableCell>{item.mukhyaSamiti}</TableCell>
+                <TableCell>{item.yojanaKoNaamDt}</TableCell>
+                <TableCell>{item.wadaNumDt}</TableCell>
+                <TableCell>{item.anudanKisimDt}</TableCell>
+                <TableCell>{item.biniyojanBudgetDt}</TableCell>
+                <TableCell>{item.budgetKaryakramDt}</TableCell>
+                <TableCell>{item.yojanaKisimDt}</TableCell>
+                <TableCell>{item.mukhyaSamitiDt}</TableCell>
+                <TableCell>{item.chaniyekoMukhyaYojana}</TableCell>
                 <TableCell>
                   <Dropdown>
                     <DropdownTrigger>
@@ -403,7 +474,7 @@ export default function YojanaBudget() {
                         key="delete"
                         className="text-danger"
                         color="danger"
-                        onPress={() => handleDelete(item.id)}
+                        onPress={() => handleDeleteSecond(item.id)}
                       >
                         Delete
                       </DropdownItem>
