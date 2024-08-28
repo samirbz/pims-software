@@ -107,7 +107,7 @@ export default function YojanaKaryaBivaran() {
       <br />
       <div className="flex w-full flex-col gap-2">
         <Select
-          label="अनुदान को किसिम "
+          label="योजनाको किसिम  "
           size="sm"
           onChange={(e) => setAnudanKoKisim(e.target.value)}
         >
@@ -118,7 +118,7 @@ export default function YojanaKaryaBivaran() {
         <div className="flex gap-2">
           <Input
             type="text"
-            label="लागत श्रोत नाम"
+            label="योजनाको कार्य​"
             size="sm"
             value={lagatSrot}
             onChange={(e) => setLagatSrot(e.target.value)}

@@ -91,7 +91,7 @@ export default function AnudanKisim() {
       <div className="flex w-full gap-2">
         <Input
           type="text"
-          label="अनुदान को नाम"
+          label="अनुदानको नाम"
           size="sm"
           value={anudaanKoNaam} // Bind the input value to the state
           onChange={(e) => setAnudaanKoNaam(e.target.value)}
