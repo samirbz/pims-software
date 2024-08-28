@@ -40,7 +40,7 @@ const selectConfig = [
 ]
 
 export default function YojanaKaryaBivaran() {
-  const [anudanKoKisim, setAnudanKoKisim] = useState("")
+  const [yojanaKoKisim, setYojanaKoKisim] = useState("")
   const [lagatSrot, setLagatSrot] = useState("")
   const [yojanaKaryaBivaranData, setYojanaKaryaBivaranData] = useState<any[]>(
     []
@@ -87,10 +87,10 @@ export default function YojanaKaryaBivaran() {
   }
 
   const onSubmit = async () => {
-    const result = await saveYonanaKaryaBivaran(anudanKoKisim, lagatSrot)
+    const result = await saveYonanaKaryaBivaran(yojanaKoKisim, lagatSrot)
     if (result.status === "success") {
       // Reset the input field after successful submission
-      setAnudanKoKisim("")
+      setYojanaKoKisim("")
       setLagatSrot("")
       // Fetch the updated list of data
       fetchYojanaKaryaBivaran()
@@ -109,7 +109,7 @@ export default function YojanaKaryaBivaran() {
         <Select
           label="योजनाको किसिम  "
           size="sm"
-          onChange={(e) => setAnudanKoKisim(e.target.value)}
+          onChange={(e) => setYojanaKoKisim(e.target.value)}
         >
           {selectConfig.map((item) => (
             <SelectItem key={item.label}>{item.label}</SelectItem>
@@ -199,44 +199,6 @@ export default function YojanaKaryaBivaran() {
           </TableBody>
         </Table>
       )}
-
-      {/* <table className=" w-full border-collapse border ">
-        <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
-          <tr>
-            <th className="w-24 px-4 py-2">सि.न.</th>
-            <th className=" px-4 py-2">योजनाको कार्य</th>
-            <th className=" px-4 py-2">योजनाको किसिम</th>
-            <th className="w-24 px-4 py-2">Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="w-auto text-center">
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2">
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button className="z-10" variant="shadow" size="sm">
-                    <MdModeEditOutline />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem>Edit</DropdownItem>
-
-                  <DropdownItem
-                    key="delete"
-                    className="text-danger"
-                    color="danger"
-                  >
-                    Delete
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </td>
-          </tr>
-        </tbody>
-      </table> */}
     </div>
   )
 }

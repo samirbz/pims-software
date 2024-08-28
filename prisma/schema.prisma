@@ -82,7 +82,7 @@ model YojanaPrakar {
 
 model YojanaKaryaBivaran {
   id            String @id @default(cuid())
-  anudanKoKisim String
+  yojanaKoKisim String
   lagatSrot     String
 }
 
