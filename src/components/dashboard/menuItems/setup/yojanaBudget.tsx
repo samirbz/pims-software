@@ -17,6 +17,9 @@ import {
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
+import { SiMicrosoftexcel } from "react-icons/si"
+import { Select } from "antd"
+import { IoSearch } from "react-icons/io5"
 
 import {
   saveYojanaBudget,
@@ -38,7 +41,7 @@ export default function YojanaBudget() {
   const [loading, setLoading] = useState(true)
 
   const [page, setPage] = React.useState(1)
-  const rowsPerPage = 7
+  const rowsPerPage = 4
 
   const pages = Math.ceil(yojanaBudgetData.length / rowsPerPage)
 
@@ -245,53 +248,159 @@ export default function YojanaBudget() {
           </TableBody>
         </Table>
       )}
+      <div className="mt-4 flex w-full flex-col gap-2">
+        <div className="flex items-center gap-2 ">
+          <div className="w-full">
+            <label className="flex items-center gap-2 whitespace-nowrap">
+              {<IoSearch />}आयोजना खोज्नुहोस
+            </label>
+            <Select
+              showSearch
+              className="w-full"
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={[
+                { value: "1", label: "Jack" },
+                { value: "2", label: "Lucy" },
+                { value: "3", label: "Tom" },
+              ]}
+            />
+          </div>
+          <p className="mt-4 w-full text-xl font-semibold text-red-600">
+            बाँकी बजेट रु:- 0000
+          </p>
+        </div>
+        <div className="flex flex-col gap-2 ">
+          <p className="w-full">एक मुष्ठ रकम बाट सहायक योजना बाडफाँड</p>
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              label="योजनाको नाम"
+              size="sm"
+              value={anudanKisim}
+              onChange={(e) => setAnudanKisim(e.target.value)}
+            />
 
-      {/* <table className=" w-full border-collapse border ">
-        <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
-          <tr>
-            <th className="w-24 px-4 py-2">सि.न.</th>
-            <th className="px-4 py-2">योजनाको नाम</th>
-            <th className="px-4 py-2">वडा न.</th>
-            <th className="px-4 py-2">बजेट रु.</th>
-            <th className="px-4 py-2">अनुदान किसिम</th>
-            <th className="px-4 py-2">बजेट कार्यक्रम</th>
-            <th className="px-4 py-2">योजना किसिम</th>
-            <th className="px-4 py-2">मुख्य समिति</th>
-            <th className="w-24 px-4 py-2">Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2">
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant="solid" size="sm" className="z-10 w-2 ">
-                    <MdModeEditOutline />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem
-                    key="delete"
-                    className="text-danger"
-                    color="danger"
-                  >
-                    Delete
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </td>
-          </tr>
-        </tbody>
-      </table> */}
+            <Input
+              type="text"
+              label="छानिएको मुख्य आयोजना"
+              size="sm"
+              isDisabled
+              value={biniyojanBudget}
+              onChange={(e) => setBiniyojanBudget(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            label="वडा न."
+            size="sm"
+            value={budgetKaryakram}
+            onChange={(e) => setBudgetKaryakram(e.target.value)}
+          />
+          <Input
+            type="text"
+            label="विनियोजन बजेट रु. "
+            size="sm"
+            value={yojanaKisim}
+            onChange={(e) => setYojanaKisim(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-2">
+          <Button
+            color="secondary"
+            startContent={<FaRegSave />}
+            className="w-12"
+            onClick={onSubmit}
+          >
+            Save
+          </Button>
+          <Button
+            startContent={<SiMicrosoftexcel />}
+            className="w-12"
+            onClick={onSubmit}
+          >
+            Excel
+          </Button>
+        </div>
+      </div>
+      <br />
+      {loading ? ( 
+        <div className="my-4 flex w-full justify-center">
+          <Spinner color="primary" />
+        </div>
+      ) : (
+        <Table
+          aria-label="Example table with dynamic content"
+          className="h-auto min-w-full "
+          bottomContent={
+            <div className="flex w-full justify-center">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="secondary"
+                page={page}
+                total={pages}
+                onChange={(page) => setPage(page)}
+              />
+            </div>
+          }
+        >
+          <TableHeader>
+            <TableColumn>सि.न.</TableColumn>
+            <TableColumn>योजनाको नाम</TableColumn>
+            <TableColumn>वडा न.</TableColumn>
+            <TableColumn>बजेट रु.</TableColumn>
+            <TableColumn>अनुदान किसिम</TableColumn>
+            <TableColumn>बजेट कार्यक्रम</TableColumn>
+            <TableColumn>योजना किसिम</TableColumn>
+            <TableColumn>मुख्य समिति</TableColumn>
+            <TableColumn>Edit</TableColumn>
+          </TableHeader>
+          <TableBody>
+            {items.map((item, index) => (
+              <TableRow key={item.id}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{item.yojanaKoNaam}</TableCell>
+                <TableCell>{item.wadaNum}</TableCell>
+                <TableCell>{item.anudanKisim}</TableCell>
+                <TableCell>{item.biniyojanBudget}</TableCell>
+                <TableCell>{item.budgetKaryakram}</TableCell>
+                <TableCell>{item.yojanaKisim}</TableCell>
+                <TableCell>{item.mukhyaSamiti}</TableCell>
+                <TableCell>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="z-10"
+                        variant="shadow"
+                        size="sm"
+                        startContent={<MdModeEditOutline />}
+                      ></Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Static Actions">
+                      <DropdownItem>Edit</DropdownItem>
+                      <DropdownItem
+                        key="delete"
+                        className="text-danger"
+                        color="danger"
+                        onPress={() => handleDelete(item.id)}
+                      >
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   )
 }
