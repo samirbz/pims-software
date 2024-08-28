@@ -254,23 +254,25 @@ export default function YojanaBudget() {
             <label className="flex items-center gap-2 whitespace-nowrap">
               {<IoSearch />}आयोजना खोज्नुहोस
             </label>
+
             <Select
               showSearch
               className="w-full"
-              filterOption={(input, option) =>
-                (option?.label ?? "")
+              placeholder="Search to Select"
+              optionFilterProp="label"
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
                   .toLowerCase()
-                  .includes(input.toLowerCase())
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
               }
-              options={[
-                { value: "1", label: "Jack" },
-                { value: "2", label: "Lucy" },
-                { value: "3", label: "Tom" },
-              ]}
+              options={yojanaBudgetData.map((item) => ({
+                value: item.id,
+                label: item.yojanaKoNaam,
+              }))}
             />
           </div>
           <p className="mt-4 w-full text-xl font-semibold text-red-600">
-            बाँकी बजेट रु:- 0000
+            बाँकी बजेट रु:-
           </p>
         </div>
         <div className="flex flex-col gap-2 ">
@@ -329,7 +331,7 @@ export default function YojanaBudget() {
         </div>
       </div>
       <br />
-      {loading ? ( 
+      {loading ? (
         <div className="my-4 flex w-full justify-center">
           <Spinner color="primary" />
         </div>
