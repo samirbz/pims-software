@@ -24,27 +24,17 @@ import {
   saveYonanaKaryaBivaran,
   fetchYojanaKaryaBivaranData,
   deleteYojanaKarayBivaran,
+  fetchYojanaPrakarData,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
-const selectConfig = [
-  { key: "1", label: "सशर्त अनुदान" },
-  { key: "2", label: "निशर्त अनुदान" },
-  { key: "3", label: "समपुरक अनुदान " },
-  { key: "4", label: "बिशेष अनुदान" },
-  { key: "5", label: "समानिकरण अनुदान" },
-  { key: "6", label: "आन्तरिक श्रोत" },
-  { key: "7", label: "संघिय सरकार " },
-  { key: "8", label: "प्रदेश सरकार " },
-  { key: "9", label: "प्रदेश सर्शत" },
-]
-
 export default function YojanaKaryaBivaran() {
   const [yojanaKoKisim, setYojanaKoKisim] = useState("")
-  const [lagatSrot, setLagatSrot] = useState("")
+  const [yojanaKoKarya, setYojanaKoKarya] = useState("")
   const [yojanaKaryaBivaranData, setYojanaKaryaBivaranData] = useState<any[]>(
     []
   )
+  const [yojanaPrakarData, setYojanaPrakarData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true) // State for loading
 
@@ -72,8 +62,19 @@ export default function YojanaKaryaBivaran() {
     }
   }
 
+  const fetchYojanaPrData = async () => {
+    try {
+      const data = await fetchYojanaPrakarData()
+      console.log("Fetched yojana prakar data:", data) // For debugging
+      setYojanaPrakarData(data)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
+    }
+  }
+
   useEffect(() => {
-    fetchYojanaKaryaBivaran() // Fetch data when the component mounts
+    fetchYojanaKaryaBivaran()
+    fetchYojanaPrData()
   }, [])
 
   const handleDelete = async (id: string) => {
@@ -87,15 +88,18 @@ export default function YojanaKaryaBivaran() {
   }
 
   const onSubmit = async () => {
-    const result = await saveYonanaKaryaBivaran(yojanaKoKisim, lagatSrot)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setYojanaKoKisim("")
-      setLagatSrot("")
-      // Fetch the updated list of data
-      fetchYojanaKaryaBivaran()
-    } else {
-      console.error("Error occurred")
+    try {
+      const result = await saveYonanaKaryaBivaran(yojanaKoKisim, yojanaKoKarya)
+      console.log(result) // Debugging line
+      if (result.status === "success") {
+        setYojanaKoKisim("")
+        setYojanaKoKarya("")
+        fetchYojanaKaryaBivaran()
+      } else {
+        console.error("Error occurred:", result)
+      }
+    } catch (error) {
+      console.error("API error:", error)
     }
   }
 
@@ -111,17 +115,16 @@ export default function YojanaKaryaBivaran() {
           size="sm"
           onChange={(e) => setYojanaKoKisim(e.target.value)}
         >
-          {selectConfig.map((item) => (
-            <SelectItem key={item.label}>{item.label}</SelectItem>
+          {yojanaPrakarData.map((item) => (
+            <SelectItem key={item.yojanaPrakar}>{item.yojanaPrakar}</SelectItem>
           ))}
         </Select>
         <div className="flex gap-2">
           <Input
-            type="text"
             label="योजनाको कार्य​"
             size="sm"
-            value={lagatSrot}
-            onChange={(e) => setLagatSrot(e.target.value)}
+            value={yojanaKoKarya}
+            onChange={(e) => setYojanaKoKarya(e.target.value)}
           />
           <Button
             color="secondary"
@@ -169,8 +172,8 @@ export default function YojanaKaryaBivaran() {
             {items.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item.anudanKoKisim}</TableCell>
-                <TableCell>{item.lagatSrot}</TableCell>
+                <TableCell>{item.yojanaKoKarya}</TableCell>
+                <TableCell>{item.yojanaKoKisim}</TableCell>
                 <TableCell>
                   <Dropdown>
                     <DropdownTrigger>

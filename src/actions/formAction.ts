@@ -271,13 +271,13 @@ export async function deleteYojanaPrakar(id: string) {
 // 5.Yojaana karya bivaran
 export async function saveYonanaKaryaBivaran(
   yojanaKoKisim: string,
-  lagatSrot: string
+  yojanaKoKarya: string
 ) {
   try {
     const dt = await prisma.yojanaKaryaBivaran.create({
       data: {
         yojanaKoKisim,
-        lagatSrot,
+        yojanaKoKarya,
       },
     })
     return { status: "success", data: dt }
