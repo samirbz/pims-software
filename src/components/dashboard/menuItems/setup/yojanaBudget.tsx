@@ -303,7 +303,7 @@ export default function YojanaBudget() {
               label="छानिएको मुख्य आयोजना"
               size="sm"
               isDisabled
-              value={biniyojanBudget}
+              value={selectedItem?.yojanaKoNaam}
               onChange={(e) => setBiniyojanBudget(e.target.value)}
             />
           </div>
