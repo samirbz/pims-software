@@ -38,6 +38,8 @@ export default function YojanaBudget() {
   const [mukhyaSamiti, setMukyaSamiti] = useState("")
   const [yojanaBudgetData, setYojanaBudgetData] = useState<any[]>([])
 
+  const [selectedItem, setSelectedItem] = useState<any | null>(null)
+
   const [loading, setLoading] = useState(true)
 
   const [page, setPage] = React.useState(1)
@@ -215,8 +217,8 @@ export default function YojanaBudget() {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{item.yojanaKoNaam}</TableCell>
                 <TableCell>{item.wadaNum}</TableCell>
-                <TableCell>{item.anudanKisim}</TableCell>
                 <TableCell>{item.biniyojanBudget}</TableCell>
+                <TableCell>{item.anudanKisim}</TableCell>
                 <TableCell>{item.budgetKaryakram}</TableCell>
                 <TableCell>{item.yojanaKisim}</TableCell>
                 <TableCell>{item.mukhyaSamiti}</TableCell>
@@ -265,6 +267,15 @@ export default function YojanaBudget() {
                   .toLowerCase()
                   .localeCompare((optionB?.label ?? "").toLowerCase())
               }
+              onChange={(value) => {
+                // Find the selected item by id
+                const selected = yojanaBudgetData.find(
+                  (item) => item.id === value
+                )
+                console.log("Selected Item:", selected)
+                setSelectedItem(selected || null) // Update the state with the selected item
+              }}
+              value={selectedItem?.id}
               options={yojanaBudgetData.map((item) => ({
                 value: item.id,
                 label: item.yojanaKoNaam,
@@ -272,7 +283,8 @@ export default function YojanaBudget() {
             />
           </div>
           <p className="mt-4 w-full text-xl font-semibold text-red-600">
-            बाँकी बजेट रु:-
+            बाँकी बजेट रु:{" "}
+            {selectedItem ? selectedItem.biniyojanBudget : "No value selected"}
           </p>
         </div>
         <div className="flex flex-col gap-2 ">
