@@ -35,7 +35,7 @@ import { staffRegister } from "@/actions/authActions"
 import { useForm } from "react-hook-form"
 import { IoIosSave, IoMdCheckmark } from "react-icons/io"
 import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
-// import * as XLSX from "xlsx" // Import xlsx
+import * as XLSX from "xlsx"
 import { MdModeEditOutline } from "react-icons/md"
 
 interface Member {
@@ -146,12 +146,12 @@ export default function StaffDetailPage() {
     onOpenChange() // Close the modal
   }
   // Function to export the table data to Excel
-  // const exportToExcel = () => {
-  //   const worksheet = XLSX.utils.json_to_sheet(members)
-  //   const workbook = XLSX.utils.book_new()
-  //   XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
-  //   XLSX.writeFile(workbook, "StaffDetails.xlsx")
-  // }
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(members)
+    const workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
+    XLSX.writeFile(workbook, "StaffDetails.xlsx")
+  }
 
   const handleEdit = (member: Member) => {
     setEditMember(member)
@@ -328,9 +328,9 @@ export default function StaffDetailPage() {
           >
             Add Staff
           </Button>
-          {/* <Button color="primary" onClick={exportToExcel}>
+          <Button color="primary" onClick={exportToExcel}>
             Export to Excel
-          </Button> */}
+          </Button>
         </div>
       </div>
       <br />

@@ -31,6 +31,7 @@ import {
   updateBiniyojanBudget,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import * as XLSX from "xlsx"
 
 export default function YojanaBudget() {
   const [yojanaKoNaam, setYojanaKoNaam] = useState("")
@@ -54,6 +55,7 @@ export default function YojanaBudget() {
   const [yojanaBudgetDataDt, setYojanaBudgetDataDt] = useState<any[]>([])
 
   const [filterYojanakoNaam, setFilterYojanakoNaam] = useState("")
+  const [excelDataDt, setExcelDataDt] = useState([])
 
   const [errors, setErrors] = useState<any>({})
 
@@ -102,9 +104,10 @@ export default function YojanaBudget() {
   const pagesSecond = Math.ceil(yojanaBudgetDataDt.length / rowsPerPageSecond)
 
   const itemsSecond = React.useMemo(() => {
-    const filteredData = yojanaBudgetDataDt.filter(
+    const filteredData: any = yojanaBudgetDataDt.filter(
       (item) => filterYojanakoNaam === item.chaniyekoMukhyaYojana
     )
+    setExcelDataDt(filteredData)
 
     console.log("Filtered Data:", filteredData) // Debugging line
     console.log(yojanaBudgetDataDt)
@@ -254,6 +257,51 @@ export default function YojanaBudget() {
     } catch (error: any) {
       console.error("Error in onSubmitDt:", error.message)
     }
+  }
+
+  // Function to export the table data to Excel
+  // const exportToExcel = () => {
+  //   const worksheet = XLSX.utils.json_to_sheet(excelDataDt)
+  //   const workbook = XLSX.utils.book_new()
+  //   XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
+  //   XLSX.writeFile(workbook, "StaffDetails.xlsx")
+  // }
+
+  // Function to export the table data to Excel
+  const exportToExcel = () => {
+    // Define your custom headers
+    const headers = [
+      "सि.न.",
+      "योजनाको नाम",
+      "वडा न.",
+      "अनुदान किसिम",
+      "बजेट रु.",
+      "बजेट कार्यक्रम",
+      "योजना किसिम",
+      "मुख्य समिति",
+      "छानिएको मुख्य आयोजना",
+    ]
+
+    // Convert your data to a worksheet with index numbers and exclude the first element in each row
+    const worksheetData = [
+      headers,
+      ...excelDataDt.map((obj, index) => [
+        index + 1, // Add index number starting from 1
+        ...Object.values(obj).slice(1), // Exclude the first element in each row
+      ]),
+    ]
+
+    // Create a new worksheet with the custom headers
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData)
+
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new()
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, "StaffDetails.xlsx")
   }
 
   return (
@@ -504,7 +552,11 @@ export default function YojanaBudget() {
           >
             Save
           </Button>
-          <Button startContent={<SiMicrosoftexcel />} className="w-12">
+          <Button
+            startContent={<SiMicrosoftexcel />}
+            onClick={exportToExcel}
+            className="w-12"
+          >
             Excel
           </Button>
         </div>
@@ -536,8 +588,8 @@ export default function YojanaBudget() {
             <TableColumn>सि.न.</TableColumn>
             <TableColumn>योजनाको नाम</TableColumn>
             <TableColumn>वडा न.</TableColumn>
-            <TableColumn>बजेट रु.</TableColumn>
             <TableColumn>अनुदान किसिम</TableColumn>
+            <TableColumn>बजेट रु.</TableColumn>
             <TableColumn>बजेट कार्यक्रम</TableColumn>
             <TableColumn>योजना किसिम</TableColumn>
             <TableColumn>मुख्य समिति</TableColumn>
@@ -545,7 +597,7 @@ export default function YojanaBudget() {
             <TableColumn>Edit</TableColumn>
           </TableHeader>
           <TableBody>
-            {itemsSecond.map((item, index) => (
+            {itemsSecond.map((item: any, index: any) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{item.yojanaKoNaamDt}</TableCell>
