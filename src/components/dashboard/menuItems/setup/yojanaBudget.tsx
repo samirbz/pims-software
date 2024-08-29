@@ -28,6 +28,7 @@ import {
   saveYojanaBudgetDt,
   fetchYojanaBudgetDataSecond,
   deleteYojanaBudgetSecond,
+  updateBiniyojanBudget,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -154,33 +155,64 @@ export default function YojanaBudget() {
   }
 
   const onSubmitDt = async () => {
-    const result = await saveYojanaBudgetDt(
-      yojanaKoNaamDt,
-      wadaNumDt,
-      anudanKisimDt,
-      biniyojanBudgetDt,
-      budgetKaryakramDt,
-      yojanaKisimDt,
-      mukhyaSamitiDt,
-      chaniyekoMukhyaYojana
-    )
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setYojanaKoNaamDt("")
-      setWadaNumDt("")
-      setAnudanKisimDt("")
-      setBiniyojanBudgetDt("")
-      setBudgetKaryakramDt("")
-      setYojanaKisimDt("")
-      setMukhyaSamitiDt("")
-      setChaniyekoMukhyaYojana("")
-      // Fetch the updated list of data
-      fetchYojanaBudgetSecondLocal()
-      setSelectedItem(null)
-    } else {
-      console.error("Error occurred")
+    try {
+      // Assuming you want to update the first item in the array
+      const budget1 = Number(yojanaBudgetData[0]?.biniyojanBudget)
+      const budget2 = Number(biniyojanBudgetDt)
+
+      if (isNaN(budget1) || isNaN(budget2)) {
+        throw new Error("Invalid budget values.")
+      }
+
+      const id = yojanaBudgetData[0]?.id // Get the ID of the first item
+      if (!id) {
+        throw new Error("No valid ID found.")
+      }
+
+      const res = budget1 - budget2
+      const resNew = res.toString()
+      console.log("New Budget:", resNew)
+
+      // Update the budget in the database
+      await updateBiniyojanBudget(id, resNew)
+
+      // Refresh the data after the update
+      await fetchYojanaBudgetLocal()
+
+      // Save the new budget data
+      const result = await saveYojanaBudgetDt(
+        yojanaKoNaamDt,
+        wadaNumDt,
+        anudanKisimDt,
+        biniyojanBudgetDt,
+        budgetKaryakramDt,
+        yojanaKisimDt,
+        mukhyaSamitiDt,
+        chaniyekoMukhyaYojana
+      )
+
+      if (result.status === "success") {
+        // Reset the input fields after successful submission
+        setYojanaKoNaamDt("")
+        setWadaNumDt("")
+        setAnudanKisimDt("")
+        setBiniyojanBudgetDt("")
+        setBudgetKaryakramDt("")
+        setYojanaKisimDt("")
+        setMukhyaSamitiDt("")
+        setChaniyekoMukhyaYojana("")
+
+        // Fetch the updated list of data
+        await fetchYojanaBudgetSecondLocal()
+        setSelectedItem(null)
+      } else {
+        console.error("Error occurred during saveYojanaBudgetDt")
+      }
+    } catch (error: any) {
+      console.error("Error in onSubmitDt:", error.message)
     }
   }
+
   return (
     <div className="flex flex-col justify-between bg-white">
       <h1 className="form-title text-xl font-semibold sm:text-2xl">
@@ -197,7 +229,7 @@ export default function YojanaBudget() {
             onChange={(e) => setYojanaKoNaam(e.target.value)}
           />
           <Input
-            type="text"
+            type="Number"
             label="वडा न."
             size="sm"
             value={wadaNum}
@@ -213,7 +245,7 @@ export default function YojanaBudget() {
             onChange={(e) => setAnudanKisim(e.target.value)}
           />
           <Input
-            type="text"
+            type="Number"
             label=" विनियोजन बजेट रु."
             size="sm"
             value={biniyojanBudget}
@@ -390,14 +422,14 @@ export default function YojanaBudget() {
         </div>
         <div className="flex gap-2">
           <Input
-            type="text"
+            type="Number"
             label="वडा न."
             size="sm"
             value={wadaNumDt}
             onChange={(e) => setWadaNumDt(e.target.value)}
           />
           <Input
-            type="text"
+            type="Number"
             label="विनियोजन बजेट रु. "
             size="sm"
             value={biniyojanBudgetDt}
