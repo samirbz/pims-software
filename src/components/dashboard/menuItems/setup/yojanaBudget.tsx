@@ -348,6 +348,12 @@ export default function YojanaBudget() {
                   (item) => item.id === value
                 )
                 setSelectedItem(selected || null)
+                // data to fill
+                setChaniyekoMukhyaYojana(selected.yojanaKoNaam || "")
+                setAnudanKisimDt(selected.anudanKisim || "")
+                setMukhyaSamitiDt(selected.mukhyaSamiti || "")
+                setYojanaKisimDt(selected.yojanaKisim || "")
+                setBudgetKaryakramDt(selected.budgetKaryakram || "")
               }}
               value={selectedItem?.id}
               options={yojanaBudgetData.map((item) => ({
@@ -358,7 +364,7 @@ export default function YojanaBudget() {
           </div>
           <p className="mt-4 w-full text-xl font-semibold text-red-600">
             बाँकी बजेट रु:{" "}
-            {selectedItem ? selectedItem.biniyojanBudget : "No value selected"}
+            {selectedItem ? selectedItem.biniyojanBudget : "00.00"}
           </p>
         </div>
         <div className="flex flex-col gap-2 ">
@@ -375,9 +381,9 @@ export default function YojanaBudget() {
             <Input
               type="text"
               label="छानिएको मुख्य आयोजना"
+              isDisabled
               size="sm"
               value={selectedItem?.yojanaKoNaam}
-              onChange={(e) => setChaniyekoMukhyaYojana(e.target.value)}
             />
           </div>
         </div>
@@ -387,7 +393,7 @@ export default function YojanaBudget() {
             label="वडा न."
             size="sm"
             value={wadaNumDt}
-            // onChange={(e) => setWadaNumDt(e.target.value)}
+            onChange={(e) => setWadaNumDt(e.target.value)}
           />
           <Input
             type="text"
