@@ -499,6 +499,29 @@ export async function deleteYojanaBudget(id: string) {
   }
 }
 
+//  10-1 yojana budget update
+export async function updateBiniyojanBudget(
+  id: string, // assuming 'id' is the unique identifier for the record
+  biniyojanBudget: string // the new budget value as a string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.yojanaBudget.update({
+      where: {
+        id,
+      },
+      data: {
+        biniyojanBudget,
+      },
+    })
+
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 // 10-2yojana budget badfat
 export async function saveYojanaBudgetDt(
   yojanaKoNaamDt: string,
@@ -508,7 +531,7 @@ export async function saveYojanaBudgetDt(
   budgetKaryakramDt: string,
   yojanaKisimDt: string,
   mukhyaSamitiDt: string,
-  chaniyekoMukhyaYojana:string,
+  chaniyekoMukhyaYojana: string
 ) {
   try {
     const dt = await prisma.yojanaBudgetSecond.create({
