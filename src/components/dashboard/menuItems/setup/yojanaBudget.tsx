@@ -53,6 +53,8 @@ export default function YojanaBudget() {
   const [mukhyaSamitiDt, setMukhyaSamitiDt] = useState("")
   const [yojanaBudgetDataDt, setYojanaBudgetDataDt] = useState<any[]>([])
 
+  const [secondId, setSecondId] = useState("")
+
   const [loading, setLoading] = useState(true)
 
   // first table
@@ -156,25 +158,31 @@ export default function YojanaBudget() {
 
   const onSubmitDt = async () => {
     try {
-      // Assuming you want to update the first item in the array
-      const budget1 = Number(yojanaBudgetData[0]?.biniyojanBudget)
+      // Find the matching budget for the given `secondId`
+      const matchedItem = yojanaBudgetData.find((data) => data.id === secondId)
+
+      // If no matching item is found, return or handle the case accordingly
+      if (!matchedItem) {
+        console.error("No matching budget found for the given ID")
+        return
+      }
+
+      // Extract and convert the budgets to numbers
+      const budget1 = Number(matchedItem.biniyojanBudget)
       const budget2 = Number(biniyojanBudgetDt)
 
       if (isNaN(budget1) || isNaN(budget2)) {
-        throw new Error("Invalid budget values.")
+        console.error("Invalid budget values. Could not convert to number.")
+        return
       }
 
-      const id = yojanaBudgetData[0]?.id // Get the ID of the first item
-      if (!id) {
-        throw new Error("No valid ID found.")
-      }
-
+      // Perform the subtraction
       const res = budget1 - budget2
       const resNew = res.toString()
       console.log("New Budget:", resNew)
 
       // Update the budget in the database
-      await updateBiniyojanBudget(id, resNew)
+      await updateBiniyojanBudget(secondId, resNew)
 
       // Refresh the data after the update
       await fetchYojanaBudgetLocal()
@@ -387,6 +395,7 @@ export default function YojanaBudget() {
                 setMukhyaSamitiDt(selected.mukhyaSamiti || "")
                 setYojanaKisimDt(selected.yojanaKisim || "")
                 setBudgetKaryakramDt(selected.budgetKaryakram || "")
+                setSecondId(selected.id || "")
               }}
               value={selectedItem?.id}
               options={yojanaBudgetData.map((item) => ({
