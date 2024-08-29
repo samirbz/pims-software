@@ -69,6 +69,14 @@ export default function YojanaBudget() {
     return Object.keys(newErrors).length === 0
   }
 
+  const handleChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>, fieldName: string) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setter(e.target.value)
+      // Clear the error for this field
+      setErrors((prevErrors: any) => ({ ...prevErrors, [fieldName]: "" }))
+    }
+
   const [secondId, setSecondId] = useState("")
   const [loading, setLoading] = useState(true)
 
@@ -246,13 +254,13 @@ export default function YojanaBudget() {
       </h1>
       <br />
       <div className="flex w-full flex-col gap-2">
-        <div className="flex  gap-2 ">
+        <div className="flex gap-2">
           <Input
             type="text"
             label="योजनाको नाम"
             size="sm"
             value={yojanaKoNaam}
-            onChange={(e) => setYojanaKoNaam(e.target.value)}
+            onChange={handleChange(setYojanaKoNaam, "yojanaKoNaam")}
             isInvalid={!!errors.yojanaKoNaam}
             errorMessage={errors.yojanaKoNaam}
           />
@@ -261,18 +269,18 @@ export default function YojanaBudget() {
             label="वडा न."
             size="sm"
             value={wadaNum}
-            onChange={(e) => setWadaNum(e.target.value)}
+            onChange={handleChange(setWadaNum, "wadaNum")}
             isInvalid={!!errors.wadaNum}
             errorMessage={errors.wadaNum}
           />
         </div>
-        <div className="flex gap-2 ">
+        <div className="flex gap-2">
           <Input
             type="text"
             label="अनुदान किसिम"
             size="sm"
             value={anudanKisim}
-            onChange={(e) => setAnudanKisim(e.target.value)}
+            onChange={handleChange(setAnudanKisim, "anudanKisim")}
             isInvalid={!!errors.anudanKisim}
             errorMessage={errors.anudanKisim}
           />
@@ -281,7 +289,7 @@ export default function YojanaBudget() {
             label=" विनियोजन बजेट रु."
             size="sm"
             value={biniyojanBudget}
-            onChange={(e) => setBiniyojanBudget(e.target.value)}
+            onChange={handleChange(setBiniyojanBudget, "biniyojanBudget")}
             isInvalid={!!errors.biniyojanBudget}
             errorMessage={errors.biniyojanBudget}
           />
@@ -292,7 +300,7 @@ export default function YojanaBudget() {
             label="बजेट कार्यक्रम"
             size="sm"
             value={budgetKaryakram}
-            onChange={(e) => setBudgetKaryakram(e.target.value)}
+            onChange={handleChange(setBudgetKaryakram, "budgetKaryakram")}
             isInvalid={!!errors.budgetKaryakram}
             errorMessage={errors.budgetKaryakram}
           />
@@ -301,7 +309,7 @@ export default function YojanaBudget() {
             label="योजना किसिम "
             size="sm"
             value={yojanaKisim}
-            onChange={(e) => setYojanaKisim(e.target.value)}
+            onChange={handleChange(setYojanaKisim, "yojanaKisim")}
             isInvalid={!!errors.yojanaKisim}
             errorMessage={errors.yojanaKisim}
           />
@@ -311,7 +319,7 @@ export default function YojanaBudget() {
           label="मुख्य समिति"
           size="sm"
           value={mukhyaSamiti}
-          onChange={(e) => setMukyaSamiti(e.target.value)}
+          onChange={handleChange(setMukyaSamiti, "mukhyaSamiti")}
           isInvalid={!!errors.mukhyaSamiti}
           errorMessage={errors.mukhyaSamiti}
         />
