@@ -176,6 +176,7 @@ export default function YojanaBudget() {
       setChaniyekoMukhyaYojana("")
       // Fetch the updated list of data
       fetchYojanaBudgetSecondLocal()
+      setSelectedItem(null)
     } else {
       console.error("Error occurred")
     }
