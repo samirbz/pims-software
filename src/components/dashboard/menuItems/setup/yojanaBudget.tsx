@@ -294,6 +294,19 @@ export default function YojanaBudget() {
     // Create a new worksheet with the custom headers
     const worksheet = XLSX.utils.aoa_to_sheet(worksheetData)
 
+    // Calculate column widths based on the maximum length of data in each column
+    const columnWidths = headers.map((header, index) => ({
+      wch: Math.max(
+        header.length, // Header length
+        ...worksheetData.map((row) =>
+          row[index] ? row[index].toString().length : 0
+        ) // Max length of data in the column
+      ),
+    }))
+
+    // Set column widths in the worksheet
+    worksheet["!cols"] = columnWidths
+
     // Create a new workbook
     const workbook = XLSX.utils.book_new()
 
