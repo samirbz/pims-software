@@ -53,8 +53,23 @@ export default function YojanaBudget() {
   const [mukhyaSamitiDt, setMukhyaSamitiDt] = useState("")
   const [yojanaBudgetDataDt, setYojanaBudgetDataDt] = useState<any[]>([])
 
-  const [secondId, setSecondId] = useState("")
+  const [errors, setErrors] = useState<any>({})
 
+  const validateFields = () => {
+    const newErrors: any = {}
+    if (!yojanaKoNaam) newErrors.yojanaKoNaam = "This field is required"
+    if (!wadaNum) newErrors.wadaNum = "This field is required"
+    if (!anudanKisim) newErrors.anudanKisim = "This field is required"
+    if (!biniyojanBudget) newErrors.biniyojanBudget = "This field is required"
+    if (!budgetKaryakram) newErrors.budgetKaryakram = "This field is required"
+    if (!yojanaKisim) newErrors.yojanaKisim = "This field is required"
+    if (!mukhyaSamiti) newErrors.mukhyaSamiti = "This field is required"
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const [secondId, setSecondId] = useState("")
   const [loading, setLoading] = useState(true)
 
   // first table
@@ -131,28 +146,31 @@ export default function YojanaBudget() {
   }
 
   const onSubmit = async () => {
-    const result = await saveYojanaBudget(
-      yojanaKoNaam,
-      wadaNum,
-      anudanKisim,
-      biniyojanBudget,
-      budgetKaryakram,
-      yojanaKisim,
-      mukhyaSamiti
-    )
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setYojanaKoNaam("")
-      setWadaNum("")
-      setAnudanKisim("")
-      setBiniyojanBudget("")
-      setBudgetKaryakram("")
-      setYojanaKisim("")
-      setMukyaSamiti("")
-      // Fetch the updated list of data
-      fetchYojanaBudgetLocal()
-    } else {
-      console.error("Error occurred")
+    if (validateFields()) {
+      const result = await saveYojanaBudget(
+        yojanaKoNaam,
+        wadaNum,
+        anudanKisim,
+        biniyojanBudget,
+        budgetKaryakram,
+        yojanaKisim,
+        mukhyaSamiti
+      )
+      if (result.status === "success") {
+        // Reset the input field after successful submission
+        setYojanaKoNaam("")
+        setWadaNum("")
+        setAnudanKisim("")
+        setBiniyojanBudget("")
+        setBudgetKaryakram("")
+        setYojanaKisim("")
+        setMukyaSamiti("")
+        setErrors({})
+        // Fetch the updated list of data
+        fetchYojanaBudgetLocal()
+      } else {
+        console.error("Error occurred")
+      }
     }
   }
 
@@ -235,6 +253,8 @@ export default function YojanaBudget() {
             size="sm"
             value={yojanaKoNaam}
             onChange={(e) => setYojanaKoNaam(e.target.value)}
+            isInvalid={!!errors.yojanaKoNaam}
+            errorMessage={errors.yojanaKoNaam}
           />
           <Input
             type="Number"
@@ -242,6 +262,8 @@ export default function YojanaBudget() {
             size="sm"
             value={wadaNum}
             onChange={(e) => setWadaNum(e.target.value)}
+            isInvalid={!!errors.wadaNum}
+            errorMessage={errors.wadaNum}
           />
         </div>
         <div className="flex gap-2 ">
@@ -251,6 +273,8 @@ export default function YojanaBudget() {
             size="sm"
             value={anudanKisim}
             onChange={(e) => setAnudanKisim(e.target.value)}
+            isInvalid={!!errors.anudanKisim}
+            errorMessage={errors.anudanKisim}
           />
           <Input
             type="Number"
@@ -258,6 +282,8 @@ export default function YojanaBudget() {
             size="sm"
             value={biniyojanBudget}
             onChange={(e) => setBiniyojanBudget(e.target.value)}
+            isInvalid={!!errors.biniyojanBudget}
+            errorMessage={errors.biniyojanBudget}
           />
         </div>
         <div className="flex gap-2">
@@ -267,6 +293,8 @@ export default function YojanaBudget() {
             size="sm"
             value={budgetKaryakram}
             onChange={(e) => setBudgetKaryakram(e.target.value)}
+            isInvalid={!!errors.budgetKaryakram}
+            errorMessage={errors.budgetKaryakram}
           />
           <Input
             type="text"
@@ -274,6 +302,8 @@ export default function YojanaBudget() {
             size="sm"
             value={yojanaKisim}
             onChange={(e) => setYojanaKisim(e.target.value)}
+            isInvalid={!!errors.yojanaKisim}
+            errorMessage={errors.yojanaKisim}
           />
         </div>
         <Input
@@ -282,6 +312,8 @@ export default function YojanaBudget() {
           size="sm"
           value={mukhyaSamiti}
           onChange={(e) => setMukyaSamiti(e.target.value)}
+          isInvalid={!!errors.mukhyaSamiti}
+          errorMessage={errors.mukhyaSamiti}
         />
         <Button
           color="secondary"
