@@ -53,6 +53,8 @@ export default function YojanaBudget() {
   const [mukhyaSamitiDt, setMukhyaSamitiDt] = useState("")
   const [yojanaBudgetDataDt, setYojanaBudgetDataDt] = useState<any[]>([])
 
+  const [filterYojanakoNaam, setFilterYojanakoNaam] = useState("")
+
   const [errors, setErrors] = useState<any>({})
 
   const validateFields = () => {
@@ -100,11 +102,18 @@ export default function YojanaBudget() {
   const pagesSecond = Math.ceil(yojanaBudgetDataDt.length / rowsPerPageSecond)
 
   const itemsSecond = React.useMemo(() => {
+    const filteredData = yojanaBudgetDataDt.filter(
+      (item) => filterYojanakoNaam === item.chaniyekoMukhyaYojana
+    )
+
+    console.log("Filtered Data:", filteredData) // Debugging line
+    console.log(yojanaBudgetDataDt)
+
     const start = (pageSecond - 1) * rowsPerPageSecond
     const end = start + rowsPerPageSecond
 
-    return yojanaBudgetDataDt.slice(start, end)
-  }, [pageSecond, yojanaBudgetDataDt])
+    return filteredData.slice(start, end)
+  }, [pageSecond, yojanaBudgetDataDt, filterYojanakoNaam])
 
   const fetchYojanaBudgetLocal = async () => {
     try {
@@ -436,6 +445,7 @@ export default function YojanaBudget() {
                 setYojanaKisimDt(selected.yojanaKisim || "")
                 setBudgetKaryakramDt(selected.budgetKaryakram || "")
                 setSecondId(selected.id || "")
+                setFilterYojanakoNaam(selected.yojanaKoNaam || "")
               }}
               value={selectedItem?.id}
               options={yojanaBudgetData.map((item) => ({
