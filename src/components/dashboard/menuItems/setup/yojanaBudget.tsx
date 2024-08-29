@@ -35,6 +35,7 @@ import {
   fetchYojanaBudgetDataSecond,
   deleteYojanaBudgetSecond,
   updateBiniyojanBudget,
+  editYojanaBudgetFirst,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
@@ -66,12 +67,16 @@ export default function YojanaBudget() {
   const [errors, setErrors] = useState<any>({})
   const [deleteUserId, setDeleteUserId] = useState("")
   const [deleteUserIdSecond, setDeleteUserIdSecond] = useState("")
+  const [showEditBtn, setShowEditBtn] = useState(false)
+  const [firstEditId, setFirstEditId] = useState("")
 
+  //  delete
   const {
     isOpen: isDeleteConfirmationOpen,
     onOpen: onDeleteConfirmationOpen,
     onOpenChange: onDeleteConfirmationOpenChange,
   } = useDisclosure()
+
   const {
     isOpen: isDeleteConfirmationOpenSecond,
     onOpen: onDeleteConfirmationOpenSecond,
@@ -203,6 +208,45 @@ export default function YojanaBudget() {
       console.error("Delete unsuccessful:", error)
     }
     onDeleteConfirmationOpenChangeSecond()
+  }
+
+  //  Edit first
+  const handleEdit = async (item: any) => {
+    setShowEditBtn(true)
+    setFirstEditId(item.id)
+    setYojanaKoNaam(item.yojanaKoNaam)
+    setWadaNum(item.wadaNum)
+    setAnudanKisim(item.anudanKisim)
+    setBiniyojanBudget(item.biniyojanBudget)
+    setBudgetKaryakram(item.budgetKaryakram)
+    setYojanaKisim(item.yojanaKisim)
+    setMukyaSamiti(item.mukhyaSamiti)
+  }
+
+  const editFirst = async () => {
+    const result = await editYojanaBudgetFirst(
+      firstEditId,
+      yojanaKoNaam,
+      wadaNum,
+      anudanKisim,
+      biniyojanBudget,
+      budgetKaryakram,
+      yojanaKisim,
+      mukhyaSamiti
+    )
+    if (result.status === "success") {
+      setYojanaKoNaam("")
+      setWadaNum("")
+      setAnudanKisim("")
+      setBiniyojanBudget("")
+      setBudgetKaryakram("")
+      setYojanaKisim("")
+      setMukyaSamiti("")
+      setShowEditBtn(false)
+      fetchYojanaBudgetLocal()
+    } else {
+      console.error("Error occurred")
+    }
   }
 
   const onSubmit = async () => {
@@ -477,14 +521,25 @@ export default function YojanaBudget() {
             isInvalid={!!errors.mukhyaSamiti}
             errorMessage={errors.mukhyaSamiti}
           />
-          <Button
-            color="secondary"
-            startContent={<FaRegSave />}
-            className="w-12"
-            onClick={onSubmit}
-          >
-            Save
-          </Button>
+          {showEditBtn ? (
+            <Button
+              color="default"
+              startContent={<MdModeEditOutline />}
+              className="w-12"
+              onClick={editFirst}
+            >
+              Edit
+            </Button>
+          ) : (
+            <Button
+              color="secondary"
+              startContent={<FaRegSave />}
+              className="w-12"
+              onClick={onSubmit}
+            >
+              Save
+            </Button>
+          )}
         </div>
 
         <br />
@@ -543,7 +598,9 @@ export default function YojanaBudget() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"
