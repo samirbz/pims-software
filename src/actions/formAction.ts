@@ -608,6 +608,34 @@ export async function editYojanaBudgetFirst(
     return { status: "error", error: "Something went wrong" }
   }
 }
+//  10. yojana budget Edit second
+export async function editYojanaBudgetSecond(
+  id: string,
+  yojanaKoNaamDt: string,
+  wadaNumDt: string,
+  biniyojanBudgetDt: string,
+  chaniyekoMukhyaYojana: string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.yojanaBudgetSecond.update({
+      where: {
+        id,
+      },
+      data: {
+        yojanaKoNaamDt,
+        wadaNumDt,
+        biniyojanBudgetDt,
+        chaniyekoMukhyaYojana,
+      },
+    })
+
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
 
 // 11. suchikrit form
 export async function saveSuchikritForm(

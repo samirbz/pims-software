@@ -36,6 +36,7 @@ import {
   deleteYojanaBudgetSecond,
   updateBiniyojanBudget,
   editYojanaBudgetFirst,
+  editYojanaBudgetSecond,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
@@ -68,7 +69,9 @@ export default function YojanaBudget() {
   const [deleteUserId, setDeleteUserId] = useState("")
   const [deleteUserIdSecond, setDeleteUserIdSecond] = useState("")
   const [showEditBtn, setShowEditBtn] = useState(false)
+  const [showSecondEditBtn, setSecondShowEditBtn] = useState(false)
   const [firstEditId, setFirstEditId] = useState("")
+  const [secondEditId, setSecondEditId] = useState("")
 
   //  delete
   const {
@@ -244,6 +247,36 @@ export default function YojanaBudget() {
       setMukyaSamiti("")
       setShowEditBtn(false)
       fetchYojanaBudgetLocal()
+    } else {
+      console.error("Error occurred")
+    }
+  }
+
+  //  Edit second
+  const handleEditSecond = async (item: any) => {
+    setSecondShowEditBtn(true)
+    setSecondEditId(item.id)
+    setYojanaKoNaamDt(item.yojanaKoNaamDt)
+    setWadaNumDt(item.wadaNumDt)
+    setBiniyojanBudgetDt(item.biniyojanBudgetDt)
+    setChaniyekoMukhyaYojana(item.chaniyekoMukhyaYojana)
+  }
+
+  const editSecond = async () => {
+    const result = await editYojanaBudgetSecond(
+      secondEditId,
+      yojanaKoNaamDt,
+      wadaNumDt,
+      biniyojanBudgetDt,
+      chaniyekoMukhyaYojana
+    )
+    if (result.status === "success") {
+      setYojanaKoNaamDt("")
+      setWadaNumDt("")
+      setBiniyojanBudgetDt("")
+      setChaniyekoMukhyaYojana("")
+      setSecondShowEditBtn(false)
+      fetchYojanaBudgetSecondLocal()
     } else {
       console.error("Error occurred")
     }
@@ -668,7 +701,9 @@ export default function YojanaBudget() {
                 type="text"
                 label="योजनाको नाम"
                 size="sm"
-                value={yojanaKoNaamDt}
+                value={
+                  showSecondEditBtn ? chaniyekoMukhyaYojana : yojanaKoNaamDt
+                }
                 onChange={(e) => setYojanaKoNaamDt(e.target.value)}
               />
 
@@ -698,14 +733,25 @@ export default function YojanaBudget() {
             />
           </div>
           <div className="flex gap-2">
-            <Button
-              color="secondary"
-              startContent={<FaRegSave />}
-              className="w-12"
-              onClick={onSubmitDt}
-            >
-              Save
-            </Button>
+            {showSecondEditBtn ? (
+              <Button
+                color="default"
+                startContent={<MdModeEditOutline />}
+                className="w-12"
+                onClick={editSecond}
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button
+                color="secondary"
+                startContent={<FaRegSave />}
+                className="w-12"
+                onClick={onSubmitDt}
+              >
+                Save
+              </Button>
+            )}
             <Button
               startContent={<SiMicrosoftexcel />}
               onClick={exportToExcel}
@@ -773,7 +819,9 @@ export default function YojanaBudget() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEditSecond(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"
