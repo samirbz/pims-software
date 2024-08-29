@@ -65,11 +65,17 @@ export default function YojanaBudget() {
 
   const [errors, setErrors] = useState<any>({})
   const [deleteUserId, setDeleteUserId] = useState("")
+  const [deleteUserIdSecond, setDeleteUserIdSecond] = useState("")
 
   const {
     isOpen: isDeleteConfirmationOpen,
     onOpen: onDeleteConfirmationOpen,
     onOpenChange: onDeleteConfirmationOpenChange,
+  } = useDisclosure()
+  const {
+    isOpen: isDeleteConfirmationOpenSecond,
+    onOpen: onDeleteConfirmationOpenSecond,
+    onOpenChange: onDeleteConfirmationOpenChangeSecond,
   } = useDisclosure()
 
   const validateFields = () => {
@@ -159,6 +165,7 @@ export default function YojanaBudget() {
     fetchYojanaBudgetSecondLocal()
   }, [])
 
+  //  delete first
   const handleDelete = async (id: string) => {
     setDeleteUserId(id) // Set the ID to be deleted
     onDeleteConfirmationOpen() // Open the confirmation modal
@@ -178,14 +185,24 @@ export default function YojanaBudget() {
     onDeleteConfirmationOpenChange()
   }
 
+  // delete second
   const handleDeleteSecond = async (id: string) => {
-    const result = await deleteYojanaBudgetSecond(id)
-    if (result.status === "success") {
-      // Fetch the updated list of fiscal years
-      fetchYojanaBudgetSecondLocal()
-    } else {
-      console.error("Delete unsuccessful:")
+    setDeleteUserIdSecond(id) // Set the ID to be deleted
+    onDeleteConfirmationOpenSecond() // Open the confirmation modal
+  }
+
+  const confirmDeleteUserSecond = async () => {
+    try {
+      const result = await deleteYojanaBudgetSecond(deleteUserIdSecond)
+      if (result.status === "success") {
+        fetchYojanaBudgetSecondLocal()
+      } else {
+        console.error("Delete unsuccessful:")
+      }
+    } catch (error) {
+      console.error("Delete unsuccessful:", error)
     }
+    onDeleteConfirmationOpenChangeSecond()
   }
 
   const onSubmit = async () => {
@@ -357,6 +374,34 @@ export default function YojanaBudget() {
           </>
         </ModalContent>
       </Modal>
+
+      <Modal
+        isOpen={isDeleteConfirmationOpenSecond}
+        onOpenChange={onDeleteConfirmationOpenChangeSecond}
+      >
+        <ModalContent>
+          <>
+            <ModalHeader className="flex flex-col gap-1">
+              Confirmation
+            </ModalHeader>
+            <ModalBody>
+              <p>Are you sure you want to delete this user?</p>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="danger" onClick={confirmDeleteUserSecond}>
+                Delete
+              </Button>
+              <Button
+                color="primary"
+                onClick={onDeleteConfirmationOpenChangeSecond}
+              >
+                Cancel
+              </Button>
+            </ModalFooter>
+          </>
+        </ModalContent>
+      </Modal>
+
       <div className="flex flex-col justify-between bg-white">
         <h1 className="form-title text-xl font-semibold sm:text-2xl">
           अपलोड योजनाहरु (एक मुष्ठ रकम बाट सहायक योजनाम बाँडफाड)

@@ -102,6 +102,7 @@ export default function StaffDetailPage() {
     }
     onDeleteConfirmationOpenChange()
   }
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   const {
