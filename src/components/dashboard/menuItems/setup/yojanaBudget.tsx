@@ -40,6 +40,8 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export default function YojanaBudget() {
   const [yojanaKoNaam, setYojanaKoNaam] = useState("")
@@ -72,6 +74,9 @@ export default function YojanaBudget() {
   const [showSecondEditBtn, setSecondShowEditBtn] = useState(false)
   const [firstEditId, setFirstEditId] = useState("")
   const [secondEditId, setSecondEditId] = useState("")
+
+  const duplicateNotify = () => toast.error("Duplicate yojana name entered!")
+  const yojanaSave = () => toast.success("Data saved successfully!")
 
   //  delete
   const {
@@ -283,6 +288,17 @@ export default function YojanaBudget() {
   }
 
   const onSubmit = async () => {
+    const yojanaBudgetData = await fetchYojanaBudgetData()
+
+    const isDuplicate = yojanaBudgetData.some(
+      (data) => data.yojanaKoNaam === yojanaKoNaam
+    )
+
+    if (isDuplicate) {
+      duplicateNotify()
+      return <ToastContainer />
+    }
+
     if (validateFields()) {
       const result = await saveYojanaBudget(
         yojanaKoNaam,
@@ -293,8 +309,9 @@ export default function YojanaBudget() {
         yojanaKisim,
         mukhyaSamiti
       )
+
       if (result.status === "success") {
-        // Reset the input field after successful submission
+        // Reset the input fields after successful submission
         setYojanaKoNaam("")
         setWadaNum("")
         setAnudanKisim("")
@@ -305,6 +322,8 @@ export default function YojanaBudget() {
         setErrors({})
         // Fetch the updated list of data
         fetchYojanaBudgetLocal()
+        yojanaSave()
+        return <ToastContainer />
       } else {
         console.error("Error occurred")
       }
