@@ -594,6 +594,63 @@ export async function deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
   }
 }
 
+// export async function sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
+//   chaniyekoMukhyaYojana: string
+// ) {
+//   try {
+//     // Fetch all records that match the chaniyekoMukhyaYojana
+//     const recordsToDelete = await prisma.yojanaBudgetSecond.findMany({
+//       where: { chaniyekoMukhyaYojana },
+//       select: { biniyojanBudgetDt: true },
+//     })
+
+//     // Sum all biniyojanBudgetDt values after converting to number
+//     const totalBudget = recordsToDelete.reduce((sum, record) => {
+//       return sum + Number(record.biniyojanBudgetDt)
+//     }, 0)
+
+//     // Delete the matching records
+//     const deleteResult = await prisma.yojanaBudgetSecond.deleteMany({
+//       where: { chaniyekoMukhyaYojana },
+//     })
+
+//     if (deleteResult.count > 0) {
+//       return {
+//         status: "success",
+//         deletedCount: deleteResult.count,
+//         totalBudget,
+//       }
+//     } else {
+//       return { status: "error", error: "No records found to delete" }
+//     }
+//   } catch (error) {
+//     console.error("Failed to delete data:", error)
+//     return { status: "error", error: "Something went wrong" }
+//   }
+// }
+
+export async function sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
+  chaniyekoMukhyaYojana: string
+) {
+  try {
+    // Fetch all records that match the chaniyekoMukhyaYojana
+    const matchingRecords = await prisma.yojanaBudgetSecond.findMany({
+      where: { chaniyekoMukhyaYojana },
+      select: { biniyojanBudgetDt: true },
+    })
+
+    // Sum all biniyojanBudgetDt values after converting to number
+    const totalBudget = matchingRecords.reduce((sum, record) => {
+      return sum + Number(record.biniyojanBudgetDt)
+    }, 0)
+
+    return { status: "success", totalBudget }
+  } catch (error) {
+    console.error("Failed to calculate budget sum:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 
 //  10. yojana budget Edit first
 export async function editYojanaBudgetFirst(

@@ -38,6 +38,7 @@ import {
   editYojanaBudgetFirst,
   editYojanaBudgetSecond,
   deleteYojanaBudgetChaniyekoMukhyaYojanaSecond,
+  sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
@@ -293,16 +294,37 @@ export default function YojanaBudget() {
   }
 
   const editFirst = async () => {
+    const matchOldBudget = yojanaBudgetData.find(
+      (data) => data.id === firstEditId
+    )
+    const sumOfAll = await sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
+      matchOldBudget.yojanaKoNaam
+    )
+    console.log(sumOfAll)
+
+    const budget1 = Number(biniyojanBudget)
+    const budget2 = Number(sumOfAll.totalBudget)
+    console.log(budget1, budget2)
+
+    const res = (budget1 - budget2).toString()
+    console.log("res", res)
+
+    if (matchOldBudget.biniyojanBudget !== biniyojanBudget) {
+      setBiniyojanBudget(res)
+      console.log("bt", res) // Use `res` directly here
+    }
+
     const result = await editYojanaBudgetFirst(
       firstEditId,
       yojanaKoNaam,
       wadaNum,
       anudanKisim,
-      biniyojanBudget,
+      res, // Pass `res` directly instead of `biniyojanBudget`
       budgetKaryakram,
       yojanaKisim,
       mukhyaSamiti
     )
+
     if (result.status === "success") {
       setYojanaKoNaam("")
       setWadaNum("")
