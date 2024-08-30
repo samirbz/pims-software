@@ -275,6 +275,22 @@ export default function YojanaBudget() {
       biniyojanBudgetDt,
       chaniyekoMukhyaYojana
     )
+
+    // update budget rs
+    const matchedItem = yojanaBudgetData.find((data) => data.id === secondId)
+    const matchedOldBudget = yojanaBudgetDataDt.find(
+      (data) => data.id === secondEditId
+    )
+    const budget1 = Number(matchedItem.biniyojanBudget)
+    const budget2 = Number(biniyojanBudgetDt)
+    const budget3 = Number(matchedOldBudget.biniyojanBudgetDt)
+    // Perform the subtraction
+    const res = budget1 - budget2 + budget3
+    const resNew = res.toString()
+    console.log("New Budget:", resNew)
+
+    await updateBiniyojanBudget(secondId, resNew)
+
     if (result.status === "success") {
       setYojanaKoNaamDt("")
       setWadaNumDt("")
@@ -282,6 +298,7 @@ export default function YojanaBudget() {
       setChaniyekoMukhyaYojana("")
       setSecondShowEditBtn(false)
       fetchYojanaBudgetSecondLocal()
+      fetchYojanaBudgetLocal()
     } else {
       console.error("Error occurred")
     }
