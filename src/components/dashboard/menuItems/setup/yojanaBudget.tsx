@@ -423,7 +423,7 @@ export default function YojanaBudget() {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Staff Details")
 
     // Write the workbook to a file
-    XLSX.writeFile(workbook, "StaffDetails.xlsx")
+    XLSX.writeFile(workbook, "योजना.xlsx")
   }
 
   return (
@@ -438,7 +438,7 @@ export default function YojanaBudget() {
               Confirmation
             </ModalHeader>
             <ModalBody>
-              <p>Are you sure you want to delete this user?</p>
+              <p>Are you sure you want to delete this yojana?</p>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" onClick={confirmDeleteUser}>
@@ -462,7 +462,7 @@ export default function YojanaBudget() {
               Confirmation
             </ModalHeader>
             <ModalBody>
-              <p>Are you sure you want to delete this user?</p>
+              <p>Are you sure you want to delete this yojana?</p>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" onClick={confirmDeleteUserSecond}>
