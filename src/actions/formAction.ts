@@ -562,6 +562,7 @@ export async function fetchYojanaBudgetDataSecond() {
     throw error
   }
 }
+
 export async function deleteYojanaBudgetSecond(id: string) {
   try {
     await prisma.yojanaBudgetSecond.delete({
@@ -573,6 +574,26 @@ export async function deleteYojanaBudgetSecond(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+
+export async function deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
+  chaniyekoMukhyaYojana: string
+) {
+  try {
+    const deleteResult = await prisma.yojanaBudgetSecond.deleteMany({
+      where: { chaniyekoMukhyaYojana },
+    })
+
+    if (deleteResult.count > 0) {
+      return { status: "success", deletedCount: deleteResult.count }
+    } else {
+      return { status: "error", error: "No records found to delete" }
+    }
+  } catch (error) {
+    console.error("Failed to delete data:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 
 //  10. yojana budget Edit first
 export async function editYojanaBudgetFirst(

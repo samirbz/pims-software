@@ -37,6 +37,7 @@ import {
   updateBiniyojanBudget,
   editYojanaBudgetFirst,
   editYojanaBudgetSecond,
+  deleteYojanaBudgetChaniyekoMukhyaYojanaSecond,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
@@ -186,9 +187,21 @@ export default function YojanaBudget() {
 
   const confirmDeleteUser = async () => {
     try {
+      const matchOldBudget = yojanaBudgetData.find(
+        (data) => data.id === deleteUserId
+      )
+      const updateResult = await deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
+        matchOldBudget.yojanaKoNaam
+      )
+      if (updateResult.status !== "success") {
+        console.error("Failed to update budget:", updateResult)
+        return
+      }
+
       const result = await deleteYojanaBudget(deleteUserId)
       if (result.status === "success") {
         fetchYojanaBudgetLocal()
+        fetchYojanaBudgetSecondLocal()
       } else {
         console.error("Delete unsuccessful:")
       }
