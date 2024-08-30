@@ -206,15 +206,63 @@ export default function YojanaBudget() {
 
   const confirmDeleteUserSecond = async () => {
     try {
-      const result = await deleteYojanaBudgetSecond(deleteUserIdSecond)
-      if (result.status === "success") {
+      // Find the data to delete
+      const matchedOldBudgetSecond = yojanaBudgetDataDt.find(
+        (data) => data.id === deleteUserIdSecond
+      )
+
+      // If no matching data found, log and exit
+      if (!matchedOldBudgetSecond) {
+        console.error("No matching data found in yojanaBudgetDataDt.")
+        return
+      }
+
+      // Find the corresponding old budget
+      const matchOldBudget = yojanaBudgetData.find(
+        (data) =>
+          data.yojanaKoNaam === matchedOldBudgetSecond.chaniyekoMukhyaYojana
+      )
+
+      // If no matching budget found, log and exit
+      if (!matchOldBudget) {
+        console.error("No matching data found in yojanaBudgetData.")
+        return
+      }
+
+      // Convert budget strings to numbers
+      const budget1 = Number(matchOldBudget.biniyojanBudget)
+      const budget2 = Number(matchedOldBudgetSecond.biniyojanBudgetDt)
+
+      if (isNaN(budget1) || isNaN(budget2)) {
+        console.error("Budget values are not valid numbers.")
+        return
+      }
+
+      // Perform the addition (or subtraction if needed)
+      const res = budget1 + budget2 // Change to budget1 - budget2 if subtraction is intended
+      const resNew = res.toString()
+      console.log("New Budget:", resNew)
+
+      // Update the budget
+      const updateResult = await updateBiniyojanBudget(secondId, resNew)
+      if (updateResult.status !== "success") {
+        console.error("Failed to update budget:", updateResult)
+        return
+      }
+
+      // Delete the budget entry
+      const deleteResult = await deleteYojanaBudgetSecond(deleteUserIdSecond)
+      if (deleteResult.status === "success") {
         fetchYojanaBudgetSecondLocal()
+        fetchYojanaBudgetLocal()
       } else {
-        console.error("Delete unsuccessful:")
+        console.error("Delete unsuccessful:", deleteResult)
       }
     } catch (error) {
       console.error("Delete unsuccessful:", error)
     }
+
+    // Close the confirmation modal
     onDeleteConfirmationOpenChangeSecond()
   }
 
