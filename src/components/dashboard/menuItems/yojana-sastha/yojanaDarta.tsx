@@ -15,13 +15,14 @@ import {
   ModalBody,
   useDisclosure,
 } from "@nextui-org/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 
 import { FaMinus, FaPlus, FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { RiArrowDownDoubleFill } from "react-icons/ri"
+import { fetchWadaNumData } from "@/actions/formAction"
 
 const animals = [
   { key: "cat", label: "1234567890123456789" },
@@ -42,6 +43,22 @@ const animals = [
 export default function YojanaDarta() {
   const [date, setDate] = useState<string>("")
   const [divs, setDivs] = useState<React.JSX.Element[]>([])
+
+  const [wada, setWada] = useState<any[]>([])
+
+  const fetchWadaData = async () => {
+    try {
+      const data = await fetchWadaNumData()
+      console.log("Fetched Anudaan Data:", data) // For debugging
+      setWada(data)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
+    }
+  }
+
+  useEffect(() => {
+    fetchWadaData()
+  }, [])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -151,8 +168,8 @@ export default function YojanaDarta() {
               />
             </form>
             <Select label="योजनाको वडा" className="w-full sm:w-1/5" size="sm">
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              {wada.map((item) => (
+                <SelectItem key={item.id}>{item.wadaNum}</SelectItem>
               ))}
             </Select>
           </div>
