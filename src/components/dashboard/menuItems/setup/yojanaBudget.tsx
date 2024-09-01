@@ -257,6 +257,7 @@ export default function YojanaBudget() {
       // If no matching budget found, log and exit
       if (!matchOldBudget) {
         console.error("No matching data found in yojanaBudgetData.")
+        toast.error("First Select yojana to delete.")
         return
       }
 
@@ -514,11 +515,10 @@ export default function YojanaBudget() {
         setYojanaKisimDt("")
         setMukhyaSamitiDt("")
         setChaniyekoMukhyaYojana("")
-        await fetchYojanaBudgetSecondLocal()
         setSelectedItem(null)
 
-        // Trigger a toast notification (assuming a toast library is being used)
         toast.success("Budget updated successfully")
+        fetchYojanaBudgetSecondLocal()
       } else {
         console.error("Error occurred during saveYojanaBudgetDt")
       }
@@ -670,13 +670,7 @@ export default function YojanaBudget() {
               type="number"
               label=" विनियोजन बजेट"
               size="sm"
-              placeholder="0.00"
               value={biniyojanBudget}
-              startContent={
-                <div className="pointer-events-none flex items-center">
-                  <span className="text-small text-default-400">रु</span>
-                </div>
-              }
               onChange={handleChange(setBiniyojanBudget, "biniyojanBudget")}
               isInvalid={!!errors.biniyojanBudget}
               errorMessage={errors.biniyojanBudget}
@@ -917,12 +911,6 @@ export default function YojanaBudget() {
               type="Number"
               label="विनियोजन बजेट रु. "
               size="sm"
-              placeholder="0.00"
-              startContent={
-                <div className="pointer-events-none flex items-center">
-                  <span className="text-small text-default-400">रु</span>
-                </div>
-              }
               value={biniyojanBudgetDt}
               onChange={handleChangeSecond(
                 setBiniyojanBudgetDt,
