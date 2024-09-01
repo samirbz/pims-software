@@ -161,9 +161,7 @@ export default function YojanaBudget() {
 
   const itemsSecond = React.useMemo(() => {
     const filteredData: any = yojanaBudgetDataDt.filter(
-      (item) =>
-        item.chaniyekoMukhyaYojana === filterYojanakoNaam && // Match chaniyekoMukhyaYojana
-        item.wadaNumDt === wadaNumDt // Match wadaNumDt
+      (item) => item.chaniyekoMukhyaYojana === filterYojanakoNaam
     )
 
     setExcelDataDt(filteredData)
@@ -172,7 +170,7 @@ export default function YojanaBudget() {
     const end = start + rowsPerPageSecond
 
     return filteredData.slice(start, end)
-  }, [pageSecond, yojanaBudgetDataDt, filterYojanakoNaam, wadaNumDt]) // Include wadaNumDt in dependencies
+  }, [pageSecond, yojanaBudgetDataDt, filterYojanakoNaam]) // Include wadaNumDt in dependencies
 
   const fetchYojanaBudgetLocal = async () => {
     try {
@@ -313,45 +311,52 @@ export default function YojanaBudget() {
   }
 
   const editFirst = async () => {
-    const matchOldBudget = yojanaBudgetData.find(
-      (data) => data.id === firstEditId
-    )
-    const sumOfAll = await sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
-      matchOldBudget.yojanaKoNaam,
-      wadaNum
-    )
-    const budget1 = Number(biniyojanBudget)
-    const budget2 = Number(sumOfAll.totalBudget)
+    if (validateFields()) {
+      if (Number(biniyojanBudget) < 0) {
+        toast.error("Amount should not be negative")
+        return
+      }
 
-    const res = (budget1 - budget2).toString()
+      const matchOldBudget = yojanaBudgetData.find(
+        (data) => data.id === firstEditId
+      )
+      const sumOfAll = await sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
+        matchOldBudget.yojanaKoNaam,
+        wadaNum
+      )
+      const budget1 = Number(biniyojanBudget)
+      const budget2 = Number(sumOfAll.totalBudget)
 
-    if (matchOldBudget.biniyojanBudget !== biniyojanBudget) {
-      setBiniyojanBudget(res)
-    }
+      const res = (budget1 - budget2).toString()
 
-    const result = await editYojanaBudgetFirst(
-      firstEditId,
-      yojanaKoNaam,
-      wadaNum,
-      anudanKisim,
-      res, // Pass `res` directly instead of `biniyojanBudget`
-      budgetKaryakram,
-      yojanaKisim,
-      mukhyaSamiti
-    )
+      if (matchOldBudget.biniyojanBudget !== biniyojanBudget) {
+        setBiniyojanBudget(res)
+      }
 
-    if (result.status === "success") {
-      setYojanaKoNaam("")
-      setWadaNum("")
-      setAnudanKisim("")
-      setBiniyojanBudget("")
-      setBudgetKaryakram("")
-      setYojanaKisim("")
-      setMukyaSamiti("")
-      setShowEditBtn(false)
-      fetchYojanaBudgetLocal()
-    } else {
-      console.error("Error occurred")
+      const result = await editYojanaBudgetFirst(
+        firstEditId,
+        yojanaKoNaam,
+        wadaNum,
+        anudanKisim,
+        res, // Pass `res` directly instead of `biniyojanBudget`
+        budgetKaryakram,
+        yojanaKisim,
+        mukhyaSamiti
+      )
+
+      if (result.status === "success") {
+        setYojanaKoNaam("")
+        setWadaNum("")
+        setAnudanKisim("")
+        setBiniyojanBudget("")
+        setBudgetKaryakram("")
+        setYojanaKisim("")
+        setMukyaSamiti("")
+        setShowEditBtn(false)
+        fetchYojanaBudgetLocal()
+      } else {
+        console.error("Error occurred")
+      }
     }
   }
 
@@ -366,39 +371,46 @@ export default function YojanaBudget() {
   }
 
   const editSecond = async () => {
-    const result = await editYojanaBudgetSecond(
-      secondEditId,
-      yojanaKoNaamDt,
-      wadaNumDt,
-      biniyojanBudgetDt,
-      chaniyekoMukhyaYojana
-    )
+    if (validateFieldsSecond()) {
+      if (Number(biniyojanBudgetDt) < 0) {
+        toast.error("Amount should not be negative")
+        return
+      }
 
-    // update budget rs
-    const matchedItem = yojanaBudgetData.find((data) => data.id === secondId)
-    const matchedOldBudget = yojanaBudgetDataDt.find(
-      (data) => data.id === secondEditId && data.wadaNumDt
-    )
-    const budget1 = Number(matchedItem.biniyojanBudget)
-    const budget2 = Number(biniyojanBudgetDt)
-    const budget3 = Number(matchedOldBudget.biniyojanBudgetDt)
-    // Perform the subtraction
-    const res = budget1 - budget2 + budget3
-    const resNew = res.toString()
+      const result = await editYojanaBudgetSecond(
+        secondEditId,
+        yojanaKoNaamDt,
+        wadaNumDt,
+        biniyojanBudgetDt,
+        chaniyekoMukhyaYojana
+      )
 
-    await updateBiniyojanBudget(secondId, resNew)
+      // update budget rs
+      const matchedItem = yojanaBudgetData.find((data) => data.id === secondId)
+      const matchedOldBudget = yojanaBudgetDataDt.find(
+        (data) => data.id === secondEditId && data.wadaNumDt
+      )
+      const budget1 = Number(matchedItem.biniyojanBudget)
+      const budget2 = Number(biniyojanBudgetDt)
+      const budget3 = Number(matchedOldBudget.biniyojanBudgetDt)
+      // Perform the subtraction
+      const res = budget1 - budget2 + budget3
+      const resNew = res.toString()
 
-    if (result.status === "success") {
-      setYojanaKoNaamDt("")
-      setWadaNumDt("")
-      setBiniyojanBudgetDt("")
-      setChaniyekoMukhyaYojana("")
-      setSecondShowEditBtn(false)
-      await fetchYojanaBudgetSecondLocal()
-      await fetchYojanaBudgetLocal()
-      setSelectedItem(null)
-    } else {
-      console.error("Error occurred")
+      await updateBiniyojanBudget(secondId, resNew)
+
+      if (result.status === "success") {
+        setYojanaKoNaamDt("")
+        setWadaNumDt("")
+        setBiniyojanBudgetDt("")
+        setChaniyekoMukhyaYojana("")
+        setSecondShowEditBtn(false)
+        await fetchYojanaBudgetSecondLocal()
+        await fetchYojanaBudgetLocal()
+        setSelectedItem(null)
+      } else {
+        console.error("Error occurred")
+      }
     }
   }
 
@@ -867,9 +879,7 @@ export default function YojanaBudget() {
                 type="text"
                 label="योजनाको नाम"
                 size="sm"
-                value={
-                  showSecondEditBtn ? chaniyekoMukhyaYojana : yojanaKoNaamDt
-                }
+                value={yojanaKoNaamDt}
                 onChange={handleChangeSecond(
                   setYojanaKoNaamDt,
                   "yojanaKoNaamDt"
