@@ -286,6 +286,7 @@ export default function YojanaBudget() {
       if (deleteResult.status === "success") {
         fetchYojanaBudgetSecondLocal()
         fetchYojanaBudgetLocal()
+        setSelectedItem(null)
       } else {
         console.error("Delete unsuccessful:", deleteResult)
       }
@@ -375,7 +376,7 @@ export default function YojanaBudget() {
     // update budget rs
     const matchedItem = yojanaBudgetData.find((data) => data.id === secondId)
     const matchedOldBudget = yojanaBudgetDataDt.find(
-      (data) => data.id === secondEditId
+      (data) => data.id === secondEditId && data.wadaNumDt
     )
     const budget1 = Number(matchedItem.biniyojanBudget)
     const budget2 = Number(biniyojanBudgetDt)
@@ -392,8 +393,9 @@ export default function YojanaBudget() {
       setBiniyojanBudgetDt("")
       setChaniyekoMukhyaYojana("")
       setSecondShowEditBtn(false)
-      fetchYojanaBudgetSecondLocal()
-      fetchYojanaBudgetLocal()
+      await fetchYojanaBudgetSecondLocal()
+      await fetchYojanaBudgetLocal()
+      setSelectedItem(null)
     } else {
       console.error("Error occurred")
     }
