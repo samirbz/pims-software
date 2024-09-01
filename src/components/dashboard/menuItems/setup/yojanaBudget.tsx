@@ -78,8 +78,6 @@ export default function YojanaBudget() {
   const [firstEditId, setFirstEditId] = useState("")
   const [secondEditId, setSecondEditId] = useState("")
 
-  const yojanaSave = () => toast.success("Data saved successfully!")
-
   //  delete
   const {
     isOpen: isDeleteConfirmationOpen,
@@ -217,10 +215,9 @@ export default function YojanaBudget() {
       )
       if (updateResult.status === "success") {
         await deleteYojanaBudget(deleteUserId)
-        toast.success("successfully deleted")
         fetchYojanaBudgetLocal()
         fetchYojanaBudgetSecondLocal()
-        return
+        toast.success("successfully deleted")
       } else {
         toast.error("yojana is not empty")
       }
@@ -429,8 +426,7 @@ export default function YojanaBudget() {
         setErrors({})
         // Fetch the updated list of data
         fetchYojanaBudgetLocal()
-        yojanaSave()
-        return <ToastContainer />
+        toast.success("Data saved successfully!")
       } else {
         toast.error(result.error)
       }
