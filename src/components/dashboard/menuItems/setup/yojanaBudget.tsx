@@ -158,18 +158,18 @@ export default function YojanaBudget() {
 
   const itemsSecond = React.useMemo(() => {
     const filteredData: any = yojanaBudgetDataDt.filter(
-      (item) => filterYojanakoNaam === item.chaniyekoMukhyaYojana
+      (item) =>
+        item.chaniyekoMukhyaYojana === filterYojanakoNaam && // Match chaniyekoMukhyaYojana
+        item.wadaNumDt === wadaNumDt // Match wadaNumDt
     )
-    setExcelDataDt(filteredData)
 
-    console.log("Filtered Data:", filteredData) // Debugging line
-    console.log(yojanaBudgetDataDt)
+    setExcelDataDt(filteredData)
 
     const start = (pageSecond - 1) * rowsPerPageSecond
     const end = start + rowsPerPageSecond
 
     return filteredData.slice(start, end)
-  }, [pageSecond, yojanaBudgetDataDt, filterYojanakoNaam])
+  }, [pageSecond, yojanaBudgetDataDt, filterYojanakoNaam, wadaNumDt]) // Include wadaNumDt in dependencies
 
   const fetchYojanaBudgetLocal = async () => {
     try {
@@ -805,6 +805,7 @@ export default function YojanaBudget() {
                   setBudgetKaryakramDt(selected.budgetKaryakram || "")
                   setSecondId(selected.id || "")
                   setFilterYojanakoNaam(selected.yojanaKoNaam || "")
+                  setWadaNumDt(selected.wadaNum)
                 }}
                 value={selectedItem?.id}
                 options={yojanaBudgetData.map((item) => ({
