@@ -208,7 +208,7 @@ export default function YojanaBudget() {
     onDeleteConfirmationOpen() // Open the confirmation modal
   }
 
-  const confirmDeleteUser = async () => {
+  const confirmDeleteYojana = async () => {
     try {
       const matchOldBudget = yojanaBudgetData.find(
         (data) => data.id === deleteUserId
@@ -216,17 +216,14 @@ export default function YojanaBudget() {
       const updateResult = await deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
         matchOldBudget.yojanaKoNaam
       )
-      if (updateResult.status !== "success") {
-        console.error("Failed to update budget:", updateResult)
-        return
-      }
-
-      const result = await deleteYojanaBudget(deleteUserId)
-      if (result.status === "success") {
+      if (updateResult.status === "success") {
+        await deleteYojanaBudget(deleteUserId)
+        toast.success("successfully deleted")
         fetchYojanaBudgetLocal()
         fetchYojanaBudgetSecondLocal()
+        return
       } else {
-        console.error("Delete unsuccessful:")
+        toast.error("yojana is not empty")
       }
     } catch (error) {
       console.error("Delete unsuccessful:", error)
@@ -240,7 +237,7 @@ export default function YojanaBudget() {
     onDeleteConfirmationOpenSecond() // Open the confirmation modal
   }
 
-  const confirmDeleteUserSecond = async () => {
+  const confirmDeleteYojanaSecond = async () => {
     try {
       // Find the data to delete
       const matchedOldBudgetSecond = yojanaBudgetDataDt.find(
@@ -584,7 +581,7 @@ export default function YojanaBudget() {
               <p>Are you sure you want to delete this yojana?</p>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" onClick={confirmDeleteUser}>
+              <Button color="danger" onClick={confirmDeleteYojana}>
                 Delete
               </Button>
               <Button color="primary" onClick={onDeleteConfirmationOpenChange}>
@@ -608,7 +605,7 @@ export default function YojanaBudget() {
               <p>Are you sure you want to delete this yojana?</p>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" onClick={confirmDeleteUserSecond}>
+              <Button color="danger" onClick={confirmDeleteYojanaSecond}>
                 Delete
               </Button>
               <Button

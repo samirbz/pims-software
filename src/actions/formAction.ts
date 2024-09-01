@@ -579,14 +579,20 @@ export async function deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
   chaniyekoMukhyaYojana: string
 ) {
   try {
-    const deleteResult = await prisma.yojanaBudgetSecond.deleteMany({
+    // Check if no records match the chaniyekoMukhyaYojana
+    const existingRecords = await prisma.yojanaBudgetSecond.findMany({
       where: { chaniyekoMukhyaYojana },
     })
 
-    if (deleteResult.count > 0) {
-      return { status: "success", deletedCount: deleteResult.count }
+    if (existingRecords.length === 0) {
+      // No matching records found, proceed to delete
+    await prisma.yojanaBudgetSecond.deleteMany({
+        where: { chaniyekoMukhyaYojana },
+      })
+
+      return { status: "success"}
     } else {
-      return { status: "error", error: "No records found to delete" }
+      return { status: "error", error: "Matching records exist, not deleted" }
     }
   } catch (error) {
     console.error("Failed to delete data:", error)
@@ -650,7 +656,6 @@ export async function sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
     return { status: "error", error: "Something went wrong" }
   }
 }
-
 
 //  10. yojana budget Edit first
 export async function editYojanaBudgetFirst(
