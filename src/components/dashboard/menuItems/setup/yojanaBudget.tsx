@@ -78,6 +78,8 @@ export default function YojanaBudget() {
   const [firstEditId, setFirstEditId] = useState("")
   const [secondEditId, setSecondEditId] = useState("")
 
+  const [amountCheck, setAmountCheck] = useState("")
+
   //  delete
   const {
     isOpen: isDeleteConfirmationOpen,
@@ -249,7 +251,8 @@ export default function YojanaBudget() {
       // Find the corresponding old budget
       const matchOldBudget = yojanaBudgetData.find(
         (data) =>
-          data.yojanaKoNaam === matchedOldBudgetSecond.chaniyekoMukhyaYojana
+          data.yojanaKoNaam === matchedOldBudgetSecond.chaniyekoMukhyaYojana &&
+          data.wadaNum === wadaNumDt
       )
 
       // If no matching budget found, log and exit
@@ -270,7 +273,6 @@ export default function YojanaBudget() {
       // Perform the addition (or subtraction if needed)
       const res = budget1 + budget2 // Change to budget1 - budget2 if subtraction is intended
       const resNew = res.toString()
-      console.log("New Budget:", resNew)
 
       // Update the budget
       const updateResult = await updateBiniyojanBudget(secondId, resNew)
@@ -313,20 +315,16 @@ export default function YojanaBudget() {
       (data) => data.id === firstEditId
     )
     const sumOfAll = await sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
-      matchOldBudget.yojanaKoNaam
+      matchOldBudget.yojanaKoNaam,
+      wadaNum
     )
-    console.log(sumOfAll)
-
     const budget1 = Number(biniyojanBudget)
     const budget2 = Number(sumOfAll.totalBudget)
-    console.log(budget1, budget2)
 
     const res = (budget1 - budget2).toString()
-    console.log("res", res)
 
     if (matchOldBudget.biniyojanBudget !== biniyojanBudget) {
       setBiniyojanBudget(res)
-      console.log("bt", res) // Use `res` directly here
     }
 
     const result = await editYojanaBudgetFirst(
@@ -385,7 +383,6 @@ export default function YojanaBudget() {
     // Perform the subtraction
     const res = budget1 - budget2 + budget3
     const resNew = res.toString()
-    console.log("New Budget:", resNew)
 
     await updateBiniyojanBudget(secondId, resNew)
 
@@ -439,6 +436,10 @@ export default function YojanaBudget() {
   }
 
   const onSubmitDt = async () => {
+    if (Number(biniyojanBudgetDt) < Number(amountCheck)) {
+      toast.error("Amount is greater than budget")
+      return
+    }
     if (!validateFieldsSecond()) {
       console.error("Validation failed. Please check the fields and try again.")
       return
@@ -812,6 +813,8 @@ export default function YojanaBudget() {
                   const selected = yojanaBudgetData.find(
                     (item) => item.id === value
                   )
+
+                  setAmountCheck(selected.biniyojanBudgetData)
                   setSelectedItem(selected || null)
                   // data to fill
                   setChaniyekoMukhyaYojana(selected.yojanaKoNaam || "")

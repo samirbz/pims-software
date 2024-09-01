@@ -518,8 +518,8 @@ export async function deleteYojanaBudget(id: string) {
 
 //  10-1 yojana budget update
 export async function updateBiniyojanBudget(
-  id: string, // assuming 'id' is the unique identifier for the record
-  biniyojanBudget: string // the new budget value as a string
+  id: string,
+  biniyojanBudget: string 
 ) {
   try {
     // Update the record in the database
@@ -618,18 +618,24 @@ export async function deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
 }
 
 export async function sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
-  chaniyekoMukhyaYojana: string
+  chaniyekoMukhyaYojana: string,
+  wadaNumDt: string
 ) {
   try {
-    // Fetch all records that match the chaniyekoMukhyaYojana
+    // Fetch all records that match both chaniyekoMukhyaYojana and wadaNum
     const matchingRecords = await prisma.yojanaBudgetSecond.findMany({
-      where: { chaniyekoMukhyaYojana },
-      select: { biniyojanBudgetDt: true },
+      where: {
+        chaniyekoMukhyaYojana,
+        wadaNumDt, // Ensure wadaNum matches
+      },
+      select: {
+        biniyojanBudgetDt: true,
+      },
     })
 
     // Sum all biniyojanBudgetDt values after converting to number
     const totalBudget = matchingRecords.reduce((sum, record) => {
-      return sum + Number(record.biniyojanBudgetDt)
+      return sum + Number(record.biniyojanBudgetDt) || 0 // Ensure to handle any potential NaN values
     }, 0)
 
     return { status: "success", totalBudget }
