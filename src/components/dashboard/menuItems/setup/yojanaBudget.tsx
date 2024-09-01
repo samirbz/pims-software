@@ -438,7 +438,8 @@ export default function YojanaBudget() {
   }
 
   const onSubmitDt = async () => {
-    if (Number(biniyojanBudgetDt) < Number(amountCheck)) {
+    // alert(Number(biniyojanBudgetDt) > Number(amountCheck))
+    if (Number(biniyojanBudgetDt) > Number(amountCheck)) {
       toast.error("Amount is greater than budget")
       return
     }
@@ -816,9 +817,9 @@ export default function YojanaBudget() {
                     (item) => item.id === value
                   )
 
-                  setAmountCheck(selected.biniyojanBudgetData)
                   setSelectedItem(selected || null)
                   // data to fill
+                  setAmountCheck(selected.biniyojanBudget || " ")
                   setChaniyekoMukhyaYojana(selected.yojanaKoNaam || "")
                   setAnudanKisimDt(selected.anudanKisim || "")
                   setMukhyaSamitiDt(selected.mukhyaSamiti || "")
