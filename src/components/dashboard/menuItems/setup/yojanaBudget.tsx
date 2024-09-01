@@ -809,7 +809,7 @@ export default function YojanaBudget() {
                 value={selectedItem?.id}
                 options={yojanaBudgetData.map((item) => ({
                   value: item.id,
-                  label: item.yojanaKoNaam,
+                  label: `${item.yojanaKoNaam} | वडा - ${item.wadaNum}`,
                 }))}
               />
             </div>
