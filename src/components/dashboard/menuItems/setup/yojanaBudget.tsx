@@ -70,6 +70,7 @@ export default function YojanaBudget() {
   const [excelDataDt, setExcelDataDt] = useState([])
 
   const [errors, setErrors] = useState<any>({})
+  const [errorsSecond, setErrorsSecond] = useState<any>({})
   const [deleteUserId, setDeleteUserId] = useState("")
   const [deleteUserIdSecond, setDeleteUserIdSecond] = useState("")
   const [showEditBtn, setShowEditBtn] = useState(false)
@@ -107,12 +108,33 @@ export default function YojanaBudget() {
     return Object.keys(newErrors).length === 0
   }
 
+  const validateFieldsSecond = () => {
+    const newErrorsSecond: any = {}
+    if (!yojanaKoNaamDt)
+      newErrorsSecond.yojanaKoNaamDt = "This field is required"
+    if (!wadaNumDt) newErrorsSecond.wadaNumDt = "This field is required"
+    if (!chaniyekoMukhyaYojana)
+      newErrorsSecond.chaniyekoMukhyaYojana = "This field is required"
+    if (!biniyojanBudgetDt)
+      newErrorsSecond.biniyojanBudgetDt = "This field is required"
+
+    setErrorsSecond(newErrorsSecond)
+    return Object.keys(newErrorsSecond).length === 0
+  }
+
   const handleChange =
     (setter: React.Dispatch<React.SetStateAction<string>>, fieldName: string) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setter(e.target.value)
       // Clear the error for this field
       setErrors((prevErrors: any) => ({ ...prevErrors, [fieldName]: "" }))
+    }
+  const handleChangeSecond =
+    (setter: React.Dispatch<React.SetStateAction<string>>, fieldName: string) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setter(e.target.value)
+      // Clear the error for this field
+      setErrorsSecond((prevErrors: any) => ({ ...prevErrors, [fieldName]: "" }))
     }
 
   const [secondId, setSecondId] = useState("")
@@ -431,11 +453,15 @@ export default function YojanaBudget() {
   }
 
   const onSubmitDt = async () => {
+    if (!validateFieldsSecond()) {
+      console.error("Validation failed. Please check the fields and try again.")
+      return
+    }
+
     try {
       // Find the matching budget for the given `secondId`
       const matchedItem = yojanaBudgetData.find((data) => data.id === secondId)
 
-      // If no matching item is found, return or handle the case accordingly
       if (!matchedItem) {
         console.error("No matching budget found for the given ID")
         return
@@ -457,11 +483,8 @@ export default function YojanaBudget() {
 
       // Update the budget in the database
       await updateBiniyojanBudget(secondId, resNew)
-
-      // Refresh the data after the update
       await fetchYojanaBudgetLocal()
 
-      // Save the new budget data
       const result = await saveYojanaBudgetDt(
         yojanaKoNaamDt,
         wadaNumDt,
@@ -474,7 +497,7 @@ export default function YojanaBudget() {
       )
 
       if (result.status === "success") {
-        // Reset the input fields after successful submission
+        // Reset input fields after successful submission
         setYojanaKoNaamDt("")
         setWadaNumDt("")
         setAnudanKisimDt("")
@@ -483,15 +506,16 @@ export default function YojanaBudget() {
         setYojanaKisimDt("")
         setMukhyaSamitiDt("")
         setChaniyekoMukhyaYojana("")
-
-        // Fetch the updated list of data
         await fetchYojanaBudgetSecondLocal()
         setSelectedItem(null)
+
+        // Trigger a toast notification (assuming a toast library is being used)
+        toast.success("Budget updated successfully")
       } else {
         console.error("Error occurred during saveYojanaBudgetDt")
       }
-    } catch (error: any) {
-      console.error("Error in onSubmitDt:", error.message)
+    } catch (error) {
+      console.error("Error in onSubmitDt function:", error)
     }
   }
 
@@ -695,7 +719,7 @@ export default function YojanaBudget() {
         </div>
 
         <br />
-        {loading ? ( // Show loading spinner while data is being fetched
+        {loading ? (
           <div className="my-4 flex w-full justify-center">
             <Spinner color="primary" />
           </div>
@@ -823,7 +847,12 @@ export default function YojanaBudget() {
                 value={
                   showSecondEditBtn ? chaniyekoMukhyaYojana : yojanaKoNaamDt
                 }
-                onChange={(e) => setYojanaKoNaamDt(e.target.value)}
+                onChange={handleChangeSecond(
+                  setYojanaKoNaamDt,
+                  "yojanaKoNaamDt"
+                )}
+                isInvalid={!!errorsSecond.yojanaKoNaamDt}
+                errorMessage={errorsSecond.yojanaKoNaamDt}
               />
 
               <Input
@@ -832,6 +861,12 @@ export default function YojanaBudget() {
                 isDisabled
                 size="sm"
                 value={selectedItem?.yojanaKoNaam}
+                onChange={handleChangeSecond(
+                  setChaniyekoMukhyaYojana,
+                  "chaniyekoMukhyaYojana"
+                )}
+                isInvalid={!!errorsSecond.chaniyekoMukhyaYojana}
+                errorMessage={errorsSecond.chaniyekoMukhyaYojana}
               />
             </div>
           </div>
@@ -841,14 +876,21 @@ export default function YojanaBudget() {
               label="वडा न."
               size="sm"
               value={wadaNumDt}
-              onChange={(e) => setWadaNumDt(e.target.value)}
+              onChange={handleChangeSecond(setWadaNumDt, "wadaNumDt")}
+              isInvalid={!!errorsSecond.wadaNumDt}
+              errorMessage={errorsSecond.wadaNumDt}
             />
             <Input
               type="Number"
               label="विनियोजन बजेट रु. "
               size="sm"
               value={biniyojanBudgetDt}
-              onChange={(e) => setBiniyojanBudgetDt(e.target.value)}
+              onChange={handleChangeSecond(
+                setBiniyojanBudgetDt,
+                "biniyojanBudgetDt"
+              )}
+              isInvalid={!!errorsSecond.biniyojanBudgetDt}
+              errorMessage={errorsSecond.biniyojanBudgetDt}
             />
           </div>
           <div className="flex gap-2">
