@@ -414,6 +414,11 @@ export default function YojanaBudget() {
         mukhyaSamiti
       )
 
+      if (Number(biniyojanBudget) < 0) {
+        toast.error("Amount should not be negative")
+        return
+      }
+
       if (result.status === "success") {
         // Reset the input fields after successful submission
         setYojanaKoNaam("")
@@ -440,6 +445,11 @@ export default function YojanaBudget() {
     }
 
     try {
+      if (Number(biniyojanBudgetDt) < 0) {
+        toast.error("Amount should not be negative")
+        return
+      }
+
       // Find the matching budget for the given `secondId`
       const matchedItem = yojanaBudgetData.find((data) => data.id === secondId)
 
@@ -640,10 +650,16 @@ export default function YojanaBudget() {
               errorMessage={errors.anudanKisim}
             />
             <Input
-              type="Number"
-              label=" विनियोजन बजेट रु."
+              type="number"
+              label=" विनियोजन बजेट"
               size="sm"
+              placeholder="0.00"
               value={biniyojanBudget}
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-small text-default-400">रु</span>
+                </div>
+              }
               onChange={handleChange(setBiniyojanBudget, "biniyojanBudget")}
               isInvalid={!!errors.biniyojanBudget}
               errorMessage={errors.biniyojanBudget}
@@ -866,6 +882,12 @@ export default function YojanaBudget() {
               type="Number"
               label="विनियोजन बजेट रु. "
               size="sm"
+              placeholder="0.00"
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-small text-default-400">रु</span>
+                </div>
+              }
               value={biniyojanBudgetDt}
               onChange={handleChangeSecond(
                 setBiniyojanBudgetDt,
