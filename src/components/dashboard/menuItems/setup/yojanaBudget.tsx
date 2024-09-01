@@ -24,6 +24,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import { SiMicrosoftexcel } from "react-icons/si"
+import { AiOutlineClear } from "react-icons/ai"
 import { Select } from "antd"
 import { IoSearch } from "react-icons/io5"
 
@@ -698,25 +699,43 @@ export default function YojanaBudget() {
             isInvalid={!!errors.mukhyaSamiti}
             errorMessage={errors.mukhyaSamiti}
           />
-          {showEditBtn ? (
+          <div className="flex gap-2">
+            {showEditBtn ? (
+              <Button
+                color="default"
+                startContent={<MdModeEditOutline />}
+                className="w-12"
+                onClick={editFirst}
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button
+                color="secondary"
+                startContent={<FaRegSave />}
+                className="w-12"
+                onClick={onSubmit}
+              >
+                Save
+              </Button>
+            )}
             <Button
-              color="default"
-              startContent={<MdModeEditOutline />}
+              startContent={<AiOutlineClear />}
+              onClick={() => {
+                setYojanaKoNaam("")
+                setWadaNum("")
+                setAnudanKisim("")
+                setBiniyojanBudget("")
+                setBudgetKaryakram("")
+                setYojanaKisim("")
+                setMukyaSamiti("")
+                setShowEditBtn(false)
+              }}
               className="w-12"
-              onClick={editFirst}
             >
-              Edit
+              Clear
             </Button>
-          ) : (
-            <Button
-              color="secondary"
-              startContent={<FaRegSave />}
-              className="w-12"
-              onClick={onSubmit}
-            >
-              Save
-            </Button>
-          )}
+          </div>
         </div>
 
         <br />
@@ -926,9 +945,27 @@ export default function YojanaBudget() {
             <Button
               startContent={<SiMicrosoftexcel />}
               onClick={exportToExcel}
-              className="w-12"
+              className="w-12 bg-green-700 text-white"
             >
               Excel
+            </Button>
+            <Button
+              startContent={<AiOutlineClear />}
+              onClick={() => {
+                setYojanaKoNaamDt("")
+                setWadaNumDt("")
+                setAnudanKisimDt("")
+                setBiniyojanBudgetDt("")
+                setBudgetKaryakramDt("")
+                setYojanaKisimDt("")
+                setMukhyaSamitiDt("")
+                setChaniyekoMukhyaYojana("")
+                setSelectedItem(null)
+                setSecondShowEditBtn(false)
+              }}
+              className="w-12"
+            >
+              Clear
             </Button>
           </div>
         </div>
