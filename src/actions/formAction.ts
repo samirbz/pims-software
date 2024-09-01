@@ -460,7 +460,23 @@ export async function saveYojanaBudget(
   mukhyaSamiti: string
 ) {
   try {
-    const dt = await prisma.yojanaBudget.create({
+    // Check if a record with the same yojanaKoNaam and wadaNum already exists
+    const existingRecord = await prisma.yojanaBudget.findFirst({
+      where: {
+        yojanaKoNaam,
+        wadaNum,
+      },
+    })
+
+    if (existingRecord) {
+      return {
+        status: "error",
+        error: "same yojana in same wada.",
+      }
+    }
+
+    // If no such record exists, proceed to save the new data
+    const newRecord = await prisma.yojanaBudget.create({
       data: {
         yojanaKoNaam,
         wadaNum,
@@ -471,9 +487,10 @@ export async function saveYojanaBudget(
         mukhyaSamiti,
       },
     })
-    return { status: "success", data: dt }
+
+    return { status: "success", data: newRecord }
   } catch (error) {
-    console.error("Error in registerUser:", error)
+    console.error("Error in saveYojanaBudget:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
@@ -586,11 +603,11 @@ export async function deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
 
     if (existingRecords.length === 0) {
       // No matching records found, proceed to delete
-    await prisma.yojanaBudgetSecond.deleteMany({
+      await prisma.yojanaBudgetSecond.deleteMany({
         where: { chaniyekoMukhyaYojana },
       })
 
-      return { status: "success"}
+      return { status: "success" }
     } else {
       return { status: "error", error: "Matching records exist, not deleted" }
     }
@@ -599,41 +616,6 @@ export async function deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
     return { status: "error", error: "Something went wrong" }
   }
 }
-
-// export async function sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
-//   chaniyekoMukhyaYojana: string
-// ) {
-//   try {
-//     // Fetch all records that match the chaniyekoMukhyaYojana
-//     const recordsToDelete = await prisma.yojanaBudgetSecond.findMany({
-//       where: { chaniyekoMukhyaYojana },
-//       select: { biniyojanBudgetDt: true },
-//     })
-
-//     // Sum all biniyojanBudgetDt values after converting to number
-//     const totalBudget = recordsToDelete.reduce((sum, record) => {
-//       return sum + Number(record.biniyojanBudgetDt)
-//     }, 0)
-
-//     // Delete the matching records
-//     const deleteResult = await prisma.yojanaBudgetSecond.deleteMany({
-//       where: { chaniyekoMukhyaYojana },
-//     })
-
-//     if (deleteResult.count > 0) {
-//       return {
-//         status: "success",
-//         deletedCount: deleteResult.count,
-//         totalBudget,
-//       }
-//     } else {
-//       return { status: "error", error: "No records found to delete" }
-//     }
-//   } catch (error) {
-//     console.error("Failed to delete data:", error)
-//     return { status: "error", error: "Something went wrong" }
-//   }
-// }
 
 export async function sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
   chaniyekoMukhyaYojana: string

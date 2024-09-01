@@ -78,7 +78,6 @@ export default function YojanaBudget() {
   const [firstEditId, setFirstEditId] = useState("")
   const [secondEditId, setSecondEditId] = useState("")
 
-  const duplicateNotify = () => toast.error("Duplicate yojana name entered!")
   const yojanaSave = () => toast.success("Data saved successfully!")
 
   //  delete
@@ -407,17 +406,6 @@ export default function YojanaBudget() {
   }
 
   const onSubmit = async () => {
-    const yojanaBudgetData = await fetchYojanaBudgetData()
-
-    const isDuplicate = yojanaBudgetData.some(
-      (data) => data.yojanaKoNaam === yojanaKoNaam
-    )
-
-    if (isDuplicate) {
-      duplicateNotify()
-      return <ToastContainer />
-    }
-
     if (validateFields()) {
       const result = await saveYojanaBudget(
         yojanaKoNaam,
@@ -444,7 +432,7 @@ export default function YojanaBudget() {
         yojanaSave()
         return <ToastContainer />
       } else {
-        console.error("Error occurred")
+        toast.error(result.error)
       }
     }
   }
