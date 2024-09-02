@@ -287,6 +287,7 @@ export default function YojanaBudget() {
         fetchYojanaBudgetSecondLocal()
         fetchYojanaBudgetLocal()
         setSelectedItem(null)
+        toast.success("successfully deleted")
       } else {
         console.error("Delete unsuccessful:", deleteResult)
       }
@@ -355,6 +356,7 @@ export default function YojanaBudget() {
         setMukyaSamiti("")
         setShowEditBtn(false)
         fetchYojanaBudgetLocal()
+        toast.success("successfully edited")
       } else {
         console.error("Error occurred")
       }
@@ -413,6 +415,7 @@ export default function YojanaBudget() {
         await fetchYojanaBudgetSecondLocal()
         await fetchYojanaBudgetLocal()
         setSelectedItem(null)
+        toast.success("successfully edited")
       } else {
         console.error("Error occurred")
       }
