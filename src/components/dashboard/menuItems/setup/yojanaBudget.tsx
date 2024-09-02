@@ -377,6 +377,10 @@ export default function YojanaBudget() {
         toast.error("Amount should not be negative")
         return
       }
+      if (Number(biniyojanBudgetDt) > Number(amountCheck)) {
+        toast.error("Amount is greater than budget")
+        return
+      }
 
       const result = await editYojanaBudgetSecond(
         secondEditId,
