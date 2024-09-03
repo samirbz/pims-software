@@ -34,8 +34,12 @@ import { toast } from "react-toastify"
 import { staffRegister } from "@/actions/authActions"
 import { useForm } from "react-hook-form"
 import { IoIosSave, IoMdCheckmark } from "react-icons/io"
-import { StaffRegisterSchema } from "@/lib/schemas/staffRegisterSchema"
+import {
+  staffRegisterSchema,
+  StaffRegisterSchema,
+} from "@/lib/schemas/staffRegisterSchema"
 import { MdModeEditOutline } from "react-icons/md"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 interface Member {
   id: string
@@ -112,7 +116,7 @@ export default function StaffDetailPage() {
     setValue,
     formState: { errors, isValid, isSubmitting },
   } = useForm<StaffRegisterSchema>({
-    // resolver: zodResolver(registerSchema),
+    resolver: zodResolver(staffRegisterSchema),
     mode: "onTouched",
   })
 
