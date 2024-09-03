@@ -145,6 +145,7 @@ export default function StaffDetailPage() {
     }
     onOpenChange() // Close the modal
   }
+
   const handleEdit = (member: Member) => {
     setEditMember(member)
     setValue("name", member.name) // Pre-fill the form fields
@@ -314,13 +315,13 @@ export default function StaffDetailPage() {
             color="primary"
             startContent={<FaPlus />}
             onClick={() => {
-              setEditMember(null) // Reset the editing state for new member
+              setEditMember(null)
+              reset()
               onOpen()
             }}
           >
             Add Staff
           </Button>
-      
         </div>
       </div>
       <br />
