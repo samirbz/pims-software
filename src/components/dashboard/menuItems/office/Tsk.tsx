@@ -293,6 +293,16 @@ export default function TskPage() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
+            isDisabled={
+              !tayarGarneKoName ||
+              !tayarGarneKoPad ||
+              !peshGarneKoName ||
+              !peshGarneKoPad ||
+              !sifarishRujuGarne ||
+              !sifarishRujuGarneKoPad ||
+              !sadarGarneKoName ||
+              !sadarGarneKopad
+            }
           >
             Save
           </Button>

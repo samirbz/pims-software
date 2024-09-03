@@ -137,6 +137,7 @@ export default function FiscalYearPage() {
             startContent={<FaRegSave />}
             onClick={onSubmit}
             className="w-full md:w-auto"
+            isDisabled={!endDate || !startDate || !fy}
           >
             Save
           </Button>
