@@ -221,6 +221,22 @@ export async function fetchLagatSrotData() {
     throw error
   }
 }
+
+export async function fetchFilterLagatSrotData(anudaanKoNaam: string) {
+  try {
+    const data = await prisma.lagatSrot.findMany({
+      where: {
+        anudanKoKisim: anudaanKoNaam,
+      },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching lagat srot data:", error)
+    throw error
+  }
+}
+
+
 export async function deleteLagatSrot(id: string) {
   try {
     await prisma.lagatSrot.delete({

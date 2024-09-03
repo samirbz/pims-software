@@ -32,7 +32,7 @@ import {
   fetchMukyaSamitiData,
   fetchWadaNumData,
   fetchAnudaanKoNaamData,
-  fetchLagatSrotData,
+  fetchFilterLagatSrotData,
   fetchYojanaPrakarData,
 } from "@/actions/formAction"
 
@@ -96,9 +96,9 @@ export default function YojanaDarta() {
     }
   }
 
-  const fetchlagatSrotData = async () => {
+  const fetchlagatSrotData = async (anudaanKoNaam: string) => {
     try {
-      const data = await fetchLagatSrotData()
+      const data = await fetchFilterLagatSrotData(anudaanKoNaam)
       setlagatSrotData(data)
     } catch (e) {
       console.error("Error fetching anudaan data", e)
@@ -122,7 +122,6 @@ export default function YojanaDarta() {
           fetchWadaData(),
           fetchmukhyaSamitiData(),
           fetchanudaanKisimData(),
-          fetchlagatSrotData(),
           fetchyojanaPrakarData(),
         ])
       } catch (e) {
@@ -171,7 +170,7 @@ export default function YojanaDarta() {
   }
 
   if (loading) {
-    return <div>Loading...</div> 
+    return <div>Loading...</div>
   }
 
   return (
@@ -278,17 +277,24 @@ export default function YojanaDarta() {
             <div className="flex w-full items-center gap-2">
               <p className="text-sm">लागत&nbsp;श्रोत</p>
               <Select
-                label="अनुदानको नाम "
+                label="अनुदानको नाम"
                 size="sm"
-                onChange={(e) => setAunudaanKisim(e.target.value)}
+                onChange={(e) => {
+                  setAunudaanKisim(e.target.value)
+                  fetchlagatSrotData(e.target.value)
+                }}
                 className="w-1/4"
               >
                 {aunudaanKisimData.map((item) => (
-                  <SelectItem key={item.anudaanKoNaam}>
+                  <SelectItem
+                    key={item.anudaanKoNaam}
+                    value={item.anudaanKoNaam}
+                  >
                     {item.anudaanKoNaam}
                   </SelectItem>
                 ))}
               </Select>
+
               <Select
                 label="लागत श्रोत रकम  "
                 size="sm"
