@@ -66,6 +66,8 @@ export default function YojanaDarta() {
   const [yojanaPrakar, setYojanaPrakar] = useState("")
   const [yojanaPrakarData, setYojanaPrakarData] = useState<any[]>([])
 
+  const [loading, setLoading] = useState(true)
+
   const fetchWadaData = async () => {
     try {
       const data = await fetchWadaNumData()
@@ -113,11 +115,25 @@ export default function YojanaDarta() {
   }
 
   useEffect(() => {
-    fetchWadaData()
-    fetchmukhyaSamitiData()
-    fetchanudaanKisimData()
-    fetchlagatSrotData()
-    fetchyojanaPrakarData()
+    const fetchAllData = async () => {
+      try {
+        // Fetch all data concurrently
+        await Promise.all([
+          fetchWadaData(),
+          fetchmukhyaSamitiData(),
+          fetchanudaanKisimData(),
+          fetchlagatSrotData(),
+          fetchyojanaPrakarData(),
+        ])
+      } catch (e) {
+        console.error("Error fetching data", e)
+      } finally {
+        // Set loading to false after all data is fetched
+        setLoading(false)
+      }
+    }
+
+    fetchAllData()
   }, [])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
@@ -152,6 +168,10 @@ export default function YojanaDarta() {
 
   const onSubmit = async () => {
     console.log(mukhyaSamiti, aunudaanKisim, lagatSrot, yojanaPrakar)
+  }
+
+  if (loading) {
+    return <div>Loading...</div> 
   }
 
   return (
