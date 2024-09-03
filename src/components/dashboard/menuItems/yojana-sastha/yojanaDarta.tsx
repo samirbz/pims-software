@@ -260,8 +260,8 @@ export default function YojanaDarta() {
               <Select
                 label="अनुदानको नाम "
                 size="sm"
+                onChange={(e) => setAunudaanKisim(e.target.value)}
                 className="w-1/4"
-                onChange={(e) => setAunudaanKisim(e.target.value)} // Correct this line
               >
                 {aunudaanKisimData.map((item) => (
                   <SelectItem key={item.anudaanKoNaam}>
@@ -272,8 +272,8 @@ export default function YojanaDarta() {
               <Select
                 label="लागत श्रोत रकम  "
                 size="sm"
-                className="w-1/4"
-                onChange={(e) => setLagatSrot(e.target.value)} // Correct this line
+                onChange={(e) => setLagatSrot(e.target.value)}
+                className="w-1/2"
               >
                 {lagatSrotData.map((item) => (
                   <SelectItem key={item.lagatSrotKoNaam}>
