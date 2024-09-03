@@ -100,6 +100,7 @@ export default function YojanaPrakar() {
           color="secondary"
           startContent={<FaRegSave />}
           onClick={onSubmit}
+          isDisabled={!yojanaPrakar}
         >
           Save
         </Button>

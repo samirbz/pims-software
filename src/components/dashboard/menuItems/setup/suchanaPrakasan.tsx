@@ -99,6 +99,7 @@ export default function SuchanaPrakasan() {
           color="secondary"
           startContent={<FaRegSave />}
           onClick={onSubmit}
+          isDisabled={!suchanaPrakasan}
         >
           Save
         </Button>

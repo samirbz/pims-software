@@ -100,6 +100,7 @@ export default function AnudanKisim() {
           color="secondary"
           startContent={<FaRegSave />}
           onClick={onSubmit}
+          isDisabled={!anudaanKoNaam}
         >
           Save
         </Button>

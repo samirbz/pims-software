@@ -111,6 +111,7 @@ export default function BankBivaran() {
             className="w-10 self-center"
             startContent={<FaRegSave />}
             onClick={onSubmit}
+            isDisabled={!sakha}
           >
             Save
           </Button>

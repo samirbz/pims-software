@@ -97,6 +97,7 @@ export default function MukhyaSamiti() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
+            isDisabled={!mukhyaSamitiKoNaam}
           >
             Save
           </Button>

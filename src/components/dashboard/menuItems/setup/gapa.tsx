@@ -95,6 +95,7 @@ export default function Gapa() {
           color="secondary"
           startContent={<FaRegSave />}
           onClick={onSubmit}
+          isDisabled={!gapa}
         >
           Save
         </Button>

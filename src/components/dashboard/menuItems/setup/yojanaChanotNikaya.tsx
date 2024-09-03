@@ -102,6 +102,7 @@ export default function YojanaChanotNikaya() {
           color="secondary"
           startContent={<FaRegSave />}
           onClick={onSubmit}
+          isDisabled={!yojanaChanotNikaya}
         >
           Save
         </Button>

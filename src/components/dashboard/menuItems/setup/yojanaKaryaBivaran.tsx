@@ -128,10 +128,10 @@ export default function YojanaKaryaBivaran() {
           />
           <Button
             color="secondary"
-            className="w-10 self-center"
             startContent={<FaRegSave />}
-            size="sm"
+            className="w-10 self-end"
             onClick={onSubmit}
+            isDisabled={!yojanaKoKisim || !yojanaKoKarya}
           >
             Save
           </Button>

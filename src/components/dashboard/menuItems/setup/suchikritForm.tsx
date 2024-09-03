@@ -197,6 +197,17 @@ export default function SuchikritForm() {
             startContent={<FaRegSave />}
             className="w-12"
             onClick={onSubmit}
+            isDisabled={
+              !suchikritHunaChahekoKharid ||
+              !suchiDartaNum ||
+              !phoneNum ||
+              !pramanPatraSankhya ||
+              !companyDartaNum ||
+              !panVat ||
+              !formKoThegana ||
+              !dartaMiti ||
+              !formKoNaam
+            }
           >
             Save
           </Button>

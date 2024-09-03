@@ -100,6 +100,7 @@ export default function Wada() {
           color="secondary"
           startContent={<FaRegSave />}
           onClick={onSubmit}
+          isDisabled={!wadaNum}
         >
           Save
         </Button>

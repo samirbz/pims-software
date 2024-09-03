@@ -110,6 +110,7 @@ export default function LabTest() {
             className="w-10 self-center"
             startContent={<FaRegSave />}
             onClick={onSubmit}
+            isDisabled={!thegana || !karyalayaKoNaam}
           >
             Save
           </Button>
