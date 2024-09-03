@@ -24,6 +24,7 @@ import {
   saveFiscalYearDate,
 } from "@/actions/formAction"
 import { MdModeEditOutline } from "react-icons/md"
+import { toast } from "react-toastify"
 
 export default function FiscalYearPage() {
   const [startDate, setStartDate] = useState<string>("")
@@ -58,6 +59,10 @@ export default function FiscalYearPage() {
   }
 
   const onSubmit = async () => {
+    if (!startDate || !endDate || !fy) {
+      toast.error("Please choose all fields")
+      return
+    }
     const result = await saveFiscalYearDate(startDate, endDate, fy)
     if (result.status === "success") {
       // Fetch the updated list of fiscal years
