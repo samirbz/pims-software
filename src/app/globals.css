@@ -14,15 +14,6 @@
   .form-title {
     @apply font-mukta text-2xl font-semibold text-orange-600;
   }
-  .scrollbar-hide {
-    overflow: hidden;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Webkit browsers */
-  }
 }
 
 @layer components {

@@ -483,7 +483,6 @@ const Nav = () => {
           overflow: "auto",
           height: "100vh",
         }}
-        className="scrollbar-hide"
       >
         <div className="my-4 ml-6 flex gap-4 font-semibold ">
           <Image
@@ -540,7 +539,7 @@ const Nav = () => {
             margin: "16px 16px",
             overflow: "auto", // Enable scrolling
           }}
-          className="vertical-center scrollbar-hide"
+          className="vertical-center "
         >
           <div
             style={{
