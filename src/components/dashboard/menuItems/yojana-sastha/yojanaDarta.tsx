@@ -28,7 +28,13 @@ import { FaMinus, FaPlus, FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { RiArrowDownDoubleFill } from "react-icons/ri"
-import { fetchWadaNumData } from "@/actions/formAction"
+import {
+  fetchMukyaSamitiData,
+  fetchWadaNumData,
+  fetchAnudaanKoNaamData,
+  fetchLagatSrotData,
+  fetchYojanaPrakarData,
+} from "@/actions/formAction"
 
 const animals = [
   { key: "cat", label: "1234567890123456789" },
@@ -51,6 +57,14 @@ export default function YojanaDarta() {
   const [divs, setDivs] = useState<React.JSX.Element[]>([])
 
   const [wada, setWada] = useState<any[]>([])
+  const [mukhyaSamiti, setMukhyaSamiti] = useState("")
+  const [mukhyaSamitiData, setMukhyaSamitiData] = useState<any[]>([])
+  const [aunudaanKisim, setAunudaanKisim] = useState("")
+  const [aunudaanKisimData, setAunudaanKisimData] = useState<any[]>([])
+  const [lagatSrot, setLagatSrot] = useState("")
+  const [lagatSrotData, setlagatSrotData] = useState<any[]>([])
+  const [yojanaPrakar, setYojanaPrakar] = useState("")
+  const [yojanaPrakarData, setYojanaPrakarData] = useState<any[]>([])
 
   const fetchWadaData = async () => {
     try {
@@ -62,8 +76,48 @@ export default function YojanaDarta() {
     }
   }
 
+  const fetchmukhyaSamitiData = async () => {
+    try {
+      const data = await fetchMukyaSamitiData()
+      setMukhyaSamitiData(data)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
+    }
+  }
+
+  const fetchanudaanKisimData = async () => {
+    try {
+      const data = await fetchAnudaanKoNaamData()
+      setAunudaanKisimData(data)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
+    }
+  }
+
+  const fetchlagatSrotData = async () => {
+    try {
+      const data = await fetchLagatSrotData()
+      setlagatSrotData(data)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
+    }
+  }
+
+  const fetchyojanaPrakarData = async () => {
+    try {
+      const data = await fetchYojanaPrakarData()
+      setYojanaPrakarData(data)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
+    }
+  }
+
   useEffect(() => {
     fetchWadaData()
+    fetchmukhyaSamitiData()
+    fetchanudaanKisimData()
+    fetchlagatSrotData()
+    fetchyojanaPrakarData()
   }, [])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
@@ -96,6 +150,10 @@ export default function YojanaDarta() {
     })
   }
 
+  const onSubmit = async () => {
+    console.log(mukhyaSamiti, aunudaanKisim, lagatSrot, yojanaPrakar)
+  }
+
   return (
     <div className="flex flex-col justify-between bg-white ">
       <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
@@ -110,48 +168,6 @@ export default function YojanaDarta() {
                 योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
               </ModalHeader>
               <ModalBody>
-                {/* <div className="overflow-auto">
-                  <table className="min-w-full border-collapse border">
-                    <thead className="sticky top-0 bg-purple-400 text-white">
-                      <tr>
-                        <th className="px-2 py-1">सि.न.</th>
-                        <th className="px-2 py-1">आयोजना नाम</th>
-                        <th className="px-2 py-1">आयोजनको प्रकार</th>
-                        <th className="px-2 py-1">वडा न.</th>
-                        <th className="px-2 py-1">ल.ई रकम</th>
-                        <th className="px-2 py-1">अनुदान रकम</th>
-                        <th className="px-2 py-1">सहभागिता</th>
-                        <th className="px-2 py-1">Edit</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1">
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button variant="solid" size="sm">
-                                <MdModeEditOutline />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu aria-label="Static Actions">
-                              <DropdownItem>Edit</DropdownItem>
-                              <DropdownItem key="delete" color="danger">
-                                Delete
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div> */}
                 <Table aria-label="Example static collection table">
                   <TableHeader>
                     <TableColumn>सि.न.</TableColumn>
@@ -224,28 +240,45 @@ export default function YojanaDarta() {
               ))}
             </Select>
           </div>
-          <Select label="योजनाको नाम" className="w-full" size="sm">
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
-          <Select label="मूख्य समिति" className="w-full" size="sm">
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+          <Input type="text" label="योजनाको नाम" size="sm" className="w-full" />
+          <Select
+            label="मूख्य समिति"
+            size="sm"
+            className="w-full"
+            onChange={(e) => setMukhyaSamiti(e.target.value)} // Correct this line
+          >
+            {mukhyaSamitiData.map((item) => (
+              <SelectItem key={item.mukhyaSamitiKoNaam}>
+                {item.mukhyaSamitiKoNaam}
+              </SelectItem>
             ))}
           </Select>
 
           <div className="flex flex-col gap-2">
             <div className="flex w-full items-center gap-2">
               <p className="text-sm">लागत&nbsp;श्रोत</p>
-              <Select label="&nbsp;" className="w-1/4" size="sm">
-                {animals.map((animal) => (
-                  <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              <Select
+                label="अनुदानको नाम "
+                size="sm"
+                className="w-1/4"
+                onChange={(e) => setAunudaanKisim(e.target.value)} // Correct this line
+              >
+                {aunudaanKisimData.map((item) => (
+                  <SelectItem key={item.anudaanKoNaam}>
+                    {item.anudaanKoNaam}
+                  </SelectItem>
                 ))}
               </Select>
-              <Select label="&nbsp;" className="w-1/2" size="sm">
-                {animals.map((animal) => (
-                  <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              <Select
+                label="लागत श्रोत रकम  "
+                size="sm"
+                className="w-1/4"
+                onChange={(e) => setLagatSrot(e.target.value)} // Correct this line
+              >
+                {lagatSrotData.map((item) => (
+                  <SelectItem key={item.lagatSrotKoNaam}>
+                    {item.lagatSrotKoNaam}
+                  </SelectItem>
                 ))}
               </Select>
               <Input type="text" label="&nbsp;" size="sm" className="w-1/4" />
@@ -267,9 +300,16 @@ export default function YojanaDarta() {
             </div>
           </div>
 
-          <Select label="आयोजना उपक्षेत्र" className="w-full" size="sm">
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+          <Select
+            label="आयोजना उपक्षेत्र"
+            size="sm"
+            className="w-full"
+            onChange={(e) => setYojanaPrakar(e.target.value)} // Correct this line
+          >
+            {yojanaPrakarData.map((item) => (
+              <SelectItem key={item.yojanaPrakar}>
+                {item.yojanaPrakar}
+              </SelectItem>
             ))}
           </Select>
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -284,8 +324,8 @@ export default function YojanaDarta() {
               ))}
             </Select>
             <Select label="वडा न." className="w-full sm:w-1/5" size="sm">
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              {wada.map((animal) => (
+                <SelectItem key={animal.id}>{animal.wadaNum}</SelectItem>
               ))}
             </Select>
           </div>
@@ -419,6 +459,7 @@ export default function YojanaDarta() {
             color="secondary"
             startContent={<FaRegSave />}
             className="w-full"
+            onClick={onSubmit}
           >
             Save
           </Button>
