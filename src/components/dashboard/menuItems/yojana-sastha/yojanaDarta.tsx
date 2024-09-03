@@ -14,6 +14,12 @@ import {
   ModalHeader,
   ModalBody,
   useDisclosure,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react"
 import React, { useEffect, useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
@@ -67,17 +73,17 @@ export default function YojanaDarta() {
       ...divs,
       <div className="flex w-full items-center gap-2" key={divs.length}>
         <p className="text-sm">लागत&nbsp;श्रोत</p>
-        <Select label="" className="w-1/4" size="sm">
+        <Select label="&nbsp;" className="w-1/4" size="sm">
           {animals.map((animal) => (
             <SelectItem key={animal.key}>{animal.label}</SelectItem>
           ))}
         </Select>
-        <Select label="" className="w-1/2" size="sm">
+        <Select label="&nbsp;" className="w-1/2" size="sm">
           {animals.map((animal) => (
             <SelectItem key={animal.key}>{animal.label}</SelectItem>
           ))}
         </Select>
-        <Input type="text" className="w-1/4" size="sm" />
+        <Input type="text" label="&nbsp;" className="w-1/4" size="sm" />
       </div>,
     ])
   }
@@ -101,10 +107,10 @@ export default function YojanaDarta() {
           {(onClose) => (
             <>
               <ModalHeader className="text-lg font-semibold">
-                Modal Title
+                योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
               </ModalHeader>
               <ModalBody>
-                <div className="overflow-auto">
+                {/* <div className="overflow-auto">
                   <table className="min-w-full border-collapse border">
                     <thead className="sticky top-0 bg-purple-400 text-white">
                       <tr>
@@ -145,7 +151,52 @@ export default function YojanaDarta() {
                       </tr>
                     </tbody>
                   </table>
-                </div>
+                </div> */}
+                <Table aria-label="Example static collection table">
+                  <TableHeader>
+                    <TableColumn>सि.न.</TableColumn>
+                    <TableColumn>आयोजना नाम</TableColumn>
+                    <TableColumn>आयोजनको प्रकार</TableColumn>
+                    <TableColumn>वडा न.</TableColumn>
+                    <TableColumn>ल.ई रकम</TableColumn>
+                    <TableColumn>अनुदान रकम</TableColumn>
+                    <TableColumn>सहभागिता</TableColumn>
+                    <TableColumn>Edit</TableColumn>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow key="">
+                      <TableCell>1</TableCell>
+                      <TableCell>e</TableCell>
+                      <TableCell>e</TableCell>
+                      <TableCell>e</TableCell>
+                      <TableCell>e</TableCell>
+                      <TableCell>e</TableCell>
+                      <TableCell>e</TableCell>
+                      <TableCell>
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button
+                              className="z-10"
+                              variant="shadow"
+                              size="sm"
+                              startContent={<MdModeEditOutline />}
+                            ></Button>
+                          </DropdownTrigger>
+                          <DropdownMenu aria-label="Static Actions">
+                            <DropdownItem>Edit</DropdownItem>
+                            <DropdownItem
+                              key="delete"
+                              className="text-danger"
+                              color="danger"
+                            >
+                              Delete
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </ModalBody>
             </>
           )}
@@ -153,7 +204,7 @@ export default function YojanaDarta() {
       </Modal>
 
       <div className="flex w-full flex-col gap-4 sm:flex-row">
-        <div className="flex w-full flex-col gap-4 sm:w-2/3">
+        <div className="flex w-full flex-col gap-2 sm:w-2/3">
           <div className="flex flex-col items-center gap-2 sm:flex-row">
             <form className="flex items-center gap-2 pl-2 sm:p-0">
               <label htmlFor="date" className="block text-sm">
@@ -187,17 +238,17 @@ export default function YojanaDarta() {
           <div className="flex flex-col gap-2">
             <div className="flex w-full items-center gap-2">
               <p className="text-sm">लागत&nbsp;श्रोत</p>
-              <Select label="" className="w-1/4" size="sm">
+              <Select label="&nbsp;" className="w-1/4" size="sm">
                 {animals.map((animal) => (
                   <SelectItem key={animal.key}>{animal.label}</SelectItem>
                 ))}
               </Select>
-              <Select label="" className="w-1/2" size="sm">
+              <Select label="&nbsp;" className="w-1/2" size="sm">
                 {animals.map((animal) => (
                   <SelectItem key={animal.key}>{animal.label}</SelectItem>
                 ))}
               </Select>
-              <Input type="text" className="w-1/4" size="sm" />
+              <Input type="text" label="&nbsp;" size="sm" className="w-1/4" />
             </div>
             {divs.map((div, index) => (
               <div key={index}>{div}</div>
@@ -206,10 +257,12 @@ export default function YojanaDarta() {
               <FaPlus
                 className="cursor-pointer self-end text-blue-600"
                 onClick={addDiv}
+                size={18}
               />
               <FaMinus
                 className="cursor-pointer self-end text-red-600"
                 onClick={removeDiv}
+                size={18}
               />
             </div>
           </div>
@@ -220,7 +273,12 @@ export default function YojanaDarta() {
             ))}
           </Select>
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Select label="योजनाको किसिम" className="w-full sm:w-1/2" size="sm">
+            <Select
+              label="योजनाको किसिम"
+              className="w-full sm:w-1/2"
+              size="sm"
+              color="success"
+            >
               {animals.map((animal) => (
                 <SelectItem key={animal.key}>{animal.label}</SelectItem>
               ))}
@@ -243,7 +301,12 @@ export default function YojanaDarta() {
               size="sm"
               className="w-full sm:w-1/2"
             />
-            <Select label="बजेट Type" size="sm" className="w-full sm:w-1/2">
+            <Select
+              label="बजेट Type"
+              size="sm"
+              className="w-full sm:w-1/2"
+              color="success"
+            >
               {animals.map((animal) => (
                 <SelectItem key={animal.key}>{animal.label}</SelectItem>
               ))}
@@ -256,7 +319,12 @@ export default function YojanaDarta() {
               size="sm"
               className="w-full sm:w-1/2"
             />
-            <Select label="योजना स्वीकृत" size="sm" className="w-full sm:w-1/2">
+            <Select
+              label="योजना स्वीकृत"
+              size="sm"
+              className="w-full sm:w-1/2"
+              color="success"
+            >
               {animals.map((animal) => (
                 <SelectItem key={animal.key}>{animal.label}</SelectItem>
               ))}
@@ -268,32 +336,42 @@ export default function YojanaDarta() {
             label="बजेट किताब सि.न."
             size="sm"
             className="w-full sm:w-1/3"
+            color="primary"
           />
-          <Button onPress={onOpen} className=" w-full sm:w-1/4">
+          <Button onPress={onOpen} className=" mt-4 w-full sm:w-1/4">
             Open table <RiArrowDownDoubleFill />
           </Button>
         </div>
 
         <div className="flex w-full flex-col gap-4 sm:w-1/3">
           <div className="flex flex-col gap-2">
-            <Input
-              type="text"
-              label="कन्टेन्जेन्सी&nbsp;%"
-              size="sm"
-              className="w-full"
-            />
-            <Input
-              type="text"
-              label="मर्मत&nbsp;रकम&nbsp;%"
-              size="sm"
-              className="w-full"
-            />
-            <Input
-              type="text"
-              label="धरौटी&nbsp;रकम&nbsp;%"
-              size="sm"
-              className="w-full"
-            />
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                label="कन्टेन्जेन्सी&nbsp;%"
+                size="sm"
+                className="w-full"
+              />
+              <Input type="text" label="&nbsp;" size="sm" className="w-full" />
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                label="मर्मत&nbsp;रकम&nbsp;%"
+                size="sm"
+                className="w-full"
+              />
+              <Input type="text" label="&nbsp;" size="sm" className="w-full" />
+            </div>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                label="धरौटी&nbsp;रकम&nbsp;%"
+                size="sm"
+                className="w-full"
+              />
+              <Input type="text" label="&nbsp;" size="sm" className="w-full" />
+            </div>
             <Input
               type="text"
               label="कुल अनुदान रु."
@@ -314,18 +392,24 @@ export default function YojanaDarta() {
               className="w-full"
             />
             <Input type="text" label="जनसंख्या" size="sm" className="w-full" />
-            <Input
-              type="text"
-              label="कार्य विवरण"
-              size="sm"
-              className="w-full"
-            />
-            <Input
-              type="text"
-              label="उपलब्धि&nbsp;लक्ष्य"
-              size="sm"
-              className="w-full"
-            />
+            <Select label="Select an animal" size="sm" className="w-full">
+              {animals.map((animal) => (
+                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              ))}
+            </Select>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                label="उपलब्धि&nbsp;लक्ष्य"
+                size="sm"
+                className="w-full"
+              />
+              <Select label="Select an animal" size="sm" className="w-full">
+                {animals.map((animal) => (
+                  <SelectItem key={animal.key}>{animal.label}</SelectItem>
+                ))}
+              </Select>
+            </div>
           </div>
           <div className="flex gap-4">
             <Checkbox>वार्षिक&nbsp;योजना</Checkbox>
