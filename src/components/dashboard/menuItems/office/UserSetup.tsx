@@ -31,10 +31,11 @@ import { deleteMember, resetUserPassword } from "@/actions/userActions"
 import { FaPlus, FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { toast } from "react-toastify"
 import { registerUser } from "@/actions/authActions"
-import { RegisterSchema } from "@/lib/schemas/registerSchema"
+import { RegisterSchema, registerSchema } from "@/lib/schemas/registerSchema"
 import { useForm } from "react-hook-form"
 import { IoIosSave } from "react-icons/io"
 import { MdModeEditOutline } from "react-icons/md"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 interface Member {
   id: string
@@ -137,7 +138,7 @@ export default function UserSetup() {
     reset,
     formState: { errors, isValid, isSubmitting },
   } = useForm<RegisterSchema>({
-    // resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerSchema),
     mode: "onTouched",
   })
 
@@ -336,7 +337,7 @@ export default function UserSetup() {
                           Close
                         </Button>
                         <Button
-                          color="secondary"
+                          color="primary"
                           isLoading={isSubmitting}
                           isDisabled={!isValid}
                           onPress={onClose}
