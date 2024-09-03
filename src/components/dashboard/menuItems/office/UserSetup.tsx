@@ -361,7 +361,14 @@ export default function UserSetup() {
         </h1>
 
         <div className="flex gap-2">
-          <Button onPress={onOpen} startContent={<FaPlus />} color="primary">
+          <Button
+            onClick={() => {
+              reset()
+              onOpen()
+            }}
+            startContent={<FaPlus />}
+            color="primary"
+          >
             Add User
           </Button>
         </div>
