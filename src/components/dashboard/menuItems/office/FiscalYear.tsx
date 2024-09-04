@@ -6,6 +6,11 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Pagination,
   Spinner,
   Table,
@@ -76,13 +81,25 @@ export default function FiscalYearPage() {
     fetchFiscalYears()
   }, [])
 
-  const handleDelete = async (id: string) => {
-    const result = await deleteFyDate(id)
-    if (result.status === "success") {
-      // Fetch the updated list of fiscal years
-      fetchFiscalYears()
-    } else {
-      console.error("Delete unsuccessful:")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+
+  const confirmDelete = (id: string) => {
+    setDeleteId(id)
+    setIsModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      const result = await deleteFyDate(deleteId)
+      if (result.status === "success") {
+        // Fetch the updated list of fiscal years
+        fetchFiscalYears()
+      } else {
+        console.error("Delete unsuccessful")
+      }
+      setIsModalOpen(false)
+      setDeleteId(null)
     }
   }
 
@@ -188,12 +205,11 @@ export default function FiscalYearPage() {
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
                         <DropdownItem>Edit</DropdownItem>
-
                         <DropdownItem
                           key="delete"
                           className="text-danger"
                           color="danger"
-                          onPress={() => handleDelete(year.id)}
+                          onPress={() => confirmDelete(year.id)}
                         >
                           Delete
                         </DropdownItem>
@@ -206,6 +222,23 @@ export default function FiscalYearPage() {
           </Table>
         )}
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete this fiscal year?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button color="danger" onClick={handleConfirmDelete}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
