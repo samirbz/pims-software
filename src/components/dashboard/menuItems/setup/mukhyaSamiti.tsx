@@ -18,7 +18,7 @@ import {
   TableCell,
   TableColumn,
   TableHeader,
-  TableRow, // Import Spinner from @nextui-org/react or any other loading component
+  TableRow,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
@@ -28,6 +28,7 @@ import {
   saveMukyaSamiti,
   fetchMukyaSamitiData,
   deleteMukyaSamitiKoNaam,
+  editMukhyaSamitiKonaam,
 } from "@/actions/formAction"
 
 export default function MukhyaSamiti() {
@@ -36,6 +37,8 @@ export default function MukhyaSamiti() {
     []
   )
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -62,26 +65,42 @@ export default function MukhyaSamiti() {
   }
 
   const onSubmit = async () => {
-    const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
-    if (result.status === "success") {
-      setMukhyaSamitiKoNaam("")
-      fetchMukhyaSamiti()
-      console.error("Error occurred")
+    if (editMode && editId) {
+      const result = await editMukhyaSamitiKonaam(editId, mukhyaSamitiKoNaam)
+      if (result.status === "success") {
+        setMukhyaSamitiKoNaam("")
+        setEditMode(false)
+        setEditId(null)
+        fetchMukhyaSamiti()
+      } else {
+        console.error("Error occurred during edit")
+      }
+    } else {
+      const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
+      if (result.status === "success") {
+        setMukhyaSamitiKoNaam("")
+        fetchMukhyaSamiti()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setMukhyaSamitiKoNaam(item.mukhyaSamitiKoNaam)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setMukhyaSamitiKoNaam("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
     fetchMukhyaSamiti()
   }, [])
-
-  // const handleDelete = async (id: string) => {
-  //   const result = await deleteMukyaSamitiKoNaam(id)
-  //   if (result.status === "success") {
-  //     fetchMukhyaSamiti()
-  //   } else {
-  //     console.error("Delete unsuccessful:")
-  //   }
-  // }
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -95,7 +114,6 @@ export default function MukhyaSamiti() {
     if (deleteId) {
       const result = await deleteMukyaSamitiKoNaam(deleteId)
       if (result.status === "success") {
-        // Fetch the updated list of fiscal years
         fetchMukhyaSamiti()
       } else {
         console.error("Delete unsuccessful")
@@ -126,11 +144,16 @@ export default function MukhyaSamiti() {
             onClick={onSubmit}
             isDisabled={!mukhyaSamitiKoNaam}
           >
-            Save
+            {editMode ? "Edit" : "Save"}
           </Button>
+          {editMode && (
+            <Button color="default" onClick={cancelEdit}>
+              Cancel
+            </Button>
+          )}
         </div>
         <br />
-        {loading ? ( // Show loading spinner while data is being fetched
+        {loading ? (
           <div className="my-4 flex w-full justify-center">
             <Spinner color="primary" />
           </div>
@@ -173,7 +196,9 @@ export default function MukhyaSamiti() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"

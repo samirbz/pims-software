@@ -157,6 +157,27 @@ export async function deleteMukyaSamitiKoNaam(id: string) {
   }
 }
 
+export async function editMukhyaSamitiKonaam(
+  id: string,
+  mukhyaSamitiKoNaam: string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.mukhyaSamitiKoNaam.update({
+      where: {
+        id,
+      },
+      data: {
+        mukhyaSamitiKoNaam,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 //  2. anudan kisim
 export async function saveAnudaanKoNaam(anudaanKoNaam: string) {
   try {
@@ -235,7 +256,6 @@ export async function fetchFilterLagatSrotData(anudaanKoNaam: string) {
     throw error
   }
 }
-
 
 export async function deleteLagatSrot(id: string) {
   try {
@@ -535,7 +555,7 @@ export async function deleteYojanaBudget(id: string) {
 //  10-1 yojana budget update
 export async function updateBiniyojanBudget(
   id: string,
-  biniyojanBudget: string 
+  biniyojanBudget: string
 ) {
   try {
     // Update the record in the database
