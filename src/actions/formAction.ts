@@ -345,6 +345,25 @@ export async function deleteYojanaPrakar(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+
+export async function editYojanaPrakar(id: string, yojanaPrakar: string) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.yojanaPrakar.update({
+      where: {
+        id,
+      },
+      data: {
+        yojanaPrakar,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 // 5.Yojaana karya bivaran
 export async function saveYonanaKaryaBivaran(
   yojanaKoKisim: string,

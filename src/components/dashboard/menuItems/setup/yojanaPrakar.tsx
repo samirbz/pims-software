@@ -28,6 +28,7 @@ import {
   saveYojanaPrakar,
   fetchYojanaPrakarData,
   deleteYojanaPrakar,
+  editYojanaPrakar,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -36,6 +37,8 @@ export default function YojanaPrakar() {
   const [yojanaPrakarData, setYojanaPrakarData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -61,31 +64,55 @@ export default function YojanaPrakar() {
     }
   }
 
+  // const onSubmit = async () => {
+  //   const result = await saveYojanaPrakar(yojanaPrakar)
+  //   if (result.status === "success") {
+  //     // Reset the input field after successful submission
+  //     setYojanaPrakar("")
+  //     // Fetch the updated list of data
+  //     fetchYojanaPrakar()
+  //   } else {
+  //     console.error("Error occurred")
+  //   }
+  // }
+
   const onSubmit = async () => {
-    const result = await saveYojanaPrakar(yojanaPrakar)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setYojanaPrakar("")
-      // Fetch the updated list of data
-      fetchYojanaPrakar()
+    if (editMode && editId) {
+      const result = await editYojanaPrakar(editId, yojanaPrakar)
+      if (result.status === "success") {
+        setYojanaPrakar("")
+        setEditMode(false)
+        setEditId(null)
+        fetchYojanaPrakar()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveYojanaPrakar(yojanaPrakar)
+      if (result.status === "success") {
+        setYojanaPrakar("")
+        fetchYojanaPrakar()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setYojanaPrakar(item.yojanaPrakar)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setYojanaPrakar("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
     fetchYojanaPrakar() // Fetch data when the component mounts
   }, [])
-
-  // const handleDelete = async (id: string) => {
-  //   const result = await deleteYojanaPrakar(id)
-  //   if (result.status === "success") {
-  //     // Fetch the updated list of fiscal years
-  //     fetchYojanaPrakar()
-  //   } else {
-  //     console.error("Delete unsuccessful:")
-  //   }
-  // }
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -130,8 +157,13 @@ export default function YojanaPrakar() {
             onClick={onSubmit}
             isDisabled={!yojanaPrakar}
           >
-            Save
+            {editMode ? "Edit" : "Save"}
           </Button>
+          {editMode && (
+            <Button color="default" onClick={cancelEdit}>
+              Cancel
+            </Button>
+          )}
         </div>
         <br />
         {loading ? ( // Show loading spinner while data is being fetched
@@ -177,7 +209,9 @@ export default function YojanaPrakar() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"
