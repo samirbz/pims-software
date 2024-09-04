@@ -29,6 +29,7 @@ import {
   fetchLagatSrotData,
   deleteLagatSrot,
   fetchAnudaanKoNaamData,
+  editLagatSrot,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -38,6 +39,9 @@ export default function LagatSrot() {
   const [lagatSrotData, setLagatSrotData] = useState<any[]>([])
   const [anudanData, setAnudanData] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
+
   const [page, setPage] = useState(1)
   const rowsPerPage = 7
 
@@ -72,18 +76,41 @@ export default function LagatSrot() {
   }
 
   const onSubmit = async () => {
-    try {
+    if (editMode && editId) {
+      const result = await editLagatSrot(editId, anudanKoKisim, lagatSrotKoNaam)
+      if (result.status === "success") {
+        setAnudanKoKisim("")
+        setLagatSrotKoNaam("")
+        setEditMode(false)
+        setEditId(null)
+        fetchLagatSrot()
+      } else {
+        console.error("Error occurred during edit")
+      }
+    } else {
       const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
       if (result.status === "success") {
         setAnudanKoKisim("")
         setLagatSrotKoNaam("")
         fetchLagatSrot()
       } else {
-        console.error("Error occurred while saving:", result)
+        console.error("Error occurred during save")
       }
-    } catch (error) {
-      console.error("Error saving lagat srot:", error)
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setAnudanKoKisim(item.anudanKoKisim)
+    setLagatSrotKoNaam(item.lagatSrotKoNaam)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setAnudanKoKisim("")
+    setLagatSrotKoNaam("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
@@ -124,10 +151,16 @@ export default function LagatSrot() {
           <Select
             label="अनुदान किसिम"
             size="sm"
-            onChange={(e) => setAnudanKoKisim(e.target.value)} // Correct this line
+            placeholder="Select an option" // Optional: if you want a placeholder
+            selectedKeys={anudanKoKisim ? new Set([anudanKoKisim]) : new Set()} // Binding the selected value
+            onSelectionChange={(keys) => {
+              const selectedValue = Array.from(keys).join(", ")
+              console.log("Selected value:", selectedValue) // Debugging
+              setAnudanKoKisim(selectedValue)
+            }}
           >
             {anudanData.map((item) => (
-              <SelectItem key={item.anudaanKoNaam}>
+              <SelectItem key={item.anudaanKoNaam} value={item.anudaanKoNaam}>
                 {item.anudaanKoNaam}
               </SelectItem>
             ))}
@@ -135,21 +168,26 @@ export default function LagatSrot() {
 
           <div className="flex gap-2">
             <Input
-              type="text"
+              type="Number"
               label="लागत श्रोत नाम"
               size="sm"
               value={lagatSrotKoNaam}
               onChange={(e) => setLagatSrotKoNaam(e.target.value)}
             />
+
             <Button
               color="secondary"
-              className="w-10 self-end"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!anudanKoKisim || !lagatSrotKoNaam} // Disable if inputs are empty
+              isDisabled={!anudanKoKisim || !lagatSrotKoNaam}
             >
-              Save
+              {editMode ? "Edit" : "Save"}
             </Button>
+            {editMode && (
+              <Button color="default" onClick={cancelEdit}>
+                Cancel
+              </Button>
+            )}
           </div>
         </div>
         <br />
@@ -199,7 +237,9 @@ export default function LagatSrot() {
                         />
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           color="danger"
