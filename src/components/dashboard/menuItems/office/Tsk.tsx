@@ -120,15 +120,6 @@ export default function TskPage() {
     fetchDate()
   }, [])
 
-  // const handleDelete = async (id: string) => {
-  //   const result = await deleteTskData(id)
-  //   if (result.status === "success") {
-  //     fetchDate()
-  //   } else {
-  //     console.error("Delete unsuccessful:")
-  //   }
-  // }
-
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 

@@ -16,6 +16,11 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
@@ -66,24 +71,6 @@ export default function LagatSrot() {
     }
   }
 
-  useEffect(() => {
-    fetchLagatSrot()
-    fetchAnudaanData()
-  }, [])
-
-  const handleDelete = async (id: string) => {
-    try {
-      const result = await deleteLagatSrot(id)
-      if (result.status === "success") {
-        fetchLagatSrot()
-      } else {
-        console.error("Delete unsuccessful:", result)
-      }
-    } catch (error) {
-      console.error("Error deleting lagat srot:", error)
-    }
-  }
-
   const onSubmit = async () => {
     try {
       const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
@@ -99,107 +86,152 @@ export default function LagatSrot() {
     }
   }
 
+  useEffect(() => {
+    fetchLagatSrot()
+    fetchAnudaanData()
+  }, [])
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+
+  const confirmDelete = (id: string) => {
+    setDeleteId(id)
+    setIsModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      const result = await deleteLagatSrot(deleteId)
+      if (result.status === "success") {
+        // Fetch the updated list of fiscal years
+        fetchLagatSrot()
+      } else {
+        console.error("Delete unsuccessful")
+      }
+      setIsModalOpen(false)
+      setDeleteId(null)
+    }
+  }
+
   return (
-    <div className="flex flex-col justify-between bg-white ">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl ">
-        लागत श्रोतहरु
-      </h1>
-      <br />
-      <div className="flex w-full flex-col gap-4">
-        <Select
-          label="अनुदान किसिम"
-          size="sm"
-          onChange={(e) => setAnudanKoKisim(e.target.value)} // Correct this line
-        >
-          {anudanData.map((item) => (
-            <SelectItem key={item.anudaanKoNaam}>
-              {item.anudaanKoNaam}
-            </SelectItem>
-          ))}
-        </Select>
-
-        <div className="flex gap-2">
-          <Input
-            type="text"
-            label="लागत श्रोत नाम"
+    <>
+      <div className="flex flex-col justify-between bg-white ">
+        <h1 className="form-title text-xl font-semibold sm:text-2xl ">
+          लागत श्रोतहरु
+        </h1>
+        <br />
+        <div className="flex w-full flex-col gap-4">
+          <Select
+            label="अनुदान किसिम"
             size="sm"
-            value={lagatSrotKoNaam}
-            onChange={(e) => setLagatSrotKoNaam(e.target.value)}
-          />
-          <Button
-            color="secondary"
-            className="w-10 self-end"
-            startContent={<FaRegSave />}
-            onClick={onSubmit}
-            isDisabled={!anudanKoKisim || !lagatSrotKoNaam} // Disable if inputs are empty
+            onChange={(e) => setAnudanKoKisim(e.target.value)} // Correct this line
           >
-            Save
-          </Button>
-        </div>
-      </div>
-      <br />
-
-      {loading ? (
-        <div className="my-4 flex w-full justify-center">
-          <Spinner color="primary" />
-        </div>
-      ) : (
-        <Table
-          aria-label="Lagat Srot Table"
-          className="h-auto min-w-full"
-          bottomContent={
-            <div className="flex w-full justify-center">
-              <Pagination
-                isCompact
-                showControls
-                showShadow
-                color="secondary"
-                page={page}
-                total={pages}
-                onChange={(page) => setPage(page)}
-              />
-            </div>
-          }
-        >
-          <TableHeader>
-            <TableColumn>सि.न.</TableColumn>
-            <TableColumn>अनुदान किसिम</TableColumn>
-            <TableColumn>लागत श्रोत</TableColumn>
-            <TableColumn>Edit</TableColumn>
-          </TableHeader>
-          <TableBody>
-            {items.map((item, index) => (
-              <TableRow key={item.id}>
-                <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
-                <TableCell>{item.anudanKoKisim}</TableCell>
-                <TableCell>{item.lagatSrotKoNaam}</TableCell>
-                <TableCell>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        className="z-10"
-                        variant="shadow"
-                        size="sm"
-                        startContent={<MdModeEditOutline />}
-                      />
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label="Actions">
-                      <DropdownItem>Edit</DropdownItem>
-                      <DropdownItem
-                        key="delete"
-                        color="danger"
-                        onPress={() => handleDelete(item.id)}
-                      >
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </TableCell>
-              </TableRow>
+            {anudanData.map((item) => (
+              <SelectItem key={item.anudaanKoNaam}>
+                {item.anudaanKoNaam}
+              </SelectItem>
             ))}
-          </TableBody>
-        </Table>
-      )}
-    </div>
+          </Select>
+
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              label="लागत श्रोत नाम"
+              size="sm"
+              value={lagatSrotKoNaam}
+              onChange={(e) => setLagatSrotKoNaam(e.target.value)}
+            />
+            <Button
+              color="secondary"
+              className="w-10 self-end"
+              startContent={<FaRegSave />}
+              onClick={onSubmit}
+              isDisabled={!anudanKoKisim || !lagatSrotKoNaam} // Disable if inputs are empty
+            >
+              Save
+            </Button>
+          </div>
+        </div>
+        <br />
+
+        {loading ? (
+          <div className="my-4 flex w-full justify-center">
+            <Spinner color="primary" />
+          </div>
+        ) : (
+          <Table
+            aria-label="Lagat Srot Table"
+            className="h-auto min-w-full"
+            bottomContent={
+              <div className="flex w-full justify-center">
+                <Pagination
+                  isCompact
+                  showControls
+                  showShadow
+                  color="secondary"
+                  page={page}
+                  total={pages}
+                  onChange={(page) => setPage(page)}
+                />
+              </div>
+            }
+          >
+            <TableHeader>
+              <TableColumn>सि.न.</TableColumn>
+              <TableColumn>अनुदान किसिम</TableColumn>
+              <TableColumn>लागत श्रोत</TableColumn>
+              <TableColumn>Edit</TableColumn>
+            </TableHeader>
+            <TableBody>
+              {items.map((item, index) => (
+                <TableRow key={item.id}>
+                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
+                  <TableCell>{item.anudanKoKisim}</TableCell>
+                  <TableCell>{item.lagatSrotKoNaam}</TableCell>
+                  <TableCell>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          className="z-10"
+                          variant="shadow"
+                          size="sm"
+                          startContent={<MdModeEditOutline />}
+                        />
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="Actions">
+                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem
+                          key="delete"
+                          color="danger"
+                          onPress={() => confirmDelete(item.id)}
+                        >
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete this fiscal year?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button color="danger" onClick={handleConfirmDelete}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   )
 }

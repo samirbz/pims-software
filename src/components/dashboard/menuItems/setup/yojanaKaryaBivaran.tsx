@@ -6,6 +6,11 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Pagination,
   Select,
   SelectItem,
@@ -77,13 +82,25 @@ export default function YojanaKaryaBivaran() {
     fetchYojanaPrData()
   }, [])
 
-  const handleDelete = async (id: string) => {
-    const result = await deleteYojanaKarayBivaran(id)
-    if (result.status === "success") {
-      // Fetch the updated list of fiscal years
-      fetchYojanaKaryaBivaran()
-    } else {
-      console.error("Delete unsuccessful:")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+
+  const confirmDelete = (id: string) => {
+    setDeleteId(id)
+    setIsModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      const result = await deleteYojanaKarayBivaran(deleteId)
+      if (result.status === "success") {
+        // Fetch the updated list of fiscal years
+        fetchYojanaKaryaBivaran()
+      } else {
+        console.error("Delete unsuccessful")
+      }
+      setIsModalOpen(false)
+      setDeleteId(null)
     }
   }
 
@@ -104,104 +121,124 @@ export default function YojanaKaryaBivaran() {
   }
 
   return (
-    <div className="flex flex-col justify-between bg-white">
-      <h1 className="form-title text-xl font-semibold sm:text-2xl ">
-        योजनाको किसिम अनुसार कार्य बिवरण
-      </h1>
-      <br />
-      <div className="flex w-full flex-col gap-2">
-        <Select
-          label="योजनाको किसिम  "
-          size="sm"
-          onChange={(e) => setYojanaKoKisim(e.target.value)}
-        >
-          {yojanaPrakarData.map((item) => (
-            <SelectItem key={item.yojanaPrakar}>{item.yojanaPrakar}</SelectItem>
-          ))}
-        </Select>
-        <div className="flex gap-2">
-          <Input
-            label="योजनाको कार्य​"
+    <>
+      <div className="flex flex-col justify-between bg-white">
+        <h1 className="form-title text-xl font-semibold sm:text-2xl ">
+          योजनाको किसिम अनुसार कार्य बिवरण
+        </h1>
+        <br />
+        <div className="flex w-full flex-col gap-2">
+          <Select
+            label="योजनाको किसिम  "
             size="sm"
-            value={yojanaKoKarya}
-            onChange={(e) => setYojanaKoKarya(e.target.value)}
-          />
-          <Button
-            color="secondary"
-            startContent={<FaRegSave />}
-            className="w-10 self-end"
-            onClick={onSubmit}
-            isDisabled={!yojanaKoKisim || !yojanaKoKarya}
+            onChange={(e) => setYojanaKoKisim(e.target.value)}
           >
-            Save
-          </Button>
-        </div>
-      </div>
-
-      <br />
-
-      {loading ? ( // Show loading spinner while data is being fetched
-        <div className="my-4 flex w-full justify-center">
-          <Spinner color="primary" />
-        </div>
-      ) : (
-        <Table
-          aria-label="Example table with dynamic content"
-          className="h-auto min-w-full"
-          bottomContent={
-            <div className="flex w-full justify-center">
-              <Pagination
-                isCompact
-                showControls
-                showShadow
-                color="secondary"
-                page={page}
-                total={pages}
-                onChange={(page) => setPage(page)}
-              />
-            </div>
-          }
-        >
-          <TableHeader>
-            <TableColumn>सि.न.</TableColumn>
-            <TableColumn>योजनाको कार्य</TableColumn>
-            <TableColumn>योजनाको किसिम</TableColumn>
-            <TableColumn>Edit</TableColumn>
-          </TableHeader>
-          <TableBody>
-            {items.map((item, index) => (
-              <TableRow key={item.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{item.yojanaKoKarya}</TableCell>
-                <TableCell>{item.yojanaKoKisim}</TableCell>
-                <TableCell>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        className="z-10"
-                        variant="shadow"
-                        size="sm"
-                        startContent={<MdModeEditOutline />}
-                      ></Button>
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label="Static Actions">
-                      <DropdownItem>Edit</DropdownItem>
-                      <DropdownItem
-                        key="delete"
-                        className="text-danger"
-                        color="danger"
-                        onPress={() => handleDelete(item.id)}
-                      >
-                        Delete
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </TableCell>
-              </TableRow>
+            {yojanaPrakarData.map((item) => (
+              <SelectItem key={item.yojanaPrakar}>
+                {item.yojanaPrakar}
+              </SelectItem>
             ))}
-          </TableBody>
-        </Table>
-      )}
-    </div>
+          </Select>
+          <div className="flex gap-2">
+            <Input
+              label="योजनाको कार्य​"
+              size="sm"
+              value={yojanaKoKarya}
+              onChange={(e) => setYojanaKoKarya(e.target.value)}
+            />
+            <Button
+              color="secondary"
+              startContent={<FaRegSave />}
+              className="w-10 self-end"
+              onClick={onSubmit}
+              isDisabled={!yojanaKoKisim || !yojanaKoKarya}
+            >
+              Save
+            </Button>
+          </div>
+        </div>
+
+        <br />
+
+        {loading ? ( // Show loading spinner while data is being fetched
+          <div className="my-4 flex w-full justify-center">
+            <Spinner color="primary" />
+          </div>
+        ) : (
+          <Table
+            aria-label="Example table with dynamic content"
+            className="h-auto min-w-full"
+            bottomContent={
+              <div className="flex w-full justify-center">
+                <Pagination
+                  isCompact
+                  showControls
+                  showShadow
+                  color="secondary"
+                  page={page}
+                  total={pages}
+                  onChange={(page) => setPage(page)}
+                />
+              </div>
+            }
+          >
+            <TableHeader>
+              <TableColumn>सि.न.</TableColumn>
+              <TableColumn>योजनाको कार्य</TableColumn>
+              <TableColumn>योजनाको किसिम</TableColumn>
+              <TableColumn>Edit</TableColumn>
+            </TableHeader>
+            <TableBody>
+              {items.map((item, index) => (
+                <TableRow key={item.id}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{item.yojanaKoKarya}</TableCell>
+                  <TableCell>{item.yojanaKoKisim}</TableCell>
+                  <TableCell>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <Button
+                          className="z-10"
+                          variant="shadow"
+                          size="sm"
+                          startContent={<MdModeEditOutline />}
+                        ></Button>
+                      </DropdownTrigger>
+                      <DropdownMenu aria-label="Static Actions">
+                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem
+                          key="delete"
+                          className="text-danger"
+                          color="danger"
+                          onPress={() => confirmDelete(item.id)}
+                        >
+                          Delete
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete this fiscal year?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button color="danger" onClick={handleConfirmDelete}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   )
 }

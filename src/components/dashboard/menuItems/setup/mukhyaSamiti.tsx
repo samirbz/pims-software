@@ -6,6 +6,11 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Pagination,
   Spinner,
   Table,
@@ -56,25 +61,47 @@ export default function MukhyaSamiti() {
     }
   }
 
-  useEffect(() => {
-    fetchMukhyaSamiti()
-  }, [])
-
-  const handleDelete = async (id: string) => {
-    const result = await deleteMukyaSamitiKoNaam(id)
-    if (result.status === "success") {
-      fetchMukhyaSamiti()
-    } else {
-      console.error("Delete unsuccessful:")
-    }
-  }
-
   const onSubmit = async () => {
     const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
     if (result.status === "success") {
       setMukhyaSamitiKoNaam("")
       fetchMukhyaSamiti()
       console.error("Error occurred")
+    }
+  }
+
+  useEffect(() => {
+    fetchMukhyaSamiti()
+  }, [])
+
+  // const handleDelete = async (id: string) => {
+  //   const result = await deleteMukyaSamitiKoNaam(id)
+  //   if (result.status === "success") {
+  //     fetchMukhyaSamiti()
+  //   } else {
+  //     console.error("Delete unsuccessful:")
+  //   }
+  // }
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+
+  const confirmDelete = (id: string) => {
+    setDeleteId(id)
+    setIsModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      const result = await deleteMukyaSamitiKoNaam(deleteId)
+      if (result.status === "success") {
+        // Fetch the updated list of fiscal years
+        fetchMukhyaSamiti()
+      } else {
+        console.error("Delete unsuccessful")
+      }
+      setIsModalOpen(false)
+      setDeleteId(null)
     }
   }
 
@@ -151,7 +178,7 @@ export default function MukhyaSamiti() {
                           key="delete"
                           className="text-danger"
                           color="danger"
-                          onPress={() => handleDelete(item.id)}
+                          onPress={() => confirmDelete(item.id)}
                         >
                           Delete
                         </DropdownItem>
@@ -164,6 +191,22 @@ export default function MukhyaSamiti() {
           </Table>
         )}
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete this fiscal year?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button color="danger" onClick={handleConfirmDelete}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
