@@ -30,6 +30,7 @@ import {
   fetchYojanaKaryaBivaranData,
   deleteYojanaKarayBivaran,
   fetchYojanaPrakarData,
+  editYojanaKaryaBivaran,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -42,6 +43,8 @@ export default function YojanaKaryaBivaran() {
   const [yojanaPrakarData, setYojanaPrakarData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true) // State for loading
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -82,6 +85,48 @@ export default function YojanaKaryaBivaran() {
     fetchYojanaPrData()
   }, [])
 
+  const onSubmit = async () => {
+    if (editMode && editId) {
+      const result = await editYojanaKaryaBivaran(
+        editId,
+        yojanaKoKisim,
+        yojanaKoKarya
+      )
+      if (result.status === "success") {
+        setYojanaKoKisim("")
+        setYojanaKoKarya("")
+        setEditMode(false)
+        setEditId(null)
+        fetchYojanaKaryaBivaran()
+      } else {
+        console.error("Error occurred during edit")
+      }
+    } else {
+      const result = await saveYonanaKaryaBivaran(yojanaKoKisim, yojanaKoKarya)
+      if (result.status === "success") {
+        setYojanaKoKisim("")
+        setYojanaKoKarya("")
+        fetchYojanaKaryaBivaran()
+      } else {
+        console.error("Error occurred during save")
+      }
+    }
+  }
+
+  const handleEdit = (item: any) => {
+    setYojanaKoKisim(item.yojanaKoKisim)
+    setYojanaKoKarya(item.yojanaKoKarya)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setYojanaKoKisim("")
+    setYojanaKoKarya("")
+    setEditMode(false)
+    setEditId(null)
+  }
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
@@ -104,22 +149,6 @@ export default function YojanaKaryaBivaran() {
     }
   }
 
-  const onSubmit = async () => {
-    try {
-      const result = await saveYonanaKaryaBivaran(yojanaKoKisim, yojanaKoKarya)
-      console.log(result) // Debugging line
-      if (result.status === "success") {
-        setYojanaKoKisim("")
-        setYojanaKoKarya("")
-        fetchYojanaKaryaBivaran()
-      } else {
-        console.error("Error occurred:", result)
-      }
-    } catch (error) {
-      console.error("API error:", error)
-    }
-  }
-
   return (
     <>
       <div className="flex flex-col justify-between bg-white">
@@ -129,16 +158,22 @@ export default function YojanaKaryaBivaran() {
         <br />
         <div className="flex w-full flex-col gap-2">
           <Select
-            label="योजनाको किसिम  "
+            label="योजनाको किसिम"
             size="sm"
-            onChange={(e) => setYojanaKoKisim(e.target.value)}
+            placeholder="Select an option" // Optional: if you want a placeholder
+            selectedKeys={yojanaKoKisim ? new Set([yojanaKoKisim]) : new Set()} // Binding the selected value
+            onSelectionChange={(keys) => {
+              const selectedValue = Array.from(keys).join(", ")
+              setYojanaKoKisim(selectedValue)
+            }}
           >
             {yojanaPrakarData.map((item) => (
-              <SelectItem key={item.yojanaPrakar}>
+              <SelectItem key={item.yojanaPrakar} value={item.yojanaPrakar}>
                 {item.yojanaPrakar}
               </SelectItem>
             ))}
           </Select>
+
           <div className="flex gap-2">
             <Input
               label="योजनाको कार्य​"
@@ -146,15 +181,20 @@ export default function YojanaKaryaBivaran() {
               value={yojanaKoKarya}
               onChange={(e) => setYojanaKoKarya(e.target.value)}
             />
+
             <Button
               color="secondary"
               startContent={<FaRegSave />}
-              className="w-10 self-end"
               onClick={onSubmit}
               isDisabled={!yojanaKoKisim || !yojanaKoKarya}
             >
-              Save
+              {editMode ? "Edit" : "Save"}
             </Button>
+            {editMode && (
+              <Button color="default" onClick={cancelEdit}>
+                Cancel
+              </Button>
+            )}
           </div>
         </div>
 
@@ -205,7 +245,9 @@ export default function YojanaKaryaBivaran() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"

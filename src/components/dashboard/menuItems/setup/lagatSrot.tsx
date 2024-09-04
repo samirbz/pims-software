@@ -155,7 +155,6 @@ export default function LagatSrot() {
             selectedKeys={anudanKoKisim ? new Set([anudanKoKisim]) : new Set()} // Binding the selected value
             onSelectionChange={(keys) => {
               const selectedValue = Array.from(keys).join(", ")
-              console.log("Selected value:", selectedValue) // Debugging
               setAnudanKoKisim(selectedValue)
             }}
           >
@@ -168,7 +167,7 @@ export default function LagatSrot() {
 
           <div className="flex gap-2">
             <Input
-              type="Number"
+              type="text"
               label="लागत श्रोत नाम"
               size="sm"
               value={lagatSrotKoNaam}

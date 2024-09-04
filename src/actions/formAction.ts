@@ -403,6 +403,30 @@ export async function deleteYojanaKarayBivaran(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+
+export async function editYojanaKaryaBivaran(
+  id: string,
+  yojanaKoKisim: string,
+  yojanaKoKarya: string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.yojanaKaryaBivaran.update({
+      where: {
+        id,
+      },
+      data: {
+        yojanaKoKisim,
+        yojanaKoKarya,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 // 6.yojana chanot nikaya
 export async function saveYojanaChanotNikaya(yojanaChanotNikaya: string) {
   try {
