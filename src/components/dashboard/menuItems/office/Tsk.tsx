@@ -8,6 +8,11 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Pagination,
   Spinner,
   Table,
@@ -115,12 +120,34 @@ export default function TskPage() {
     fetchDate()
   }, [])
 
-  const handleDelete = async (id: string) => {
-    const result = await deleteTskData(id)
-    if (result.status === "success") {
-      fetchDate()
-    } else {
-      console.error("Delete unsuccessful:")
+  // const handleDelete = async (id: string) => {
+  //   const result = await deleteTskData(id)
+  //   if (result.status === "success") {
+  //     fetchDate()
+  //   } else {
+  //     console.error("Delete unsuccessful:")
+  //   }
+  // }
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+
+  const confirmDelete = (id: string) => {
+    setDeleteId(id)
+    setIsModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      const result = await deleteTskData(deleteId)
+      if (result.status === "success") {
+        // Fetch the updated list of fiscal years
+        fetchDate()
+      } else {
+        console.error("Delete unsuccessful")
+      }
+      setIsModalOpen(false)
+      setDeleteId(null)
     }
   }
 
@@ -367,7 +394,7 @@ export default function TskPage() {
                           key="delete"
                           className="text-danger"
                           color="danger"
-                          onPress={() => handleDelete(item.id)}
+                          onPress={() => confirmDelete(item.id)}
                         >
                           Delete
                         </DropdownItem>
@@ -380,6 +407,22 @@ export default function TskPage() {
           </Table>
         )}
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete this fiscal year?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button color="danger" onClick={handleConfirmDelete}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
