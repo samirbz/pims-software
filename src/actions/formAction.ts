@@ -214,6 +214,24 @@ export async function deleteAnudaanKoNaam(id: string) {
   }
 }
 
+export async function editAnudaanKoNaam(id: string, anudaanKoNaam: string) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.anudaanKoNaam.update({
+      where: {
+        id,
+      },
+      data: {
+        anudaanKoNaam,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 // 3.Lagat srot
 export async function saveLagatSrot(
   anudanKoKisim: string,

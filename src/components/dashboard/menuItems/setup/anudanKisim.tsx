@@ -28,6 +28,7 @@ import {
   saveAnudaanKoNaam,
   fetchAnudaanKoNaamData,
   deleteAnudaanKoNaam,
+  editAnudaanKoNaam,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -35,7 +36,9 @@ export default function AnudanKisim() {
   const [anudaanKoNaam, setAnudaanKoNaam] = useState("")
   const [anudaanKoNaamData, setanudaanKoNaamData] = useState<any[]>([])
 
-  const [loading, setLoading] = useState(true) // State for loading
+  const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -49,7 +52,7 @@ export default function AnudanKisim() {
     return anudaanKoNaamData.slice(start, end)
   }, [page, anudaanKoNaamData])
 
-  const fetchMukhyaSamiti = async () => {
+  const fetchAnudaan = async () => {
     try {
       setLoading(true)
       const data = await fetchAnudaanKoNaamData()
@@ -62,30 +65,42 @@ export default function AnudanKisim() {
   }
 
   const onSubmit = async () => {
-    const result = await saveAnudaanKoNaam(anudaanKoNaam)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setAnudaanKoNaam("")
-      // Fetch the updated list of data
-      fetchMukhyaSamiti()
+    if (editMode && editId) {
+      const result = await editAnudaanKoNaam(editId, anudaanKoNaam)
+      if (result.status === "success") {
+        setAnudaanKoNaam("")
+        setEditMode(false)
+        setEditId(null)
+        fetchAnudaan()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveAnudaanKoNaam(anudaanKoNaam)
+      if (result.status === "success") {
+        setAnudaanKoNaam("")
+        fetchAnudaan()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
   }
 
-  useEffect(() => {
-    fetchMukhyaSamiti() // Fetch data when the component mounts
-  }, [])
+  const handleEdit = (item: any) => {
+    setAnudaanKoNaam(item.anudaanKoNaam)
+    setEditId(item.id)
+    setEditMode(true)
+  }
 
-  // const handleDelete = async (id: string) => {
-  //   const result = await deleteAnudaanKoNaam(id)
-  //   if (result.status === "success") {
-  //     // Fetch the updated list of fiscal years
-  //     fetchMukhyaSamiti()
-  //   } else {
-  //     console.error("Delete unsuccessful:")
-  //   }
-  // }
+  const cancelEdit = () => {
+    setAnudaanKoNaam("")
+    setEditMode(false)
+    setEditId(null)
+  }
+
+  useEffect(() => {
+    fetchAnudaan() // Fetch data when the component mounts
+  }, [])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -100,7 +115,7 @@ export default function AnudanKisim() {
       const result = await deleteAnudaanKoNaam(deleteId)
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
-        fetchMukhyaSamiti()
+        fetchAnudaan()
       } else {
         console.error("Delete unsuccessful")
       }
@@ -130,8 +145,13 @@ export default function AnudanKisim() {
             onClick={onSubmit}
             isDisabled={!anudaanKoNaam}
           >
-            Save
+            {editMode ? "Edit" : "Save"}
           </Button>
+          {editMode && (
+            <Button color="default" onClick={cancelEdit}>
+              Cancel
+            </Button>
+          )}
         </div>
         <br />
         {loading ? ( // Show loading spinner while data is being fetched
@@ -177,7 +197,9 @@ export default function AnudanKisim() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"
