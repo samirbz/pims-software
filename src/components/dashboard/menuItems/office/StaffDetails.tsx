@@ -46,7 +46,7 @@ interface Member {
   name: string
   ranking: string
   position: string
-  isUser: boolean
+  isuser: boolean
 }
 
 export default function StaffDetailPage() {
@@ -155,7 +155,7 @@ export default function StaffDetailPage() {
     setValue("name", member.name) // Pre-fill the form fields
     setValue("ranking", member.ranking)
     setValue("position", member.position)
-    setValue("isuser", member.isUser)
+    setValue("isuser", member.isuser)
     onOpen()
   }
 
@@ -357,6 +357,7 @@ export default function StaffDetailPage() {
             <TableColumn>कर्मचारीको नाम</TableColumn>
             <TableColumn>वरियता क्रम</TableColumn>
             <TableColumn>कर्मचारी पद</TableColumn>
+            <TableColumn>System user</TableColumn>
             <TableColumn>Edit</TableColumn>
           </TableHeader>
           <TableBody>
@@ -366,6 +367,7 @@ export default function StaffDetailPage() {
                 <TableCell>{member.name}</TableCell>
                 <TableCell>{member.ranking}</TableCell>
                 <TableCell>{member.position}</TableCell>
+                <TableCell>{member.isuser ? "Yes" : "No"}</TableCell>
                 <TableCell>
                   <Dropdown>
                     <DropdownTrigger>
