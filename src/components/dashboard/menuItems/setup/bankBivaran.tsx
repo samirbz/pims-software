@@ -28,6 +28,7 @@ import {
   saveBankBivaran,
   fetchBankBivaranData,
   deleteBankBivaran,
+  editBankBivaran,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -37,6 +38,8 @@ export default function BankBivaran() {
   const [bankBivaranData, setBankBivaranData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -63,16 +66,41 @@ export default function BankBivaran() {
   }
 
   const onSubmit = async () => {
-    const result = await saveBankBivaran(bankKoNaam, sakha)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setBankKoNaam("")
-      setSakha("")
-      // Fetch the updated list of data
-      fetchBankBivaran()
+    if (editMode && editId) {
+      const result = await editBankBivaran(editId, bankKoNaam, sakha)
+      if (result.status === "success") {
+        setBankKoNaam("")
+        setSakha("")
+        setEditMode(false)
+        setEditId(null)
+        fetchBankBivaran()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveBankBivaran(bankKoNaam, sakha)
+      if (result.status === "success") {
+        setBankKoNaam("")
+        setSakha("")
+        fetchBankBivaran()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setBankKoNaam(item.bankKoNaam)
+    setSakha(item.sakha)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setBankKoNaam("")
+    setSakha("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
@@ -126,13 +154,17 @@ export default function BankBivaran() {
             />
             <Button
               color="secondary"
-              className="w-10 self-center"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!sakha}
+              isDisabled={!bankKoNaam || !sakha}
             >
-              Save
+              {editMode ? "Edit" : "Save"}
             </Button>
+            {editMode && (
+              <Button color="default" onClick={cancelEdit}>
+                Cancel
+              </Button>
+            )}
           </div>
         </div>
 
@@ -182,7 +214,9 @@ export default function BankBivaran() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"

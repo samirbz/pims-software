@@ -462,6 +462,28 @@ export async function deleteYojanaChanotNikaya(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+
+export async function editYojanaChanotNikaya(
+  id: string,
+  yojanaChanotNikaya: string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.yojanaChanotNikaya.update({
+      where: {
+        id,
+      },
+      data: {
+        yojanaChanotNikaya,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 // 7.gapa/nagarpalikako naam
 export async function saveGapa(gapa: string) {
   try {
@@ -497,6 +519,25 @@ export async function deleteGapa(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+
+export async function editGapa(id: string, gapa: string) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.gapa.update({
+      where: {
+        id,
+      },
+      data: {
+        gapa,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 // 8.wada num
 export async function savewadaNum(wadaNum: string) {
   try {
@@ -532,6 +573,25 @@ export async function deleteWadaNum(id: string) {
     return { status: "error", error: "something went wrong" }
   }
 }
+
+export async function editWadaNum(id: string, wadaNum: string) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.wadaNum.update({
+      where: {
+        id,
+      },
+      data: {
+        wadaNum,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 // 9.Bank bivaran
 export async function saveBankBivaran(bankKoNaam: string, sakha: string) {
   try {
@@ -566,6 +626,29 @@ export async function deleteBankBivaran(id: string) {
   } catch (error) {
     console.error("Failed to delete date:", error)
     return { status: "error", error: "something went wrong" }
+  }
+}
+
+export async function editBankBivaran(
+  id: string,
+  bankKoNaam: string,
+  sakha: string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.bankBivaran.update({
+      where: {
+        id,
+      },
+      data: {
+        bankKoNaam,
+        sakha,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }
 
@@ -882,6 +965,43 @@ export async function deleteSuchikritForm(id: string) {
   }
 }
 
+export async function editSuchikritForm(
+  id: string,
+  formKoNaam: string,
+  dartaMiti: string,
+  formKoThegana: string,
+  panVat: string,
+  companyDartaNum: string,
+  pramanPatraSankhya: string,
+  phoneNum: string,
+  suchiDartaNum: string,
+  suchikritHunaChahekoKharid: string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.suchikritFarm.update({
+      where: {
+        id,
+      },
+      data: {
+        formKoNaam,
+        dartaMiti,
+        formKoThegana,
+        panVat,
+        companyDartaNum,
+        pramanPatraSankhya,
+        phoneNum,
+        suchiDartaNum,
+        suchikritHunaChahekoKharid,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 // 12. suchana prakasan
 export async function saveSuchanaPrakasan(suchanaPrakasan: string) {
   try {
@@ -915,6 +1035,24 @@ export async function deleteSuchanaPrakasan(id: string) {
   } catch (error) {
     console.error("Failed to delete date:", error)
     return { status: "error", error: "something went wrong" }
+  }
+}
+
+export async function editSuchanaPrakasan(id: string, suchanaPrakasan: string) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.suchanaPrakasan.update({
+      where: {
+        id,
+      },
+      data: {
+        suchanaPrakasan,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }
 
@@ -952,5 +1090,28 @@ export async function deleteLabTest(id: string) {
   } catch (error) {
     console.error("Failed to delete date:", error)
     return { status: "error", error: "something went wrong" }
+  }
+}
+
+export async function editLabTest(
+  id: string,
+  karyalayaKoNaam: string,
+  thegana: string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.labTest.update({
+      where: {
+        id,
+      },
+      data: {
+        karyalayaKoNaam,
+        thegana,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }

@@ -27,6 +27,7 @@ import {
   saveSuchanaPrakasan,
   fetchSuchanaPrakasanData,
   deleteSuchanaPrakasan,
+  editSuchanaPrakasan,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -35,6 +36,8 @@ export default function SuchanaPrakasan() {
   const [suchanaPrakasanData, setSuchanaPrakasanData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -60,16 +63,50 @@ export default function SuchanaPrakasan() {
     }
   }
 
+  // const onSubmit = async () => {
+  //   const result = await saveSuchanaPrakasan(suchanaPrakasan)
+  //   if (result.status === "success") {
+  //     // Reset the input field after successful submission
+  //     setSuchanaPrakasan("")
+  //     // Fetch the updated list of data
+  //     fetchSuchanaPrakasan()
+  //   } else {
+  //     console.error("Error occurred")
+  //   }
+  // }
+
   const onSubmit = async () => {
-    const result = await saveSuchanaPrakasan(suchanaPrakasan)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setSuchanaPrakasan("")
-      // Fetch the updated list of data
-      fetchSuchanaPrakasan()
+    if (editMode && editId) {
+      const result = await editSuchanaPrakasan(editId, suchanaPrakasan)
+      if (result.status === "success") {
+        setSuchanaPrakasan("")
+        setEditMode(false)
+        setEditId(null)
+        fetchSuchanaPrakasan()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveSuchanaPrakasan(suchanaPrakasan)
+      if (result.status === "success") {
+        setSuchanaPrakasan("")
+        fetchSuchanaPrakasan()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setSuchanaPrakasan(item.suchanaPrakasan)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setSuchanaPrakasan("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
@@ -119,8 +156,13 @@ export default function SuchanaPrakasan() {
             onClick={onSubmit}
             isDisabled={!suchanaPrakasan}
           >
-            Save
+            {editMode ? "Edit" : "Save"}
           </Button>
+          {editMode && (
+            <Button color="default" onClick={cancelEdit}>
+              Cancel
+            </Button>
+          )}
         </div>
         <br />
         {loading ? ( // Show loading spinner while data is being fetched
@@ -166,7 +208,9 @@ export default function SuchanaPrakasan() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"

@@ -28,6 +28,7 @@ import {
   savewadaNum,
   fetchWadaNumData,
   deleteWadaNum,
+  editWadaNum,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -36,6 +37,8 @@ export default function Wada() {
   const [wadaNumData, setWadaNumData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -61,31 +64,55 @@ export default function Wada() {
     }
   }
 
+  // const onSubmit = async () => {
+  //   const result = await savewadaNum(wadaNum)
+  //   if (result.status === "success") {
+  //     // Reset the input field after successful submission
+  //     setWadaNum("")
+  //     // Fetch the updated list of data
+  //     fetchWadaNum()
+  //   } else {
+  //     console.error("Error occurred")
+  //   }
+  // }
+
   const onSubmit = async () => {
-    const result = await savewadaNum(wadaNum)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setWadaNum("")
-      // Fetch the updated list of data
-      fetchWadaNum()
+    if (editMode && editId) {
+      const result = await editWadaNum(editId, wadaNum)
+      if (result.status === "success") {
+        setWadaNum("")
+        setEditMode(false)
+        setEditId(null)
+        fetchWadaNum()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await savewadaNum(wadaNum)
+      if (result.status === "success") {
+        setWadaNum("")
+        fetchWadaNum()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
   }
 
-  useEffect(() => {
-    fetchWadaNum() // Fetch data when the component mounts
-  }, [])
+  const handleEdit = (item: any) => {
+    setWadaNum(item.wadaNum)
+    setEditId(item.id)
+    setEditMode(true)
+  }
 
-  // const handleDelete = async (id: string) => {
-  //   const result = await deleteWadaNum(id)
-  //   if (result.status === "success") {
-  //     // Fetch the updated list of fiscal years
-  //     fetchWadaNum()
-  //   } else {
-  //     console.error("Delete unsuccessful:")
-  //   }
-  // }
+  const cancelEdit = () => {
+    setWadaNum("")
+    setEditMode(false)
+    setEditId(null)
+  }
+
+  useEffect(() => {
+    fetchWadaNum()
+  }, [])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -130,11 +157,16 @@ export default function Wada() {
             onClick={onSubmit}
             isDisabled={!wadaNum}
           >
-            Save
+            {editMode ? "Edit" : "Save"}
           </Button>
+          {editMode && (
+            <Button color="default" onClick={cancelEdit}>
+              Cancel
+            </Button>
+          )}
         </div>
         <br />
-        {loading ? ( // Show loading spinner while data is being fetched
+        {loading ? (
           <div className="my-4 flex w-full justify-center">
             <Spinner color="primary" />
           </div>
@@ -177,7 +209,9 @@ export default function Wada() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"

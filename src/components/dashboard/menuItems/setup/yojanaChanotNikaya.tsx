@@ -28,6 +28,7 @@ import {
   saveYojanaChanotNikaya,
   fetchYojanaChanotNikayaData,
   deleteYojanaChanotNikaya,
+  editYojanaChanotNikaya,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -38,6 +39,8 @@ export default function YojanaChanotNikaya() {
   )
 
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -63,31 +66,55 @@ export default function YojanaChanotNikaya() {
     }
   }
 
+  // const onSubmit = async () => {
+  //   const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
+  //   if (result.status === "success") {
+  //     // Reset the input field after successful submission
+  //     setYojanaChanotNikaya("")
+  //     // Fetch the updated list of data
+  //     fetchYojanaChanotNikaya()
+  //   } else {
+  //     console.error("Error occurred")
+  //   }
+  // }
+
   const onSubmit = async () => {
-    const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setYojanaChanotNikaya("")
-      // Fetch the updated list of data
-      fetchYojanaChanotNikaya()
+    if (editMode && editId) {
+      const result = await editYojanaChanotNikaya(editId, yojanaChanotNikaya)
+      if (result.status === "success") {
+        setYojanaChanotNikaya("")
+        setEditMode(false)
+        setEditId(null)
+        fetchYojanaChanotNikaya()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
+      if (result.status === "success") {
+        setYojanaChanotNikaya("")
+        fetchYojanaChanotNikaya()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setYojanaChanotNikaya(item.yojanaChanotNikaya)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setYojanaChanotNikaya("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
     fetchYojanaChanotNikaya() // Fetch data when the component mounts
   }, [])
-
-  // const handleDelete = async (id: string) => {
-  //   const result = await deleteYojanaChanotNikaya(id)
-  //   if (result.status === "success") {
-  //     // Fetch the updated list of fiscal years
-  //     fetchYojanaChanotNikaya()
-  //   } else {
-  //     console.error("Delete unsuccessful:")
-  //   }
-  // }
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -132,8 +159,13 @@ export default function YojanaChanotNikaya() {
             onClick={onSubmit}
             isDisabled={!yojanaChanotNikaya}
           >
-            Save
+            {editMode ? "Edit" : "Save"}
           </Button>
+          {editMode && (
+            <Button color="default" onClick={cancelEdit}>
+              Cancel
+            </Button>
+          )}
         </div>
         <br />
         {loading ? ( // Show loading spinner while data is being fetched
@@ -179,7 +211,9 @@ export default function YojanaChanotNikaya() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"

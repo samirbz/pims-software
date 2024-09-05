@@ -28,6 +28,7 @@ import {
   saveSuchikritForm,
   fetchSuchikritFormData,
   deleteSuchikritForm,
+  editSuchikritForm,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -45,6 +46,8 @@ export default function SuchikritForm() {
   const [suchikritFormData, setSuchikritFormData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -70,34 +73,122 @@ export default function SuchikritForm() {
     }
   }
 
+  // const onSubmit = async () => {
+  //   const result = await saveSuchikritForm(
+  //     formKoNaam,
+  //     dartaMiti,
+  //     formKoThegana,
+  //     panVat,
+  //     companyDartaNum,
+  //     pramanPatraSankhya,
+  //     phoneNum,
+  //     suchiDartaNum,
+  //     suchikritHunaChahekoKharid
+  //   )
+  //   if (result.status === "success") {
+  //     // Reset the input field after successful submission
+  //     setFormKoNaam("")
+  //     setDartaMiti("")
+  //     setFormKoThegana("")
+  //     setPanVat("")
+  //     setCompanyDartaNum("")
+  //     setPramanPatraSankhya("")
+  //     setPhoneNum("")
+  //     setSuchiDartaNum("")
+  //     setSuchikritHunaChahekoKharid("")
+  //     // Fetch the updated list of data
+  //     fetchSuchikritForm()
+  //   } else {
+  //     console.error("Error occurred")
+  //   }
+  // }
+
   const onSubmit = async () => {
-    const result = await saveSuchikritForm(
-      formKoNaam,
-      dartaMiti,
-      formKoThegana,
-      panVat,
-      companyDartaNum,
-      pramanPatraSankhya,
-      phoneNum,
-      suchiDartaNum,
-      suchikritHunaChahekoKharid
-    )
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setFormKoNaam("")
-      setDartaMiti("")
-      setFormKoThegana("")
-      setPanVat("")
-      setCompanyDartaNum("")
-      setPramanPatraSankhya("")
-      setPhoneNum("")
-      setSuchiDartaNum("")
-      setSuchikritHunaChahekoKharid("")
-      // Fetch the updated list of data
-      fetchSuchikritForm()
+    if (editMode && editId) {
+      const result = await editSuchikritForm(
+        editId,
+        formKoNaam,
+        dartaMiti,
+        formKoThegana,
+        panVat,
+        companyDartaNum,
+        pramanPatraSankhya,
+        phoneNum,
+        suchiDartaNum,
+        suchikritHunaChahekoKharid
+      )
+      if (result.status === "success") {
+        setFormKoNaam("")
+        setDartaMiti("")
+        setFormKoThegana("")
+        setPanVat("")
+        setCompanyDartaNum("")
+        setPramanPatraSankhya("")
+        setPhoneNum("")
+        setSuchiDartaNum("")
+        setSuchikritHunaChahekoKharid("")
+        setEditMode(false)
+        setEditId(null)
+        fetchSuchikritForm()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveSuchikritForm(
+        formKoNaam,
+        dartaMiti,
+        formKoThegana,
+        panVat,
+        companyDartaNum,
+        pramanPatraSankhya,
+        phoneNum,
+        suchiDartaNum,
+        suchikritHunaChahekoKharid
+      )
+      if (result.status === "success") {
+        setFormKoNaam("")
+        setDartaMiti("")
+        setFormKoThegana("")
+        setPanVat("")
+        setCompanyDartaNum("")
+        setPramanPatraSankhya("")
+        setPhoneNum("")
+        setSuchiDartaNum("")
+        setSuchikritHunaChahekoKharid("")
+        fetchSuchikritForm()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setFormKoNaam(item.formKoNaam)
+    setDartaMiti(item.dartaMiti)
+    setFormKoThegana(item.formKoThegana)
+    setPanVat(item.panVat)
+    setCompanyDartaNum(item.companyDartaNum)
+    setPramanPatraSankhya(item.pramanPatraSankhya)
+    setPhoneNum(item.phoneNum)
+    setSuchiDartaNum(item.suchiDartaNum)
+    setSuchikritHunaChahekoKharid(item.suchikritHunaChahekoKharid)
+
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setFormKoNaam("")
+    setDartaMiti("")
+    setFormKoThegana("")
+    setPanVat("")
+    setCompanyDartaNum("")
+    setPramanPatraSankhya("")
+    setPhoneNum("")
+    setSuchiDartaNum("")
+    setSuchikritHunaChahekoKharid("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
@@ -190,8 +281,9 @@ export default function SuchikritForm() {
           </div>
           <div className="flex gap-2">
             <Input
-              type="text"
+              type="Number"
               label="फोन न."
+              placeholder="+977"
               size="sm"
               value={phoneNum}
               onChange={(e) => setPhoneNum(e.target.value)}
@@ -213,10 +305,10 @@ export default function SuchikritForm() {
               value={suchikritHunaChahekoKharid}
               onChange={(e) => setSuchikritHunaChahekoKharid(e.target.value)}
             />
+
             <Button
               color="secondary"
               startContent={<FaRegSave />}
-              className="w-12"
               onClick={onSubmit}
               isDisabled={
                 !suchikritHunaChahekoKharid ||
@@ -230,8 +322,13 @@ export default function SuchikritForm() {
                 !formKoNaam
               }
             >
-              Save
+              {editMode ? "Edit" : "Save"}
             </Button>
+            {editMode && (
+              <Button color="default" onClick={cancelEdit}>
+                Cancel
+              </Button>
+            )}
           </div>
         </div>
         <br />
@@ -290,7 +387,9 @@ export default function SuchikritForm() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"

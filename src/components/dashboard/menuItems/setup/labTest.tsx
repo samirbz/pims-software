@@ -27,6 +27,7 @@ import {
   fetchLabTestData,
   deleteLabTest,
   saveLabTest,
+  editLabTest,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
@@ -35,7 +36,9 @@ export default function LabTest() {
   const [thegana, setThegana] = useState("")
   const [labTestData, setlabTestData] = useState<any[]>([])
 
-  const [loading, setLoading] = useState(true) // State for loading
+  const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -61,17 +64,55 @@ export default function LabTest() {
     }
   }
 
+  // const onSubmit = async () => {
+  //   const result = await saveLabTest(karyalayaKoNaam, thegana)
+  //   if (result.status === "success") {
+  //     // Reset the input field after successful submission
+  //     setKaryalayaKoNaam("")
+  //     setThegana("")
+  //     // Fetch the updated list of data
+  //     fetchLabTest()
+  //   } else {
+  //     console.error("Error occurred")
+  //   }
+  // }
+
   const onSubmit = async () => {
-    const result = await saveLabTest(karyalayaKoNaam, thegana)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setKaryalayaKoNaam("")
-      setThegana("")
-      // Fetch the updated list of data
-      fetchLabTest()
+    if (editMode && editId) {
+      const result = await editLabTest(editId, karyalayaKoNaam, thegana)
+      if (result.status === "success") {
+        setKaryalayaKoNaam("")
+        setThegana("")
+        setEditMode(false)
+        setEditId(null)
+        fetchLabTest()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveLabTest(karyalayaKoNaam, thegana)
+      if (result.status === "success") {
+        setKaryalayaKoNaam("")
+        setThegana("")
+        fetchLabTest()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setKaryalayaKoNaam(item.karyalayaKoNaam)
+    setThegana(item.thegana)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setKaryalayaKoNaam("")
+    setThegana("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
@@ -125,13 +166,17 @@ export default function LabTest() {
             />
             <Button
               color="secondary"
-              className="w-10 self-center"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!thegana || !karyalayaKoNaam}
+              isDisabled={!karyalayaKoNaam || !thegana}
             >
-              Save
+              {editMode ? "Edit" : "Save"}
             </Button>
+            {editMode && (
+              <Button color="default" onClick={cancelEdit}>
+                Cancel
+              </Button>
+            )}
           </div>
         </div>
         <br />
@@ -181,7 +226,9 @@ export default function LabTest() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"

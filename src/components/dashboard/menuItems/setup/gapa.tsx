@@ -24,7 +24,12 @@ import { FaRegSave } from "react-icons/fa"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { MdModeEditOutline } from "react-icons/md"
 
-import { saveGapa, deleteGapa, fetchGapaData } from "@/actions/formAction"
+import {
+  saveGapa,
+  deleteGapa,
+  fetchGapaData,
+  editGapa,
+} from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 
 export default function Gapa() {
@@ -32,6 +37,8 @@ export default function Gapa() {
   const [gapaData, setGapaData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -57,16 +64,50 @@ export default function Gapa() {
     }
   }
 
+  // const onSubmit = async () => {
+  //   const result = await saveGapa(gapa)
+  //   if (result.status === "success") {
+  //     // Reset the input field after successful submission
+  //     setGapa("")
+  //     // Fetch the updated list of data
+  //     fetchGapa()
+  //   } else {
+  //     console.error("Error occurred")
+  //   }
+  // }
+
   const onSubmit = async () => {
-    const result = await saveGapa(gapa)
-    if (result.status === "success") {
-      // Reset the input field after successful submission
-      setGapa("")
-      // Fetch the updated list of data
-      fetchGapa()
+    if (editMode && editId) {
+      const result = await editGapa(editId, gapa)
+      if (result.status === "success") {
+        setGapa("")
+        setEditMode(false)
+        setEditId(null)
+        fetchGapa()
+      } else {
+        console.error("Error occurred during edit")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveGapa(gapa)
+      if (result.status === "success") {
+        setGapa("")
+        fetchGapa()
+      } else {
+        console.error("Error occurred during save")
+      }
     }
+  }
+
+  const handleEdit = (item: any) => {
+    setGapa(item.gapa)
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+    setGapa("")
+    setEditMode(false)
+    setEditId(null)
   }
 
   useEffect(() => {
@@ -116,8 +157,13 @@ export default function Gapa() {
             onClick={onSubmit}
             isDisabled={!gapa}
           >
-            Save
+            {editMode ? "Edit" : "Save"}
           </Button>
+          {editMode && (
+            <Button color="default" onClick={cancelEdit}>
+              Cancel
+            </Button>
+          )}
         </div>
         <br />
         {loading ? ( // Show loading spinner while data is being fetched
@@ -163,7 +209,9 @@ export default function Gapa() {
                         ></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"
