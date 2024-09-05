@@ -68,7 +68,7 @@ export default function MukhyaSamiti() {
   }
 
   const onSubmit = async () => {
-    setBtnDisable(true)
+    setBtnDisable(false)
     if (editMode && editId) {
       const result = await editMukhyaSamitiKonaam(editId, mukhyaSamitiKoNaam)
       if (result.status === "success") {
@@ -76,10 +76,10 @@ export default function MukhyaSamiti() {
         setEditMode(false)
         setEditId(null)
         fetchMukhyaSamiti()
-        setBtnDisable(false)
+        setBtnDisable(true)
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(false)
+        setBtnDisable(true)
       }
     } else {
       if (
@@ -88,7 +88,7 @@ export default function MukhyaSamiti() {
         )
       ) {
         toast.error("item already exists")
-        setBtnDisable(false)
+        setBtnDisable(true)
       } else {
         const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
         if (result.status === "success") {
@@ -96,7 +96,7 @@ export default function MukhyaSamiti() {
           fetchMukhyaSamiti()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(false)
+          setBtnDisable(true)
         }
       }
     }
@@ -158,7 +158,7 @@ export default function MukhyaSamiti() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!mukhyaSamitiKoNaam && btnDisable}
+            isDisabled={!mukhyaSamitiKoNaam && !btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>
