@@ -423,6 +423,11 @@ export default function YojanaBudget() {
   }
 
   const onSubmit = async () => {
+    if (Number(biniyojanBudget) < 0) {
+      toast.error("Amount should not be negative")
+      return
+    }
+
     if (validateFields()) {
       const result = await saveYojanaBudget(
         yojanaKoNaam,
@@ -433,11 +438,6 @@ export default function YojanaBudget() {
         yojanaKisim,
         mukhyaSamiti
       )
-
-      if (Number(biniyojanBudget) < 0) {
-        toast.error("Amount should not be negative")
-        return
-      }
 
       if (result.status === "success") {
         // Reset the input fields after successful submission
