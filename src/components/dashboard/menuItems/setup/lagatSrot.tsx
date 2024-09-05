@@ -42,6 +42,8 @@ export default function LagatSrot() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
+  const [btnDisable, setBtnDisable] = useState(true)
+
   const [page, setPage] = useState(1)
   const rowsPerPage = 7
 
@@ -76,6 +78,7 @@ export default function LagatSrot() {
   }
 
   const onSubmit = async () => {
+    setBtnDisable(true)
     if (editMode && editId) {
       const result = await editLagatSrot(editId, anudanKoKisim, lagatSrotKoNaam)
       if (result.status === "success") {
@@ -84,8 +87,10 @@ export default function LagatSrot() {
         setEditMode(false)
         setEditId(null)
         fetchLagatSrot()
+        setBtnDisable(false)
       } else {
         console.error("Error occurred during edit")
+        setBtnDisable(false)
       }
     } else {
       const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
@@ -95,6 +100,7 @@ export default function LagatSrot() {
         fetchLagatSrot()
       } else {
         console.error("Error occurred during save")
+        setBtnDisable(false)
       }
     }
   }
@@ -178,7 +184,7 @@ export default function LagatSrot() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!anudanKoKisim || !lagatSrotKoNaam}
+              isDisabled={!anudanKoKisim || (!lagatSrotKoNaam && btnDisable)}
             >
               {editMode ? "Edit" : "Save"}
             </Button>

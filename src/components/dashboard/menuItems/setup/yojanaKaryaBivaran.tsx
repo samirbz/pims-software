@@ -47,6 +47,8 @@ export default function YojanaKaryaBivaran() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
+    const [btnDisable, setBtnDisable] = useState(true)
+
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
 
@@ -87,6 +89,7 @@ export default function YojanaKaryaBivaran() {
   }, [])
 
   const onSubmit = async () => {
+    setBtnDisable(true)
     const result = yojanaKaryaBivaranData.some(
       (data) => data.yojanaKoKarya === yojanaKoKarya
     )
@@ -104,10 +107,14 @@ export default function YojanaKaryaBivaran() {
         fetchYojanaKaryaBivaran()
       } else {
         console.error("Error occurred during edit")
+    setBtnDisable(false)
+
       }
     } else {
       if (result) {
         toast.error("item already exists")
+    setBtnDisable(false)
+
       } else {
         const result = await saveYonanaKaryaBivaran(
           yojanaKoKisim,
@@ -119,6 +126,8 @@ export default function YojanaKaryaBivaran() {
           fetchYojanaKaryaBivaran()
         } else {
           console.error("Error occurred during save")
+    setBtnDisable(false)
+
         }
       }
     }
@@ -197,7 +206,7 @@ export default function YojanaKaryaBivaran() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!yojanaKoKisim || !yojanaKoKarya}
+              isDisabled={!yojanaKoKisim || (!yojanaKoKarya && btnDisable)}
             >
               {editMode ? "Edit" : "Save"}
             </Button>

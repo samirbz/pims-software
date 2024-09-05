@@ -41,6 +41,8 @@ export default function MukhyaSamiti() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
+  const [btnDisable, setBtnDisable] = useState(true)
+
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
 
@@ -66,6 +68,7 @@ export default function MukhyaSamiti() {
   }
 
   const onSubmit = async () => {
+    setBtnDisable(true)
     if (editMode && editId) {
       const result = await editMukhyaSamitiKonaam(editId, mukhyaSamitiKoNaam)
       if (result.status === "success") {
@@ -73,8 +76,10 @@ export default function MukhyaSamiti() {
         setEditMode(false)
         setEditId(null)
         fetchMukhyaSamiti()
+        setBtnDisable(false)
       } else {
         console.error("Error occurred during edit")
+        setBtnDisable(false)
       }
     } else {
       if (
@@ -83,6 +88,7 @@ export default function MukhyaSamiti() {
         )
       ) {
         toast.error("item already exists")
+        setBtnDisable(false)
       } else {
         const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
         if (result.status === "success") {
@@ -90,6 +96,7 @@ export default function MukhyaSamiti() {
           fetchMukhyaSamiti()
         } else {
           console.error("Error occurred during save")
+          setBtnDisable(false)
         }
       }
     }
@@ -151,7 +158,7 @@ export default function MukhyaSamiti() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!mukhyaSamitiKoNaam}
+            isDisabled={!mukhyaSamitiKoNaam && btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>
@@ -228,9 +235,7 @@ export default function MukhyaSamiti() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete?
-          </ModalBody>
+          <ModalBody>Are you sure you want to delete?</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => setIsModalOpen(false)}>
               Cancel
