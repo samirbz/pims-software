@@ -42,7 +42,7 @@ export default function LagatSrot() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
-  const [btnDisable, setBtnDisable] = useState(true)
+  const [btnDisable, setBtnDisable] = useState(false)
 
   const [page, setPage] = useState(1)
   const rowsPerPage = 7

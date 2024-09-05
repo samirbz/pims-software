@@ -41,7 +41,7 @@ export default function AnudanKisim() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
-  const [btnDisable, setBtnDisable] = useState(true)
+  const [btnDisable, setBtnDisable] = useState(false)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7

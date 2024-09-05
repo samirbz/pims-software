@@ -49,6 +49,8 @@ export default function SuchikritForm() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
+  const [btnDisable, setBtnDisable] = useState(false)
+
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
 
@@ -73,37 +75,9 @@ export default function SuchikritForm() {
     }
   }
 
-  // const onSubmit = async () => {
-  //   const result = await saveSuchikritForm(
-  //     formKoNaam,
-  //     dartaMiti,
-  //     formKoThegana,
-  //     panVat,
-  //     companyDartaNum,
-  //     pramanPatraSankhya,
-  //     phoneNum,
-  //     suchiDartaNum,
-  //     suchikritHunaChahekoKharid
-  //   )
-  //   if (result.status === "success") {
-  //     // Reset the input field after successful submission
-  //     setFormKoNaam("")
-  //     setDartaMiti("")
-  //     setFormKoThegana("")
-  //     setPanVat("")
-  //     setCompanyDartaNum("")
-  //     setPramanPatraSankhya("")
-  //     setPhoneNum("")
-  //     setSuchiDartaNum("")
-  //     setSuchikritHunaChahekoKharid("")
-  //     // Fetch the updated list of data
-  //     fetchSuchikritForm()
-  //   } else {
-  //     console.error("Error occurred")
-  //   }
-  // }
-
   const onSubmit = async () => {
+    setBtnDisable(true)
+
     if (editMode && editId) {
       const result = await editSuchikritForm(
         editId,
@@ -132,6 +106,7 @@ export default function SuchikritForm() {
         fetchSuchikritForm()
       } else {
         console.error("Error occurred during edit")
+        setBtnDisable(true)
       }
     } else {
       const result = await saveSuchikritForm(
@@ -158,6 +133,7 @@ export default function SuchikritForm() {
         fetchSuchikritForm()
       } else {
         console.error("Error occurred during save")
+        setBtnDisable(true)
       }
     }
   }
@@ -319,7 +295,7 @@ export default function SuchikritForm() {
                 !panVat ||
                 !formKoThegana ||
                 !dartaMiti ||
-                !formKoNaam
+                (!formKoNaam && btnDisable)
               }
             >
               {editMode ? "Edit" : "Save"}
@@ -410,9 +386,7 @@ export default function SuchikritForm() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete?
-          </ModalBody>
+          <ModalBody>Are you sure you want to delete?</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => setIsModalOpen(false)}>
               Cancel

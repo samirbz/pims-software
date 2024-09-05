@@ -41,6 +41,8 @@ export default function BankBivaran() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
+  const [btnDisable, setBtnDisable] = useState(false)
+
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
 
@@ -66,6 +68,8 @@ export default function BankBivaran() {
   }
 
   const onSubmit = async () => {
+    setBtnDisable(true)
+
     if (editMode && editId) {
       const result = await editBankBivaran(editId, bankKoNaam, sakha)
       if (result.status === "success") {
@@ -76,6 +80,7 @@ export default function BankBivaran() {
         fetchBankBivaran()
       } else {
         console.error("Error occurred during edit")
+        setBtnDisable(true)
       }
     } else {
       const result = await saveBankBivaran(bankKoNaam, sakha)
@@ -85,6 +90,7 @@ export default function BankBivaran() {
         fetchBankBivaran()
       } else {
         console.error("Error occurred during save")
+        setBtnDisable(true)
       }
     }
   }
@@ -156,7 +162,7 @@ export default function BankBivaran() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!bankKoNaam || !sakha}
+              isDisabled={!bankKoNaam || (!sakha && btnDisable)}
             >
               {editMode ? "Edit" : "Save"}
             </Button>
@@ -237,9 +243,7 @@ export default function BankBivaran() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete?
-          </ModalBody>
+          <ModalBody>Are you sure you want to delete?</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => setIsModalOpen(false)}>
               Cancel

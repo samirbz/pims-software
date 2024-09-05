@@ -40,6 +40,8 @@ export default function SuchanaPrakasan() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
+  const [btnDisable, setBtnDisable] = useState(false)
+
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
 
@@ -65,6 +67,8 @@ export default function SuchanaPrakasan() {
   }
 
   const onSubmit = async () => {
+    setBtnDisable(true)
+
     const result = suchanaPrakasanData.some(
       (data) => data.suchanaPrakasan === suchanaPrakasan
     )
@@ -77,10 +81,12 @@ export default function SuchanaPrakasan() {
         fetchSuchanaPrakasan()
       } else {
         console.error("Error occurred during edit")
+        setBtnDisable(true)
       }
     } else {
       if (result) {
         toast.error("item already exists")
+        setBtnDisable(true)
       } else {
         const result = await saveSuchanaPrakasan(suchanaPrakasan)
         if (result.status === "success") {
@@ -88,6 +94,7 @@ export default function SuchanaPrakasan() {
           fetchSuchanaPrakasan()
         } else {
           console.error("Error occurred during save")
+          setBtnDisable(true)
         }
       }
     }
@@ -150,7 +157,7 @@ export default function SuchanaPrakasan() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!suchanaPrakasan}
+            isDisabled={!suchanaPrakasan || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>
@@ -227,9 +234,7 @@ export default function SuchanaPrakasan() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete?
-          </ModalBody>
+          <ModalBody>Are you sure you want to delete?</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => setIsModalOpen(false)}>
               Cancel

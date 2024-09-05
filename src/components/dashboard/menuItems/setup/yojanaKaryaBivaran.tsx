@@ -47,7 +47,7 @@ export default function YojanaKaryaBivaran() {
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
-    const [btnDisable, setBtnDisable] = useState(true)
+  const [btnDisable, setBtnDisable] = useState(false)
 
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 7
@@ -107,14 +107,12 @@ export default function YojanaKaryaBivaran() {
         fetchYojanaKaryaBivaran()
       } else {
         console.error("Error occurred during edit")
-    setBtnDisable(false)
-
+        setBtnDisable(false)
       }
     } else {
       if (result) {
         toast.error("item already exists")
-    setBtnDisable(false)
-
+        setBtnDisable(false)
       } else {
         const result = await saveYonanaKaryaBivaran(
           yojanaKoKisim,
@@ -126,8 +124,7 @@ export default function YojanaKaryaBivaran() {
           fetchYojanaKaryaBivaran()
         } else {
           console.error("Error occurred during save")
-    setBtnDisable(false)
-
+          setBtnDisable(false)
         }
       }
     }
@@ -288,9 +285,7 @@ export default function YojanaKaryaBivaran() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete?
-          </ModalBody>
+          <ModalBody>Are you sure you want to delete?</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => setIsModalOpen(false)}>
               Cancel
