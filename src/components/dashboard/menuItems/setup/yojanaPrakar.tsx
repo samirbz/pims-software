@@ -225,7 +225,7 @@ export default function YojanaPrakar() {
           <ModalContent>
             <ModalHeader>Confirm Deletion</ModalHeader>
             <ModalBody>
-              Are you sure you want to delete this fiscal year?
+              Are you sure you want to delete?
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={() => setIsModalOpen(false)}>
