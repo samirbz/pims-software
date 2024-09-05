@@ -30,6 +30,7 @@ import {
   editSuchanaPrakasan,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function SuchanaPrakasan() {
   const [suchanaPrakasan, setSuchanaPrakasan] = useState("")
@@ -63,19 +64,10 @@ export default function SuchanaPrakasan() {
     }
   }
 
-  // const onSubmit = async () => {
-  //   const result = await saveSuchanaPrakasan(suchanaPrakasan)
-  //   if (result.status === "success") {
-  //     // Reset the input field after successful submission
-  //     setSuchanaPrakasan("")
-  //     // Fetch the updated list of data
-  //     fetchSuchanaPrakasan()
-  //   } else {
-  //     console.error("Error occurred")
-  //   }
-  // }
-
   const onSubmit = async () => {
+    const result = suchanaPrakasanData.some(
+      (data) => data.suchanaPrakasan === suchanaPrakasan
+    )
     if (editMode && editId) {
       const result = await editSuchanaPrakasan(editId, suchanaPrakasan)
       if (result.status === "success") {
@@ -87,12 +79,16 @@ export default function SuchanaPrakasan() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveSuchanaPrakasan(suchanaPrakasan)
-      if (result.status === "success") {
-        setSuchanaPrakasan("")
-        fetchSuchanaPrakasan()
+      if (result) {
+        toast.error("item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await saveSuchanaPrakasan(suchanaPrakasan)
+        if (result.status === "success") {
+          setSuchanaPrakasan("")
+          fetchSuchanaPrakasan()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }

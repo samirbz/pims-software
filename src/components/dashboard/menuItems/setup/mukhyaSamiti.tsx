@@ -30,6 +30,7 @@ import {
   deleteMukyaSamitiKoNaam,
   editMukhyaSamitiKonaam,
 } from "@/actions/formAction"
+import { toast } from "react-toastify"
 
 export default function MukhyaSamiti() {
   const [mukhyaSamitiKoNaam, setMukhyaSamitiKoNaam] = useState("")
@@ -76,12 +77,20 @@ export default function MukhyaSamiti() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
-      if (result.status === "success") {
-        setMukhyaSamitiKoNaam("")
-        fetchMukhyaSamiti()
+      if (
+        mukhyaSamitiKoNaamData.some(
+          (data) => data.mukhyaSamitiKoNaam === mukhyaSamitiKoNaam
+        )
+      ) {
+        toast.error("item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
+        if (result.status === "success") {
+          setMukhyaSamitiKoNaam("")
+          fetchMukhyaSamiti()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }

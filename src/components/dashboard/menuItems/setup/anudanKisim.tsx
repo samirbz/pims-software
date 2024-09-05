@@ -31,6 +31,7 @@ import {
   editAnudaanKoNaam,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function AnudanKisim() {
   const [anudaanKoNaam, setAnudaanKoNaam] = useState("")
@@ -76,12 +77,18 @@ export default function AnudanKisim() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveAnudaanKoNaam(anudaanKoNaam)
-      if (result.status === "success") {
-        setAnudaanKoNaam("")
-        fetchAnudaan()
+      if (
+        anudaanKoNaamData.some((data) => data.anudaanKoNaam === anudaanKoNaam)
+      ) {
+        toast.error("Item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await saveAnudaanKoNaam(anudaanKoNaam)
+        if (result.status === "success") {
+          setAnudaanKoNaam("")
+          fetchAnudaan()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }

@@ -30,6 +30,7 @@ import {
   editLabTest,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function LabTest() {
   const [karyalayaKoNaam, setKaryalayaKoNaam] = useState("")
@@ -60,24 +61,14 @@ export default function LabTest() {
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
     } finally {
-      setLoading(false) // Set loading to false after fetching data
+      setLoading(false)
     }
   }
 
-  // const onSubmit = async () => {
-  //   const result = await saveLabTest(karyalayaKoNaam, thegana)
-  //   if (result.status === "success") {
-  //     // Reset the input field after successful submission
-  //     setKaryalayaKoNaam("")
-  //     setThegana("")
-  //     // Fetch the updated list of data
-  //     fetchLabTest()
-  //   } else {
-  //     console.error("Error occurred")
-  //   }
-  // }
-
   const onSubmit = async () => {
+    const result = labTestData.some(
+      (data) => data.karyalayaKoNaam === karyalayaKoNaam
+    )
     if (editMode && editId) {
       const result = await editLabTest(editId, karyalayaKoNaam, thegana)
       if (result.status === "success") {
@@ -90,13 +81,17 @@ export default function LabTest() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveLabTest(karyalayaKoNaam, thegana)
-      if (result.status === "success") {
-        setKaryalayaKoNaam("")
-        setThegana("")
-        fetchLabTest()
+      if (result) {
+        toast.error("item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await saveLabTest(karyalayaKoNaam, thegana)
+        if (result.status === "success") {
+          setKaryalayaKoNaam("")
+          setThegana("")
+          fetchLabTest()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }
@@ -181,7 +176,7 @@ export default function LabTest() {
         </div>
         <br />
 
-        {loading ? ( // Show loading spinner while data is being fetched
+        {loading ? (
           <div className="my-4 flex w-full justify-center">
             <Spinner color="primary" />
           </div>

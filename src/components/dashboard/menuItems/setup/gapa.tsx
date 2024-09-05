@@ -31,6 +31,7 @@ import {
   editGapa,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function Gapa() {
   const [gapa, setGapa] = useState("")
@@ -64,19 +65,8 @@ export default function Gapa() {
     }
   }
 
-  // const onSubmit = async () => {
-  //   const result = await saveGapa(gapa)
-  //   if (result.status === "success") {
-  //     // Reset the input field after successful submission
-  //     setGapa("")
-  //     // Fetch the updated list of data
-  //     fetchGapa()
-  //   } else {
-  //     console.error("Error occurred")
-  //   }
-  // }
-
   const onSubmit = async () => {
+    const result = gapaData.some((data) => data.gapa === gapa)
     if (editMode && editId) {
       const result = await editGapa(editId, gapa)
       if (result.status === "success") {
@@ -88,12 +78,16 @@ export default function Gapa() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveGapa(gapa)
-      if (result.status === "success") {
-        setGapa("")
-        fetchGapa()
+      if (result) {
+        toast.error("item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await saveGapa(gapa)
+        if (result.status === "success") {
+          setGapa("")
+          fetchGapa()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }

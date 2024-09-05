@@ -31,6 +31,7 @@ import {
   editWadaNum,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function Wada() {
   const [wadaNum, setWadaNum] = useState("")
@@ -64,19 +65,8 @@ export default function Wada() {
     }
   }
 
-  // const onSubmit = async () => {
-  //   const result = await savewadaNum(wadaNum)
-  //   if (result.status === "success") {
-  //     // Reset the input field after successful submission
-  //     setWadaNum("")
-  //     // Fetch the updated list of data
-  //     fetchWadaNum()
-  //   } else {
-  //     console.error("Error occurred")
-  //   }
-  // }
-
   const onSubmit = async () => {
+    const result = wadaNumData.some((data) => data.wadaNum === wadaNum)
     if (editMode && editId) {
       const result = await editWadaNum(editId, wadaNum)
       if (result.status === "success") {
@@ -88,12 +78,16 @@ export default function Wada() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await savewadaNum(wadaNum)
-      if (result.status === "success") {
-        setWadaNum("")
-        fetchWadaNum()
+      if (result) {
+        toast.error("item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await savewadaNum(wadaNum)
+        if (result.status === "success") {
+          setWadaNum("")
+          fetchWadaNum()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }

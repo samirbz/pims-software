@@ -31,6 +31,7 @@ import {
   editYojanaChanotNikaya,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function YojanaChanotNikaya() {
   const [yojanaChanotNikaya, setYojanaChanotNikaya] = useState("")
@@ -66,19 +67,10 @@ export default function YojanaChanotNikaya() {
     }
   }
 
-  // const onSubmit = async () => {
-  //   const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
-  //   if (result.status === "success") {
-  //     // Reset the input field after successful submission
-  //     setYojanaChanotNikaya("")
-  //     // Fetch the updated list of data
-  //     fetchYojanaChanotNikaya()
-  //   } else {
-  //     console.error("Error occurred")
-  //   }
-  // }
-
   const onSubmit = async () => {
+    const result = yojanaChanotNikayaData.some(
+      (data) => data.yojanaChanotNikaya === yojanaChanotNikaya
+    )
     if (editMode && editId) {
       const result = await editYojanaChanotNikaya(editId, yojanaChanotNikaya)
       if (result.status === "success") {
@@ -90,12 +82,16 @@ export default function YojanaChanotNikaya() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
-      if (result.status === "success") {
-        setYojanaChanotNikaya("")
-        fetchYojanaChanotNikaya()
+      if (result) {
+        toast.error("item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
+        if (result.status === "success") {
+          setYojanaChanotNikaya("")
+          fetchYojanaChanotNikaya()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }

@@ -31,6 +31,7 @@ import {
   editYojanaPrakar,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function YojanaPrakar() {
   const [yojanaPrakar, setYojanaPrakar] = useState("")
@@ -64,18 +65,6 @@ export default function YojanaPrakar() {
     }
   }
 
-  // const onSubmit = async () => {
-  //   const result = await saveYojanaPrakar(yojanaPrakar)
-  //   if (result.status === "success") {
-  //     // Reset the input field after successful submission
-  //     setYojanaPrakar("")
-  //     // Fetch the updated list of data
-  //     fetchYojanaPrakar()
-  //   } else {
-  //     console.error("Error occurred")
-  //   }
-  // }
-
   const onSubmit = async () => {
     if (editMode && editId) {
       const result = await editYojanaPrakar(editId, yojanaPrakar)
@@ -88,12 +77,16 @@ export default function YojanaPrakar() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveYojanaPrakar(yojanaPrakar)
-      if (result.status === "success") {
-        setYojanaPrakar("")
-        fetchYojanaPrakar()
+      if (yojanaPrakarData.some((data) => data.yojanaPrakar === yojanaPrakar)) {
+        toast.error("item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await saveYojanaPrakar(yojanaPrakar)
+        if (result.status === "success") {
+          setYojanaPrakar("")
+          fetchYojanaPrakar()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }
@@ -111,7 +104,7 @@ export default function YojanaPrakar() {
   }
 
   useEffect(() => {
-    fetchYojanaPrakar() // Fetch data when the component mounts
+    fetchYojanaPrakar()
   }, [])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -126,7 +119,6 @@ export default function YojanaPrakar() {
     if (deleteId) {
       const result = await deleteYojanaPrakar(deleteId)
       if (result.status === "success") {
-        // Fetch the updated list of fiscal years
         fetchYojanaPrakar()
       } else {
         console.error("Delete unsuccessful")
@@ -166,7 +158,7 @@ export default function YojanaPrakar() {
           )}
         </div>
         <br />
-        {loading ? ( // Show loading spinner while data is being fetched
+        {loading ? (
           <div className="my-4 flex w-full justify-center">
             <Spinner color="primary" />
           </div>

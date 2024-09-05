@@ -33,6 +33,7 @@ import {
   editYojanaKaryaBivaran,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function YojanaKaryaBivaran() {
   const [yojanaKoKisim, setYojanaKoKisim] = useState("")
@@ -86,6 +87,9 @@ export default function YojanaKaryaBivaran() {
   }, [])
 
   const onSubmit = async () => {
+    const result = yojanaKaryaBivaranData.some(
+      (data) => data.yojanaKoKarya === yojanaKoKarya
+    )
     if (editMode && editId) {
       const result = await editYojanaKaryaBivaran(
         editId,
@@ -102,13 +106,20 @@ export default function YojanaKaryaBivaran() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveYonanaKaryaBivaran(yojanaKoKisim, yojanaKoKarya)
-      if (result.status === "success") {
-        setYojanaKoKisim("")
-        setYojanaKoKarya("")
-        fetchYojanaKaryaBivaran()
+      if (result) {
+        toast.error("item already exists")
       } else {
-        console.error("Error occurred during save")
+        const result = await saveYonanaKaryaBivaran(
+          yojanaKoKisim,
+          yojanaKoKarya
+        )
+        if (result.status === "success") {
+          setYojanaKoKisim("")
+          setYojanaKoKarya("")
+          fetchYojanaKaryaBivaran()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
   }
