@@ -86,7 +86,7 @@ export default function TskPage() {
       sifarishRujuGarneUpovoktaKoNaam
     )
     if (result.status === "success") {
-      fetchDate()
+      fetchTsk()
     } else {
       console.error("Delete unsuccessful:")
     }
@@ -104,7 +104,7 @@ export default function TskPage() {
     return tskDetails.slice(start, end)
   }, [page, tskDetails])
 
-  const fetchDate = async () => {
+  const fetchTsk = async () => {
     try {
       setLoading(true)
       const data = await fetchTskData()
@@ -117,7 +117,7 @@ export default function TskPage() {
   }
 
   useEffect(() => {
-    fetchDate()
+    fetchTsk()
   }, [])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -133,7 +133,7 @@ export default function TskPage() {
       const result = await deleteTskData(deleteId)
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
-        fetchDate()
+        fetchTsk()
       } else {
         console.error("Delete unsuccessful")
       }
