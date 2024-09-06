@@ -92,6 +92,7 @@ export default function SuchikritForm() {
         suchikritHunaChahekoKharid
       )
       if (result.status === "success") {
+        setBtnDisable(true)
         setFormKoNaam("")
         setDartaMiti("")
         setFormKoThegana("")
@@ -295,7 +296,8 @@ export default function SuchikritForm() {
                 !panVat ||
                 !formKoThegana ||
                 !dartaMiti ||
-                (!formKoNaam && btnDisable)
+                !formKoNaam ||
+                btnDisable
               }
             >
               {editMode ? "Edit" : "Save"}

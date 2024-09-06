@@ -90,6 +90,7 @@ export default function SuchanaPrakasan() {
       } else {
         const result = await saveSuchanaPrakasan(suchanaPrakasan)
         if (result.status === "success") {
+          setBtnDisable(true)
           setSuchanaPrakasan("")
           fetchSuchanaPrakasan()
         } else {

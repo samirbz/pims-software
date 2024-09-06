@@ -85,6 +85,7 @@ export default function BankBivaran() {
     } else {
       const result = await saveBankBivaran(bankKoNaam, sakha)
       if (result.status === "success") {
+        setBtnDisable(true)
         setBankKoNaam("")
         setSakha("")
         fetchBankBivaran()
@@ -162,7 +163,7 @@ export default function BankBivaran() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!bankKoNaam || (!sakha && btnDisable)}
+              isDisabled={!bankKoNaam || !sakha || btnDisable}
             >
               {editMode ? "Edit" : "Save"}
             </Button>

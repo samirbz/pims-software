@@ -92,6 +92,7 @@ export default function LabTest() {
       } else {
         const result = await saveLabTest(karyalayaKoNaam, thegana)
         if (result.status === "success") {
+          setBtnDisable(true)
           setKaryalayaKoNaam("")
           setThegana("")
           fetchLabTest()
@@ -170,7 +171,7 @@ export default function LabTest() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!karyalayaKoNaam || (!thegana && btnDisable)}
+              isDisabled={!karyalayaKoNaam || !thegana || btnDisable}
             >
               {editMode ? "Edit" : "Save"}
             </Button>

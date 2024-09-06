@@ -88,9 +88,11 @@ export default function YojanaChanotNikaya() {
     } else {
       if (result) {
         toast.error("item already exists")
+        setBtnDisable(false)
       } else {
         const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
         if (result.status === "success") {
+          setBtnDisable(true)
           setYojanaChanotNikaya("")
           fetchYojanaChanotNikaya()
         } else {

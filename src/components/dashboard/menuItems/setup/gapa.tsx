@@ -88,6 +88,7 @@ export default function Gapa() {
       } else {
         const result = await saveGapa(gapa)
         if (result.status === "success") {
+          setBtnDisable(true)
           setGapa("")
           fetchGapa()
         } else {

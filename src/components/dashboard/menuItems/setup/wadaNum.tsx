@@ -89,6 +89,7 @@ export default function Wada() {
       } else {
         const result = await savewadaNum(wadaNum)
         if (result.status === "success") {
+          setBtnDisable(true)
           setWadaNum("")
           fetchWadaNum()
         } else {

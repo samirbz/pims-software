@@ -68,7 +68,6 @@ export default function MukhyaSamiti() {
   }
 
   const onSubmit = async () => {
-    // Disable button after first click
     setBtnDisable(true)
 
     if (editMode && editId) {
@@ -91,6 +90,7 @@ export default function MukhyaSamiti() {
       } else {
         const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
         if (result.status === "success") {
+          setBtnDisable(true)
           setMukhyaSamitiKoNaam("")
           fetchMukhyaSamiti()
         } else {

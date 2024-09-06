@@ -90,6 +90,7 @@ export default function AnudanKisim() {
       } else {
         const result = await saveAnudaanKoNaam(anudaanKoNaam)
         if (result.status === "success") {
+          setBtnDisable(true)
           setAnudaanKoNaam("")
           fetchAnudaan()
         } else {
@@ -157,7 +158,7 @@ export default function AnudanKisim() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!anudaanKoNaam && btnDisable}
+            isDisabled={!anudaanKoNaam || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>
@@ -168,7 +169,7 @@ export default function AnudanKisim() {
           )}
         </div>
         <br />
-        {loading ? ( // Show loading spinner while data is being fetched
+        {loading ? (
           <div className="my-4 flex w-full justify-center">
             <Spinner color="primary" />
           </div>

@@ -95,6 +95,7 @@ export default function LagatSrot() {
     } else {
       const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
       if (result.status === "success") {
+        setBtnDisable(true)
         setAnudanKoKisim("")
         setLagatSrotKoNaam("")
         fetchLagatSrot()
@@ -184,7 +185,7 @@ export default function LagatSrot() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!anudanKoKisim || (!lagatSrotKoNaam && btnDisable)}
+              isDisabled={!anudanKoKisim || !lagatSrotKoNaam || btnDisable}
             >
               {editMode ? "Edit" : "Save"}
             </Button>

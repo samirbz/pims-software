@@ -87,6 +87,7 @@ export default function YojanaPrakar() {
       } else {
         const result = await saveYojanaPrakar(yojanaPrakar)
         if (result.status === "success") {
+          setBtnDisable(true)
           setYojanaPrakar("")
           fetchYojanaPrakar()
         } else {
@@ -153,7 +154,7 @@ export default function YojanaPrakar() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!yojanaPrakar && btnDisable}
+            isDisabled={!yojanaPrakar || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>

@@ -100,6 +100,7 @@ export default function YojanaKaryaBivaran() {
         yojanaKoKarya
       )
       if (result.status === "success") {
+        setBtnDisable(true)
         setYojanaKoKisim("")
         setYojanaKoKarya("")
         setEditMode(false)
@@ -203,7 +204,7 @@ export default function YojanaKaryaBivaran() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!yojanaKoKisim || (!yojanaKoKarya && btnDisable)}
+              isDisabled={!yojanaKoKisim || !yojanaKoKarya || btnDisable}
             >
               {editMode ? "Edit" : "Save"}
             </Button>
