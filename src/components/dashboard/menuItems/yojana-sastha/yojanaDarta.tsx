@@ -259,7 +259,20 @@ export default function YojanaDarta() {
               ))}
             </Select>
           </div>
-          <Input type="text" label="योजनाको नाम" size="sm" className="w-full" />
+          <div className="flex gap-2">
+            <Select label="योजनाको नाम" size="sm" className="w-full">
+              {animals.map((animal) => (
+                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              ))}
+            </Select>
+            <Input
+              type="text"
+              label="बजेट किताब सि.न."
+              size="sm"
+              className="w-full sm:w-1/3"
+              color="primary"
+            />
+          </div>
           <Select
             label="मूख्य समिति"
             size="sm"
@@ -397,14 +410,7 @@ export default function YojanaDarta() {
             </Select>
           </div>
 
-          <Input
-            type="text"
-            label="बजेट किताब सि.न."
-            size="sm"
-            className="w-full sm:w-1/3"
-            color="primary"
-          />
-          <Button onPress={onOpen} className=" mt-4 w-full sm:w-1/4">
+          <Button onPress={onOpen} className="mt-4 w-full sm:w-1/4">
             Open table <RiArrowDownDoubleFill />
           </Button>
         </div>
