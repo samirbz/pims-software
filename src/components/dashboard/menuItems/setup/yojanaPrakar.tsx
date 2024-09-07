@@ -70,6 +70,7 @@ export default function YojanaPrakar() {
   const onSubmit = async () => {
     setBtnDisable(true)
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editYojanaPrakar(editId, yojanaPrakar)
       if (result.status === "success") {
         setYojanaPrakar("")

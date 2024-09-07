@@ -34,6 +34,7 @@ import {
   fetchAnudaanKoNaamData,
   fetchFilterLagatSrotData,
   fetchYojanaPrakarData,
+  fetchYojanaBudgetDataSecond,
 } from "@/actions/formAction"
 
 const animals = [
@@ -65,6 +66,9 @@ export default function YojanaDarta() {
   const [lagatSrotData, setlagatSrotData] = useState<any[]>([])
   const [yojanaPrakar, setYojanaPrakar] = useState("")
   const [yojanaPrakarData, setYojanaPrakarData] = useState<any[]>([])
+
+  // fill data
+  const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
 
@@ -114,6 +118,19 @@ export default function YojanaDarta() {
     }
   }
 
+  // fetch for auto fill according to yojana wadaNum
+  const fetchYojanaNaam = async (wadaNum: any) => {
+    try {
+      const data = await fetchYojanaBudgetDataSecond()
+      const filteredData = data.filter(
+        (item: any) => item.wadaNumDt === wadaNum
+      )
+      setYojanaKoNaamData(filteredData)
+    } catch (e) {
+      console.error("Error fetching Yojana data", e)
+    }
+  }
+
   useEffect(() => {
     const fetchAllData = async () => {
       try {
@@ -127,7 +144,6 @@ export default function YojanaDarta() {
       } catch (e) {
         console.error("Error fetching data", e)
       } finally {
-        // Set loading to false after all data is fetched
         setLoading(false)
       }
     }
@@ -253,16 +269,23 @@ export default function YojanaDarta() {
                 options={{ calenderLocale: "ne", valueLocale: "en" }}
               />
             </form>
-            <Select label="योजनाको वडा" className="w-full sm:w-1/5" size="sm">
+            <Select
+              label="योजनाको वडा"
+              className="w-full sm:w-1/5"
+              size="sm"
+              onChange={(e) => {
+                fetchYojanaNaam(e.target.value)
+              }}
+            >
               {wada.map((item) => (
-                <SelectItem key={item.id}>{item.wadaNum}</SelectItem>
+                <SelectItem key={item.wadaNum}>{item.wadaNum}</SelectItem>
               ))}
             </Select>
           </div>
           <div className="flex gap-2">
             <Select label="योजनाको नाम" size="sm" className="w-full">
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              {yojanaKoNaamData.map((item) => (
+                <SelectItem key={item.id}>{item.yojanaKoNaamDt}</SelectItem>
               ))}
             </Select>
             <Input

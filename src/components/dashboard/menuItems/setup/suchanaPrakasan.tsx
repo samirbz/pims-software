@@ -73,6 +73,7 @@ export default function SuchanaPrakasan() {
       (data) => data.suchanaPrakasan === suchanaPrakasan
     )
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editSuchanaPrakasan(editId, suchanaPrakasan)
       if (result.status === "success") {
         setSuchanaPrakasan("")

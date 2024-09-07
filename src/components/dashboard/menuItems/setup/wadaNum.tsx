@@ -72,6 +72,7 @@ export default function Wada() {
 
     const result = wadaNumData.some((data) => data.wadaNum === wadaNum)
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editWadaNum(editId, wadaNum)
       if (result.status === "success") {
         setWadaNum("")

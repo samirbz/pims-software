@@ -75,6 +75,7 @@ export default function YojanaChanotNikaya() {
       (data) => data.yojanaChanotNikaya === yojanaChanotNikaya
     )
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editYojanaChanotNikaya(editId, yojanaChanotNikaya)
       if (result.status === "success") {
         setYojanaChanotNikaya("")

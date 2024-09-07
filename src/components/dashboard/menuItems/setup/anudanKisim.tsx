@@ -70,6 +70,7 @@ export default function AnudanKisim() {
   const onSubmit = async () => {
     setBtnDisable(true)
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editAnudaanKoNaam(editId, anudaanKoNaam)
       if (result.status === "success") {
         setAnudaanKoNaam("")

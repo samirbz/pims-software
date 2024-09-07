@@ -94,6 +94,7 @@ export default function YojanaKaryaBivaran() {
       (data) => data.yojanaKoKarya === yojanaKoKarya
     )
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editYojanaKaryaBivaran(
         editId,
         yojanaKoKisim,

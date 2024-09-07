@@ -71,6 +71,7 @@ export default function Gapa() {
     setBtnDisable(true)
     const result = gapaData.some((data) => data.gapa === gapa)
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editGapa(editId, gapa)
       if (result.status === "success") {
         setGapa("")

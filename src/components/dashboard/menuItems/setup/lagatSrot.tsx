@@ -80,6 +80,7 @@ export default function LagatSrot() {
   const onSubmit = async () => {
     setBtnDisable(true)
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editLagatSrot(editId, anudanKoKisim, lagatSrotKoNaam)
       if (result.status === "success") {
         setAnudanKoKisim("")

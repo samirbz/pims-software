@@ -79,6 +79,7 @@ export default function SuchikritForm() {
     setBtnDisable(true)
 
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editSuchikritForm(
         editId,
         formKoNaam,

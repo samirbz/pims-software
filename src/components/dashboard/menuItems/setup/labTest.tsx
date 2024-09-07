@@ -74,6 +74,7 @@ export default function LabTest() {
       (data) => data.karyalayaKoNaam === karyalayaKoNaam
     )
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editLabTest(editId, karyalayaKoNaam, thegana)
       if (result.status === "success") {
         setKaryalayaKoNaam("")

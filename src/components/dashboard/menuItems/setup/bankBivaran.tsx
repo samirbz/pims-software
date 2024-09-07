@@ -71,6 +71,7 @@ export default function BankBivaran() {
     setBtnDisable(true)
 
     if (editMode && editId) {
+      setBtnDisable(false)
       const result = await editBankBivaran(editId, bankKoNaam, sakha)
       if (result.status === "success") {
         setBankKoNaam("")
