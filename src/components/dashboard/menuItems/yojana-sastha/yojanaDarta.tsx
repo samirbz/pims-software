@@ -32,6 +32,8 @@ import {
   fetchWadaNumData,
   fetchYojanaBudgetDataSecond,
   fetchMukyaSamitiData,
+  fetchAnudaanKoNaamData,
+  fetchFilterLagatSrotData,
 } from "@/actions/formAction"
 
 const animals = [
@@ -60,7 +62,7 @@ export default function YojanaDarta() {
   const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
   const [mukhyaSamitiData, setMukhyaSamitiData] = useState<any[]>([])
   const [aunudaanKisimData, setAunudaanKisimData] = useState<any[]>([])
-  const [budgetKaryaKramData, setBudgetKaryaKramData] = useState<any[]>([])
+  const [lagatSrotData, setLagatSrotData] = useState<any[]>([])
   const [budget, setBudget] = useState("")
 
   const [loading, setLoading] = useState(true)
@@ -68,7 +70,6 @@ export default function YojanaDarta() {
   const fetchWadaData = async () => {
     try {
       const data = await fetchWadaNumData()
-      console.log("Fetched Anudaan Data:", data) // For debugging
       setWada(data)
     } catch (e) {
       console.error("Error fetching anudaan data", e)
@@ -88,6 +89,25 @@ export default function YojanaDarta() {
     }
   }
 
+  const fetchBudget = async (id: any) => {
+    try {
+      const data = await fetchYojanaBudgetDataSecond()
+      const filteredData = data.filter((item: any) => item.id === id)
+
+      // Check if filteredData is not empty
+      if (filteredData.length > 0) {
+        // Assuming you want the first item if there are multiple matches
+        const budgetData = filteredData[0].biniyojanBudgetDt
+        setBudget(budgetData)
+      } else {
+        // Handle the case where no data was found
+        setBudget("") // Or whatever default value makes sense
+      }
+    } catch (e) {
+      console.error("Error fetching Yojana data", e)
+    }
+  }
+
   const fetchMukhyaSamiti = async () => {
     try {
       const data = await fetchMukyaSamitiData()
@@ -99,38 +119,27 @@ export default function YojanaDarta() {
     }
   }
 
-  const fetchAnudaanKoNaam = async (id: any) => {
+  const fetchAnudaanKoNaam = async () => {
     try {
-      const data = await fetchYojanaBudgetDataSecond()
+      const data = await fetchAnudaanKoNaamData()
       // Filter the data based on the provided ID
-      const filteredData = data.filter((item: any) => item.id === id)
-      setAunudaanKisimData(filteredData)
+      // const filteredData = data.filter((item: any) => item.id === id)
+      setAunudaanKisimData(data)
     } catch (e) {
       console.error("Error fetching Mukhya Samiti data", e)
     }
   }
 
-  const fetchBudgetKaryakram = async (id: any) => {
+  const fetchLagatSrotHaru = async (anudaanKoNaam: any) => {
     try {
-      const data = await fetchYojanaBudgetDataSecond()
+      // Fetch the data from the API or data source
+      const data = await fetchFilterLagatSrotData(anudaanKoNaam)
 
-      // Filter the data based on the provided ID
-      const filteredData = data.filter((item: any) => item.id === id)
-      setBudgetKaryaKramData(filteredData)
-
-      // Ensure there is at least one item in filteredData
-      if (filteredData.length > 0) {
-        // Assuming you want to use the first item from the filtered data
-        const filteredBudgetData = filteredData[0]
-
-        // Set the budget using the 'biniyojanBudgetDt' field from the first item
-        setBudget(filteredBudgetData.biniyojanBudgetDt)
-      } else {
-        // Handle the case where no data matches the ID
-        setBudget("") // or another appropriate default value
-      }
+      // Set the filtered data in the state
+      setLagatSrotData(data)
     } catch (e) {
-      console.error("Error fetching Budget Karyakram data", e)
+      // Handle any errors that occur during the fetch or filtering process
+      console.error("Error fetching Lagat Srot data", e)
     }
   }
 
@@ -138,7 +147,11 @@ export default function YojanaDarta() {
     const fetchAllData = async () => {
       try {
         // Fetch all data concurrently
-        await Promise.all([fetchWadaData(), fetchMukhyaSamiti()])
+        await Promise.all([
+          fetchWadaData(),
+          fetchMukhyaSamiti(),
+          fetchAnudaanKoNaam(),
+        ])
       } catch (e) {
         console.error("Error fetching data", e)
       } finally {
@@ -282,8 +295,7 @@ export default function YojanaDarta() {
               size="sm"
               className="w-full"
               onChange={(e) => {
-                fetchAnudaanKoNaam(e.target.value)
-                fetchBudgetKaryakram(e.target.value)
+                fetchBudget(e.target.value)
               }}
             >
               {yojanaKoNaamData.map((item) => (
@@ -307,17 +319,24 @@ export default function YojanaDarta() {
           <div className="flex flex-col gap-2">
             <div className="flex w-full items-center gap-2">
               <p className="text-sm">लागत&nbsp;श्रोत</p>
-              <Select label="अनुदानको नाम" size="sm" className="w-1/4">
+              <Select
+                label="अनुदानको नाम"
+                size="sm"
+                className="w-1/4"
+                onChange={(e) => {
+                  fetchLagatSrotHaru(e.target.value)
+                }}
+              >
                 {aunudaanKisimData.map((item) => (
-                  <SelectItem key={item.id}>{item.anudanKisimDt}</SelectItem>
+                  <SelectItem key={item.anudaanKoNaam}>
+                    {item.anudaanKoNaam}
+                  </SelectItem>
                 ))}
               </Select>
 
-              <Select label="बजेट कार्यक्रम" size="sm" className="w-1/2">
-                {budgetKaryaKramData.map((item) => (
-                  <SelectItem key={item.id}>
-                    {item.budgetKaryakramDt}
-                  </SelectItem>
+              <Select label="लागत श्रोतहरु" size="sm" className="w-1/2">
+                {lagatSrotData.map((item) => (
+                  <SelectItem key={item.id}>{item.anudanKoKisim}</SelectItem>
                 ))}
               </Select>
               <Input
