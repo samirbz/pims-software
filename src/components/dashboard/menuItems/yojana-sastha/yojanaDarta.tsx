@@ -30,12 +30,8 @@ import "nepali-datepicker-reactjs/dist/index.css"
 import { RiArrowDownDoubleFill } from "react-icons/ri"
 import {
   fetchWadaNumData,
-  fetchAnudaanKoNaamData,
-  fetchFilterLagatSrotData,
-  fetchYojanaPrakarData,
   fetchYojanaBudgetDataSecond,
 } from "@/actions/formAction"
-import mukhyaSamiti from "../setup/mukhyaSamiti"
 
 const animals = [
   { key: "cat", label: "1234567890123456789" },
@@ -58,16 +54,12 @@ export default function YojanaDarta() {
   const [divs, setDivs] = useState<React.JSX.Element[]>([])
 
   const [wada, setWada] = useState<any[]>([])
-  const [aunudaanKisim, setAunudaanKisim] = useState("")
-  const [aunudaanKisimData, setAunudaanKisimData] = useState<any[]>([])
-  const [lagatSrot, setLagatSrot] = useState("")
-  const [lagatSrotData, setlagatSrotData] = useState<any[]>([])
-  const [yojanaPrakar, setYojanaPrakar] = useState("")
-  const [yojanaPrakarData, setYojanaPrakarData] = useState<any[]>([])
 
   // fill data
   const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
   const [mukhyaSamitiData, setMukhyaSamitiData] = useState<any[]>([])
+  const [aunudaanKisimData, setAunudaanKisimData] = useState<any[]>([])
+  const [lagatSrotData, setlagatSrotData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
 
@@ -76,33 +68,6 @@ export default function YojanaDarta() {
       const data = await fetchWadaNumData()
       console.log("Fetched Anudaan Data:", data) // For debugging
       setWada(data)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
-    }
-  }
-
-  const fetchanudaanKisimData = async () => {
-    try {
-      const data = await fetchAnudaanKoNaamData()
-      setAunudaanKisimData(data)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
-    }
-  }
-
-  const fetchlagatSrotData = async (anudaanKoNaam: string) => {
-    try {
-      const data = await fetchFilterLagatSrotData(anudaanKoNaam)
-      setlagatSrotData(data)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
-    }
-  }
-
-  const fetchyojanaPrakarData = async () => {
-    try {
-      const data = await fetchYojanaPrakarData()
-      setYojanaPrakarData(data)
     } catch (e) {
       console.error("Error fetching anudaan data", e)
     }
@@ -132,15 +97,32 @@ export default function YojanaDarta() {
     }
   }
 
+  const fetchAnudaanKoNaam = async (id: any) => {
+    try {
+      const data = await fetchYojanaBudgetDataSecond()
+      // Filter the data based on the provided ID
+      const filteredData = data.filter((item: any) => item.id === id)
+      setAunudaanKisimData(filteredData)
+    } catch (e) {
+      console.error("Error fetching Mukhya Samiti data", e)
+    }
+  }
+  const fetchLagatSrot = async (id: any) => {
+    try {
+      const data = await fetchYojanaBudgetDataSecond()
+      // Filter the data based on the provided ID
+      const filteredData = data.filter((item: any) => item.id === id)
+      setlagatSrotData(filteredData)
+    } catch (e) {
+      console.error("Error fetching Mukhya Samiti data", e)
+    }
+  }
+
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         // Fetch all data concurrently
-        await Promise.all([
-          fetchWadaData(),
-          fetchanudaanKisimData(),
-          fetchyojanaPrakarData(),
-        ])
+        await Promise.all([fetchWadaData()])
       } catch (e) {
         console.error("Error fetching data", e)
       } finally {
@@ -179,10 +161,6 @@ export default function YojanaDarta() {
       newDivs.pop()
       return newDivs
     })
-  }
-
-  const onSubmit = async () => {
-    console.log(mukhyaSamiti, aunudaanKisim, lagatSrot, yojanaPrakar)
   }
 
   if (loading) {
@@ -287,7 +265,11 @@ export default function YojanaDarta() {
               label="योजनाको नाम"
               size="sm"
               className="w-full"
-              onChange={(e) => fetchMukhyaSamiti(e.target.value)}
+              onChange={(e) => {
+                fetchMukhyaSamiti(e.target.value)
+                fetchAnudaanKoNaam(e.target.value)
+                fetchLagatSrot(e.target.value)
+              }}
             >
               {yojanaKoNaamData.map((item) => (
                 <SelectItem key={item.id}>{item.yojanaKoNaamDt}</SelectItem>
@@ -310,34 +292,16 @@ export default function YojanaDarta() {
           <div className="flex flex-col gap-2">
             <div className="flex w-full items-center gap-2">
               <p className="text-sm">लागत&nbsp;श्रोत</p>
-              <Select
-                label="अनुदानको नाम"
-                size="sm"
-                onChange={(e) => {
-                  setAunudaanKisim(e.target.value)
-                  fetchlagatSrotData(e.target.value)
-                }}
-                className="w-1/4"
-              >
+              <Select label="अनुदानको नाम" size="sm" className="w-1/4">
                 {aunudaanKisimData.map((item) => (
-                  <SelectItem
-                    key={item.anudaanKoNaam}
-                    value={item.anudaanKoNaam}
-                  >
-                    {item.anudaanKoNaam}
-                  </SelectItem>
+                  <SelectItem key={item.id}>{item.anudanKisimDt}</SelectItem>
                 ))}
               </Select>
 
-              <Select
-                label="लागत श्रोत रकम  "
-                size="sm"
-                onChange={(e) => setLagatSrot(e.target.value)}
-                className="w-1/2"
-              >
+              <Select label="लागत श्रोत रकम  " size="sm" className="w-1/2">
                 {lagatSrotData.map((item) => (
-                  <SelectItem key={item.lagatSrotKoNaam}>
-                    {item.lagatSrotKoNaam}
+                  <SelectItem key={item.id}>
+                    {item.biniyojanBudgetDt}
                   </SelectItem>
                 ))}
               </Select>
@@ -360,17 +324,8 @@ export default function YojanaDarta() {
             </div>
           </div>
 
-          <Select
-            label="आयोजना उपक्षेत्र"
-            size="sm"
-            className="w-full"
-            onChange={(e) => setYojanaPrakar(e.target.value)} // Correct this line
-          >
-            {yojanaPrakarData.map((item) => (
-              <SelectItem key={item.yojanaPrakar}>
-                {item.yojanaPrakar}
-              </SelectItem>
-            ))}
+          <Select label="आयोजना उपक्षेत्र" size="sm" className="w-full">
+            <SelectItem key={"1"}>test</SelectItem>
           </Select>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Select
@@ -512,7 +467,6 @@ export default function YojanaDarta() {
             color="secondary"
             startContent={<FaRegSave />}
             className="w-full"
-            onClick={onSubmit}
           >
             Save
           </Button>
