@@ -773,6 +773,8 @@ export async function saveYojanaBudgetDt(
   }
 }
 
+//  yojan darta auto fill
+
 export async function fetchYojanaBudgetDataSecond() {
   try {
     const data = await prisma.yojanaBudgetSecond.findMany()

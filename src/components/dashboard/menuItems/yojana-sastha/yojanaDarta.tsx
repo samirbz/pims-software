@@ -29,13 +29,13 @@ import { MdModeEditOutline } from "react-icons/md"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { RiArrowDownDoubleFill } from "react-icons/ri"
 import {
-  fetchMukyaSamitiData,
   fetchWadaNumData,
   fetchAnudaanKoNaamData,
   fetchFilterLagatSrotData,
   fetchYojanaPrakarData,
   fetchYojanaBudgetDataSecond,
 } from "@/actions/formAction"
+import mukhyaSamiti from "../setup/mukhyaSamiti"
 
 const animals = [
   { key: "cat", label: "1234567890123456789" },
@@ -58,8 +58,6 @@ export default function YojanaDarta() {
   const [divs, setDivs] = useState<React.JSX.Element[]>([])
 
   const [wada, setWada] = useState<any[]>([])
-  const [mukhyaSamiti, setMukhyaSamiti] = useState("")
-  const [mukhyaSamitiData, setMukhyaSamitiData] = useState<any[]>([])
   const [aunudaanKisim, setAunudaanKisim] = useState("")
   const [aunudaanKisimData, setAunudaanKisimData] = useState<any[]>([])
   const [lagatSrot, setLagatSrot] = useState("")
@@ -69,6 +67,7 @@ export default function YojanaDarta() {
 
   // fill data
   const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
+  const [mukhyaSamitiData, setMukhyaSamitiData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
 
@@ -77,15 +76,6 @@ export default function YojanaDarta() {
       const data = await fetchWadaNumData()
       console.log("Fetched Anudaan Data:", data) // For debugging
       setWada(data)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
-    }
-  }
-
-  const fetchmukhyaSamitiData = async () => {
-    try {
-      const data = await fetchMukyaSamitiData()
-      setMukhyaSamitiData(data)
     } catch (e) {
       console.error("Error fetching anudaan data", e)
     }
@@ -131,13 +121,23 @@ export default function YojanaDarta() {
     }
   }
 
+  const fetchMukhyaSamiti = async (id: any) => {
+    try {
+      const data = await fetchYojanaBudgetDataSecond()
+      // Filter the data based on the provided ID
+      const filteredData = data.filter((item: any) => item.id === id)
+      setMukhyaSamitiData(filteredData)
+    } catch (e) {
+      console.error("Error fetching Mukhya Samiti data", e)
+    }
+  }
+
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         // Fetch all data concurrently
         await Promise.all([
           fetchWadaData(),
-          fetchmukhyaSamitiData(),
           fetchanudaanKisimData(),
           fetchyojanaPrakarData(),
         ])
@@ -283,7 +283,12 @@ export default function YojanaDarta() {
             </Select>
           </div>
           <div className="flex gap-2">
-            <Select label="योजनाको नाम" size="sm" className="w-full">
+            <Select
+              label="योजनाको नाम"
+              size="sm"
+              className="w-full"
+              onChange={(e) => fetchMukhyaSamiti(e.target.value)}
+            >
               {yojanaKoNaamData.map((item) => (
                 <SelectItem key={item.id}>{item.yojanaKoNaamDt}</SelectItem>
               ))}
@@ -296,16 +301,9 @@ export default function YojanaDarta() {
               color="primary"
             />
           </div>
-          <Select
-            label="मूख्य समिति"
-            size="sm"
-            className="w-full"
-            onChange={(e) => setMukhyaSamiti(e.target.value)} // Correct this line
-          >
+          <Select label="मूख्य समिति" size="sm" className="w-full">
             {mukhyaSamitiData.map((item) => (
-              <SelectItem key={item.mukhyaSamitiKoNaam}>
-                {item.mukhyaSamitiKoNaam}
-              </SelectItem>
+              <SelectItem key={item.id}>{item.mukhyaSamitiDt}</SelectItem>
             ))}
           </Select>
 
