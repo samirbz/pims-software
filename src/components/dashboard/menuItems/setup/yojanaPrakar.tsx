@@ -69,32 +69,51 @@ export default function YojanaPrakar() {
 
   const onSubmit = async () => {
     setBtnDisable(true)
-    if (editMode && editId) {
-      setBtnDisable(false)
-      const result = await editYojanaPrakar(editId, yojanaPrakar)
-      if (result.status === "success") {
-        setYojanaPrakar("")
-        setEditMode(false)
-        setEditId(null)
-        fetchYojanaPrakar()
-      } else {
-        console.error("Error occurred during edit")
-      }
-    } else {
-      if (yojanaPrakarData.some((data) => data.yojanaPrakar === yojanaPrakar)) {
-        toast.error("item already exists")
-        setBtnDisable(false)
-      } else {
-        const result = await saveYojanaPrakar(yojanaPrakar)
+
+    try {
+      if (editMode && editId) {
+        // In edit mode, check if `yojanaPrakar` exists in other records, excluding the one being edited
+        const existsInOtherItems = yojanaPrakarData.some(
+          (data) => data.yojanaPrakar === yojanaPrakar && data.id !== editId
+        )
+
+        if (existsInOtherItems) {
+          toast.error("Item already exists")
+          return
+        }
+
+        // Proceed with the edit operation
+        const result = await editYojanaPrakar(editId, yojanaPrakar)
         if (result.status === "success") {
           setYojanaPrakar("")
+          setEditMode(false)
+          setEditId(null)
           fetchYojanaPrakar()
         } else {
-          console.error("Error occurred during save")
+          console.error("Error occurred during edit")
+        }
+      } else {
+        // In create mode, check if `yojanaPrakar` already exists in the data
+        if (
+          yojanaPrakarData.some((data) => data.yojanaPrakar === yojanaPrakar)
+        ) {
+          toast.error("Item already exists")
+        } else {
+          // Proceed with the save operation
+          const result = await saveYojanaPrakar(yojanaPrakar)
+          if (result.status === "success") {
+            setYojanaPrakar("")
+            fetchYojanaPrakar()
+          } else {
+            console.error("Error occurred during save")
+          }
         }
       }
+    } catch (error) {
+      console.error("An unexpected error occurred:", error)
+    } finally {
+      setBtnDisable(false)
     }
-    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

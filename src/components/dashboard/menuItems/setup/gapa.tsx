@@ -69,8 +69,20 @@ export default function Gapa() {
 
   const onSubmit = async () => {
     setBtnDisable(true)
-    const result = gapaData.some((data) => data.gapa === gapa)
+
     if (editMode && editId) {
+      // In edit mode, check if the `gapa` exists in other records, excluding the one being edited
+      const existsInOtherItems = gapaData.some(
+        (data) => data.gapa === gapa && data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editGapa(editId, gapa)
       if (result.status === "success") {
         setGapa("")
@@ -81,12 +93,15 @@ export default function Gapa() {
         console.error("Error occurred during edit")
       }
     } else {
-      if (result) {
-        toast.error("item already exists")
+      // In create mode, check if the item already exists
+      const exists = gapaData.some((data) => data.gapa === gapa)
+
+      if (exists) {
+        toast.error("Item already exists")
       } else {
+        // Proceed with save operation
         const result = await saveGapa(gapa)
         if (result.status === "success") {
-          setBtnDisable(true)
           setGapa("")
           fetchGapa()
         } else {
@@ -94,6 +109,7 @@ export default function Gapa() {
         }
       }
     }
+
     setBtnDisable(false)
   }
 

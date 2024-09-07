@@ -70,10 +70,19 @@ export default function LabTest() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
-    const result = labTestData.some(
-      (data) => data.karyalayaKoNaam === karyalayaKoNaam
-    )
     if (editMode && editId) {
+      // In edit mode, check if `karyalayaKoNaam` exists in other records, excluding the one being edited
+      const existsInOtherItems = labTestData.some(
+        (data) => data.karyalayaKoNaam === karyalayaKoNaam && data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editLabTest(editId, karyalayaKoNaam, thegana)
       if (result.status === "success") {
         setKaryalayaKoNaam("")
@@ -85,12 +94,17 @@ export default function LabTest() {
         console.error("Error occurred during edit")
       }
     } else {
-      if (result) {
-        toast.error("item already exists")
+      // In create mode, check if the `karyalayaKoNaam` already exists
+      const exists = labTestData.some(
+        (data) => data.karyalayaKoNaam === karyalayaKoNaam
+      )
+
+      if (exists) {
+        toast.error("Item already exists")
       } else {
+        // Proceed with save operation
         const result = await saveLabTest(karyalayaKoNaam, thegana)
         if (result.status === "success") {
-          setBtnDisable(true)
           setKaryalayaKoNaam("")
           setThegana("")
           fetchLabTest()
@@ -99,6 +113,7 @@ export default function LabTest() {
         }
       }
     }
+
     setBtnDisable(false)
   }
 

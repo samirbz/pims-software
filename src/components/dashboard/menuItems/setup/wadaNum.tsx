@@ -70,9 +70,25 @@ export default function Wada() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    // Check if the item exists only when not in edit mode
     const result = wadaNumData.some((data) => data.wadaNum === wadaNum)
+
     if (editMode && editId) {
+      // In edit mode, don't check for duplicates against the current edited item
       setBtnDisable(false)
+
+      // Check if the current `wadaNum` exists but ignore the one being edited
+      const existsInOtherItems = wadaNumData.some(
+        (data) => data.wadaNum === wadaNum && data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Perform edit operation
       const result = await editWadaNum(editId, wadaNum)
       if (result.status === "success") {
         setWadaNum("")
@@ -83,12 +99,13 @@ export default function Wada() {
         console.error("Error occurred during edit")
       }
     } else {
+      // For create mode, check if item already exists
       if (result) {
-        toast.error("item already exists")
+        toast.error("Item already exists")
       } else {
+        // Perform save operation
         const result = await savewadaNum(wadaNum)
         if (result.status === "success") {
-          setBtnDisable(true)
           setWadaNum("")
           fetchWadaNum()
         } else {
@@ -96,6 +113,7 @@ export default function Wada() {
         }
       }
     }
+
     setBtnDisable(false)
   }
 

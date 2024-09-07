@@ -31,6 +31,7 @@ import {
   editBankBivaran,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function BankBivaran() {
   const [bankKoNaam, setBankKoNaam] = useState("")
@@ -71,6 +72,21 @@ export default function BankBivaran() {
     setBtnDisable(true)
 
     if (editMode && editId) {
+      // In edit mode, check if the combination of bankKoNaam and sakha exists in other records, excluding the one being edited
+      const existsInOtherItems = bankBivaranData.some(
+        (data) =>
+          data.bankKoNaam === bankKoNaam &&
+          data.sakha === sakha &&
+          data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Bank with the same name and branch already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editBankBivaran(editId, bankKoNaam, sakha)
       if (result.status === "success") {
         setBankKoNaam("")
@@ -82,16 +98,26 @@ export default function BankBivaran() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveBankBivaran(bankKoNaam, sakha)
-      if (result.status === "success") {
-        setBtnDisable(true)
-        setBankKoNaam("")
-        setSakha("")
-        fetchBankBivaran()
+      // In create mode, check if the bank entry with the same bankKoNaam and sakha already exists
+      const exists = bankBivaranData.some(
+        (data) => data.bankKoNaam === bankKoNaam && data.sakha === sakha
+      )
+
+      if (exists) {
+        toast.error("Bank with the same name and branch already exists")
       } else {
-        console.error("Error occurred during save")
+        // Proceed with save operation
+        const result = await saveBankBivaran(bankKoNaam, sakha)
+        if (result.status === "success") {
+          setBankKoNaam("")
+          setSakha("")
+          fetchBankBivaran()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
+
     setBtnDisable(false)
   }
 

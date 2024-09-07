@@ -31,6 +31,7 @@ import {
   editSuchikritForm,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function SuchikritForm() {
   const [formKoNaam, setFormKoNaam] = useState("")
@@ -79,6 +80,18 @@ export default function SuchikritForm() {
     setBtnDisable(true)
 
     if (editMode && editId) {
+      // Check if `formKoNaam` exists in other records, excluding the one being edited
+      const existsInOtherItems = suchikritFormData.some(
+        (data) => data.formKoNaam === formKoNaam && data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editSuchikritForm(
         editId,
         formKoNaam,
@@ -92,7 +105,6 @@ export default function SuchikritForm() {
         suchikritHunaChahekoKharid
       )
       if (result.status === "success") {
-        setBtnDisable(true)
         setFormKoNaam("")
         setDartaMiti("")
         setFormKoThegana("")
@@ -109,32 +121,43 @@ export default function SuchikritForm() {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveSuchikritForm(
-        formKoNaam,
-        dartaMiti,
-        formKoThegana,
-        panVat,
-        companyDartaNum,
-        pramanPatraSankhya,
-        phoneNum,
-        suchiDartaNum,
-        suchikritHunaChahekoKharid
+      // Check if `formKoNaam` already exists in the data
+      const exists = suchikritFormData.some(
+        (data) => data.formKoNaam === formKoNaam
       )
-      if (result.status === "success") {
-        setFormKoNaam("")
-        setDartaMiti("")
-        setFormKoThegana("")
-        setPanVat("")
-        setCompanyDartaNum("")
-        setPramanPatraSankhya("")
-        setPhoneNum("")
-        setSuchiDartaNum("")
-        setSuchikritHunaChahekoKharid("")
-        fetchSuchikritForm()
+
+      if (exists) {
+        toast.error("Item already exists")
       } else {
-        console.error("Error occurred during save")
+        // Proceed with the save operation
+        const result = await saveSuchikritForm(
+          formKoNaam,
+          dartaMiti,
+          formKoThegana,
+          panVat,
+          companyDartaNum,
+          pramanPatraSankhya,
+          phoneNum,
+          suchiDartaNum,
+          suchikritHunaChahekoKharid
+        )
+        if (result.status === "success") {
+          setFormKoNaam("")
+          setDartaMiti("")
+          setFormKoThegana("")
+          setPanVat("")
+          setCompanyDartaNum("")
+          setPramanPatraSankhya("")
+          setPhoneNum("")
+          setSuchiDartaNum("")
+          setSuchikritHunaChahekoKharid("")
+          fetchSuchikritForm()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
+
     setBtnDisable(false)
   }
 

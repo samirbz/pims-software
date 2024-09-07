@@ -32,6 +32,7 @@ import {
   editLagatSrot,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function LagatSrot() {
   const [anudanKoKisim, setAnudanKoKisim] = useState("")
@@ -79,7 +80,23 @@ export default function LagatSrot() {
 
   const onSubmit = async () => {
     setBtnDisable(true)
+
     if (editMode && editId) {
+      // In edit mode, check if `anudanKoKisim` and `lagatSrotKoNaam` exist in other records, excluding the one being edited
+      const existsInOtherItems = lagatSrotData.some(
+        (data) =>
+          data.anudanKoKisim === anudanKoKisim &&
+          data.lagatSrotKoNaam === lagatSrotKoNaam &&
+          data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editLagatSrot(editId, anudanKoKisim, lagatSrotKoNaam)
       if (result.status === "success") {
         setAnudanKoKisim("")
@@ -87,21 +104,32 @@ export default function LagatSrot() {
         setEditMode(false)
         setEditId(null)
         fetchLagatSrot()
-        setBtnDisable(false)
       } else {
         console.error("Error occurred during edit")
       }
     } else {
-      const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
-      if (result.status === "success") {
-        setBtnDisable(true)
-        setAnudanKoKisim("")
-        setLagatSrotKoNaam("")
-        fetchLagatSrot()
+      // In create mode, check if the `anudanKoKisim` and `lagatSrotKoNaam` already exist
+      const exists = lagatSrotData.some(
+        (data) =>
+          data.anudanKoKisim === anudanKoKisim &&
+          data.lagatSrotKoNaam === lagatSrotKoNaam
+      )
+
+      if (exists) {
+        toast.error("Item already exists")
       } else {
-        console.error("Error occurred during save")
+        // Proceed with save operation
+        const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
+        if (result.status === "success") {
+          setAnudanKoKisim("")
+          setLagatSrotKoNaam("")
+          fetchLagatSrot()
+        } else {
+          console.error("Error occurred during save")
+        }
       }
     }
+
     setBtnDisable(false)
   }
 

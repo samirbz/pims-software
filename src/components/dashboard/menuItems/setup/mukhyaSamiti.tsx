@@ -71,6 +71,19 @@ export default function MukhyaSamiti() {
     setBtnDisable(true)
 
     if (editMode && editId) {
+      // In edit mode, check if `mukhyaSamitiKoNaam` exists in other records, excluding the one being edited
+      const existsInOtherItems = mukhyaSamitiKoNaamData.some(
+        (data) =>
+          data.mukhyaSamitiKoNaam === mukhyaSamitiKoNaam && data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editMukhyaSamitiKonaam(editId, mukhyaSamitiKoNaam)
       if (result.status === "success") {
         setMukhyaSamitiKoNaam("")
@@ -81,16 +94,17 @@ export default function MukhyaSamiti() {
         console.error("Error occurred during edit")
       }
     } else {
-      if (
-        mukhyaSamitiKoNaamData.some(
-          (data) => data.mukhyaSamitiKoNaam === mukhyaSamitiKoNaam
-        )
-      ) {
+      // In create mode, check if the `mukhyaSamitiKoNaam` already exists
+      const exists = mukhyaSamitiKoNaamData.some(
+        (data) => data.mukhyaSamitiKoNaam === mukhyaSamitiKoNaam
+      )
+
+      if (exists) {
         toast.error("Item already exists")
       } else {
+        // Proceed with save operation
         const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
         if (result.status === "success") {
-          setBtnDisable(true)
           setMukhyaSamitiKoNaam("")
           fetchMukhyaSamiti()
         } else {
@@ -98,6 +112,7 @@ export default function MukhyaSamiti() {
         }
       }
     }
+
     setBtnDisable(false)
   }
 

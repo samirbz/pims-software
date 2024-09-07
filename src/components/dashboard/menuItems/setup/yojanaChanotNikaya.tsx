@@ -71,10 +71,21 @@ export default function YojanaChanotNikaya() {
 
   const onSubmit = async () => {
     setBtnDisable(true)
-    const result = yojanaChanotNikayaData.some(
-      (data) => data.yojanaChanotNikaya === yojanaChanotNikaya
-    )
+
     if (editMode && editId) {
+      // Check if `yojanaChanotNikaya` exists in other records, excluding the one being edited
+      const existsInOtherItems = yojanaChanotNikayaData.some(
+        (data) =>
+          data.yojanaChanotNikaya === yojanaChanotNikaya && data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editYojanaChanotNikaya(editId, yojanaChanotNikaya)
       if (result.status === "success") {
         setYojanaChanotNikaya("")
@@ -85,9 +96,15 @@ export default function YojanaChanotNikaya() {
         console.error("Error occurred during edit")
       }
     } else {
-      if (result) {
-        toast.error("item already exists")
+      // Check if `yojanaChanotNikaya` already exists in the data
+      const exists = yojanaChanotNikayaData.some(
+        (data) => data.yojanaChanotNikaya === yojanaChanotNikaya
+      )
+
+      if (exists) {
+        toast.error("Item already exists")
       } else {
+        // Proceed with the save operation
         const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
         if (result.status === "success") {
           setYojanaChanotNikaya("")
@@ -97,6 +114,7 @@ export default function YojanaChanotNikaya() {
         }
       }
     }
+
     setBtnDisable(false)
   }
 

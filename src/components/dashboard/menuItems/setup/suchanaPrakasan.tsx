@@ -69,10 +69,19 @@ export default function SuchanaPrakasan() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
-    const result = suchanaPrakasanData.some(
-      (data) => data.suchanaPrakasan === suchanaPrakasan
-    )
     if (editMode && editId) {
+      // In edit mode, check if `suchanaPrakasan` exists in other records, excluding the one being edited
+      const existsInOtherItems = suchanaPrakasanData.some(
+        (data) => data.suchanaPrakasan === suchanaPrakasan && data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editSuchanaPrakasan(editId, suchanaPrakasan)
       if (result.status === "success") {
         setSuchanaPrakasan("")
@@ -83,12 +92,17 @@ export default function SuchanaPrakasan() {
         console.error("Error occurred during edit")
       }
     } else {
-      if (result) {
-        toast.error("item already exists")
+      // In create mode, check if `suchanaPrakasan` already exists
+      const exists = suchanaPrakasanData.some(
+        (data) => data.suchanaPrakasan === suchanaPrakasan
+      )
+
+      if (exists) {
+        toast.error("Item already exists")
       } else {
+        // Proceed with the save operation
         const result = await saveSuchanaPrakasan(suchanaPrakasan)
         if (result.status === "success") {
-          setBtnDisable(true)
           setSuchanaPrakasan("")
           fetchSuchanaPrakasan()
         } else {
@@ -96,6 +110,7 @@ export default function SuchanaPrakasan() {
         }
       }
     }
+
     setBtnDisable(false)
   }
 

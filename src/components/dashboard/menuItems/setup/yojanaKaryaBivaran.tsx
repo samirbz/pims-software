@@ -90,10 +90,20 @@ export default function YojanaKaryaBivaran() {
 
   const onSubmit = async () => {
     setBtnDisable(true)
-    const result = yojanaKaryaBivaranData.some(
-      (data) => data.yojanaKoKarya === yojanaKoKarya
-    )
+
     if (editMode && editId) {
+      // Check if `yojanaKoKarya` exists in other records, excluding the one being edited
+      const existsInOtherItems = yojanaKaryaBivaranData.some(
+        (data) => data.yojanaKoKarya === yojanaKoKarya && data.id !== editId
+      )
+
+      if (existsInOtherItems) {
+        toast.error("Item already exists")
+        setBtnDisable(false)
+        return
+      }
+
+      // Proceed with the edit operation
       const result = await editYojanaKaryaBivaran(
         editId,
         yojanaKoKisim,
@@ -109,9 +119,15 @@ export default function YojanaKaryaBivaran() {
         console.error("Error occurred during edit")
       }
     } else {
-      if (result) {
-        toast.error("item already exists")
+      // Check if `yojanaKoKarya` already exists in the data
+      const exists = yojanaKaryaBivaranData.some(
+        (data) => data.yojanaKoKarya === yojanaKoKarya
+      )
+
+      if (exists) {
+        toast.error("Item already exists")
       } else {
+        // Proceed with the save operation
         const result = await saveYonanaKaryaBivaran(
           yojanaKoKisim,
           yojanaKoKarya
@@ -125,6 +141,7 @@ export default function YojanaKaryaBivaran() {
         }
       }
     }
+
     setBtnDisable(false)
   }
 
