@@ -71,7 +71,6 @@ export default function Gapa() {
     setBtnDisable(true)
     const result = gapaData.some((data) => data.gapa === gapa)
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editGapa(editId, gapa)
       if (result.status === "success") {
         setGapa("")
@@ -80,12 +79,10 @@ export default function Gapa() {
         fetchGapa()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(true)
       }
     } else {
       if (result) {
         toast.error("item already exists")
-        setBtnDisable(true)
       } else {
         const result = await saveGapa(gapa)
         if (result.status === "success") {
@@ -94,10 +91,10 @@ export default function Gapa() {
           fetchGapa()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(true)
         }
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

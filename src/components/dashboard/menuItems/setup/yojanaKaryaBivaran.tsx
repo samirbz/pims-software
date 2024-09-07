@@ -94,14 +94,12 @@ export default function YojanaKaryaBivaran() {
       (data) => data.yojanaKoKarya === yojanaKoKarya
     )
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editYojanaKaryaBivaran(
         editId,
         yojanaKoKisim,
         yojanaKoKarya
       )
       if (result.status === "success") {
-        setBtnDisable(true)
         setYojanaKoKisim("")
         setYojanaKoKarya("")
         setEditMode(false)
@@ -109,12 +107,10 @@ export default function YojanaKaryaBivaran() {
         fetchYojanaKaryaBivaran()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(false)
       }
     } else {
       if (result) {
         toast.error("item already exists")
-        setBtnDisable(false)
       } else {
         const result = await saveYonanaKaryaBivaran(
           yojanaKoKisim,
@@ -126,10 +122,10 @@ export default function YojanaKaryaBivaran() {
           fetchYojanaKaryaBivaran()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(false)
         }
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

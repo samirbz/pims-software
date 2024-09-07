@@ -71,7 +71,6 @@ export default function MukhyaSamiti() {
     setBtnDisable(true)
 
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editMukhyaSamitiKonaam(editId, mukhyaSamitiKoNaam)
       if (result.status === "success") {
         setMukhyaSamitiKoNaam("")
@@ -99,8 +98,6 @@ export default function MukhyaSamiti() {
         }
       }
     }
-
-    // Re-enable button after the operation
     setBtnDisable(false)
   }
 

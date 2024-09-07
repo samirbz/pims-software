@@ -79,7 +79,6 @@ export default function YojanaPrakar() {
         fetchYojanaPrakar()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(false)
       }
     } else {
       if (yojanaPrakarData.some((data) => data.yojanaPrakar === yojanaPrakar)) {
@@ -88,15 +87,14 @@ export default function YojanaPrakar() {
       } else {
         const result = await saveYojanaPrakar(yojanaPrakar)
         if (result.status === "success") {
-          setBtnDisable(true)
           setYojanaPrakar("")
           fetchYojanaPrakar()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(false)
         }
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

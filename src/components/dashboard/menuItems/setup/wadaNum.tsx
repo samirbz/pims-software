@@ -81,12 +81,10 @@ export default function Wada() {
         fetchWadaNum()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(true)
       }
     } else {
       if (result) {
         toast.error("item already exists")
-        setBtnDisable(true)
       } else {
         const result = await savewadaNum(wadaNum)
         if (result.status === "success") {
@@ -95,10 +93,10 @@ export default function Wada() {
           fetchWadaNum()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(true)
         }
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

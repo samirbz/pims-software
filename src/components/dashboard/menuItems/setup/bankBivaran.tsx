@@ -71,7 +71,6 @@ export default function BankBivaran() {
     setBtnDisable(true)
 
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editBankBivaran(editId, bankKoNaam, sakha)
       if (result.status === "success") {
         setBankKoNaam("")
@@ -81,7 +80,6 @@ export default function BankBivaran() {
         fetchBankBivaran()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(true)
       }
     } else {
       const result = await saveBankBivaran(bankKoNaam, sakha)
@@ -92,9 +90,9 @@ export default function BankBivaran() {
         fetchBankBivaran()
       } else {
         console.error("Error occurred during save")
-        setBtnDisable(true)
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

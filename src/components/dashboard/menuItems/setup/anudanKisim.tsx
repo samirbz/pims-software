@@ -70,24 +70,20 @@ export default function AnudanKisim() {
   const onSubmit = async () => {
     setBtnDisable(true)
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editAnudaanKoNaam(editId, anudaanKoNaam)
       if (result.status === "success") {
         setAnudaanKoNaam("")
         setEditMode(false)
         setEditId(null)
         fetchAnudaan()
-        setBtnDisable(false)
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(false)
       }
     } else {
       if (
         anudaanKoNaamData.some((data) => data.anudaanKoNaam === anudaanKoNaam)
       ) {
         toast.error("Item already exists")
-        setBtnDisable(false)
       } else {
         const result = await saveAnudaanKoNaam(anudaanKoNaam)
         if (result.status === "success") {
@@ -96,10 +92,10 @@ export default function AnudanKisim() {
           fetchAnudaan()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(false)
         }
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

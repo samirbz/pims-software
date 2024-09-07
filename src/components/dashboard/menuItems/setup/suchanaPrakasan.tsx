@@ -73,7 +73,6 @@ export default function SuchanaPrakasan() {
       (data) => data.suchanaPrakasan === suchanaPrakasan
     )
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editSuchanaPrakasan(editId, suchanaPrakasan)
       if (result.status === "success") {
         setSuchanaPrakasan("")
@@ -82,12 +81,10 @@ export default function SuchanaPrakasan() {
         fetchSuchanaPrakasan()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(true)
       }
     } else {
       if (result) {
         toast.error("item already exists")
-        setBtnDisable(true)
       } else {
         const result = await saveSuchanaPrakasan(suchanaPrakasan)
         if (result.status === "success") {
@@ -96,10 +93,10 @@ export default function SuchanaPrakasan() {
           fetchSuchanaPrakasan()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(true)
         }
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

@@ -74,7 +74,6 @@ export default function LabTest() {
       (data) => data.karyalayaKoNaam === karyalayaKoNaam
     )
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editLabTest(editId, karyalayaKoNaam, thegana)
       if (result.status === "success") {
         setKaryalayaKoNaam("")
@@ -84,12 +83,10 @@ export default function LabTest() {
         fetchLabTest()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(true)
       }
     } else {
       if (result) {
         toast.error("item already exists")
-        setBtnDisable(true)
       } else {
         const result = await saveLabTest(karyalayaKoNaam, thegana)
         if (result.status === "success") {
@@ -99,10 +96,10 @@ export default function LabTest() {
           fetchLabTest()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(true)
         }
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

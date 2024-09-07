@@ -79,7 +79,6 @@ export default function SuchikritForm() {
     setBtnDisable(true)
 
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editSuchikritForm(
         editId,
         formKoNaam,
@@ -108,7 +107,6 @@ export default function SuchikritForm() {
         fetchSuchikritForm()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(true)
       }
     } else {
       const result = await saveSuchikritForm(
@@ -135,9 +133,9 @@ export default function SuchikritForm() {
         fetchSuchikritForm()
       } else {
         console.error("Error occurred during save")
-        setBtnDisable(true)
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

@@ -80,7 +80,6 @@ export default function LagatSrot() {
   const onSubmit = async () => {
     setBtnDisable(true)
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editLagatSrot(editId, anudanKoKisim, lagatSrotKoNaam)
       if (result.status === "success") {
         setAnudanKoKisim("")
@@ -91,7 +90,6 @@ export default function LagatSrot() {
         setBtnDisable(false)
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(false)
       }
     } else {
       const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
@@ -102,9 +100,9 @@ export default function LagatSrot() {
         fetchLagatSrot()
       } else {
         console.error("Error occurred during save")
-        setBtnDisable(false)
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {

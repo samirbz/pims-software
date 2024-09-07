@@ -75,7 +75,6 @@ export default function YojanaChanotNikaya() {
       (data) => data.yojanaChanotNikaya === yojanaChanotNikaya
     )
     if (editMode && editId) {
-      setBtnDisable(false)
       const result = await editYojanaChanotNikaya(editId, yojanaChanotNikaya)
       if (result.status === "success") {
         setYojanaChanotNikaya("")
@@ -84,24 +83,21 @@ export default function YojanaChanotNikaya() {
         fetchYojanaChanotNikaya()
       } else {
         console.error("Error occurred during edit")
-        setBtnDisable(true)
       }
     } else {
       if (result) {
         toast.error("item already exists")
-        setBtnDisable(false)
       } else {
         const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
         if (result.status === "success") {
-          setBtnDisable(true)
           setYojanaChanotNikaya("")
           fetchYojanaChanotNikaya()
         } else {
           console.error("Error occurred during save")
-          setBtnDisable(true)
         }
       }
     }
+    setBtnDisable(false)
   }
 
   const handleEdit = (item: any) => {
