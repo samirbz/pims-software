@@ -31,6 +31,7 @@ import { RiArrowDownDoubleFill } from "react-icons/ri"
 import {
   fetchWadaNumData,
   fetchYojanaBudgetDataSecond,
+  fetchMukyaSamitiData,
 } from "@/actions/formAction"
 
 const animals = [
@@ -59,7 +60,8 @@ export default function YojanaDarta() {
   const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
   const [mukhyaSamitiData, setMukhyaSamitiData] = useState<any[]>([])
   const [aunudaanKisimData, setAunudaanKisimData] = useState<any[]>([])
-  const [lagatSrotData, setlagatSrotData] = useState<any[]>([])
+  const [budgetKaryaKramData, setBudgetKaryaKramData] = useState<any[]>([])
+  const [budget, setBudget] = useState("")
 
   const [loading, setLoading] = useState(true)
 
@@ -86,12 +88,12 @@ export default function YojanaDarta() {
     }
   }
 
-  const fetchMukhyaSamiti = async (id: any) => {
+  const fetchMukhyaSamiti = async () => {
     try {
-      const data = await fetchYojanaBudgetDataSecond()
+      const data = await fetchMukyaSamitiData()
       // Filter the data based on the provided ID
-      const filteredData = data.filter((item: any) => item.id === id)
-      setMukhyaSamitiData(filteredData)
+
+      setMukhyaSamitiData(data)
     } catch (e) {
       console.error("Error fetching Mukhya Samiti data", e)
     }
@@ -107,14 +109,28 @@ export default function YojanaDarta() {
       console.error("Error fetching Mukhya Samiti data", e)
     }
   }
-  const fetchLagatSrot = async (id: any) => {
+
+  const fetchBudgetKaryakram = async (id: any) => {
     try {
       const data = await fetchYojanaBudgetDataSecond()
+
       // Filter the data based on the provided ID
       const filteredData = data.filter((item: any) => item.id === id)
-      setlagatSrotData(filteredData)
+      setBudgetKaryaKramData(filteredData)
+
+      // Ensure there is at least one item in filteredData
+      if (filteredData.length > 0) {
+        // Assuming you want to use the first item from the filtered data
+        const filteredBudgetData = filteredData[0]
+
+        // Set the budget using the 'biniyojanBudgetDt' field from the first item
+        setBudget(filteredBudgetData.biniyojanBudgetDt)
+      } else {
+        // Handle the case where no data matches the ID
+        setBudget("") // or another appropriate default value
+      }
     } catch (e) {
-      console.error("Error fetching Mukhya Samiti data", e)
+      console.error("Error fetching Budget Karyakram data", e)
     }
   }
 
@@ -122,7 +138,7 @@ export default function YojanaDarta() {
     const fetchAllData = async () => {
       try {
         // Fetch all data concurrently
-        await Promise.all([fetchWadaData()])
+        await Promise.all([fetchWadaData(), fetchMukhyaSamiti()])
       } catch (e) {
         console.error("Error fetching data", e)
       } finally {
@@ -266,9 +282,8 @@ export default function YojanaDarta() {
               size="sm"
               className="w-full"
               onChange={(e) => {
-                fetchMukhyaSamiti(e.target.value)
                 fetchAnudaanKoNaam(e.target.value)
-                fetchLagatSrot(e.target.value)
+                fetchBudgetKaryakram(e.target.value)
               }}
             >
               {yojanaKoNaamData.map((item) => (
@@ -285,7 +300,7 @@ export default function YojanaDarta() {
           </div>
           <Select label="मूख्य समिति" size="sm" className="w-full">
             {mukhyaSamitiData.map((item) => (
-              <SelectItem key={item.id}>{item.mukhyaSamitiDt}</SelectItem>
+              <SelectItem key={item.id}>{item.mukhyaSamitiKoNaam}</SelectItem>
             ))}
           </Select>
 
@@ -298,14 +313,20 @@ export default function YojanaDarta() {
                 ))}
               </Select>
 
-              <Select label="लागत श्रोत रकम  " size="sm" className="w-1/2">
-                {lagatSrotData.map((item) => (
+              <Select label="बजेट कार्यक्रम" size="sm" className="w-1/2">
+                {budgetKaryaKramData.map((item) => (
                   <SelectItem key={item.id}>
-                    {item.biniyojanBudgetDt}
+                    {item.budgetKaryakramDt}
                   </SelectItem>
                 ))}
               </Select>
-              <Input type="text" label="&nbsp;" size="sm" className="w-1/4" />
+              <Input
+                type="text"
+                label="&nbsp;"
+                size="sm"
+                className="w-1/4"
+                value={budget}
+              />
             </div>
             {divs.map((div, index) => (
               <div key={index}>{div}</div>
