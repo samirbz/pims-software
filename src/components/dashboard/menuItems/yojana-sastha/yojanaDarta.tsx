@@ -40,19 +40,15 @@ import {
 } from "@/actions/formAction"
 
 const qtyData = [
-  { key: "1", label: "1234567890123456789" },
-  { key: "2", label: "Dog" },
-  { key: "3", label: "Elephant" },
-  { key: "4", label: "Lion" },
-  { key: "5", label: "Tiger" },
-  { key: "6", label: "Giraffe" },
-  { key: "7", label: "Dolphin" },
-  { key: "8", label: "Penguin" },
-  { key: "9", label: "Zebra" },
-  { key: "10", label: "Shark" },
-  { key: "11", label: "Whale" },
-  { key: "12", label: "Otter" },
-  { key: "13", label: "Crocodile" },
+  { key: "1", label: "वटा" },
+  { key: "2", label: "कि.मि" },
+  { key: "3", label: "जना" },
+  { key: "4", label: "मि." },
+  { key: "5", label: "हे." },
+  { key: "6", label: "र.मि." },
+  { key: "7", label: "घ.मि." },
+  { key: "8", label: "के.जि." },
+  { key: "9", label: "थान " },
 ]
 const animals = [
   { key: "1", label: "1234567890123456789" },
