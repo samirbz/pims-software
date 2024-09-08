@@ -35,22 +35,38 @@ import {
   fetchMukyaSamitiData,
   fetchAnudaanKoNaamData,
   fetchFilterLagatSrotData,
+  fetchYojanaKaryaBivaranData,
 } from "@/actions/formAction"
 
+const qtyData = [
+  { key: "1", label: "1234567890123456789" },
+  { key: "2", label: "Dog" },
+  { key: "3", label: "Elephant" },
+  { key: "4", label: "Lion" },
+  { key: "5", label: "Tiger" },
+  { key: "6", label: "Giraffe" },
+  { key: "7", label: "Dolphin" },
+  { key: "8", label: "Penguin" },
+  { key: "9", label: "Zebra" },
+  { key: "10", label: "Shark" },
+  { key: "11", label: "Whale" },
+  { key: "12", label: "Otter" },
+  { key: "13", label: "Crocodile" },
+]
 const animals = [
-  { key: "cat", label: "1234567890123456789" },
-  { key: "dog", label: "Dog" },
-  { key: "elephant", label: "Elephant" },
-  { key: "lion", label: "Lion" },
-  { key: "tiger", label: "Tiger" },
-  { key: "giraffe", label: "Giraffe" },
-  { key: "dolphin", label: "Dolphin" },
-  { key: "penguin", label: "Penguin" },
-  { key: "zebra", label: "Zebra" },
-  { key: "shark", label: "Shark" },
-  { key: "whale", label: "Whale" },
-  { key: "otter", label: "Otter" },
-  { key: "crocodile", label: "Crocodile" },
+  { key: "1", label: "1234567890123456789" },
+  { key: "2", label: "Dog" },
+  { key: "3", label: "Elephant" },
+  { key: "4", label: "Lion" },
+  { key: "5", label: "Tiger" },
+  { key: "6", label: "Giraffe" },
+  { key: "7", label: "Dolphin" },
+  { key: "8", label: "Penguin" },
+  { key: "9", label: "Zebra" },
+  { key: "10", label: "Shark" },
+  { key: "11", label: "Whale" },
+  { key: "12", label: "Otter" },
+  { key: "13", label: "Crocodile" },
 ]
 
 export default function YojanaDarta() {
@@ -79,10 +95,17 @@ export default function YojanaDarta() {
   const [lagatSrotThirdData, setLagatSrotThirdData] = useState<any[]>([])
   const [budgetThird, setBudgetThird] = useState("")
 
+  const [yojanaKaryaBivaranData, setYojanaKaryaBivaranData] = useState<any[]>(
+    []
+  )
+
   const [totalSum, setTotalSum] = useState(0)
 
   const [loading, setLoading] = useState(true)
   const [showLoadingYojanaNaam, setShowLoadingYojanaNaam] = useState(false)
+  const [showLoadingLagatSrot1, setShowLoadingLagatSrot1] = useState(false)
+  const [showLoadingLagatSrot2, setShowLoadingLagatSrot2] = useState(false)
+  const [showLoadingLagatSrot3, setShowLoadingLagatSrot3] = useState(false)
 
   const [showSecond, setShowSecond] = useState(false)
   const [showThird, setShowThird] = useState(false)
@@ -184,6 +207,7 @@ export default function YojanaDarta() {
   }
 
   const fetchLagatSrotHaru = async (anudaanKoNaam: any) => {
+    setShowLoadingLagatSrot1(true)
     try {
       // Fetch the data from the API or data source
       const data = await fetchFilterLagatSrotData(anudaanKoNaam)
@@ -193,9 +217,12 @@ export default function YojanaDarta() {
     } catch (e) {
       // Handle any errors that occur during the fetch or filtering process
       console.error("Error fetching Lagat Srot data", e)
+    } finally {
+      setShowLoadingLagatSrot1(false)
     }
   }
   const fetchSecondLagatSrotHaru = async (anudaanKoNaam: any) => {
+    setShowLoadingLagatSrot2(true)
     try {
       // Fetch the data from the API or data source
       const data = await fetchFilterLagatSrotData(anudaanKoNaam)
@@ -205,9 +232,12 @@ export default function YojanaDarta() {
     } catch (e) {
       // Handle any errors that occur during the fetch or filtering process
       console.error("Error fetching Lagat Srot data", e)
+    } finally {
+      setShowLoadingLagatSrot2(false)
     }
   }
   const fetchThirdLagatSrotHaru = async (anudaanKoNaam: any) => {
+    setShowLoadingLagatSrot3(true)
     try {
       // Fetch the data from the API or data source
       const data = await fetchFilterLagatSrotData(anudaanKoNaam)
@@ -216,7 +246,19 @@ export default function YojanaDarta() {
       setLagatSrotThirdData(data)
     } catch (e) {
       // Handle any errors that occur during the fetch or filtering process
-      console.error("Error fetching Lagat Srot data", e)
+      console.error("Error fetching data", e)
+    } finally {
+      setShowLoadingLagatSrot3(false)
+    }
+  }
+
+  const fetchYojanaKaryaBivaran = async () => {
+    try {
+      const data = await fetchYojanaKaryaBivaranData()
+      setYojanaKaryaBivaranData(data)
+    } catch (e) {
+      // Handle any errors that occur during the fetch or filtering process
+      console.error("Error fetching data", e)
     }
   }
 
@@ -230,6 +272,7 @@ export default function YojanaDarta() {
           fetchAnudaanKoNaam(),
           fetchSecondAnudaanKoNaam(),
           fetchThirdAnudaanKoNaam(),
+          fetchYojanaKaryaBivaran(),
         ])
       } catch (e) {
         console.error("Error fetching data", e)
@@ -431,9 +474,14 @@ export default function YojanaDarta() {
                 ))}
               </Select>
 
-              <Select label="लागत श्रोतहरु" size="sm" className="w-1/2">
+              <Select
+                label="लागत श्रोतहरु"
+                size="sm"
+                className="w-1/2"
+                endContent={showLoadingLagatSrot1 ? <Spinner size="sm" /> : ""}
+              >
                 {lagatSrotData.map((item) => (
-                  <SelectItem key={item.id}>{item.anudanKoKisim}</SelectItem>
+                  <SelectItem key={item.id}>{item.lagatSrotKoNaam}</SelectItem>
                 ))}
               </Select>
               <Input
@@ -466,9 +514,18 @@ export default function YojanaDarta() {
                     </SelectItem>
                   ))}
                 </Select>
-                <Select label="लागत श्रोतहरु" size="sm" className="w-1/2">
+                <Select
+                  label="लागत श्रोतहरु"
+                  size="sm"
+                  className="w-1/2"
+                  endContent={
+                    showLoadingLagatSrot2 ? <Spinner size="sm" /> : ""
+                  }
+                >
                   {lagatSrotSecondData.map((item) => (
-                    <SelectItem key={item.id}>{item.anudanKoKisim}</SelectItem>
+                    <SelectItem key={item.id}>
+                      {item.lagatSrotKoNaam}
+                    </SelectItem>
                   ))}
                 </Select>
                 <Input
@@ -502,9 +559,18 @@ export default function YojanaDarta() {
                     </SelectItem>
                   ))}
                 </Select>
-                <Select label="लागत श्रोतहरु" size="sm" className="w-1/2">
+                <Select
+                  label="लागत श्रोतहरु"
+                  size="sm"
+                  className="w-1/2"
+                  endContent={
+                    showLoadingLagatSrot3 ? <Spinner size="sm" /> : ""
+                  }
+                >
                   {lagatSrotThirdData.map((item) => (
-                    <SelectItem key={item.id}>{item.anudanKoKisim}</SelectItem>
+                    <SelectItem key={item.id}>
+                      {item.lagatSrotKoNaam}
+                    </SelectItem>
                   ))}
                 </Select>
                 <Input
@@ -703,8 +769,8 @@ export default function YojanaDarta() {
             />
             <Input type="text" label="जनसंख्या" size="sm" className="w-full" />
             <Select label="कार्य बिवरण " size="sm" className="w-full">
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              {yojanaKaryaBivaranData.map((item) => (
+                <SelectItem key={item.id}>{item.yojanaKoKarya}</SelectItem>
               ))}
             </Select>
             <div className="flex gap-2">
@@ -715,8 +781,8 @@ export default function YojanaDarta() {
                 className="w-full"
               />
               <Select label="&nbsp;" size="sm" className="w-full">
-                {animals.map((animal) => (
-                  <SelectItem key={animal.key}>{animal.label}</SelectItem>
+                {qtyData.map((item) => (
+                  <SelectItem key={item.key}>{item.label}</SelectItem>
                 ))}
               </Select>
             </div>
