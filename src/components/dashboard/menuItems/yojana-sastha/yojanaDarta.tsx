@@ -59,9 +59,24 @@ export default function YojanaDarta() {
   // fill data
   const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
   const [mukhyaSamitiData, setMukhyaSamitiData] = useState<any[]>([])
+
+  // First lagat srot
   const [aunudaanKisimData, setAunudaanKisimData] = useState<any[]>([])
   const [lagatSrotData, setLagatSrotData] = useState<any[]>([])
   const [budget, setBudget] = useState("")
+  // Second lagat srot
+  const [aunudaanKisimSecondData, setAunudaanKisimSecondData] = useState<any[]>(
+    []
+  )
+  const [lagatSrotSecondData, setLagatSrotSecondData] = useState<any[]>([])
+  const [budgetSecond, setBudgetSecond] = useState("")
+
+  // Third lagat srot
+  const [aunudaanKisimThirdData, setAunudaanKisimThirdData] = useState<any[]>(
+    []
+  )
+  const [lagatSrotThirdData, setLagatSrotThirdData] = useState<any[]>([])
+  const [budgetThird, setBudgetThird] = useState("")
 
   const [loading, setLoading] = useState(true)
 
@@ -130,6 +145,26 @@ export default function YojanaDarta() {
       console.error("Error fetching Mukhya Samiti data", e)
     }
   }
+  const fetchSecondAnudaanKoNaam = async () => {
+    try {
+      const data = await fetchAnudaanKoNaamData()
+      // Filter the data based on the provided ID
+      // const filteredData = data.filter((item: any) => item.id === id)
+      setAunudaanKisimSecondData(data)
+    } catch (e) {
+      console.error("Error fetching Mukhya Samiti data", e)
+    }
+  }
+  const fetchThirdAnudaanKoNaam = async () => {
+    try {
+      const data = await fetchAnudaanKoNaamData()
+      // Filter the data based on the provided ID
+      // const filteredData = data.filter((item: any) => item.id === id)
+      setAunudaanKisimThirdData(data)
+    } catch (e) {
+      console.error("Error fetching Mukhya Samiti data", e)
+    }
+  }
 
   const fetchLagatSrotHaru = async (anudaanKoNaam: any) => {
     try {
@@ -138,6 +173,30 @@ export default function YojanaDarta() {
 
       // Set the filtered data in the state
       setLagatSrotData(data)
+    } catch (e) {
+      // Handle any errors that occur during the fetch or filtering process
+      console.error("Error fetching Lagat Srot data", e)
+    }
+  }
+  const fetchSecondLagatSrotHaru = async (anudaanKoNaam: any) => {
+    try {
+      // Fetch the data from the API or data source
+      const data = await fetchFilterLagatSrotData(anudaanKoNaam)
+
+      // Set the filtered data in the state
+      setLagatSrotSecondData(data)
+    } catch (e) {
+      // Handle any errors that occur during the fetch or filtering process
+      console.error("Error fetching Lagat Srot data", e)
+    }
+  }
+  const fetchThirdLagatSrotHaru = async (anudaanKoNaam: any) => {
+    try {
+      // Fetch the data from the API or data source
+      const data = await fetchFilterLagatSrotData(anudaanKoNaam)
+
+      // Set the filtered data in the state
+      setLagatSrotThirdData(data)
     } catch (e) {
       // Handle any errors that occur during the fetch or filtering process
       console.error("Error fetching Lagat Srot data", e)
@@ -152,6 +211,8 @@ export default function YojanaDarta() {
           fetchWadaData(),
           fetchMukhyaSamiti(),
           fetchAnudaanKoNaam(),
+          fetchSecondAnudaanKoNaam(),
+          fetchThirdAnudaanKoNaam(),
         ])
       } catch (e) {
         console.error("Error fetching data", e)
@@ -289,6 +350,7 @@ export default function YojanaDarta() {
             ))}
           </Select>
 
+          {/* First div  */}
           <div className="flex flex-col gap-2">
             <div className="flex w-full items-center gap-2">
               <p className="text-sm ">लागत&nbsp;श्रोत&nbsp;1</p>
@@ -325,13 +387,35 @@ export default function YojanaDarta() {
             {showSecond && (
               <div className="flex w-full items-center gap-2">
                 <p className="text-sm ">लागत&nbsp;श्रोत&nbsp;2</p>
-                <Select label="अनुदानको नाम" size="sm" className="w-1/4">
-                  <SelectItem key="1"></SelectItem>
+                <Select
+                  label="अनुदानको नाम"
+                  size="sm"
+                  className="w-1/4"
+                  onChange={(e) => {
+                    fetchSecondLagatSrotHaru(e.target.value)
+                  }}
+                >
+                  {aunudaanKisimSecondData.map((item) => (
+                    <SelectItem key={item.anudaanKoNaam}>
+                      {item.anudaanKoNaam}
+                    </SelectItem>
+                  ))}
                 </Select>
                 <Select label="लागत श्रोतहरु" size="sm" className="w-1/2">
-                  <SelectItem key="1"></SelectItem>
+                  {lagatSrotSecondData.map((item) => (
+                    <SelectItem key={item.id}>{item.anudanKoKisim}</SelectItem>
+                  ))}
                 </Select>
-                <Input type="text" label="&nbsp;" size="sm" className="w-1/4" />
+                <Input
+                  type="text"
+                  label="&nbsp;"
+                  size="sm"
+                  className="w-1/4"
+                  onChange={(e) => {
+                    setBudgetSecond(e.target.value)
+                  }}
+                  value={budgetSecond}
+                />
               </div>
             )}
 
@@ -339,13 +423,35 @@ export default function YojanaDarta() {
             {showThird && (
               <div className="flex w-full items-center gap-2">
                 <p className="text-sm ">लागत&nbsp;श्रोत&nbsp;3</p>
-                <Select label="अनुदानको नाम" size="sm" className="w-1/4">
-                  <SelectItem key="1"></SelectItem>
+                <Select
+                  label="अनुदानको नाम"
+                  size="sm"
+                  className="w-1/4"
+                  onChange={(e) => {
+                    fetchThirdLagatSrotHaru(e.target.value)
+                  }}
+                >
+                  {aunudaanKisimThirdData.map((item) => (
+                    <SelectItem key={item.anudaanKoNaam}>
+                      {item.anudaanKoNaam}
+                    </SelectItem>
+                  ))}
                 </Select>
                 <Select label="लागत श्रोतहरु" size="sm" className="w-1/2">
-                  <SelectItem key="1"></SelectItem>
+                  {lagatSrotThirdData.map((item) => (
+                    <SelectItem key={item.id}>{item.anudanKoKisim}</SelectItem>
+                  ))}
                 </Select>
-                <Input type="text" label="&nbsp;" size="sm" className="w-1/4" />
+                <Input
+                  type="text"
+                  label="&nbsp;"
+                  size="sm"
+                  className="w-1/4"
+                  onChange={(e) => {
+                    setBudgetThird(e.target.value)
+                  }}
+                  value={budgetThird}
+                />
               </div>
             )}
 
