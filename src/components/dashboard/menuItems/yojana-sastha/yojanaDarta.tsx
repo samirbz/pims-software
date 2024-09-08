@@ -702,7 +702,7 @@ export default function YojanaDarta() {
               className="w-full"
             />
             <Input type="text" label="जनसंख्या" size="sm" className="w-full" />
-            <Select label="Select an animal" size="sm" className="w-full">
+            <Select label="कार्य बिवरण " size="sm" className="w-full">
               {animals.map((animal) => (
                 <SelectItem key={animal.key}>{animal.label}</SelectItem>
               ))}
@@ -714,7 +714,7 @@ export default function YojanaDarta() {
                 size="sm"
                 className="w-full"
               />
-              <Select label="Select an animal" size="sm" className="w-full">
+              <Select label="&nbsp;" size="sm" className="w-full">
                 {animals.map((animal) => (
                   <SelectItem key={animal.key}>{animal.label}</SelectItem>
                 ))}
