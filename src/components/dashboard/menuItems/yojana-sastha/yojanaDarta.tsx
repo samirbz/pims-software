@@ -87,6 +87,15 @@ export default function YojanaDarta() {
   const [showSecond, setShowSecond] = useState(false)
   const [showThird, setShowThird] = useState(false)
 
+  const [contengency, setContengency] = useState("")
+  const [contengencyResult, setContengencyResult] = useState("")
+  const [marmat, setMarmat] = useState("")
+  const [marmatResult, setmarmatResult] = useState("")
+  const [dharauti, setDharauti] = useState("")
+  const [dharautiResult, setDharautiResult] = useState("")
+  const [kulanudanResult, setKulanudan] = useState("")
+  const [janaSramDan, setJanaSramDan] = useState("")
+
   const fetchWadaData = async () => {
     try {
       const data = await fetchWadaNumData()
@@ -234,6 +243,45 @@ export default function YojanaDarta() {
   useEffect(() => {
     setTotalSum(Number(budget) + Number(budgetSecond) + Number(budgetThird))
   }, [budget, budgetSecond, budgetThird])
+
+  useEffect(() => {
+    setContengencyResult(
+      ((Number(contengency) / 100) * Number(totalSum)).toFixed(2).toString()
+    )
+  }, [contengency, totalSum])
+
+  useEffect(() => {
+    setmarmatResult(
+      ((Number(marmat) / 100) * Number(totalSum)).toFixed(2).toString()
+    )
+  }, [marmat, totalSum])
+
+  useEffect(() => {
+    setDharautiResult(
+      ((Number(dharauti) / 100) * Number(totalSum)).toFixed(2).toString()
+    )
+  }, [dharauti, totalSum])
+
+  useEffect(() => {
+    setKulanudan(
+      (
+        Number(totalSum) -
+        (Number(contengencyResult) +
+          Number(marmatResult) +
+          Number(dharautiResult))
+      ).toString()
+    )
+  }, [contengencyResult, marmatResult, dharautiResult, totalSum])
+
+  useEffect(() => {
+    setJanaSramDan(
+      (
+        Number(contengencyResult) +
+        Number(marmatResult) +
+        -Number(totalSum)
+      ).toString()
+    )
+  }, [contengencyResult, marmatResult, dharautiResult, totalSum])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -574,12 +622,21 @@ export default function YojanaDarta() {
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
               <Input
-                type="text"
+                type="Number"
                 label="कन्टेन्जेन्सी&nbsp;%"
                 size="sm"
                 className="w-full"
+                onChange={(e) => {
+                  setContengency(e.target.value)
+                }}
               />
-              <Input type="text" label="&nbsp;" size="sm" className="w-full" />
+              <Input
+                type="Number"
+                label="&nbsp;"
+                size="sm"
+                className="w-full"
+                value={contengencyResult.toString()}
+              />
             </div>
             <div className="flex gap-2">
               <Input
@@ -587,8 +644,17 @@ export default function YojanaDarta() {
                 label="मर्मत&nbsp;रकम&nbsp;%"
                 size="sm"
                 className="w-full"
+                onChange={(e) => {
+                  setMarmat(e.target.value)
+                }}
               />
-              <Input type="text" label="&nbsp;" size="sm" className="w-full" />
+              <Input
+                type="text"
+                label="&nbsp;"
+                size="sm"
+                className="w-full"
+                value={marmatResult.toString()}
+              />
             </div>
             <div className="flex gap-2">
               <Input
@@ -596,20 +662,31 @@ export default function YojanaDarta() {
                 label="धरौटी&nbsp;रकम&nbsp;%"
                 size="sm"
                 className="w-full"
+                onChange={(e) => {
+                  setDharauti(e.target.value)
+                }}
               />
-              <Input type="text" label="&nbsp;" size="sm" className="w-full" />
+              <Input
+                type="text"
+                label="&nbsp;"
+                size="sm"
+                className="w-full"
+                value={dharautiResult.toString()}
+              />
             </div>
             <Input
               type="text"
               label="कुल अनुदान रु."
               size="sm"
               className="w-full"
+              value={kulanudanResult.toString()}
             />
             <Input
-              type="text"
+              type="Number"
               label="जनश्रमदान रु."
               size="sm"
               className="w-full"
+              value={janaSramDan}
             />
             <Input type="text" label="ठेगाना" size="sm" className="w-full" />
             <Input
