@@ -78,6 +78,8 @@ export default function YojanaDarta() {
   const [lagatSrotThirdData, setLagatSrotThirdData] = useState<any[]>([])
   const [budgetThird, setBudgetThird] = useState("")
 
+  const [totalSum, setTotalSum] = useState(0)
+
   const [loading, setLoading] = useState(true)
 
   const [showSecond, setShowSecond] = useState(true)
@@ -223,6 +225,10 @@ export default function YojanaDarta() {
 
     fetchAllData()
   }, [])
+
+  useEffect(() => {
+    setTotalSum(Number(budget) + Number(budgetSecond) + Number(budgetThird))
+  }, [budget, budgetSecond, budgetThird])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -525,10 +531,11 @@ export default function YojanaDarta() {
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
-              type="text"
+              type="Number"
               label="विनियोजित रकम रु."
               size="sm"
               className="w-full sm:w-1/2"
+              value={totalSum.toString()}
             />
             <Select
               label="योजना स्वीकृत"
