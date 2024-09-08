@@ -95,6 +95,7 @@ export default function YojanaDarta() {
   const [dharautiResult, setDharautiResult] = useState("")
   const [kulanudanResult, setKulanudan] = useState("")
   const [janaSramDan, setJanaSramDan] = useState("")
+  const [pravidik, setPravidik] = useState("")
 
   const fetchWadaData = async () => {
     try {
@@ -278,10 +279,11 @@ export default function YojanaDarta() {
       (
         Number(contengencyResult) +
         Number(marmatResult) +
-        -Number(totalSum)
+        Number(pravidik) -
+        Number(totalSum)
       ).toString()
     )
-  }, [contengencyResult, marmatResult, dharautiResult, totalSum])
+  }, [contengencyResult, marmatResult, dharautiResult, totalSum, pravidik])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -581,6 +583,10 @@ export default function YojanaDarta() {
               label="प्राविधिक इस्टिमेट रकम रु."
               size="sm"
               className="w-full sm:w-1/2"
+              onChange={(e) => {
+                setPravidik(e.target.value)
+              }}
+              value={pravidik}
             />
             <Select
               label="बजेट Type"
