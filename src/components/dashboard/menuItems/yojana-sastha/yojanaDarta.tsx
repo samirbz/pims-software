@@ -36,6 +36,7 @@ import {
   fetchAnudaanKoNaamData,
   fetchFilterLagatSrotData,
   fetchYojanaKaryaBivaranData,
+  fetchYojanaPrakarData,
 } from "@/actions/formAction"
 
 const qtyData = [
@@ -98,6 +99,8 @@ export default function YojanaDarta() {
   const [yojanaKaryaBivaranData, setYojanaKaryaBivaranData] = useState<any[]>(
     []
   )
+
+  const [ayojanaUpachetraData, setAyojanaUpachetraData] = useState<any[]>([])
 
   const [totalSum, setTotalSum] = useState(0)
 
@@ -252,6 +255,16 @@ export default function YojanaDarta() {
     }
   }
 
+  const ayojanaUpachetra = async () => {
+    try {
+      const data = await fetchYojanaPrakarData()
+      setAyojanaUpachetraData(data)
+    } catch (e) {
+      // Handle any errors that occur during the fetch or filtering process
+      console.error("Error fetching data", e)
+    }
+  }
+
   const fetchYojanaKaryaBivaran = async () => {
     try {
       const data = await fetchYojanaKaryaBivaranData()
@@ -273,6 +286,7 @@ export default function YojanaDarta() {
           fetchSecondAnudaanKoNaam(),
           fetchThirdAnudaanKoNaam(),
           fetchYojanaKaryaBivaran(),
+          ayojanaUpachetra(),
         ])
       } catch (e) {
         console.error("Error fetching data", e)
@@ -619,7 +633,9 @@ export default function YojanaDarta() {
           </div>
 
           <Select label="आयोजना उपक्षेत्र" size="sm" className="w-full">
-            <SelectItem key={"1"}>test</SelectItem>
+            {ayojanaUpachetraData.map((item) => (
+              <SelectItem key={item.id}>{item.yojanaPrakar}</SelectItem>
+            ))}
           </Select>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Select
