@@ -37,6 +37,7 @@ import {
   fetchFilterLagatSrotData,
   fetchYojanaKaryaBivaranData,
   fetchYojanaPrakarData,
+  fetchYojanaChanotNikayaData,
 } from "@/actions/formAction"
 
 const qtyData = [
@@ -50,20 +51,27 @@ const qtyData = [
   { key: "8", label: "के.जि." },
   { key: "9", label: "थान " },
 ]
-const animals = [
-  { key: "1", label: "1234567890123456789" },
-  { key: "2", label: "Dog" },
-  { key: "3", label: "Elephant" },
-  { key: "4", label: "Lion" },
-  { key: "5", label: "Tiger" },
-  { key: "6", label: "Giraffe" },
-  { key: "7", label: "Dolphin" },
-  { key: "8", label: "Penguin" },
-  { key: "9", label: "Zebra" },
-  { key: "10", label: "Shark" },
-  { key: "11", label: "Whale" },
-  { key: "12", label: "Otter" },
-  { key: "13", label: "Crocodile" },
+const karyagatSamuha = [
+  { key: "1", label: "उपभोक्ता समिति" },
+  { key: "2", label: "व्यक्तिगत " },
+  { key: "3", label: "संस्थागत" },
+  { key: "4", label: "संस्थागत " },
+  { key: "5", label: "अनुदान" },
+]
+const yojanaKoKisim = [
+  { key: "1", label: "अनुदान (गाउँ/नगरपालिका)" },
+  { key: "2", label: "९०% अनुदान (९०/१० )" },
+  { key: "3", label: "८०% अनुदान (८०/२० )" },
+  { key: "4", label: "६०% अनुदान (६०/४०)" },
+  { key: "5", label: "५०% अनुदान (५०/५०)" },
+  { key: "6", label: "४०% अनुदान (४०/६०)" },
+]
+const budgetType = [
+  { key: "1", label: "ल.ई." },
+  { key: "2", label: "प्रस्तावना" },
+  { key: "3", label: "निवेदन" },
+  { key: "4", label: "तोक आदेश" },
+  { key: "5", label: "अन्य" },
 ]
 
 export default function YojanaDarta() {
@@ -97,6 +105,8 @@ export default function YojanaDarta() {
   )
 
   const [ayojanaUpachetraData, setAyojanaUpachetraData] = useState<any[]>([])
+
+  const [yojanaChanotNikaya, setYojanaChanotNikaya] = useState<any[]>([])
 
   const [totalSum, setTotalSum] = useState(0)
 
@@ -271,6 +281,16 @@ export default function YojanaDarta() {
     }
   }
 
+  const fetYojanaChanotNikaya = async () => {
+    try {
+      const data = await fetchYojanaChanotNikayaData()
+      setYojanaChanotNikaya(data)
+    } catch (e) {
+      // Handle any errors that occur during the fetch or filtering process
+      console.error("Error fetching data", e)
+    }
+  }
+
   useEffect(() => {
     const fetchAllData = async () => {
       try {
@@ -283,6 +303,7 @@ export default function YojanaDarta() {
           fetchThirdAnudaanKoNaam(),
           fetchYojanaKaryaBivaran(),
           ayojanaUpachetra(),
+          fetYojanaChanotNikaya(),
         ])
       } catch (e) {
         console.error("Error fetching data", e)
@@ -640,19 +661,19 @@ export default function YojanaDarta() {
               size="sm"
               color="success"
             >
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              {yojanaKoKisim.map((item) => (
+                <SelectItem key={item.key}>{item.label}</SelectItem>
               ))}
             </Select>
             <Select label="वडा न." className="w-full sm:w-1/5" size="sm">
-              {wada.map((animal) => (
-                <SelectItem key={animal.id}>{animal.wadaNum}</SelectItem>
+              {wada.map((item) => (
+                <SelectItem key={item.id}>{item.wadaNum}</SelectItem>
               ))}
             </Select>
           </div>
           <Select label="कार्यागत समुह" className="w-full" size="sm">
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+            {karyagatSamuha.map((item) => (
+              <SelectItem key={item.key}>{item.label}</SelectItem>
             ))}
           </Select>
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -672,8 +693,8 @@ export default function YojanaDarta() {
               className="w-full sm:w-1/2"
               color="success"
             >
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              {budgetType.map((item) => (
+                <SelectItem key={item.key}>{item.label}</SelectItem>
               ))}
             </Select>
           </div>
@@ -691,8 +712,8 @@ export default function YojanaDarta() {
               className="w-full sm:w-1/2"
               color="success"
             >
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              {yojanaChanotNikaya.map((item) => (
+                <SelectItem key={item.id}>{item.yojanaChanotNikaya}</SelectItem>
               ))}
             </Select>
           </div>
