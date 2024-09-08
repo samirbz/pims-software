@@ -82,8 +82,8 @@ export default function YojanaDarta() {
 
   const [loading, setLoading] = useState(true)
 
-  const [showSecond, setShowSecond] = useState(true)
-  const [showThird, setShowThird] = useState(true)
+  const [showSecond, setShowSecond] = useState(false)
+  const [showThird, setShowThird] = useState(false)
 
   const fetchWadaData = async () => {
     try {
@@ -381,10 +381,13 @@ export default function YojanaDarta() {
                 ))}
               </Select>
               <Input
-                type="text"
+                type="Number"
                 label="&nbsp;"
                 size="sm"
                 className="w-1/4"
+                onChange={(e) => {
+                  setBudget(e.target.value)
+                }}
                 value={budget}
               />
             </div>
@@ -413,7 +416,7 @@ export default function YojanaDarta() {
                   ))}
                 </Select>
                 <Input
-                  type="text"
+                  type="Number"
                   label="&nbsp;"
                   size="sm"
                   className="w-1/4"
@@ -449,7 +452,7 @@ export default function YojanaDarta() {
                   ))}
                 </Select>
                 <Input
-                  type="text"
+                  type="Number"
                   label="&nbsp;"
                   size="sm"
                   className="w-1/4"
@@ -464,7 +467,10 @@ export default function YojanaDarta() {
             {/* Toggle buttons aligned right */}
             <div className="flex justify-end gap-2">
               <button
-                onClick={() => setShowSecond((prev) => !prev)}
+                onClick={() => {
+                  setShowSecond((prev) => !prev)
+                  if (showSecond) setBudgetSecond("")
+                }}
                 className={`rounded-md px-4 py-2 text-white ${
                   showSecond
                     ? "bg-red-500 hover:bg-red-600"
@@ -473,8 +479,12 @@ export default function YojanaDarta() {
               >
                 {showSecond ? "-" : "+"} लागत श्रोत २
               </button>
+
               <button
-                onClick={() => setShowThird((prev) => !prev)}
+                onClick={() => {
+                  setShowThird((prev) => !prev)
+                  if (showThird) setBudgetThird("")
+                }}
                 className={`rounded-md px-4 py-2 font-medium text-white ${
                   showThird
                     ? "bg-red-500 hover:bg-red-600"
