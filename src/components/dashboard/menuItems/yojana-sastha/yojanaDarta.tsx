@@ -20,6 +20,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Spinner,
 } from "@nextui-org/react"
 import React, { useEffect, useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
@@ -81,6 +82,7 @@ export default function YojanaDarta() {
   const [totalSum, setTotalSum] = useState(0)
 
   const [loading, setLoading] = useState(true)
+  const [showLoadingYojanaNaam, setShowLoadingYojanaNaam] = useState(false)
 
   const [showSecond, setShowSecond] = useState(false)
   const [showThird, setShowThird] = useState(false)
@@ -96,6 +98,7 @@ export default function YojanaDarta() {
 
   // fetch for auto fill according to yojana wadaNum
   const fetchYojanaNaam = async (wadaNum: any) => {
+    setShowLoadingYojanaNaam(true)
     try {
       const data = await fetchYojanaBudgetDataSecond()
       const filteredData = data.filter(
@@ -104,6 +107,8 @@ export default function YojanaDarta() {
       setYojanaKoNaamData(filteredData)
     } catch (e) {
       console.error("Error fetching Yojana data", e)
+    } finally {
+      setShowLoadingYojanaNaam(false)
     }
   }
 
@@ -337,6 +342,7 @@ export default function YojanaDarta() {
               onChange={(e) => {
                 fetchBudget(e.target.value)
               }}
+              endContent={showLoadingYojanaNaam ? <Spinner size="sm" /> : ""}
             >
               {yojanaKoNaamData.map((item) => (
                 <SelectItem key={item.id}>{item.yojanaKoNaamDt}</SelectItem>
