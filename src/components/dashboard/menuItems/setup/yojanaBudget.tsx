@@ -803,7 +803,7 @@ export default function YojanaBudget() {
             <TableBody>
               {items.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.yojanaKoNaam}</TableCell>
                   <TableCell>{item.wadaNum}</TableCell>
                   <TableCell>{item.biniyojanBudget}</TableCell>
@@ -1027,7 +1027,7 @@ export default function YojanaBudget() {
             <TableBody>
               {itemsSecond.map((item: any, index: any) => (
                 <TableRow key={item.id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.yojanaKoNaamDt}</TableCell>
                   <TableCell>{item.wadaNumDt}</TableCell>
                   <TableCell>{item.anudanKisimDt}</TableCell>

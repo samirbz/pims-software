@@ -232,7 +232,7 @@ export default function BankBivaran() {
             <TableBody>
               {items.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.bankKoNaam}</TableCell>
                   <TableCell>{item.sakha}</TableCell>
                   <TableCell>

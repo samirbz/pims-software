@@ -407,7 +407,7 @@ export default function UserSetup() {
           <TableBody>
             {items.map((member, index) => (
               <TableRow key={member.id}>
-                <TableCell>{index + 1}</TableCell>
+                <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                 <TableCell>{member.name}</TableCell>
                 <TableCell>{member.username}</TableCell>
                 <TableCell>{member.email}</TableCell>

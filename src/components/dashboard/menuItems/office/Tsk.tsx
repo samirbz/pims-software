@@ -363,7 +363,7 @@ export default function TskPage() {
             <TableBody>
               {items.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.tayarGarneKoName}</TableCell>
                   <TableCell>{item.tayarGarneKoPad}</TableCell>
                   <TableCell>{item.peshGarneKoName}</TableCell>
@@ -401,9 +401,7 @@ export default function TskPage() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete?
-          </ModalBody>
+          <ModalBody>Are you sure you want to delete?</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => setIsModalOpen(false)}>
               Cancel

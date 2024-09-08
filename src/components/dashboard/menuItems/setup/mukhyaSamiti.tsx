@@ -213,7 +213,7 @@ export default function MukhyaSamiti() {
             <TableBody>
               {items.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.mukhyaSamitiKoNaam}</TableCell>
                   <TableCell>
                     <Dropdown>

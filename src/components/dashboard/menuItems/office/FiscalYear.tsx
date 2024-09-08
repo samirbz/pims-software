@@ -192,7 +192,7 @@ export default function FiscalYearPage() {
             <TableBody>
               {items.map((year, index) => (
                 <TableRow key={year.id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{year.startDate}</TableCell>
                   <TableCell>{year.endDate}</TableCell>
                   <TableCell>{year.fy}</TableCell>
@@ -226,9 +226,7 @@ export default function FiscalYearPage() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete?
-          </ModalBody>
+          <ModalBody>Are you sure you want to delete?</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => setIsModalOpen(false)}>
               Cancel

@@ -216,7 +216,7 @@ export default function YojanaChanotNikaya() {
             <TableBody>
               {items.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.yojanaChanotNikaya}</TableCell>
                   <TableCell>
                     <Dropdown>
