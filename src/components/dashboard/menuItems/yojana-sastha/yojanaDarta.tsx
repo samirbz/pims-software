@@ -24,7 +24,7 @@ import {
 import React, { useEffect, useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 
-import { FaMinus, FaPlus, FaRegSave } from "react-icons/fa"
+import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { RiArrowDownDoubleFill } from "react-icons/ri"
@@ -54,8 +54,6 @@ const animals = [
 
 export default function YojanaDarta() {
   const [date, setDate] = useState<string>("")
-  const [divs, setDivs] = useState<React.JSX.Element[]>([])
-
   const [wada, setWada] = useState<any[]>([])
 
   // fill data
@@ -66,6 +64,9 @@ export default function YojanaDarta() {
   const [budget, setBudget] = useState("")
 
   const [loading, setLoading] = useState(true)
+
+  const [showSecond, setShowSecond] = useState(true)
+  const [showThird, setShowThird] = useState(true)
 
   const fetchWadaData = async () => {
     try {
@@ -163,34 +164,6 @@ export default function YojanaDarta() {
   }, [])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
-  const addDiv = () => {
-    setDivs([
-      ...divs,
-      <div className="flex w-full items-center gap-2" key={divs.length}>
-        <p className="text-sm">लागत&nbsp;श्रोत</p>
-        <Select label="&nbsp;" className="w-1/4" size="sm">
-          {animals.map((animal) => (
-            <SelectItem key={animal.key}>{animal.label}</SelectItem>
-          ))}
-        </Select>
-        <Select label="&nbsp;" className="w-1/2" size="sm">
-          {animals.map((animal) => (
-            <SelectItem key={animal.key}>{animal.label}</SelectItem>
-          ))}
-        </Select>
-        <Input type="text" label="&nbsp;" className="w-1/4" size="sm" />
-      </div>,
-    ])
-  }
-
-  const removeDiv = () => {
-    setDivs((prevDivs) => {
-      const newDivs = [...prevDivs]
-      newDivs.pop()
-      return newDivs
-    })
-  }
 
   if (loading) {
     return <div>Loading...</div>
@@ -318,7 +291,7 @@ export default function YojanaDarta() {
 
           <div className="flex flex-col gap-2">
             <div className="flex w-full items-center gap-2">
-              <p className="text-sm">लागत&nbsp;श्रोत</p>
+              <p className="text-sm ">लागत&nbsp;श्रोत&nbsp;1</p>
               <Select
                 label="अनुदानको नाम"
                 size="sm"
@@ -347,20 +320,57 @@ export default function YojanaDarta() {
                 value={budget}
               />
             </div>
-            {divs.map((div, index) => (
-              <div key={index}>{div}</div>
-            ))}
+
+            {/* Second div - toggleable */}
+            {showSecond && (
+              <div className="flex w-full items-center gap-2">
+                <p className="text-sm ">लागत&nbsp;श्रोत&nbsp;2</p>
+                <Select label="अनुदानको नाम" size="sm" className="w-1/4">
+                  <SelectItem key="1"></SelectItem>
+                </Select>
+                <Select label="लागत श्रोतहरु" size="sm" className="w-1/2">
+                  <SelectItem key="1"></SelectItem>
+                </Select>
+                <Input type="text" label="&nbsp;" size="sm" className="w-1/4" />
+              </div>
+            )}
+
+            {/* Third div - toggleable */}
+            {showThird && (
+              <div className="flex w-full items-center gap-2">
+                <p className="text-sm ">लागत&nbsp;श्रोत&nbsp;3</p>
+                <Select label="अनुदानको नाम" size="sm" className="w-1/4">
+                  <SelectItem key="1"></SelectItem>
+                </Select>
+                <Select label="लागत श्रोतहरु" size="sm" className="w-1/2">
+                  <SelectItem key="1"></SelectItem>
+                </Select>
+                <Input type="text" label="&nbsp;" size="sm" className="w-1/4" />
+              </div>
+            )}
+
+            {/* Toggle buttons aligned right */}
             <div className="flex justify-end gap-2">
-              <FaPlus
-                className="cursor-pointer self-end text-blue-600"
-                onClick={addDiv}
-                size={18}
-              />
-              <FaMinus
-                className="cursor-pointer self-end text-red-600"
-                onClick={removeDiv}
-                size={18}
-              />
+              <button
+                onClick={() => setShowSecond((prev) => !prev)}
+                className={`rounded-md px-4 py-2 text-white ${
+                  showSecond
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-green-500 hover:bg-green-600"
+                }`}
+              >
+                {showSecond ? "-" : "+"} लागत श्रोत २
+              </button>
+              <button
+                onClick={() => setShowThird((prev) => !prev)}
+                className={`rounded-md px-4 py-2 font-medium text-white ${
+                  showThird
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-green-500 hover:bg-green-600"
+                }`}
+              >
+                {showThird ? "-" : "+"} लागत श्रोत ३
+              </button>
             </div>
           </div>
 
