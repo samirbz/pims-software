@@ -32,6 +32,7 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { ConvertToNepaliNumerals } from "@/lib/util"
 
 export default function Wada() {
   const [wadaNum, setWadaNum] = useState("")
@@ -216,7 +217,7 @@ export default function Wada() {
               {items.map((item, index) => (
                 <TableRow key={item.id}>
                   <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
-                  <TableCell>{item.wadaNum}</TableCell>
+                  <TableCell>{ConvertToNepaliNumerals(item.wadaNum)}</TableCell>
                   <TableCell>
                     <Dropdown>
                       <DropdownTrigger>

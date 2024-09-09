@@ -32,6 +32,7 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { ConvertToNepaliNumerals } from "@/lib/util"
 
 export default function SuchikritForm() {
   const [formKoNaam, setFormKoNaam] = useState("")
@@ -257,21 +258,21 @@ export default function SuchikritForm() {
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
-              type="text"
+              type="Number"
               label="पान भ्याट न."
               size="sm"
               value={panVat}
               onChange={(e) => setPanVat(e.target.value)}
             />
             <Input
-              type="text"
+              type="Number"
               label="कम्पनि दर्ता न."
               size="sm"
               value={companyDartaNum}
               onChange={(e) => setCompanyDartaNum(e.target.value)}
             />
             <Input
-              type="text"
+              type="Number"
               label="प्रमाण पत्र संख्याः "
               size="sm"
               value={pramanPatraSankhya}
@@ -288,7 +289,7 @@ export default function SuchikritForm() {
               onChange={(e) => setPhoneNum(e.target.value)}
             />
             <Input
-              type="text"
+              type="Number"
               label="सुची दर्ता नः"
               size="sm"
               value={suchiDartaNum}
@@ -371,10 +372,14 @@ export default function SuchikritForm() {
                   <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.formKoNaam}</TableCell>
                   <TableCell>{item.formKoThegana}</TableCell>
-                  <TableCell>{item.panVat}</TableCell>
-                  <TableCell>{item.companyDartaNum}</TableCell>
-                  <TableCell>{item.phoneNum}</TableCell>
-                  <TableCell>{item.dartaMiti}</TableCell>
+                  <TableCell>{ConvertToNepaliNumerals(item.panVat)}</TableCell>
+                  <TableCell>
+                    {ConvertToNepaliNumerals(item.companyDartaNum)}
+                  </TableCell>
+                  <TableCell>
+                    {ConvertToNepaliNumerals(item.phoneNum)}
+                  </TableCell>
+                  <TableCell>{ConvertToNepaliNumerals(item.dartaMiti)}</TableCell>
                   <TableCell>{item.suchikritHunaChahekoKharid}</TableCell>
                   <TableCell>
                     <Dropdown>

@@ -45,6 +45,7 @@ import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { ConvertToNepaliNumerals } from "@/lib/util"
 
 export default function YojanaBudget() {
   const [yojanaKoNaam, setYojanaKoNaam] = useState("")
@@ -689,7 +690,7 @@ export default function YojanaBudget() {
               errorMessage={errors.anudanKisim}
             />
             <Input
-              type="number"
+              type="Number"
               label=" विनियोजन बजेट"
               size="sm"
               value={biniyojanBudget}
@@ -805,8 +806,10 @@ export default function YojanaBudget() {
                 <TableRow key={item.id}>
                   <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.yojanaKoNaam}</TableCell>
-                  <TableCell>{item.wadaNum}</TableCell>
-                  <TableCell>{item.biniyojanBudget}</TableCell>
+                  <TableCell>{ConvertToNepaliNumerals(item.wadaNum)}</TableCell>
+                  <TableCell>
+                    {ConvertToNepaliNumerals(item.biniyojanBudget)}
+                  </TableCell>
                   <TableCell>{item.anudanKisim}</TableCell>
                   <TableCell>{item.budgetKaryakram}</TableCell>
                   <TableCell>{item.yojanaKisim}</TableCell>
@@ -1029,9 +1032,13 @@ export default function YojanaBudget() {
                 <TableRow key={item.id}>
                   <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.yojanaKoNaamDt}</TableCell>
-                  <TableCell>{item.wadaNumDt}</TableCell>
+                  <TableCell>
+                    {ConvertToNepaliNumerals(item.wadaNumDt)}
+                  </TableCell>
                   <TableCell>{item.anudanKisimDt}</TableCell>
-                  <TableCell>{item.biniyojanBudgetDt}</TableCell>
+                  <TableCell>
+                    {ConvertToNepaliNumerals(item.biniyojanBudgetDt)}
+                  </TableCell>
                   <TableCell>{item.budgetKaryakramDt}</TableCell>
                   <TableCell>{item.yojanaKisimDt}</TableCell>
                   <TableCell>{item.mukhyaSamitiDt}</TableCell>

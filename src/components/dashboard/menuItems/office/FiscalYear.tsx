@@ -30,6 +30,7 @@ import {
 } from "@/actions/formAction"
 import { MdModeEditOutline } from "react-icons/md"
 import { toast } from "react-toastify"
+import { ConvertToNepaliNumerals } from "@/lib/util"
 
 export default function FiscalYearPage() {
   const [startDate, setStartDate] = useState<string>("")
@@ -193,9 +194,11 @@ export default function FiscalYearPage() {
               {items.map((year, index) => (
                 <TableRow key={year.id}>
                   <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
-                  <TableCell>{year.startDate}</TableCell>
-                  <TableCell>{year.endDate}</TableCell>
-                  <TableCell>{year.fy}</TableCell>
+                  <TableCell>
+                    {ConvertToNepaliNumerals(year.startDate)}
+                  </TableCell>
+                  <TableCell>{ConvertToNepaliNumerals(year.endDate)}</TableCell>
+                  <TableCell>{ConvertToNepaliNumerals(year.fy)}</TableCell>
                   <TableCell>
                     <Dropdown>
                       <DropdownTrigger>

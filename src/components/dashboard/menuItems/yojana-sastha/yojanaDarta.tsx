@@ -39,6 +39,7 @@ import {
   fetchYojanaPrakarData,
   fetchYojanaChanotNikayaData,
 } from "@/actions/formAction"
+import { ConvertToNepaliNumerals } from "@/lib/util"
 
 const qtyData = [
   { key: "1", label: "वटा" },
@@ -454,7 +455,9 @@ export default function YojanaDarta() {
               }}
             >
               {wada.map((item) => (
-                <SelectItem key={item.wadaNum}>{item.wadaNum}</SelectItem>
+                <SelectItem key={item.wadaNum}>
+                  {ConvertToNepaliNumerals(item.wadaNum)}
+                </SelectItem>
               ))}
             </Select>
           </div>
@@ -667,7 +670,9 @@ export default function YojanaDarta() {
             </Select>
             <Select label="वडा न." className="w-full sm:w-1/5" size="sm">
               {wada.map((item) => (
-                <SelectItem key={item.id}>{item.wadaNum}</SelectItem>
+                <SelectItem key={item.id}>
+                  {ConvertToNepaliNumerals(item.wadaNum)}
+                </SelectItem>
               ))}
             </Select>
           </div>
@@ -678,7 +683,7 @@ export default function YojanaDarta() {
           </Select>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
-              type="text"
+              type="Number"
               label="प्राविधिक इस्टिमेट रकम रु."
               size="sm"
               className="w-full sm:w-1/2"
@@ -745,7 +750,7 @@ export default function YojanaDarta() {
             </div>
             <div className="flex gap-2">
               <Input
-                type="text"
+                type="Number"
                 label="मर्मत&nbsp;रकम&nbsp;%"
                 size="sm"
                 className="w-full"
@@ -754,7 +759,7 @@ export default function YojanaDarta() {
                 }}
               />
               <Input
-                type="text"
+                type="Number"
                 label="&nbsp;"
                 size="sm"
                 className="w-full"
@@ -763,7 +768,7 @@ export default function YojanaDarta() {
             </div>
             <div className="flex gap-2">
               <Input
-                type="text"
+                type="Number"
                 label="धरौटी&nbsp;रकम&nbsp;%"
                 size="sm"
                 className="w-full"
@@ -772,7 +777,7 @@ export default function YojanaDarta() {
                 }}
               />
               <Input
-                type="text"
+                type="Number"
                 label="&nbsp;"
                 size="sm"
                 className="w-full"
@@ -780,7 +785,7 @@ export default function YojanaDarta() {
               />
             </div>
             <Input
-              type="text"
+              type="Number"
               label="कुल अनुदान रु."
               size="sm"
               className="w-full"
@@ -795,12 +800,17 @@ export default function YojanaDarta() {
             />
             <Input type="text" label="ठेगाना" size="sm" className="w-full" />
             <Input
-              type="text"
+              type="Number"
               label="घर परिवार संख्या"
               size="sm"
               className="w-full"
             />
-            <Input type="text" label="जनसंख्या" size="sm" className="w-full" />
+            <Input
+              type="Number"
+              label="जनसंख्या"
+              size="sm"
+              className="w-full"
+            />
             <Select label="कार्य बिवरण " size="sm" className="w-full">
               {yojanaKaryaBivaranData.map((item) => (
                 <SelectItem key={item.id}>{item.yojanaKoKarya}</SelectItem>

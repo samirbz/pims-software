@@ -40,6 +40,7 @@ import {
 } from "@/lib/schemas/staffRegisterSchema"
 import { MdModeEditOutline } from "react-icons/md"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ConvertToNepaliNumerals } from "@/lib/util"
 
 interface Member {
   id: string
@@ -365,7 +366,7 @@ export default function StaffDetailPage() {
               <TableRow key={member.id}>
                 <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                 <TableCell>{member.name}</TableCell>
-                <TableCell>{member.ranking}</TableCell>
+                <TableCell>{ConvertToNepaliNumerals(member.ranking)}</TableCell>
                 <TableCell>{member.position}</TableCell>
                 <TableCell>{member.isuser ? "Yes" : "No"}</TableCell>
                 <TableCell>
