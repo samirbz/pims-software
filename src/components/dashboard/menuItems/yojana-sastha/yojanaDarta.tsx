@@ -21,6 +21,7 @@ import {
   TableHeader,
   TableRow,
   Spinner,
+  Pagination,
 } from "@nextui-org/react"
 import React, { useEffect, useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
@@ -39,6 +40,7 @@ import {
   fetchYojanaPrakarData,
   fetchYojanaChanotNikayaData,
   saveYojanaDarta,
+  fetchYojanaDartaData,
 } from "@/actions/formAction"
 import { ConvertToNepaliNumerals } from "@/lib/util"
 import { toast } from "react-toastify"
@@ -161,7 +163,20 @@ export default function YojanaDarta() {
   const [barsikYojana, setBarsikYojana] = useState(false)
   const [kramagatYojana, setKramagatYojana] = useState(false)
 
+  const [yojanaDartaData, setYojanaDartaData] = useState<any[]>([])
+
   const [btnDisable, setBtnDisable] = useState(false)
+
+  const [page, setPage] = useState(1)
+  const rowsPerPage = 7
+
+  const pages = Math.ceil(yojanaDartaData.length / rowsPerPage)
+
+  const items = React.useMemo(() => {
+    const start = (page - 1) * rowsPerPage
+    const end = start + rowsPerPage
+    return yojanaDartaData.slice(start, end)
+  }, [page, yojanaDartaData])
 
   const fetchWadaData = async () => {
     try {
@@ -325,6 +340,16 @@ export default function YojanaDarta() {
     }
   }
 
+  const fetchYojanaDarta = async () => {
+    try {
+      const data = await fetchYojanaDartaData()
+      console.log("Fetched Anudaan Data:", data) // For debugging
+      setYojanaDartaData(data)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
+    }
+  }
+
   const onSubmit = async () => {
     setBtnDisable(true)
     setBiniyojitRakam(totalSum.toString())
@@ -427,6 +452,7 @@ export default function YojanaDarta() {
           fetchYojanaKaryaBivaran(),
           ayojanaUpachetra(),
           fetYojanaChanotNikaya(),
+          fetchYojanaDarta(),
         ])
       } catch (e) {
         console.error("Error fetching data", e)
@@ -528,51 +554,77 @@ export default function YojanaDarta() {
                 योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
               </ModalHeader>
               <ModalBody>
-                <Table aria-label="Example static collection table">
-                  <TableHeader>
-                    <TableColumn>सि.न.</TableColumn>
-                    <TableColumn>आयोजना नाम</TableColumn>
-                    <TableColumn>आयोजनको प्रकार</TableColumn>
-                    <TableColumn>वडा न.</TableColumn>
-                    <TableColumn>ल.ई रकम</TableColumn>
-                    <TableColumn>अनुदान रकम</TableColumn>
-                    <TableColumn>सहभागिता</TableColumn>
-                    <TableColumn>Edit</TableColumn>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow key="">
-                      <TableCell>1</TableCell>
-                      <TableCell>e</TableCell>
-                      <TableCell>e</TableCell>
-                      <TableCell>e</TableCell>
-                      <TableCell>e</TableCell>
-                      <TableCell>e</TableCell>
-                      <TableCell>e</TableCell>
-                      <TableCell>
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button
-                              className="z-10"
-                              variant="shadow"
-                              size="sm"
-                              startContent={<MdModeEditOutline />}
-                            ></Button>
-                          </DropdownTrigger>
-                          <DropdownMenu aria-label="Static Actions">
-                            <DropdownItem>Edit</DropdownItem>
-                            <DropdownItem
-                              key="delete"
-                              className="text-danger"
-                              color="danger"
-                            >
-                              Delete
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+                {loading ? (
+                  <div className="my-4 flex w-full justify-center">
+                    <Spinner color="primary" />
+                  </div>
+                ) : (
+                  <Table
+                    aria-label="Example static collection table"
+                    className="h-auto min-w-full"
+                    bottomContent={
+                      <div className="flex w-full justify-center">
+                        <Pagination
+                          isCompact
+                          showControls
+                          showShadow
+                          color="secondary"
+                          page={page}
+                          total={pages}
+                          onChange={(page) => setPage(page)}
+                        />
+                      </div>
+                    }
+                  >
+                    <TableHeader>
+                      <TableColumn>सि.न.</TableColumn>
+                      <TableColumn>आयोजना नाम</TableColumn>
+                      <TableColumn>आयोजनको प्रकार</TableColumn>
+                      <TableColumn>वडा न.</TableColumn>
+                      <TableColumn>ल.ई रकम</TableColumn>
+                      <TableColumn>अनुदान रकम</TableColumn>
+                      <TableColumn>सहभागिता</TableColumn>
+                      <TableColumn>Edit</TableColumn>
+                    </TableHeader>
+                    <TableBody>
+                      {items.map((item, index) => (
+                        <TableRow key={item.id}>
+                          <TableCell>
+                            {(page - 1) * rowsPerPage + index + 1}
+                          </TableCell>
+                          <TableCell>{item.yojanaKoNaam}</TableCell>
+                          <TableCell>{item.yojanaUpachetra}</TableCell>
+                          <TableCell>{item.wada}</TableCell>
+                          <TableCell>N.a</TableCell>
+                          <TableCell>{item.kulAnudaanRakam}</TableCell>
+                          <TableCell>N.a</TableCell>
+                          <TableCell>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                <Button
+                                  className="z-10"
+                                  variant="shadow"
+                                  size="sm"
+                                  startContent={<MdModeEditOutline />}
+                                ></Button>
+                              </DropdownTrigger>
+                              <DropdownMenu aria-label="Static Actions">
+                                <DropdownItem>Edit</DropdownItem>
+                                <DropdownItem
+                                  key="delete"
+                                  className="text-danger"
+                                  color="danger"
+                                >
+                                  Delete
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
               </ModalBody>
             </>
           )}
