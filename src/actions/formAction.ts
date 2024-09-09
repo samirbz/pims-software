@@ -1117,3 +1117,209 @@ export async function editLabTest(
     return { status: "error", error: "Something went wrong" }
   }
 }
+
+// 12. yojana darta
+export async function saveYojanaDarta(
+  sabhaNirnayaMiti:string,
+  yojanaKoWada: string,
+  yojanaKoNaam: string,
+  budgetKitabSnum: string,
+  mukhyaSamiti: string,
+  anudanKoNaam: string,
+  lagatSrotHaru: string,
+  lagatSrotAmount: string,
+  anudanKoNaam2: string,
+  lagatSrotHaru2: string,
+  lagatSrotAmount2: string,
+  anudanKoNaam3: string,
+  lagatSrotHaru3: string,
+  lagatSrotAmount3: string,
+  yojanaUpachetra: string,
+  yojanaKoKisim: string,
+  wada: string,
+  karyagatSamuha: string,
+  prabidhikEstimateAmount: string,
+  budgetType: string,
+  biniyojitRakam: string,
+  yojanaSwikrit: string,
+  contengency: string,
+  contengencyResult: string,
+  marmatRakam: string,
+  markmatRakamResult: string,
+  dharautiRakam: string,
+  dharautiRakamResult: string,
+  kulAnudaanRakam: string,
+  janaSramdanRakam: string,
+  thegana: string,
+  gharPariwarSankhya: string,
+  janaSankhya: string,
+  karyaBivaran: string,
+  upalabdhiLakshya: string,
+  uplabdhiLakhshyaQty: string,
+  barsikYojana: boolean,
+  kramagatYojana: boolean
+) {
+  try {
+    const dt = await prisma.yojanaDarta.create({
+      data: {
+        sabhaNirnayaMiti,
+        yojanaKoWada,
+        yojanaKoNaam,
+        budgetKitabSnum,
+        mukhyaSamiti,
+        anudanKoNaam,
+        lagatSrotHaru,
+        lagatSrotAmount,
+        anudanKoNaam2,
+        lagatSrotHaru2,
+        lagatSrotAmount2,
+        anudanKoNaam3,
+        lagatSrotHaru3,
+        lagatSrotAmount3,
+        yojanaUpachetra,
+        yojanaKoKisim,
+        wada,
+        karyagatSamuha,
+        prabidhikEstimateAmount,
+        budgetType,
+        biniyojitRakam,
+        yojanaSwikrit,
+        contengency,
+        contengencyResult,
+        marmatRakam,
+        markmatRakamResult,
+        dharautiRakam,
+        dharautiRakamResult,
+        kulAnudaanRakam,
+        janaSramdanRakam,
+        thegana,
+        gharPariwarSankhya,
+        janaSankhya,
+        karyaBivaran,
+        upalabdhiLakshya,
+        uplabdhiLakhshyaQty,
+        barsikYojana,
+        kramagatYojana,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in yojanadarta:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function fetchYojanaDartaData() {
+  try {
+    const data = await prisma.yojanaDarta.findMany()
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
+export async function deleteYojanaDarta(id: string) {
+  try {
+    await prisma.yojanaDarta.delete({
+      where: { id },
+    })
+    return { status: "success" }
+  } catch (error) {
+    console.error("Failed to delete date:", error)
+    return { status: "error", error: "something went wrong" }
+  }
+}
+
+export async function editYojanaDarta(
+  id: string,
+  sabhaNirnayaMiti: string,
+  yojanaKoWada: string,
+  yojanaKoNaam: string,
+  budgetKitabSnum: string,
+  mukhyaSamiti: string,
+  anudanKoNaam: string,
+  lagatSrotHaru: string,
+  lagatSrotAmount: string,
+  anudanKoNaam2: string,
+  lagatSrotHaru2: string,
+  lagatSrotAmount2: string,
+  anudanKoNaam3: string,
+  lagatSrotHaru3: string,
+  lagatSrotAmount3: string,
+  yojanaUpachetra: string,
+  yojanaKoKisim: string,
+  wada: string,
+  karyagatSamuha: string,
+  prabidhikEstimateAmount: string,
+  budgetType: string,
+  biniyojitRakam: string,
+  yojanaSwikrit: string,
+  contengency: string,
+  contengencyResult: string,
+  marmatRakam: string,
+  markmatRakamResult: string,
+  dharautiRakam: string,
+  dharautiRakamResult: string,
+  kulAnudaanRakam: string,
+  janaSramdanRakam: string,
+  thegana: string,
+  gharPariwarSankhya: string,
+  janaSankhya: string,
+  karyaBivaran: string,
+  upalabdhiLakshya: string,
+  uplabdhiLakhshyaQty: string,
+  barsikYojana: boolean,
+  kramagatYojana: boolean
+) {
+  try {
+    const updatedRecord = await prisma.yojanaDarta.update({
+      where: {
+        id,
+      },
+      data: {
+        sabhaNirnayaMiti,
+        yojanaKoWada,
+        yojanaKoNaam,
+        budgetKitabSnum,
+        mukhyaSamiti,
+        anudanKoNaam,
+        lagatSrotHaru,
+        lagatSrotAmount,
+        anudanKoNaam2,
+        lagatSrotHaru2,
+        lagatSrotAmount2,
+        anudanKoNaam3,
+        lagatSrotHaru3,
+        lagatSrotAmount3,
+        yojanaUpachetra,
+        yojanaKoKisim,
+        wada,
+        karyagatSamuha,
+        prabidhikEstimateAmount,
+        budgetType,
+        biniyojitRakam,
+        yojanaSwikrit,
+        contengency,
+        contengencyResult,
+        marmatRakam,
+        markmatRakamResult,
+        dharautiRakam,
+        dharautiRakamResult,
+        kulAnudaanRakam,
+        janaSramdanRakam,
+        thegana,
+        gharPariwarSankhya,
+        janaSankhya,
+        karyaBivaran,
+        upalabdhiLakshya,
+        uplabdhiLakhshyaQty,
+        barsikYojana,
+        kramagatYojana,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}

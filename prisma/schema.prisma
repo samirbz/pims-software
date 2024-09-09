@@ -153,3 +153,45 @@ model LabTest {
   karyalayaKoNaam String
   thegana         String
 }
+
+model YojanaDarta {
+  id                      String  @id @default(cuid())
+  sabhaNirnayaMiti        String
+  yojanaKoWada            String
+  yojanaKoNaam            String
+  budgetKitabSnum         String
+  mukhyaSamiti            String
+  anudanKoNaam            String
+  lagatSrotHaru           String
+  lagatSrotAmount         String
+  anudanKoNaam2           String
+  lagatSrotHaru2          String
+  lagatSrotAmount2        String
+  anudanKoNaam3           String
+  lagatSrotHaru3          String
+  lagatSrotAmount3        String
+  yojanaUpachetra         String
+  yojanaKoKisim           String
+  wada                    String
+  karyagatSamuha          String
+  prabidhikEstimateAmount String
+  budgetType              String
+  biniyojitRakam          String
+  yojanaSwikrit           String
+  contengency             String
+  contengencyResult       String
+  marmatRakam             String
+  markmatRakamResult      String
+  dharautiRakam           String
+  dharautiRakamResult     String
+  kulAnudaanRakam         String
+  janaSramdanRakam        String
+  thegana                 String
+  gharPariwarSankhya      String
+  janaSankhya             String
+  karyaBivaran            String
+  upalabdhiLakshya        String
+  uplabdhiLakhshyaQty     String
+  barsikYojana            Boolean
+  kramagatYojana          Boolean
+}

@@ -38,10 +38,12 @@ import {
   fetchYojanaKaryaBivaranData,
   fetchYojanaPrakarData,
   fetchYojanaChanotNikayaData,
+  saveYojanaDarta,
 } from "@/actions/formAction"
 import { ConvertToNepaliNumerals } from "@/lib/util"
+import { toast } from "react-toastify"
 
-const qtyData = [
+const qtyDataList = [
   { key: "1", label: "वटा" },
   { key: "2", label: "कि.मि" },
   { key: "3", label: "जना" },
@@ -52,14 +54,14 @@ const qtyData = [
   { key: "8", label: "के.जि." },
   { key: "9", label: "थान " },
 ]
-const karyagatSamuha = [
+const karyagatSamuhaList = [
   { key: "1", label: "उपभोक्ता समिति" },
   { key: "2", label: "व्यक्तिगत " },
   { key: "3", label: "संस्थागत" },
   { key: "4", label: "संस्थागत " },
   { key: "5", label: "अनुदान" },
 ]
-const yojanaKoKisim = [
+const yojanaKoKisimList = [
   { key: "1", label: "अनुदान (गाउँ/नगरपालिका)" },
   { key: "2", label: "९०% अनुदान (९०/१० )" },
   { key: "3", label: "८०% अनुदान (८०/२० )" },
@@ -67,7 +69,7 @@ const yojanaKoKisim = [
   { key: "5", label: "५०% अनुदान (५०/५०)" },
   { key: "6", label: "४०% अनुदान (४०/६०)" },
 ]
-const budgetType = [
+const budgetTypeList = [
   { key: "1", label: "ल.ई." },
   { key: "2", label: "प्रस्तावना" },
   { key: "3", label: "निवेदन" },
@@ -76,8 +78,8 @@ const budgetType = [
 ]
 
 export default function YojanaDarta() {
-  const [date, setDate] = useState<string>("")
-  const [wada, setWada] = useState<any[]>([])
+  // const [date, setDate] = useState<string>("")
+  const [wadaN, setWadaN] = useState<any[]>([])
 
   // fill data
   const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
@@ -86,20 +88,20 @@ export default function YojanaDarta() {
   // First lagat srot
   const [aunudaanKisimData, setAunudaanKisimData] = useState<any[]>([])
   const [lagatSrotData, setLagatSrotData] = useState<any[]>([])
-  const [budget, setBudget] = useState("")
+  // const [budget, setBudget] = useState("")
   // Second lagat srot
   const [aunudaanKisimSecondData, setAunudaanKisimSecondData] = useState<any[]>(
     []
   )
   const [lagatSrotSecondData, setLagatSrotSecondData] = useState<any[]>([])
-  const [budgetSecond, setBudgetSecond] = useState("")
+  // const [budgetSecond, setBudgetSecond] = useState("")
 
   // Third lagat srot
   const [aunudaanKisimThirdData, setAunudaanKisimThirdData] = useState<any[]>(
     []
   )
   const [lagatSrotThirdData, setLagatSrotThirdData] = useState<any[]>([])
-  const [budgetThird, setBudgetThird] = useState("")
+  // const [budgetThird, setBudgetThird] = useState("")
 
   const [yojanaKaryaBivaranData, setYojanaKaryaBivaranData] = useState<any[]>(
     []
@@ -120,20 +122,51 @@ export default function YojanaDarta() {
   const [showSecond, setShowSecond] = useState(false)
   const [showThird, setShowThird] = useState(false)
 
+  const [sabhaNirnayaMiti, setSabhaNirnayaMiti] = useState("")
+  const [yojanaKoWada, setYojanaKoWada] = useState("")
+  const [yojanaKoNaam, setYojanaKoNaam] = useState("")
+  const [budgetKitabSnum, setBudgetKitabSnum] = useState("")
+  const [mukhyaSamiti, setMukhyaSamiti] = useState("")
+  const [anudanKoNaam, setAnudanKoNaam] = useState("")
+  const [lagatSrotHaru, setLagatSrotHaru] = useState("")
+  const [lagatSrotAmount, setLagatSrotAmount] = useState("")
+  const [anudanKoNaam2, setAnudanKoNaam2] = useState("")
+  const [lagatSrotHaru2, setLagatSrotHaru2] = useState("")
+  const [lagatSrotAmount2, setLagatSrotAmount2] = useState("")
+  const [anudanKoNaam3, setAnudanKoNaam3] = useState("")
+  const [lagatSrotHaru3, setLagatSrotHaru3] = useState("")
+  const [lagatSrotAmount3, setLagatSrotAmount3] = useState("")
+  const [yojanaUpachetra, setYojanaUpachetra] = useState("")
+  const [yojanaKoKisim, setYojanaKoKisim] = useState("")
+  const [wada, setWada] = useState("")
+  const [karyagatSamuha, setKaryagatSamuha] = useState("")
+  const [prabidhikEstimateAmount, setPrabidhikEstimateAmount] = useState("")
+  const [budgetType, setBudgetType] = useState("")
+  const [biniyojitRakam, setBiniyojitRakam] = useState(totalSum.toString())
+  const [yojanaSwikrit, setYojanaSwikrit] = useState("")
   const [contengency, setContengency] = useState("")
   const [contengencyResult, setContengencyResult] = useState("")
-  const [marmat, setMarmat] = useState("")
-  const [marmatResult, setmarmatResult] = useState("")
-  const [dharauti, setDharauti] = useState("")
-  const [dharautiResult, setDharautiResult] = useState("")
-  const [kulanudanResult, setKulanudan] = useState("")
-  const [janaSramDan, setJanaSramDan] = useState("")
-  const [pravidik, setPravidik] = useState("")
+  const [marmatRakam, setMarmatRakam] = useState("")
+  const [markmatRakamResult, setMarkmatRakamResult] = useState("")
+  const [dharautiRakam, setDharautiRakam] = useState("")
+  const [dharautiRakamResult, setDharautiRakamResult] = useState("")
+  const [kulAnudaanRakam, setKulAnudaanRakam] = useState("")
+  const [janaSramdanRakam, setJanaSramdanRakam] = useState("")
+  const [thegana, setThegana] = useState("")
+  const [gharPariwarSankhya, setGharPariwarSankhya] = useState("")
+  const [janaSankhya, setJanaSankhya] = useState("")
+  const [karyaBivaran, setKaryaBivaran] = useState("")
+  const [upalabdhiLakshya, setUpalabdhiLakshya] = useState("")
+  const [uplabdhiLakhshyaQty, setUplabdhiLakhshyaQty] = useState("")
+  const [barsikYojana, setBarsikYojana] = useState(false)
+  const [kramagatYojana, setKramagatYojana] = useState(false)
+
+  const [btnDisable, setBtnDisable] = useState(false)
 
   const fetchWadaData = async () => {
     try {
       const data = await fetchWadaNumData()
-      setWada(data)
+      setWadaN(data)
     } catch (e) {
       console.error("Error fetching anudaan data", e)
     }
@@ -164,10 +197,10 @@ export default function YojanaDarta() {
       if (filteredData.length > 0) {
         // Assuming you want the first item if there are multiple matches
         const budgetData = filteredData[0].biniyojanBudgetDt
-        setBudget(budgetData)
+        setLagatSrotAmount(budgetData)
       } else {
         // Handle the case where no data was found
-        setBudget("") // Or whatever default value makes sense
+        setLagatSrotAmount("") // Or whatever default value makes sense
       }
     } catch (e) {
       console.error("Error fetching Yojana data", e)
@@ -292,6 +325,95 @@ export default function YojanaDarta() {
     }
   }
 
+  const onSubmit = async () => {
+    setBtnDisable(true)
+    setBiniyojitRakam(totalSum.toString())
+    const result = await saveYojanaDarta(
+      sabhaNirnayaMiti,
+      yojanaKoWada,
+      yojanaKoNaam,
+      budgetKitabSnum,
+      mukhyaSamiti,
+      anudanKoNaam,
+      lagatSrotHaru,
+      lagatSrotAmount,
+      anudanKoNaam2,
+      lagatSrotHaru2,
+      lagatSrotAmount2,
+      anudanKoNaam3,
+      lagatSrotHaru3,
+      lagatSrotAmount3,
+      yojanaUpachetra,
+      yojanaKoKisim,
+      wada,
+      karyagatSamuha,
+      prabidhikEstimateAmount,
+      budgetType,
+      biniyojitRakam,
+      yojanaSwikrit,
+      contengency,
+      contengencyResult,
+      marmatRakam,
+      markmatRakamResult,
+      dharautiRakam,
+      dharautiRakamResult,
+      kulAnudaanRakam,
+      janaSramdanRakam,
+      thegana,
+      gharPariwarSankhya,
+      janaSankhya,
+      karyaBivaran,
+      upalabdhiLakshya,
+      uplabdhiLakhshyaQty,
+      barsikYojana,
+      kramagatYojana
+    )
+    if (result.status === "success") {
+      setSabhaNirnayaMiti("")
+      setYojanaKoWada("")
+      setYojanaKoNaam("")
+      setBudgetKitabSnum("")
+      setMukhyaSamiti("")
+      setAnudanKoNaam("")
+      setLagatSrotHaru("")
+      setLagatSrotAmount("")
+      setAnudanKoNaam2("")
+      setLagatSrotHaru2("")
+      setLagatSrotAmount2("")
+      setAnudanKoNaam3("")
+      setLagatSrotHaru3("")
+      setLagatSrotAmount3("")
+      setYojanaUpachetra("")
+      setYojanaKoKisim("")
+      setWada("")
+      setKaryagatSamuha("")
+      setPrabidhikEstimateAmount("")
+      setBudgetType("")
+      setBiniyojitRakam("")
+      setYojanaSwikrit("")
+      setContengency("")
+      setContengencyResult("")
+      setMarmatRakam("")
+      setMarkmatRakamResult("")
+      setDharautiRakam("")
+      setDharautiRakamResult("")
+      setKulAnudaanRakam("")
+      setJanaSramdanRakam("")
+      setThegana("")
+      setGharPariwarSankhya("")
+      setJanaSankhya("")
+      setKaryaBivaran("")
+      setUpalabdhiLakshya("")
+      setUplabdhiLakhshyaQty("")
+      setBarsikYojana(false)
+      setKramagatYojana(false)
+      toast.success("successfully created")
+    } else {
+      console.error("Error occurred during save")
+    }
+    setBtnDisable(false)
+  }
+
   useEffect(() => {
     const fetchAllData = async () => {
       try {
@@ -317,8 +439,12 @@ export default function YojanaDarta() {
   }, [])
 
   useEffect(() => {
-    setTotalSum(Number(budget) + Number(budgetSecond) + Number(budgetThird))
-  }, [budget, budgetSecond, budgetThird])
+    setTotalSum(
+      Number(lagatSrotAmount) +
+        Number(lagatSrotAmount2) +
+        Number(lagatSrotAmount3)
+    )
+  }, [lagatSrotAmount, lagatSrotAmount2, lagatSrotAmount3])
 
   useEffect(() => {
     setContengencyResult(
@@ -327,38 +453,60 @@ export default function YojanaDarta() {
   }, [contengency, totalSum])
 
   useEffect(() => {
-    setmarmatResult(
-      ((Number(marmat) / 100) * Number(totalSum)).toFixed(2).toString()
+    setMarkmatRakamResult(
+      ((Number(marmatRakam) / 100) * Number(totalSum)).toFixed(2).toString()
     )
-  }, [marmat, totalSum])
+  }, [marmatRakam, totalSum])
 
   useEffect(() => {
-    setDharautiResult(
-      ((Number(dharauti) / 100) * Number(totalSum)).toFixed(2).toString()
+    setDharautiRakamResult(
+      ((Number(dharautiRakam) / 100) * Number(totalSum)).toFixed(2).toString()
     )
-  }, [dharauti, totalSum])
+  }, [dharautiRakam, totalSum])
 
   useEffect(() => {
-    setKulanudan(
+    setKulAnudaanRakam(
       (
         Number(totalSum) -
         (Number(contengencyResult) +
-          Number(marmatResult) +
-          Number(dharautiResult))
+          Number(markmatRakamResult) +
+          Number(dharautiRakamResult))
       ).toString()
     )
-  }, [contengencyResult, marmatResult, dharautiResult, totalSum])
+  }, [contengencyResult, markmatRakamResult, dharautiRakamResult, totalSum])
 
   useEffect(() => {
-    setJanaSramDan(
+    setJanaSramdanRakam(
       (
         Number(contengencyResult) +
-        Number(marmatResult) +
-        Number(pravidik) -
+        Number(markmatRakamResult) +
+        Number(prabidhikEstimateAmount) -
         Number(totalSum)
       ).toString()
     )
-  }, [contengencyResult, marmatResult, dharautiResult, totalSum, pravidik])
+  }, [
+    contengencyResult,
+    markmatRakamResult,
+    dharautiRakamResult,
+    totalSum,
+    prabidhikEstimateAmount,
+  ])
+
+  useEffect(() => {
+    setBiniyojitRakam(totalSum.toString())
+  }, [totalSum])
+
+  useEffect(() => {
+    setContengencyResult(contengencyResult)
+  }, [contengencyResult])
+
+  useEffect(() => {
+    setMarkmatRakamResult(markmatRakamResult)
+  }, [markmatRakamResult])
+
+  useEffect(() => {
+    setDharautiRakamResult(dharautiRakamResult)
+  }, [dharautiRakamResult])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -441,8 +589,8 @@ export default function YojanaDarta() {
               <NepaliDatePicker
                 inputClassName="form-control"
                 className="rounded-lg border p-1"
-                value={date}
-                onChange={(value: string) => setDate(value)}
+                value={sabhaNirnayaMiti}
+                onChange={(value: string) => setSabhaNirnayaMiti(value)}
                 options={{ calenderLocale: "ne", valueLocale: "en" }}
               />
             </form>
@@ -453,8 +601,14 @@ export default function YojanaDarta() {
               onChange={(e) => {
                 fetchYojanaNaam(e.target.value)
               }}
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={yojanaKoWada ? new Set([yojanaKoWada]) : new Set()} // Binding the selected value
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setYojanaKoWada(selectedValue)
+              }}
             >
-              {wada.map((item) => (
+              {wadaN.map((item) => (
                 <SelectItem key={item.wadaNum}>
                   {ConvertToNepaliNumerals(item.wadaNum)}
                 </SelectItem>
@@ -469,10 +623,18 @@ export default function YojanaDarta() {
               onChange={(e) => {
                 fetchBudget(e.target.value)
               }}
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={yojanaKoNaam ? new Set([yojanaKoNaam]) : new Set()} // Binding the selected value
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setYojanaKoNaam(selectedValue)
+              }}
               endContent={showLoadingYojanaNaam ? <Spinner size="sm" /> : ""}
             >
               {yojanaKoNaamData.map((item) => (
-                <SelectItem key={item.id}>{item.yojanaKoNaamDt}</SelectItem>
+                <SelectItem key={item.yojanaKoNaamDt}>
+                  {item.yojanaKoNaamDt}
+                </SelectItem>
               ))}
             </Select>
             <Input
@@ -481,11 +643,25 @@ export default function YojanaDarta() {
               size="sm"
               className="w-full sm:w-1/3"
               color="primary"
+              value={budgetKitabSnum}
+              onChange={(e) => setBudgetKitabSnum(e.target.value)}
             />
           </div>
-          <Select label="मूख्य समिति" size="sm" className="w-full">
+          <Select
+            label="मूख्य समिति"
+            size="sm"
+            className="w-full"
+            placeholder="Select an option" // Optional: if you want a placeholder
+            selectedKeys={mukhyaSamiti ? new Set([mukhyaSamiti]) : new Set()} // Binding the selected value
+            onSelectionChange={(keys) => {
+              const selectedValue = Array.from(keys).join(", ")
+              setMukhyaSamiti(selectedValue)
+            }}
+          >
             {mukhyaSamitiData.map((item) => (
-              <SelectItem key={item.id}>{item.mukhyaSamitiKoNaam}</SelectItem>
+              <SelectItem key={item.mukhyaSamitiKoNaam}>
+                {item.mukhyaSamitiKoNaam}
+              </SelectItem>
             ))}
           </Select>
 
@@ -500,6 +676,13 @@ export default function YojanaDarta() {
                 onChange={(e) => {
                   fetchLagatSrotHaru(e.target.value)
                 }}
+                selectedKeys={
+                  anudanKoNaam ? new Set([anudanKoNaam]) : new Set()
+                } // Binding the selected value
+                onSelectionChange={(keys) => {
+                  const selectedValue = Array.from(keys).join(", ")
+                  setAnudanKoNaam(selectedValue)
+                }}
               >
                 {aunudaanKisimData.map((item) => (
                   <SelectItem key={item.anudaanKoNaam}>
@@ -512,10 +695,19 @@ export default function YojanaDarta() {
                 label="लागत श्रोतहरु"
                 size="sm"
                 className="w-1/2"
+                selectedKeys={
+                  lagatSrotHaru ? new Set([lagatSrotHaru]) : new Set()
+                }
+                onSelectionChange={(keys) => {
+                  const selectedValue = Array.from(keys).join(", ")
+                  setLagatSrotHaru(selectedValue)
+                }}
                 endContent={showLoadingLagatSrot1 ? <Spinner size="sm" /> : ""}
               >
                 {lagatSrotData.map((item) => (
-                  <SelectItem key={item.id}>{item.lagatSrotKoNaam}</SelectItem>
+                  <SelectItem key={item.lagatSrotKoNaam}>
+                    {item.lagatSrotKoNaam}
+                  </SelectItem>
                 ))}
               </Select>
               <Input
@@ -523,10 +715,10 @@ export default function YojanaDarta() {
                 label="&nbsp;"
                 size="sm"
                 className="w-1/4"
+                value={lagatSrotAmount}
                 onChange={(e) => {
-                  setBudget(e.target.value)
+                  setLagatSrotAmount(e.target.value)
                 }}
-                value={budget}
               />
             </div>
 
@@ -541,6 +733,13 @@ export default function YojanaDarta() {
                   onChange={(e) => {
                     fetchSecondLagatSrotHaru(e.target.value)
                   }}
+                  selectedKeys={
+                    anudanKoNaam2 ? new Set([anudanKoNaam2]) : new Set()
+                  }
+                  onSelectionChange={(keys) => {
+                    const selectedValue = Array.from(keys).join(", ")
+                    setAnudanKoNaam2(selectedValue)
+                  }}
                 >
                   {aunudaanKisimSecondData.map((item) => (
                     <SelectItem key={item.anudaanKoNaam}>
@@ -552,12 +751,19 @@ export default function YojanaDarta() {
                   label="लागत श्रोतहरु"
                   size="sm"
                   className="w-1/2"
+                  selectedKeys={
+                    lagatSrotHaru2 ? new Set([lagatSrotHaru2]) : new Set()
+                  }
+                  onSelectionChange={(keys) => {
+                    const selectedValue = Array.from(keys).join(", ")
+                    setLagatSrotHaru2(selectedValue)
+                  }}
                   endContent={
                     showLoadingLagatSrot2 ? <Spinner size="sm" /> : ""
                   }
                 >
                   {lagatSrotSecondData.map((item) => (
-                    <SelectItem key={item.id}>
+                    <SelectItem key={item.lagatSrotKoNaam}>
                       {item.lagatSrotKoNaam}
                     </SelectItem>
                   ))}
@@ -567,10 +773,10 @@ export default function YojanaDarta() {
                   label="&nbsp;"
                   size="sm"
                   className="w-1/4"
+                  value={lagatSrotAmount2}
                   onChange={(e) => {
-                    setBudgetSecond(e.target.value)
+                    setLagatSrotAmount2(e.target.value)
                   }}
-                  value={budgetSecond}
                 />
               </div>
             )}
@@ -586,6 +792,13 @@ export default function YojanaDarta() {
                   onChange={(e) => {
                     fetchThirdLagatSrotHaru(e.target.value)
                   }}
+                  selectedKeys={
+                    anudanKoNaam3 ? new Set([anudanKoNaam3]) : new Set()
+                  }
+                  onSelectionChange={(keys) => {
+                    const selectedValue = Array.from(keys).join(", ")
+                    setAnudanKoNaam3(selectedValue)
+                  }}
                 >
                   {aunudaanKisimThirdData.map((item) => (
                     <SelectItem key={item.anudaanKoNaam}>
@@ -597,12 +810,19 @@ export default function YojanaDarta() {
                   label="लागत श्रोतहरु"
                   size="sm"
                   className="w-1/2"
+                  selectedKeys={
+                    lagatSrotHaru3 ? new Set([lagatSrotHaru3]) : new Set()
+                  }
+                  onSelectionChange={(keys) => {
+                    const selectedValue = Array.from(keys).join(", ")
+                    setLagatSrotHaru3(selectedValue)
+                  }}
                   endContent={
                     showLoadingLagatSrot3 ? <Spinner size="sm" /> : ""
                   }
                 >
                   {lagatSrotThirdData.map((item) => (
-                    <SelectItem key={item.id}>
+                    <SelectItem key={item.lagatSrotKoNaam}>
                       {item.lagatSrotKoNaam}
                     </SelectItem>
                   ))}
@@ -612,10 +832,10 @@ export default function YojanaDarta() {
                   label="&nbsp;"
                   size="sm"
                   className="w-1/4"
+                  value={lagatSrotAmount3}
                   onChange={(e) => {
-                    setBudgetThird(e.target.value)
+                    setLagatSrotAmount3(e.target.value)
                   }}
-                  value={budgetThird}
                 />
               </div>
             )}
@@ -625,7 +845,7 @@ export default function YojanaDarta() {
               <button
                 onClick={() => {
                   setShowSecond((prev) => !prev)
-                  if (showSecond) setBudgetSecond("")
+                  if (showSecond) setLagatSrotAmount2("")
                 }}
                 className={`rounded-md px-4 py-2 text-white ${
                   showSecond
@@ -639,7 +859,7 @@ export default function YojanaDarta() {
               <button
                 onClick={() => {
                   setShowThird((prev) => !prev)
-                  if (showThird) setBudgetThird("")
+                  if (showThird) setLagatSrotAmount3("")
                 }}
                 className={`rounded-md px-4 py-2 font-medium text-white ${
                   showThird
@@ -652,9 +872,23 @@ export default function YojanaDarta() {
             </div>
           </div>
 
-          <Select label="आयोजना उपक्षेत्र" size="sm" className="w-full">
+          <Select
+            label="आयोजना उपक्षेत्र"
+            size="sm"
+            className="w-full"
+            placeholder="Select an option" // Optional: if you want a placeholder
+            selectedKeys={
+              yojanaUpachetra ? new Set([yojanaUpachetra]) : new Set()
+            } // Binding the selected value
+            onSelectionChange={(keys) => {
+              const selectedValue = Array.from(keys).join(", ")
+              setYojanaUpachetra(selectedValue)
+            }}
+          >
             {ayojanaUpachetraData.map((item) => (
-              <SelectItem key={item.id}>{item.yojanaPrakar}</SelectItem>
+              <SelectItem key={item.yojanaPrakar}>
+                {item.yojanaPrakar}
+              </SelectItem>
             ))}
           </Select>
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -663,22 +897,52 @@ export default function YojanaDarta() {
               className="w-full sm:w-1/2"
               size="sm"
               color="success"
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={
+                yojanaKoKisim ? new Set([yojanaKoKisim]) : new Set()
+              } // Binding the selected value
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setYojanaKoKisim(selectedValue)
+              }}
             >
-              {yojanaKoKisim.map((item) => (
+              {yojanaKoKisimList.map((item) => (
                 <SelectItem key={item.key}>{item.label}</SelectItem>
               ))}
             </Select>
-            <Select label="वडा न." className="w-full sm:w-1/5" size="sm">
-              {wada.map((item) => (
-                <SelectItem key={item.id}>
+            <Select
+              label="वडा न."
+              className="w-full sm:w-1/5"
+              size="sm"
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={wada ? new Set([wada]) : new Set()} // Binding the selected value
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setWada(selectedValue)
+              }}
+            >
+              {wadaN.map((item) => (
+                <SelectItem key={item.wadaNum}>
                   {ConvertToNepaliNumerals(item.wadaNum)}
                 </SelectItem>
               ))}
             </Select>
           </div>
-          <Select label="कार्यागत समुह" className="w-full" size="sm">
-            {karyagatSamuha.map((item) => (
-              <SelectItem key={item.key}>{item.label}</SelectItem>
+          <Select
+            label="कार्यागत समुह"
+            className="w-full"
+            size="sm"
+            placeholder="Select an option" // Optional: if you want a placeholder
+            selectedKeys={
+              karyagatSamuha ? new Set([karyagatSamuha]) : new Set()
+            } // Binding the selected value
+            onSelectionChange={(keys) => {
+              const selectedValue = Array.from(keys).join(", ")
+              setKaryagatSamuha(selectedValue)
+            }}
+          >
+            {karyagatSamuhaList.map((item) => (
+              <SelectItem key={item.label}>{item.label}</SelectItem>
             ))}
           </Select>
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -687,19 +951,29 @@ export default function YojanaDarta() {
               label="प्राविधिक इस्टिमेट रकम रु."
               size="sm"
               className="w-full sm:w-1/2"
+              // onChange={(e) => {
+              //   setPravidik(e.target.value)
+              // }}
+              value={prabidhikEstimateAmount}
               onChange={(e) => {
-                setPravidik(e.target.value)
+                setPrabidhikEstimateAmount(e.target.value)
               }}
-              value={pravidik}
+              // value={pravidik}
             />
             <Select
               label="बजेट Type"
               size="sm"
               className="w-full sm:w-1/2"
               color="success"
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={budgetType ? new Set([budgetType]) : new Set()} // Binding the selected value
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setBudgetType(selectedValue)
+              }}
             >
-              {budgetType.map((item) => (
-                <SelectItem key={item.key}>{item.label}</SelectItem>
+              {budgetTypeList.map((item) => (
+                <SelectItem key={item.label}>{item.label}</SelectItem>
               ))}
             </Select>
           </div>
@@ -709,16 +983,27 @@ export default function YojanaDarta() {
               label="विनियोजित रकम रु."
               size="sm"
               className="w-full sm:w-1/2"
-              value={totalSum.toString()}
+              value={biniyojitRakam}
+              readOnly
             />
             <Select
               label="योजना स्वीकृत"
               size="sm"
               className="w-full sm:w-1/2"
               color="success"
+              placeholder="Select an option"
+              selectedKeys={
+                yojanaSwikrit ? new Set([yojanaSwikrit]) : new Set()
+              }
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setYojanaSwikrit(selectedValue)
+              }}
             >
               {yojanaChanotNikaya.map((item) => (
-                <SelectItem key={item.id}>{item.yojanaChanotNikaya}</SelectItem>
+                <SelectItem key={item.yojanaChanotNikaya}>
+                  {item.yojanaChanotNikaya}
+                </SelectItem>
               ))}
             </Select>
           </div>
@@ -736,6 +1021,7 @@ export default function YojanaDarta() {
                 label="कन्टेन्जेन्सी&nbsp;%"
                 size="sm"
                 className="w-full"
+                value={contengency}
                 onChange={(e) => {
                   setContengency(e.target.value)
                 }}
@@ -746,6 +1032,10 @@ export default function YojanaDarta() {
                 size="sm"
                 className="w-full"
                 value={contengencyResult.toString()}
+                onChange={(e) => {
+                  setContengencyResult(e.target.value)
+                  setContengency("")
+                }}
               />
             </div>
             <div className="flex gap-2">
@@ -754,8 +1044,9 @@ export default function YojanaDarta() {
                 label="मर्मत&nbsp;रकम&nbsp;%"
                 size="sm"
                 className="w-full"
+                value={marmatRakam}
                 onChange={(e) => {
-                  setMarmat(e.target.value)
+                  setMarmatRakam(e.target.value)
                 }}
               />
               <Input
@@ -763,7 +1054,11 @@ export default function YojanaDarta() {
                 label="&nbsp;"
                 size="sm"
                 className="w-full"
-                value={marmatResult.toString()}
+                value={markmatRakamResult.toString()}
+                onChange={(e) => {
+                  setMarkmatRakamResult(e.target.value)
+                  setMarmatRakam("")
+                }}
               />
             </div>
             <div className="flex gap-2">
@@ -772,8 +1067,9 @@ export default function YojanaDarta() {
                 label="धरौटी&nbsp;रकम&nbsp;%"
                 size="sm"
                 className="w-full"
+                value={dharautiRakam}
                 onChange={(e) => {
-                  setDharauti(e.target.value)
+                  setDharautiRakam(e.target.value)
                 }}
               />
               <Input
@@ -781,7 +1077,11 @@ export default function YojanaDarta() {
                 label="&nbsp;"
                 size="sm"
                 className="w-full"
-                value={dharautiResult.toString()}
+                value={dharautiRakamResult.toString()}
+                onChange={(e) => {
+                  setDharautiRakamResult(e.target.value)
+                  setDharautiRakam("")
+                }}
               />
             </div>
             <Input
@@ -789,31 +1089,57 @@ export default function YojanaDarta() {
               label="कुल अनुदान रु."
               size="sm"
               className="w-full"
-              value={kulanudanResult.toString()}
+              value={kulAnudaanRakam}
+              readOnly
             />
             <Input
               type="Number"
               label="जनश्रमदान रु."
               size="sm"
               className="w-full"
-              value={janaSramDan}
+              // value={janaSramDan}
+              value={janaSramdanRakam}
+              readOnly
             />
-            <Input type="text" label="ठेगाना" size="sm" className="w-full" />
+            <Input
+              type="text"
+              label="ठेगाना"
+              size="sm"
+              className="w-full"
+              value={thegana}
+              onChange={(e) => setThegana(e.target.value)}
+            />
             <Input
               type="Number"
               label="घर परिवार संख्या"
               size="sm"
               className="w-full"
+              value={gharPariwarSankhya}
+              onChange={(e) => setGharPariwarSankhya(e.target.value)}
             />
             <Input
               type="Number"
               label="जनसंख्या"
               size="sm"
               className="w-full"
+              value={janaSankhya}
+              onChange={(e) => setJanaSankhya(e.target.value)}
             />
-            <Select label="कार्य बिवरण " size="sm" className="w-full">
+            <Select
+              label="कार्य बिवरण "
+              size="sm"
+              className="w-full"
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={karyaBivaran ? new Set([karyaBivaran]) : new Set()} // Binding the selected value
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setKaryaBivaran(selectedValue)
+              }}
+            >
               {yojanaKaryaBivaranData.map((item) => (
-                <SelectItem key={item.id}>{item.yojanaKoKarya}</SelectItem>
+                <SelectItem key={item.yojanaKoKarya}>
+                  {item.yojanaKoKarya}
+                </SelectItem>
               ))}
             </Select>
             <div className="flex gap-2">
@@ -822,22 +1148,44 @@ export default function YojanaDarta() {
                 label="उपलब्धि&nbsp;लक्ष्य"
                 size="sm"
                 className="w-full"
+                value={upalabdhiLakshya}
+                onChange={(e) => setUpalabdhiLakshya(e.target.value)}
               />
-              <Select label="&nbsp;" size="sm" className="w-full">
-                {qtyData.map((item) => (
-                  <SelectItem key={item.key}>{item.label}</SelectItem>
+              <Select
+                label="&nbsp;"
+                size="sm"
+                className="w-full"
+                placeholder="Select an option" // Optional: if you want a placeholder
+                selectedKeys={
+                  uplabdhiLakhshyaQty
+                    ? new Set([uplabdhiLakhshyaQty])
+                    : new Set()
+                } // Binding the selected value
+                onSelectionChange={(keys) => {
+                  const selectedValue = Array.from(keys).join(", ")
+                  setUplabdhiLakhshyaQty(selectedValue)
+                }}
+              >
+                {qtyDataList.map((item) => (
+                  <SelectItem key={item.label}>{item.label}</SelectItem>
                 ))}
               </Select>
             </div>
           </div>
           <div className="flex gap-4">
-            <Checkbox>वार्षिक&nbsp;योजना</Checkbox>
-            <Checkbox>क्रमागत&nbsp;योजना</Checkbox>
+            <Checkbox onChange={(e) => setBarsikYojana(e.target.checked)}>
+              वार्षिक&nbsp;योजना
+            </Checkbox>
+            <Checkbox onChange={(e) => setKramagatYojana(e.target.checked)}>
+              क्रमागत&nbsp;योजना
+            </Checkbox>
           </div>
           <Button
             color="secondary"
             startContent={<FaRegSave />}
             className="w-full"
+            onClick={onSubmit}
+            isDisabled={!yojanaKoWada || btnDisable}
           >
             Save
           </Button>
