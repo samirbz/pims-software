@@ -343,7 +343,6 @@ export default function YojanaDarta() {
   const fetchYojanaDarta = async () => {
     try {
       const data = await fetchYojanaDartaData()
-      console.log("Fetched Anudaan Data:", data) // For debugging
       setYojanaDartaData(data)
     } catch (e) {
       console.error("Error fetching anudaan data", e)
@@ -533,6 +532,10 @@ export default function YojanaDarta() {
   useEffect(() => {
     setDharautiRakamResult(dharautiRakamResult)
   }, [dharautiRakamResult])
+
+  useEffect(() => {
+    fetchYojanaDarta()
+  }, [yojanaDartaData])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
