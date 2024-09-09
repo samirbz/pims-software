@@ -372,7 +372,7 @@ export default function YojanaDarta() {
         योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
       </h1>
       <br />
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="full">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
         <ModalContent>
           {(onClose) => (
             <>
