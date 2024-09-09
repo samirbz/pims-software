@@ -165,7 +165,7 @@ export default function Wada() {
         <br />
         <div className="flex w-full gap-2">
           <Input
-            type="text"
+            type="Number"
             label="वडा न."
             size="sm"
             value={wadaNum}
