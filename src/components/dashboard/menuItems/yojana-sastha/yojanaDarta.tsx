@@ -205,10 +205,12 @@ export default function YojanaDarta() {
     }
   }
 
-  const fetchBudget = async (id: any) => {
+  const fetchBudget = async (yojanaKoNaamDt: any) => {
     try {
       const data = await fetchYojanaBudgetDataSecond()
-      const filteredData = data.filter((item: any) => item.id === id)
+      const filteredData = data.filter(
+        (item: any) => item.yojanaKoNaamDt === yojanaKoNaamDt
+      )
 
       // Check if filteredData is not empty
       if (filteredData.length > 0) {
