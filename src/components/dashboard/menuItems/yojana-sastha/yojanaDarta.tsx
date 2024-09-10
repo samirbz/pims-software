@@ -749,7 +749,7 @@ export default function YojanaDarta() {
               ))}
             </Select>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <div className="relative mx-auto w-full">
               <input
                 type="text"
@@ -800,10 +800,6 @@ export default function YojanaDarta() {
                   ))}
                 </ul>
               )}
-
-              <div className="mt-2 text-gray-700">
-                <p>Selected/Typed Value: {yojanaKoNaam}</p>
-              </div>
             </div>
 
             {/* <Select
