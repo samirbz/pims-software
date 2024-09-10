@@ -542,7 +542,11 @@ export default function YojanaDarta() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner color="primary" className="mb-36" />
+      </div>
+    )
   }
 
   return (
