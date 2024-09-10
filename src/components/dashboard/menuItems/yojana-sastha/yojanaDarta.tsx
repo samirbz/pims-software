@@ -463,6 +463,7 @@ export default function YojanaDarta() {
       setUplabdhiLakhshyaQty("")
       setBarsikYojana(false)
       setKramagatYojana(false)
+      setYojanaKoNaamData([])
       toast.success("successfully created")
     } else {
       console.error("Error occurred during save")
@@ -756,7 +757,7 @@ export default function YojanaDarta() {
                 onChange={handleInputChange} // Handle input change
                 onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // Delay dropdown close on blur
                 onFocus={() => setShowDropdown(true)} // Show dropdown on input focus
-                placeholder="Select an option"
+                placeholder="योजनाको नाम"
                 className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
 
@@ -1380,7 +1381,7 @@ export default function YojanaDarta() {
             startContent={<FaRegSave />}
             className="w-full"
             onClick={onSubmit}
-            isDisabled={!yojanaKoWada || btnDisable}
+            isDisabled={!yojanaKoNaam || btnDisable}
           >
             Save
           </Button>
