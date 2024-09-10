@@ -629,9 +629,13 @@ export default function YojanaDarta() {
                           </TableCell>
                           <TableCell>{item.yojanaKoNaam}</TableCell>
                           <TableCell>{item.yojanaUpachetra}</TableCell>
-                          <TableCell>{item.wada}</TableCell>
+                          <TableCell>
+                            {ConvertToNepaliNumerals(item.wada)}
+                          </TableCell>
                           <TableCell>N.a</TableCell>
-                          <TableCell>{item.kulAnudaanRakam}</TableCell>
+                          <TableCell>
+                            {ConvertToNepaliNumerals(item.kulAnudaanRakam)}
+                          </TableCell>
                           <TableCell>N.a</TableCell>
                           <TableCell>
                             <Dropdown>
