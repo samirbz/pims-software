@@ -157,6 +157,7 @@ model LabTest {
 model YojanaDarta {
   id                      String  @id @default(cuid())
   sabhaNirnayaMiti        String
+  prastabSwikritMiti      String
   yojanaKoWada            String
   yojanaKoNaam            String
   budgetKitabSnum         String

@@ -1120,7 +1120,8 @@ export async function editLabTest(
 
 // 12. yojana darta
 export async function saveYojanaDarta(
-  sabhaNirnayaMiti:string,
+  sabhaNirnayaMiti: string,
+  prastabSwikritMiti: string,
   yojanaKoWada: string,
   yojanaKoNaam: string,
   budgetKitabSnum: string,
@@ -1163,6 +1164,7 @@ export async function saveYojanaDarta(
     const dt = await prisma.yojanaDarta.create({
       data: {
         sabhaNirnayaMiti,
+        prastabSwikritMiti,
         yojanaKoWada,
         yojanaKoNaam,
         budgetKitabSnum,
@@ -1233,6 +1235,7 @@ export async function deleteYojanaDarta(id: string) {
 export async function editYojanaDarta(
   id: string,
   sabhaNirnayaMiti: string,
+  prastabSwikritMiti: string,
   yojanaKoWada: string,
   yojanaKoNaam: string,
   budgetKitabSnum: string,
@@ -1278,6 +1281,7 @@ export async function editYojanaDarta(
       },
       data: {
         sabhaNirnayaMiti,
+        prastabSwikritMiti,
         yojanaKoWada,
         yojanaKoNaam,
         budgetKitabSnum,

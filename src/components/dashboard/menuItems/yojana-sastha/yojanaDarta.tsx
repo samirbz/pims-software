@@ -127,6 +127,7 @@ export default function YojanaDarta() {
   const [showThird, setShowThird] = useState(false)
 
   const [sabhaNirnayaMiti, setSabhaNirnayaMiti] = useState("")
+  const [prastabSwikritMiti, setPrastabSwikritMiti] = useState("")
   const [yojanaKoWada, setYojanaKoWada] = useState("")
   const [yojanaKoNaam, setYojanaKoNaam] = useState("")
   const [budgetKitabSnum, setBudgetKitabSnum] = useState("")
@@ -162,7 +163,7 @@ export default function YojanaDarta() {
   const [karyaBivaran, setKaryaBivaran] = useState("")
   const [upalabdhiLakshya, setUpalabdhiLakshya] = useState("")
   const [uplabdhiLakhshyaQty, setUplabdhiLakhshyaQty] = useState("")
-  const [barsikYojana, setBarsikYojana] = useState(false)
+  const [barsikYojana, setBarsikYojana] = useState(true)
   const [kramagatYojana, setKramagatYojana] = useState(false)
 
   const [yojanaDartaData, setYojanaDartaData] = useState<any[]>([])
@@ -176,12 +177,18 @@ export default function YojanaDarta() {
     "barsik"
   )
 
-  const handleBarsikYojanaChange = () => {
+  const [dateDisabled, setDateDisabled] = useState("उपभोक्ता समिति")
+
+  const handleBarsikYojanaChange = async () => {
     setSelectedCheckbox("barsik")
+    setBarsikYojana(true)
+    setKramagatYojana(false)
   }
 
-  const handleKramagatYojanaChange = () => {
+  const handleKramagatYojanaChange = async () => {
     setSelectedCheckbox("kramagat")
+    setKramagatYojana(true)
+    setBarsikYojana(false)
   }
 
   // input and select
@@ -399,6 +406,7 @@ export default function YojanaDarta() {
     setBiniyojitRakam(totalSum.toString())
     const result = await saveYojanaDarta(
       sabhaNirnayaMiti,
+      prastabSwikritMiti,
       yojanaKoWada,
       yojanaKoNaam,
       budgetKitabSnum,
@@ -439,6 +447,7 @@ export default function YojanaDarta() {
     )
     if (result.status === "success") {
       setSabhaNirnayaMiti("")
+      setPrastabSwikritMiti("")
       setYojanaKoWada("")
       setYojanaKoNaam("")
       setBudgetKitabSnum("")
@@ -456,6 +465,7 @@ export default function YojanaDarta() {
       setYojanaKoKisim("")
       setWada("")
       setKaryagatSamuha("")
+      setDateDisabled("उपभोक्ता समिति")
       setPrabidhikEstimateAmount("")
       setBudgetType("")
       setBiniyojitRakam("")
@@ -474,8 +484,6 @@ export default function YojanaDarta() {
       setKaryaBivaran("")
       setUpalabdhiLakshya("")
       setUplabdhiLakhshyaQty("")
-      setBarsikYojana(false)
-      setKramagatYojana(false)
       setYojanaKoNaamData([])
       toast.success("successfully created")
     } else {
@@ -1127,23 +1135,42 @@ export default function YojanaDarta() {
               ))}
             </Select>
           </div>
-          <Select
-            label="कार्यागत समुह"
-            className="w-full"
-            size="sm"
-            placeholder="Select an option" // Optional: if you want a placeholder
-            selectedKeys={
-              karyagatSamuha ? new Set([karyagatSamuha]) : new Set()
-            } // Binding the selected value
-            onSelectionChange={(keys) => {
-              const selectedValue = Array.from(keys).join(", ")
-              setKaryagatSamuha(selectedValue)
-            }}
-          >
-            {karyagatSamuhaList.map((item) => (
-              <SelectItem key={item.label}>{item.label}</SelectItem>
-            ))}
-          </Select>
+
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Select
+              label="कार्यागत समुह"
+              className="w-full sm:w-1/2"
+              size="sm"
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={
+                karyagatSamuha ? new Set([karyagatSamuha]) : new Set()
+              } // Binding the selected value
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setKaryagatSamuha(selectedValue)
+                setDateDisabled(selectedValue)
+              }}
+            >
+              {karyagatSamuhaList.map((item) => (
+                <SelectItem key={item.label}>{item.label}</SelectItem>
+              ))}
+            </Select>
+            {dateDisabled !== "उपभोक्ता समिति" && (
+              <form className="flex items-center gap-2 pl-2 sm:p-0">
+                <label htmlFor="date" className="block text-sm">
+                  प्रस्ताव स्वीकृत मिति
+                </label>
+                <NepaliDatePicker
+                  inputClassName="form-control"
+                  className="rounded-lg border p-1"
+                  value={prastabSwikritMiti}
+                  onChange={(value: string) => setPrastabSwikritMiti(value)}
+                  options={{ calenderLocale: "ne", valueLocale: "en" }}
+                />
+              </form>
+            )}
+          </div>
+
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
               type="Number"
@@ -1380,8 +1407,7 @@ export default function YojanaDarta() {
           <div className="flex gap-4">
             <Checkbox
               isSelected={selectedCheckbox === "barsik"}
-              onChange={(e) => {
-                setBarsikYojana(e.target.checked)
+              onChange={() => {
                 handleBarsikYojanaChange()
               }}
             >
@@ -1390,8 +1416,7 @@ export default function YojanaDarta() {
 
             <Checkbox
               isSelected={selectedCheckbox === "kramagat"}
-              onChange={(e) => {
-                setKramagatYojana(e.target.checked)
+              onChange={() => {
                 handleKramagatYojanaChange()
               }}
             >
