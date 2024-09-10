@@ -171,6 +171,32 @@ export default function YojanaDarta() {
 
   const [btnDisable, setBtnDisable] = useState(false)
 
+  // input and select
+  // const [inputValue, setInputValue] = useState<string>("")
+
+  const [showDropdown, setShowDropdown] = useState<boolean>(false) // Control dropdown visibility
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // setInputValue(event.target.value)
+    console.log(filteredOptions)
+    setYojanaKoNaam(event.target.value)
+    setShowDropdown(true) // Show dropdown when typing
+  }
+
+  // Handle item selection from dropdown
+  const handleSelect = (option: string) => {
+    // setInputValue(option)
+    setYojanaKoNaam(option) // Bind the selected value
+    setShowDropdown(false) // Close dropdown after selection
+    fetchBudget(option) // Call fetchBudget when an item is selected
+  }
+
+  // Filter the options based on the input value
+  const filteredOptions = yojanaKoNaamData.filter((option) =>
+    option.yojanaKoNaamDt.toLowerCase().includes(yojanaKoNaam.toLowerCase())
+  )
+  // end
+
   const [page, setPage] = useState(1)
   const rowsPerPage = 7
 
@@ -723,7 +749,63 @@ export default function YojanaDarta() {
             </Select>
           </div>
           <div className="flex gap-2">
-            <Select
+            <div className="relative mx-auto w-full">
+              <input
+                type="text"
+                value={yojanaKoNaam} // Bind the input value to state
+                onChange={handleInputChange} // Handle input change
+                onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // Delay dropdown close on blur
+                onFocus={() => setShowDropdown(true)} // Show dropdown on input focus
+                placeholder="Select an option"
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+
+              {showLoadingYojanaNaam && (
+                <div className="absolute right-2 top-2">
+                  {/* Loading spinner when fetching data */}
+                  <svg
+                    className="size-5 animate-spin text-blue-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    ></path>
+                  </svg>
+                </div>
+              )}
+
+              {showDropdown && filteredOptions.length > 0 && (
+                <ul className="absolute z-50 mt-1 max-h-40 w-full overflow-auto rounded-md border border-gray-300 bg-white shadow-lg">
+                  {filteredOptions.map((item, index) => (
+                    <li
+                      key={index}
+                      className="cursor-pointer px-4 py-2 hover:bg-blue-500 hover:text-white"
+                      onMouseDown={() => handleSelect(item.yojanaKoNaamDt)} // Handle selection
+                    >
+                      {item.yojanaKoNaamDt}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <div className="mt-2 text-gray-700">
+                <p>Selected/Typed Value: {yojanaKoNaam}</p>
+              </div>
+            </div>
+
+            {/* <Select
               label="योजनाको नाम"
               size="sm"
               className="w-full"
@@ -743,7 +825,7 @@ export default function YojanaDarta() {
                   {item.yojanaKoNaamDt}
                 </SelectItem>
               ))}
-            </Select>
+            </Select> */}
             <Input
               type="text"
               label="बजेट किताब सि.न."
