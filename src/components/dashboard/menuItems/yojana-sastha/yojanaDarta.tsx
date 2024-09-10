@@ -618,7 +618,7 @@ export default function YojanaDarta() {
   return (
     <div className="flex flex-col justify-between bg-white ">
       <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
-        योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
+        योजना दर्ता उपभोक्ता समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
       </h1>
       <br />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
@@ -626,7 +626,7 @@ export default function YojanaDarta() {
           {(onClose) => (
             <>
               <ModalHeader className="text-lg font-semibold">
-                योजना दर्ता उपभोक्त समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
+                योजना दर्ता उपभोक्ता समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
               </ModalHeader>
               <ModalBody>
                 {loading ? (
@@ -911,7 +911,7 @@ export default function YojanaDarta() {
               </Select>
               <Input
                 type="Number"
-                label="&nbsp;"
+                label="रकम "
                 size="sm"
                 className="w-1/4"
                 value={lagatSrotAmount}
@@ -969,7 +969,7 @@ export default function YojanaDarta() {
                 </Select>
                 <Input
                   type="Number"
-                  label="&nbsp;"
+                  label="रकम "
                   size="sm"
                   className="w-1/4"
                   value={lagatSrotAmount2}
@@ -1028,7 +1028,7 @@ export default function YojanaDarta() {
                 </Select>
                 <Input
                   type="Number"
-                  label="&nbsp;"
+                  label="रकम "
                   size="sm"
                   className="w-1/4"
                   value={lagatSrotAmount3}
