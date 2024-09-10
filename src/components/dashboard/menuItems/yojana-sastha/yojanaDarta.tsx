@@ -22,6 +22,7 @@ import {
   TableRow,
   Spinner,
   Pagination,
+  ModalFooter,
 } from "@nextui-org/react"
 import React, { useEffect, useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
@@ -41,6 +42,7 @@ import {
   fetchYojanaChanotNikayaData,
   saveYojanaDarta,
   fetchYojanaDartaData,
+  deleteYojanaDarta,
 } from "@/actions/formAction"
 import { ConvertToNepaliNumerals } from "@/lib/util"
 import { toast } from "react-toastify"
@@ -543,6 +545,28 @@ export default function YojanaDarta() {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+
+  const confirmDelete = (id: string) => {
+    setDeleteId(id)
+    setIsModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      const result = await deleteYojanaDarta(deleteId)
+      if (result.status === "success") {
+        // Fetch the updated list of fiscal years
+        fetchYojanaDarta()
+      } else {
+        console.error("Delete unsuccessful")
+      }
+      setIsModalOpen(false)
+      setDeleteId(null)
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -625,6 +649,7 @@ export default function YojanaDarta() {
                                   key="delete"
                                   className="text-danger"
                                   color="danger"
+                                  onPress={() => confirmDelete(item.id)}
                                 >
                                   Delete
                                 </DropdownItem>
@@ -639,6 +664,21 @@ export default function YojanaDarta() {
               </ModalBody>
             </>
           )}
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalBody>Are you sure you want to delete?</ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button color="danger" onClick={handleConfirmDelete}>
+              Delete
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
 
