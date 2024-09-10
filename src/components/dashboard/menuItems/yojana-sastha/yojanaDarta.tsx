@@ -171,6 +171,19 @@ export default function YojanaDarta() {
 
   const [btnDisable, setBtnDisable] = useState(false)
 
+  // two checkboxed
+  const [selectedCheckbox, setSelectedCheckbox] = useState<string | null>(
+    "barsik"
+  )
+
+  const handleBarsikYojanaChange = () => {
+    setSelectedCheckbox("barsik")
+  }
+
+  const handleKramagatYojanaChange = () => {
+    setSelectedCheckbox("kramagat")
+  }
+
   // input and select
   // const [inputValue, setInputValue] = useState<string>("")
 
@@ -1344,7 +1357,7 @@ export default function YojanaDarta() {
                 onChange={(e) => setUpalabdhiLakshya(e.target.value)}
               />
               <Select
-                label="&nbsp;"
+                label="उपलब्धि&nbsp;किसिम"
                 size="sm"
                 className="w-full"
                 placeholder="Select an option" // Optional: if you want a placeholder
@@ -1365,10 +1378,23 @@ export default function YojanaDarta() {
             </div>
           </div>
           <div className="flex gap-4">
-            <Checkbox onChange={(e) => setBarsikYojana(e.target.checked)}>
+            <Checkbox
+              isSelected={selectedCheckbox === "barsik"}
+              onChange={(e) => {
+                setBarsikYojana(e.target.checked)
+                handleBarsikYojanaChange()
+              }}
+            >
               वार्षिक&nbsp;योजना
             </Checkbox>
-            <Checkbox onChange={(e) => setKramagatYojana(e.target.checked)}>
+
+            <Checkbox
+              isSelected={selectedCheckbox === "kramagat"}
+              onChange={(e) => {
+                setKramagatYojana(e.target.checked)
+                handleKramagatYojanaChange()
+              }}
+            >
               क्रमागत&nbsp;योजना
             </Checkbox>
           </div>
