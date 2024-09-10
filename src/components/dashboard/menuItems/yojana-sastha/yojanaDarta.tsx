@@ -165,6 +165,8 @@ export default function YojanaDarta() {
 
   const [yojanaDartaData, setYojanaDartaData] = useState<any[]>([])
 
+  const [fetchTable, setFetchTable] = useState(false)
+
   const [btnDisable, setBtnDisable] = useState(false)
 
   const [page, setPage] = useState(1)
@@ -535,7 +537,7 @@ export default function YojanaDarta() {
 
   useEffect(() => {
     fetchYojanaDarta()
-  }, [yojanaDartaData])
+  }, [fetchTable])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -1063,7 +1065,13 @@ export default function YojanaDarta() {
             </Select>
           </div>
 
-          <Button onPress={onOpen} className="mt-4 w-full sm:w-1/4">
+          <Button
+            onPress={onOpen}
+            onClick={() =>
+              fetchTable ? setFetchTable(false) : setFetchTable(true)
+            }
+            className="mt-4 w-full sm:w-1/4"
+          >
             Open table <RiArrowDownDoubleFill />
           </Button>
         </div>
