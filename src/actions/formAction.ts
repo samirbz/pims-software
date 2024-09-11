@@ -909,27 +909,28 @@ export async function getIdForYojanaBudgetFromSecondEdit(
   }
 }
 
-export async function editYojanaBudgetFromSecondEdit(
-  id: string,
-  biniyojanBudget: string
+export async function editYojanaBudgetYojanaKoNaamFromFirstEdit(
+  oldYojanaKoNaam: string, // Old value to search for
+  newYojanaKoNaam: string // New value to update
 ) {
   try {
-    // Update the record in the database
-    const updatedRecord = await prisma.yojanaBudget.update({
+    // Update all records where chaniyekoMukhyaYojana matches the old value
+    const updatedRecord = await prisma.yojanaBudgetSecond.updateMany({
       where: {
-        id,
+        chaniyekoMukhyaYojana: oldYojanaKoNaam, // Match the old value
       },
       data: {
-        biniyojanBudget,
+        chaniyekoMukhyaYojana: newYojanaKoNaam, // Set to the new value
       },
     })
 
     return { status: "success", data: updatedRecord }
   } catch (error) {
-    console.error("Error in updateBiniyojanBudget:", error)
+    console.error("Error in editYojanaBudgetYojanaKoNaamFromFirstEdit:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
+
 //  10. yojana budget Edit second
 export async function editYojanaBudgetSecond(
   id: string,

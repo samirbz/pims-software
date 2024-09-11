@@ -40,8 +40,8 @@ import {
   editYojanaBudgetSecond,
   deleteYojanaBudgetChaniyekoMukhyaYojanaSecond,
   sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond,
-  editYojanaBudgetFromSecondEdit,
   getIdForYojanaBudgetFromSecondEdit,
+  editYojanaBudgetYojanaKoNaamFromFirstEdit,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
@@ -87,6 +87,11 @@ export default function YojanaBudget() {
   const [checkFirstYojanaKoNaamForEdit, setCheckFirstYojanaKoNaamForEdit] =
     useState("")
   const [checkFirstWodaForEdit, setCheckFirstWodaForEdit] = useState("")
+
+  const [
+    checkFirstYojanaKoNaamForEditSecond,
+    setCheckFirstYojanaKoNaamForEditSecond,
+  ] = useState("")
 
   const [checkBiniyojanBudget, setCheckBiniyojanBudget] = useState("")
 
@@ -340,6 +345,22 @@ export default function YojanaBudget() {
         checkFirstYojanaKoNaamForEdit === yojanaKoNaam &&
         checkFirstWodaForEdit === wadaNum
 
+      const yojanaKoNaamChange = checkFirstYojanaKoNaamForEdit === yojanaKoNaam
+
+      if (!yojanaKoNaamChange) {
+        await editYojanaBudgetYojanaKoNaamFromFirstEdit(
+          checkFirstYojanaKoNaamForEdit,
+          yojanaKoNaam
+        )
+        fetchYojanaBudgetSecondLocal()
+      }
+
+      const wodaNumChangeCheck = checkFirstWodaForEdit === wadaNum
+      if (!wodaNumChangeCheck) {
+        toast.error("You cannot change woda number")
+        setWadaNum(checkFirstWodaForEdit)
+        return
+      }
       if (hasMatch && !sameData) {
         toast.error("duplicate yojana with same wada")
       } else {
@@ -398,9 +419,24 @@ export default function YojanaBudget() {
     setBiniyojanBudgetDt(item.biniyojanBudgetDt)
     setChaniyekoMukhyaYojana(item.chaniyekoMukhyaYojana)
     setCheckBiniyojanBudget(item.biniyojanBudgetDt)
+    setCheckFirstYojanaKoNaamForEditSecond(item.yojanaKoNaamDt)
   }
 
   const editSecond = async () => {
+    const data = await fetchYojanaBudgetDataSecond()
+
+    const hasMatch = data.some(
+      (item) =>
+        item.yojanaKoNaamDt === yojanaKoNaamDt.trim() &&
+        item.wadaNumDt === wadaNumDt
+    )
+
+    const sameData = checkFirstYojanaKoNaamForEditSecond === yojanaKoNaamDt
+
+    if (hasMatch && !sameData) {
+      toast.error("duplicate yojana with same wada")
+      return
+    }
     if (validateFieldsSecond()) {
       if (Number(biniyojanBudgetDt) < 0) {
         toast.error("Amount should not be negative")
@@ -512,89 +548,85 @@ export default function YojanaBudget() {
 
     const hasMatch = data.some(
       (item) =>
-        item.yojanaKoNaamDt === yojanaKoNaamDt && item.wadaNumDt === wadaNumDt
+        item.yojanaKoNaamDt === yojanaKoNaamDt.trim() &&
+        item.wadaNumDt === wadaNumDt
     )
-    console.log(hasMatch) // true if at least one match is found, otherwise false
 
     if (hasMatch) {
       toast.error("duplicate yojana with same wada")
-    } else {
-      // alert(Number(biniyojanBudgetDt) > Number(amountCheck))
-      if (Number(biniyojanBudgetDt) > Number(amountCheck)) {
-        toast.error("Amount is greater than budget")
+      return
+    }
+    // alert(Number(biniyojanBudgetDt) > Number(amountCheck))
+    if (Number(biniyojanBudgetDt) > Number(amountCheck)) {
+      toast.error("Amount is greater than budget")
+      return
+    }
+    if (!validateFieldsSecond()) {
+      console.error("Validation failed. Please check the fields and try again.")
+      return
+    }
+
+    try {
+      if (Number(biniyojanBudgetDt) < 0) {
+        toast.error("Amount should not be negative")
         return
       }
-      if (!validateFieldsSecond()) {
-        console.error(
-          "Validation failed. Please check the fields and try again."
-        )
+
+      // Find the matching budget for the given `secondId`
+      const matchedItem = yojanaBudgetData.find((data) => data.id === secondId)
+
+      if (!matchedItem) {
+        console.error("No matching budget found for the given ID")
         return
       }
 
-      try {
-        if (Number(biniyojanBudgetDt) < 0) {
-          toast.error("Amount should not be negative")
-          return
-        }
+      // Extract and convert the budgets to numbers
+      const budget1 = Number(matchedItem.biniyojanBudget)
+      const budget2 = Number(biniyojanBudgetDt)
 
-        // Find the matching budget for the given `secondId`
-        const matchedItem = yojanaBudgetData.find(
-          (data) => data.id === secondId
-        )
-
-        if (!matchedItem) {
-          console.error("No matching budget found for the given ID")
-          return
-        }
-
-        // Extract and convert the budgets to numbers
-        const budget1 = Number(matchedItem.biniyojanBudget)
-        const budget2 = Number(biniyojanBudgetDt)
-
-        if (isNaN(budget1) || isNaN(budget2)) {
-          console.error("Invalid budget values. Could not convert to number.")
-          return
-        }
-
-        // Perform the subtraction
-        const res = budget1 - budget2
-        const resNew = res.toString()
-
-        // Update the budget in the database
-        await updateBiniyojanBudget(secondId, resNew)
-        await fetchYojanaBudgetLocal()
-
-        const result = await saveYojanaBudgetDt(
-          yojanaKoNaamDt,
-          wadaNumDt,
-          anudanKisimDt,
-          biniyojanBudgetDt,
-          budgetKaryakramDt,
-          yojanaKisimDt,
-          mukhyaSamitiDt,
-          chaniyekoMukhyaYojana
-        )
-
-        if (result.status === "success") {
-          // Reset input fields after successful submission
-          setYojanaKoNaamDt("")
-          setWadaNumDt("")
-          setAnudanKisimDt("")
-          setBiniyojanBudgetDt("")
-          setBudgetKaryakramDt("")
-          setYojanaKisimDt("")
-          setMukhyaSamitiDt("")
-          setChaniyekoMukhyaYojana("")
-          setSelectedItem(null)
-
-          toast.success("Budget updated successfully")
-          fetchYojanaBudgetSecondLocal()
-        } else {
-          console.error("Error occurred during saveYojanaBudgetDt")
-        }
-      } catch (error) {
-        console.error("Error in onSubmitDt function:", error)
+      if (isNaN(budget1) || isNaN(budget2)) {
+        console.error("Invalid budget values. Could not convert to number.")
+        return
       }
+
+      // Perform the subtraction
+      const res = budget1 - budget2
+      const resNew = res.toString()
+
+      // Update the budget in the database
+      await updateBiniyojanBudget(secondId, resNew)
+      await fetchYojanaBudgetLocal()
+
+      const result = await saveYojanaBudgetDt(
+        yojanaKoNaamDt,
+        wadaNumDt,
+        anudanKisimDt,
+        biniyojanBudgetDt,
+        budgetKaryakramDt,
+        yojanaKisimDt,
+        mukhyaSamitiDt,
+        chaniyekoMukhyaYojana
+      )
+
+      if (result.status === "success") {
+        // Reset input fields after successful submission
+        setYojanaKoNaamDt("")
+        setWadaNumDt("")
+        setAnudanKisimDt("")
+        setBiniyojanBudgetDt("")
+        setBudgetKaryakramDt("")
+        setYojanaKisimDt("")
+        setMukhyaSamitiDt("")
+        setChaniyekoMukhyaYojana("")
+        setSelectedItem(null)
+
+        toast.success("Budget updated successfully")
+        fetchYojanaBudgetSecondLocal()
+      } else {
+        console.error("Error occurred during saveYojanaBudgetDt")
+      }
+    } catch (error) {
+      console.error("Error in onSubmitDt function:", error)
     }
   }
 
@@ -958,9 +990,9 @@ export default function YojanaBudget() {
               <Input
                 type="text"
                 label="छानिएको मुख्य आयोजना"
+                value={selectedItem?.yojanaKoNaam || chaniyekoMukhyaYojana}
                 isReadOnly
                 size="sm"
-                value={selectedItem?.yojanaKoNaam}
                 onChange={handleChangeSecond(
                   setChaniyekoMukhyaYojana,
                   "chaniyekoMukhyaYojana"
