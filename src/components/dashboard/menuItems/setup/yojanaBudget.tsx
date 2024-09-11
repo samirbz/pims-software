@@ -95,6 +95,9 @@ export default function YojanaBudget() {
 
   const [checkBiniyojanBudget, setCheckBiniyojanBudget] = useState("")
 
+  const [clearAndCancelBtn, setClearAndCancelBtn] = useState(false)
+  const [clearAndCancelBtnSecond, setClearAndCancelBtnSecond] = useState(false)
+
   //  delete
   const {
     isOpen: isDeleteConfirmationOpen,
@@ -326,6 +329,7 @@ export default function YojanaBudget() {
     setMukyaSamiti(item.mukhyaSamiti)
     setCheckFirstYojanaKoNaamForEdit(item.yojanaKoNaam)
     setCheckFirstWodaForEdit(item.wadaNum)
+    setClearAndCancelBtn(true)
   }
 
   const editFirst = async () => {
@@ -402,6 +406,7 @@ export default function YojanaBudget() {
           setMukyaSamiti("")
           setShowEditBtn(false)
           fetchYojanaBudgetLocal()
+          setClearAndCancelBtn(false)
           toast.success("successfully edited")
         } else {
           console.error("Error occurred")
@@ -420,6 +425,7 @@ export default function YojanaBudget() {
     setChaniyekoMukhyaYojana(item.chaniyekoMukhyaYojana)
     setCheckBiniyojanBudget(item.biniyojanBudgetDt)
     setCheckFirstYojanaKoNaamForEditSecond(item.yojanaKoNaamDt)
+    setClearAndCancelBtnSecond(true)
   }
 
   const editSecond = async () => {
@@ -490,6 +496,7 @@ export default function YojanaBudget() {
         await fetchYojanaBudgetSecondLocal()
         await fetchYojanaBudgetLocal()
         setSelectedItem(null)
+        setClearAndCancelBtnSecond(false)
         toast.success("successfully edited")
       } else {
         console.error("Error occurred")
@@ -811,7 +818,7 @@ export default function YojanaBudget() {
           <div className="flex gap-2">
             {showEditBtn ? (
               <Button
-                color="default"
+                color="secondary"
                 startContent={<MdModeEditOutline />}
                 className="w-12"
                 onClick={editFirst}
@@ -839,10 +846,11 @@ export default function YojanaBudget() {
                 setYojanaKisim("")
                 setMukyaSamiti("")
                 setShowEditBtn(false)
+                setClearAndCancelBtn(false)
               }}
               className="w-12"
             >
-              Clear
+              {clearAndCancelBtn ? "Cancel" : "Clear"}
             </Button>
           </div>
         </div>
@@ -1029,7 +1037,7 @@ export default function YojanaBudget() {
           <div className="flex gap-2">
             {showSecondEditBtn ? (
               <Button
-                color="default"
+                color="secondary"
                 startContent={<MdModeEditOutline />}
                 className="w-12"
                 onClick={editSecond}
@@ -1046,13 +1054,7 @@ export default function YojanaBudget() {
                 Save
               </Button>
             )}
-            <Button
-              startContent={<SiMicrosoftexcel />}
-              onClick={exportToExcel}
-              className="w-12 bg-green-700 text-white"
-            >
-              Excel
-            </Button>
+
             <Button
               startContent={<AiOutlineClear />}
               onClick={() => {
@@ -1066,10 +1068,18 @@ export default function YojanaBudget() {
                 setChaniyekoMukhyaYojana("")
                 setSelectedItem(null)
                 setSecondShowEditBtn(false)
+                setClearAndCancelBtnSecond(false)
               }}
               className="w-12"
             >
-              Clear
+              {clearAndCancelBtnSecond ? "Cancel" : "Clear"}
+            </Button>
+            <Button
+              startContent={<SiMicrosoftexcel />}
+              onClick={exportToExcel}
+              className="w-12 bg-green-700 text-white"
+            >
+              Excel
             </Button>
           </div>
         </div>
