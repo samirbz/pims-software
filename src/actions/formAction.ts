@@ -884,6 +884,52 @@ export async function editYojanaBudgetFirst(
     return { status: "error", error: "Something went wrong" }
   }
 }
+
+export async function getIdForYojanaBudgetFromSecondEdit(
+  yojanaKoNaam: string,
+  wadaNum: string
+) {
+  try {
+    // Fetch the record(s) matching yojanaKoNaam and wadaNum, and return the id and biniyojanBudget
+    const matchingRecords = await prisma.yojanaBudget.findMany({
+      where: {
+        yojanaKoNaam,
+        wadaNum,
+      },
+      select: {
+        id: true, // Return the id
+        biniyojanBudget: true, // Return the biniyojanBudget
+      },
+    })
+
+    return matchingRecords
+  } catch (error) {
+    console.error("Error in getIdForYojanaBudgetFromSecondEdit:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function editYojanaBudgetFromSecondEdit(
+  id: string,
+  biniyojanBudget: string
+) {
+  try {
+    // Update the record in the database
+    const updatedRecord = await prisma.yojanaBudget.update({
+      where: {
+        id,
+      },
+      data: {
+        biniyojanBudget,
+      },
+    })
+
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
 //  10. yojana budget Edit second
 export async function editYojanaBudgetSecond(
   id: string,

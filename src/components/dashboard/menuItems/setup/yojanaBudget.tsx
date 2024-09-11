@@ -40,6 +40,8 @@ import {
   editYojanaBudgetSecond,
   deleteYojanaBudgetChaniyekoMukhyaYojanaSecond,
   sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond,
+  editYojanaBudgetFromSecondEdit,
+  getIdForYojanaBudgetFromSecondEdit,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
@@ -85,6 +87,8 @@ export default function YojanaBudget() {
   const [checkFirstYojanaKoNaamForEdit, setCheckFirstYojanaKoNaamForEdit] =
     useState("")
   const [checkFirstWodaForEdit, setCheckFirstWodaForEdit] = useState("")
+
+  const [checkBiniyojanBudget, setCheckBiniyojanBudget] = useState("")
 
   //  delete
   const {
@@ -393,6 +397,7 @@ export default function YojanaBudget() {
     setWadaNumDt(item.wadaNumDt)
     setBiniyojanBudgetDt(item.biniyojanBudgetDt)
     setChaniyekoMukhyaYojana(item.chaniyekoMukhyaYojana)
+    setCheckBiniyojanBudget(item.biniyojanBudgetDt)
   }
 
   const editSecond = async () => {
@@ -401,11 +406,23 @@ export default function YojanaBudget() {
         toast.error("Amount should not be negative")
         return
       }
-      if (Number(biniyojanBudgetDt) > Number(amountCheck)) {
-        toast.error("Amount is greater than budget")
-        return
-      }
 
+      if (checkBiniyojanBudget !== biniyojanBudget) {
+        const dataOfYojanaKoNaam: any =
+          await getIdForYojanaBudgetFromSecondEdit(
+            chaniyekoMukhyaYojana,
+            wadaNumDt
+          )
+        const remainAmount = dataOfYojanaKoNaam.map((items: any) =>
+          Number(items.biniyojanBudget)
+        )
+        const checkAmount =
+          Number(biniyojanBudgetDt) - Number(checkBiniyojanBudget)
+        if (remainAmount < checkAmount) {
+          toast.error("Amount is greater than budget")
+          return
+        }
+      }
       const result = await editYojanaBudgetSecond(
         secondEditId,
         yojanaKoNaamDt,
@@ -941,7 +958,7 @@ export default function YojanaBudget() {
               <Input
                 type="text"
                 label="छानिएको मुख्य आयोजना"
-                isDisabled
+                isReadOnly
                 size="sm"
                 value={selectedItem?.yojanaKoNaam}
                 onChange={handleChangeSecond(
@@ -958,6 +975,7 @@ export default function YojanaBudget() {
               type="Number"
               label="वडा न."
               size="sm"
+              isReadOnly
               value={wadaNumDt}
               onChange={handleChangeSecond(setWadaNumDt, "wadaNumDt")}
               isInvalid={!!errorsSecond.wadaNumDt}
