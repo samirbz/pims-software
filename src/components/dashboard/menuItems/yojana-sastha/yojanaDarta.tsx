@@ -170,6 +170,8 @@ export default function YojanaDarta() {
 
   const [fetchTable, setFetchTable] = useState(false)
 
+  const [totalBudget, setTotalBudget] = useState("")
+
   const [btnDisable, setBtnDisable] = useState(false)
 
   // two checkboxed
@@ -265,6 +267,7 @@ export default function YojanaDarta() {
         // Assuming you want the first item if there are multiple matches
         const budgetData = filteredData[0].biniyojanBudgetDt
         setLagatSrotAmount(budgetData)
+        setTotalBudget(budgetData)
       } else {
         // Handle the case where no data was found
         setLagatSrotAmount("") // Or whatever default value makes sense
@@ -404,6 +407,12 @@ export default function YojanaDarta() {
   const onSubmit = async () => {
     setBtnDisable(true)
     setBiniyojitRakam(totalSum.toString())
+    const checkAmount = Number(biniyojitRakam) > Number(totalBudget)
+    if (checkAmount) {
+      toast.error("Lagat srot Amount is greater than budget")
+      setBtnDisable(false)
+      return
+    }
     const result = await saveYojanaDarta(
       sabhaNirnayaMiti,
       prastabSwikritMiti,
