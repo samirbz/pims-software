@@ -82,6 +82,10 @@ export default function YojanaBudget() {
 
   const [amountCheck, setAmountCheck] = useState("")
 
+  const [checkFirstYojanaKoNaamForEdit, setCheckFirstYojanaKoNaamForEdit] =
+    useState("")
+  const [checkFirstWodaForEdit, setCheckFirstWodaForEdit] = useState("")
+
   //  delete
   const {
     isOpen: isDeleteConfirmationOpen,
@@ -311,6 +315,8 @@ export default function YojanaBudget() {
     setBudgetKaryakram(item.budgetKaryakram)
     setYojanaKisim(item.yojanaKisim)
     setMukyaSamiti(item.mukhyaSamiti)
+    setCheckFirstYojanaKoNaamForEdit(item.yojanaKoNaam)
+    setCheckFirstWodaForEdit(item.wadaNum)
   }
 
   const editFirst = async () => {
@@ -320,46 +326,61 @@ export default function YojanaBudget() {
         return
       }
 
-      const matchOldBudget = yojanaBudgetData.find(
-        (data) => data.id === firstEditId
-      )
-      const sumOfAll = await sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
-        matchOldBudget.yojanaKoNaam,
-        wadaNum
-      )
-      const budget1 = Number(biniyojanBudget)
-      const budget2 = Number(sumOfAll.totalBudget)
+      const data = await fetchYojanaBudgetData()
 
-      const res = (budget1 - budget2).toString()
-
-      if (matchOldBudget.biniyojanBudget !== biniyojanBudget) {
-        setBiniyojanBudget(res)
-      }
-
-      const result = await editYojanaBudgetFirst(
-        firstEditId,
-        yojanaKoNaam,
-        wadaNum,
-        anudanKisim,
-        res, // Pass `res` directly instead of `biniyojanBudget`
-        budgetKaryakram,
-        yojanaKisim,
-        mukhyaSamiti
+      const hasMatch = data.some(
+        (item) => item.yojanaKoNaam === yojanaKoNaam && item.wadaNum === wadaNum
       )
 
-      if (result.status === "success") {
-        setYojanaKoNaam("")
-        setWadaNum("")
-        setAnudanKisim("")
-        setBiniyojanBudget("")
-        setBudgetKaryakram("")
-        setYojanaKisim("")
-        setMukyaSamiti("")
-        setShowEditBtn(false)
-        fetchYojanaBudgetLocal()
-        toast.success("successfully edited")
+      const sameData =
+        checkFirstYojanaKoNaamForEdit === yojanaKoNaam &&
+        checkFirstWodaForEdit === wadaNum
+
+      if (hasMatch && !sameData) {
+        toast.error("duplicate yojana with same wada")
       } else {
-        console.error("Error occurred")
+        const matchOldBudget = yojanaBudgetData.find(
+          (data) => data.id === firstEditId
+        )
+        const sumOfAll =
+          await sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
+            matchOldBudget.yojanaKoNaam,
+            wadaNum
+          )
+        const budget1 = Number(biniyojanBudget)
+        const budget2 = Number(sumOfAll.totalBudget)
+
+        const res = (budget1 - budget2).toString()
+
+        if (matchOldBudget.biniyojanBudget !== biniyojanBudget) {
+          setBiniyojanBudget(res)
+        }
+
+        const result = await editYojanaBudgetFirst(
+          firstEditId,
+          yojanaKoNaam,
+          wadaNum,
+          anudanKisim,
+          res, // Pass `res` directly instead of `biniyojanBudget`
+          budgetKaryakram,
+          yojanaKisim,
+          mukhyaSamiti
+        )
+
+        if (result.status === "success") {
+          setYojanaKoNaam("")
+          setWadaNum("")
+          setAnudanKisim("")
+          setBiniyojanBudget("")
+          setBudgetKaryakram("")
+          setYojanaKisim("")
+          setMukyaSamiti("")
+          setShowEditBtn(false)
+          fetchYojanaBudgetLocal()
+          toast.success("successfully edited")
+        } else {
+          console.error("Error occurred")
+        }
       }
     }
   }
