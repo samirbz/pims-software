@@ -424,37 +424,47 @@ export default function YojanaBudget() {
   }
 
   const onSubmit = async () => {
-    if (Number(biniyojanBudget) < 0) {
-      toast.error("Amount should not be negative")
-      return
-    }
+    const data = await fetchYojanaBudgetData()
 
-    if (validateFields()) {
-      const result = await saveYojanaBudget(
-        yojanaKoNaam,
-        wadaNum,
-        anudanKisim,
-        biniyojanBudget,
-        budgetKaryakram,
-        yojanaKisim,
-        mukhyaSamiti
-      )
+    const hasMatch = data.some(
+      (item) => item.yojanaKoNaam === yojanaKoNaam && item.wadaNum === wadaNum
+    )
 
-      if (result.status === "success") {
-        // Reset the input fields after successful submission
-        setYojanaKoNaam("")
-        setWadaNum("")
-        setAnudanKisim("")
-        setBiniyojanBudget("")
-        setBudgetKaryakram("")
-        setYojanaKisim("")
-        setMukyaSamiti("")
-        setErrors({})
-        // Fetch the updated list of data
-        fetchYojanaBudgetLocal()
-        toast.success("Data saved successfully!")
-      } else {
-        toast.error(result.error)
+    if (hasMatch) {
+      toast.error("duplicate yojana with same wada")
+    } else {
+      if (Number(biniyojanBudget) < 0) {
+        toast.error("Amount should not be negative")
+        return
+      }
+
+      if (validateFields()) {
+        const result = await saveYojanaBudget(
+          yojanaKoNaam,
+          wadaNum,
+          anudanKisim,
+          biniyojanBudget,
+          budgetKaryakram,
+          yojanaKisim,
+          mukhyaSamiti
+        )
+
+        if (result.status === "success") {
+          // Reset the input fields after successful submission
+          setYojanaKoNaam("")
+          setWadaNum("")
+          setAnudanKisim("")
+          setBiniyojanBudget("")
+          setBudgetKaryakram("")
+          setYojanaKisim("")
+          setMukyaSamiti("")
+          setErrors({})
+          // Fetch the updated list of data
+          fetchYojanaBudgetLocal()
+          toast.success("Data saved successfully!")
+        } else {
+          toast.error(result.error)
+        }
       }
     }
   }
