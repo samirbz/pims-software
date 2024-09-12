@@ -507,8 +507,11 @@ export default function YojanaBudget() {
   const onSubmit = async () => {
     const data = await fetchYojanaBudgetData()
 
+    const trimmedyojanaKoNaam = yojanaKoNaam.trimEnd()
+
     const hasMatch = data.some(
-      (item) => item.yojanaKoNaam === yojanaKoNaam && item.wadaNum === wadaNum
+      (item) =>
+        item.yojanaKoNaam === trimmedyojanaKoNaam && item.wadaNum === wadaNum
     )
 
     if (hasMatch) {
@@ -521,7 +524,7 @@ export default function YojanaBudget() {
 
       if (validateFields()) {
         const result = await saveYojanaBudget(
-          yojanaKoNaam,
+          trimmedyojanaKoNaam,
           wadaNum,
           anudanKisim,
           biniyojanBudget,
@@ -553,9 +556,11 @@ export default function YojanaBudget() {
   const onSubmitDt = async () => {
     const data = await fetchYojanaBudgetDataSecond()
 
+    const trimmedyojanaKoNaamSecond = yojanaKoNaamDt.trimEnd()
+
     const hasMatch = data.some(
       (item) =>
-        item.yojanaKoNaamDt === yojanaKoNaamDt.trim() &&
+        item.yojanaKoNaamDt === trimmedyojanaKoNaamSecond.trim() &&
         item.wadaNumDt === wadaNumDt
     )
 
@@ -605,7 +610,7 @@ export default function YojanaBudget() {
       await fetchYojanaBudgetLocal()
 
       const result = await saveYojanaBudgetDt(
-        yojanaKoNaamDt,
+        trimmedyojanaKoNaamSecond,
         wadaNumDt,
         anudanKisimDt,
         biniyojanBudgetDt,

@@ -79,11 +79,12 @@ export default function SuchikritForm() {
 
   const onSubmit = async () => {
     setBtnDisable(true)
+    const trimmedNaam = formKoNaam.trimEnd()
 
     if (editMode && editId) {
       // Check if `formKoNaam` exists in other records, excluding the one being edited
       const existsInOtherItems = suchikritFormData.some(
-        (data) => data.formKoNaam === formKoNaam && data.id !== editId
+        (data) => data.formKoNaam === trimmedNaam && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -95,7 +96,7 @@ export default function SuchikritForm() {
       // Proceed with the edit operation
       const result = await editSuchikritForm(
         editId,
-        formKoNaam,
+        trimmedNaam,
         dartaMiti,
         formKoThegana,
         panVat,
@@ -124,7 +125,7 @@ export default function SuchikritForm() {
     } else {
       // Check if `formKoNaam` already exists in the data
       const exists = suchikritFormData.some(
-        (data) => data.formKoNaam === formKoNaam
+        (data) => data.formKoNaam === trimmedNaam
       )
 
       if (exists) {
@@ -132,7 +133,7 @@ export default function SuchikritForm() {
       } else {
         // Proceed with the save operation
         const result = await saveSuchikritForm(
-          formKoNaam,
+          trimmedNaam,
           dartaMiti,
           formKoThegana,
           panVat,
@@ -319,7 +320,7 @@ export default function SuchikritForm() {
                 !panVat ||
                 !formKoThegana ||
                 !dartaMiti ||
-                !formKoNaam ||
+                !formKoNaam.trimEnd() ||
                 btnDisable
               }
             >
@@ -379,7 +380,9 @@ export default function SuchikritForm() {
                   <TableCell>
                     {ConvertToNepaliNumerals(item.phoneNum)}
                   </TableCell>
-                  <TableCell>{ConvertToNepaliNumerals(item.dartaMiti)}</TableCell>
+                  <TableCell>
+                    {ConvertToNepaliNumerals(item.dartaMiti)}
+                  </TableCell>
                   <TableCell>{item.suchikritHunaChahekoKharid}</TableCell>
                   <TableCell>
                     <Dropdown>

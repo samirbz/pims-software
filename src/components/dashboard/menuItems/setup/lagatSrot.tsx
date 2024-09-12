@@ -81,12 +81,14 @@ export default function LagatSrot() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    const trimmedName = lagatSrotKoNaam.trimEnd()
+
     if (editMode && editId) {
       // In edit mode, check if `anudanKoKisim` and `lagatSrotKoNaam` exist in other records, excluding the one being edited
       const existsInOtherItems = lagatSrotData.some(
         (data) =>
           data.anudanKoKisim === anudanKoKisim &&
-          data.lagatSrotKoNaam === lagatSrotKoNaam &&
+          data.lagatSrotKoNaam === trimmedName &&
           data.id !== editId
       )
 
@@ -97,7 +99,7 @@ export default function LagatSrot() {
       }
 
       // Proceed with the edit operation
-      const result = await editLagatSrot(editId, anudanKoKisim, lagatSrotKoNaam)
+      const result = await editLagatSrot(editId, anudanKoKisim, trimmedName)
       if (result.status === "success") {
         setAnudanKoKisim("")
         setLagatSrotKoNaam("")
@@ -112,14 +114,14 @@ export default function LagatSrot() {
       const exists = lagatSrotData.some(
         (data) =>
           data.anudanKoKisim === anudanKoKisim &&
-          data.lagatSrotKoNaam === lagatSrotKoNaam
+          data.lagatSrotKoNaam === trimmedName
       )
 
       if (exists) {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveLagatSrot(anudanKoKisim, lagatSrotKoNaam)
+        const result = await saveLagatSrot(anudanKoKisim, trimmedName)
         if (result.status === "success") {
           setAnudanKoKisim("")
           setLagatSrotKoNaam("")
@@ -212,7 +214,9 @@ export default function LagatSrot() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!anudanKoKisim || !lagatSrotKoNaam || btnDisable}
+              isDisabled={
+                !anudanKoKisim || !lagatSrotKoNaam.trimEnd() || btnDisable
+              }
             >
               {editMode ? "Edit" : "Save"}
             </Button>

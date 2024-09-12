@@ -70,10 +70,12 @@ export default function AnudanKisim() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    const trimmedName = anudaanKoNaam.trimEnd()
+
     if (editMode && editId) {
       // In edit mode, check if the `anudaanKoNaam` exists in other items, excluding the one being edited
       const existsInOtherItems = anudaanKoNaamData.some(
-        (data) => data.anudaanKoNaam === anudaanKoNaam && data.id !== editId
+        (data) => data.anudaanKoNaam === trimmedName && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -83,7 +85,7 @@ export default function AnudanKisim() {
       }
 
       // Proceed with the edit operation
-      const result = await editAnudaanKoNaam(editId, anudaanKoNaam)
+      const result = await editAnudaanKoNaam(editId, trimmedName)
       if (result.status === "success") {
         setAnudaanKoNaam("")
         setEditMode(false)
@@ -95,12 +97,12 @@ export default function AnudanKisim() {
     } else {
       // In create mode, check if the item already exists
       if (
-        anudaanKoNaamData.some((data) => data.anudaanKoNaam === anudaanKoNaam)
+        anudaanKoNaamData.some((data) => data.anudaanKoNaam === trimmedName)
       ) {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveAnudaanKoNaam(anudaanKoNaam)
+        const result = await saveAnudaanKoNaam(trimmedName)
         if (result.status === "success") {
           setAnudaanKoNaam("")
           fetchAnudaan()
@@ -170,7 +172,7 @@ export default function AnudanKisim() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!anudaanKoNaam || btnDisable}
+            isDisabled={!anudaanKoNaam.trimEnd() || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>

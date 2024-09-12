@@ -69,12 +69,13 @@ export default function YojanaPrakar() {
 
   const onSubmit = async () => {
     setBtnDisable(true)
+    const trimmedName = yojanaPrakar.trimEnd()
 
     try {
       if (editMode && editId) {
         // In edit mode, check if `yojanaPrakar` exists in other records, excluding the one being edited
         const existsInOtherItems = yojanaPrakarData.some(
-          (data) => data.yojanaPrakar === yojanaPrakar && data.id !== editId
+          (data) => data.yojanaPrakar === trimmedName && data.id !== editId
         )
 
         if (existsInOtherItems) {
@@ -83,7 +84,7 @@ export default function YojanaPrakar() {
         }
 
         // Proceed with the edit operation
-        const result = await editYojanaPrakar(editId, yojanaPrakar)
+        const result = await editYojanaPrakar(editId, trimmedName)
         if (result.status === "success") {
           setYojanaPrakar("")
           setEditMode(false)
@@ -95,12 +96,12 @@ export default function YojanaPrakar() {
       } else {
         // In create mode, check if `yojanaPrakar` already exists in the data
         if (
-          yojanaPrakarData.some((data) => data.yojanaPrakar === yojanaPrakar)
+          yojanaPrakarData.some((data) => data.yojanaPrakar === trimmedName)
         ) {
           toast.error("Item already exists")
         } else {
           // Proceed with the save operation
-          const result = await saveYojanaPrakar(yojanaPrakar)
+          const result = await saveYojanaPrakar(trimmedName)
           if (result.status === "success") {
             setYojanaPrakar("")
             fetchYojanaPrakar()
@@ -172,7 +173,7 @@ export default function YojanaPrakar() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!yojanaPrakar || btnDisable}
+            isDisabled={!yojanaPrakar.trimEnd() || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>

@@ -40,10 +40,8 @@ export default function MukhyaSamiti() {
   const [loading, setLoading] = useState(true)
   const [editMode, setEditMode] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
-
   const [btnDisable, setBtnDisable] = useState(false)
-
-  const [page, setPage] = React.useState(1)
+  const [page, setPage] = useState(1)
   const rowsPerPage = 7
 
   const pages = Math.ceil(mukhyaSamitiKoNaamData.length / rowsPerPage)
@@ -51,7 +49,6 @@ export default function MukhyaSamiti() {
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
-
     return mukhyaSamitiKoNaamData.slice(start, end)
   }, [page, mukhyaSamitiKoNaamData])
 
@@ -61,7 +58,7 @@ export default function MukhyaSamiti() {
       const data = await fetchMukyaSamitiData()
       setMukhyaSamitiKoNaamData(data)
     } catch (error) {
-      console.error("Error fetching fiscal years:", error)
+      console.error("Error fetching data:", error)
     } finally {
       setLoading(false)
     }
@@ -70,11 +67,13 @@ export default function MukhyaSamiti() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    // Remove trailing spaces before saving or checking
+    const trimmedName = mukhyaSamitiKoNaam.trimEnd()
+
     if (editMode && editId) {
-      // In edit mode, check if `mukhyaSamitiKoNaam` exists in other records, excluding the one being edited
+      // In edit mode, check if `trimmedName` exists in other records, excluding the one being edited
       const existsInOtherItems = mukhyaSamitiKoNaamData.some(
-        (data) =>
-          data.mukhyaSamitiKoNaam === mukhyaSamitiKoNaam && data.id !== editId
+        (data) => data.mukhyaSamitiKoNaam === trimmedName && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -84,7 +83,7 @@ export default function MukhyaSamiti() {
       }
 
       // Proceed with the edit operation
-      const result = await editMukhyaSamitiKonaam(editId, mukhyaSamitiKoNaam)
+      const result = await editMukhyaSamitiKonaam(editId, trimmedName)
       if (result.status === "success") {
         setMukhyaSamitiKoNaam("")
         setEditMode(false)
@@ -94,16 +93,16 @@ export default function MukhyaSamiti() {
         console.error("Error occurred during edit")
       }
     } else {
-      // In create mode, check if the `mukhyaSamitiKoNaam` already exists
+      // In create mode, check if the `trimmedName` already exists
       const exists = mukhyaSamitiKoNaamData.some(
-        (data) => data.mukhyaSamitiKoNaam === mukhyaSamitiKoNaam
+        (data) => data.mukhyaSamitiKoNaam === trimmedName
       )
 
       if (exists) {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveMukyaSamiti(mukhyaSamitiKoNaam)
+        const result = await saveMukyaSamiti(trimmedName)
         if (result.status === "success") {
           setMukhyaSamitiKoNaam("")
           fetchMukhyaSamiti()
@@ -166,13 +165,14 @@ export default function MukhyaSamiti() {
             label="मुख्य समिती को नाम"
             size="sm"
             value={mukhyaSamitiKoNaam}
+            // Allows spaces but does not trim them during typing
             onChange={(e) => setMukhyaSamitiKoNaam(e.target.value)}
           />
           <Button
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!mukhyaSamitiKoNaam || btnDisable}
+            isDisabled={!mukhyaSamitiKoNaam.trimEnd() || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>

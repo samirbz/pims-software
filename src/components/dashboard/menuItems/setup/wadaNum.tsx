@@ -71,8 +71,10 @@ export default function Wada() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    const trimmedName = wadaNum.trimEnd()
+
     // Check if the item exists only when not in edit mode
-    const result = wadaNumData.some((data) => data.wadaNum === wadaNum)
+    const result = wadaNumData.some((data) => data.wadaNum === trimmedName)
 
     if (editMode && editId) {
       // In edit mode, don't check for duplicates against the current edited item
@@ -80,7 +82,7 @@ export default function Wada() {
 
       // Check if the current `wadaNum` exists but ignore the one being edited
       const existsInOtherItems = wadaNumData.some(
-        (data) => data.wadaNum === wadaNum && data.id !== editId
+        (data) => data.wadaNum === trimmedName && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -90,7 +92,7 @@ export default function Wada() {
       }
 
       // Perform edit operation
-      const result = await editWadaNum(editId, wadaNum)
+      const result = await editWadaNum(editId, trimmedName)
       if (result.status === "success") {
         setWadaNum("")
         setEditMode(false)
@@ -105,7 +107,7 @@ export default function Wada() {
         toast.error("Item already exists")
       } else {
         // Perform save operation
-        const result = await savewadaNum(wadaNum)
+        const result = await savewadaNum(trimmedName)
         if (result.status === "success") {
           setWadaNum("")
           fetchWadaNum()
@@ -175,7 +177,7 @@ export default function Wada() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!wadaNum || btnDisable}
+            isDisabled={!wadaNum.trimEnd() || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>

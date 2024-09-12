@@ -69,10 +69,13 @@ export default function SuchanaPrakasan() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    const trimmedyojanaKoNaam = suchanaPrakasan.trimEnd()
+
     if (editMode && editId) {
       // In edit mode, check if `suchanaPrakasan` exists in other records, excluding the one being edited
       const existsInOtherItems = suchanaPrakasanData.some(
-        (data) => data.suchanaPrakasan === suchanaPrakasan && data.id !== editId
+        (data) =>
+          data.suchanaPrakasan === trimmedyojanaKoNaam && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -82,7 +85,7 @@ export default function SuchanaPrakasan() {
       }
 
       // Proceed with the edit operation
-      const result = await editSuchanaPrakasan(editId, suchanaPrakasan)
+      const result = await editSuchanaPrakasan(editId, trimmedyojanaKoNaam)
       if (result.status === "success") {
         setSuchanaPrakasan("")
         setEditMode(false)
@@ -94,14 +97,14 @@ export default function SuchanaPrakasan() {
     } else {
       // In create mode, check if `suchanaPrakasan` already exists
       const exists = suchanaPrakasanData.some(
-        (data) => data.suchanaPrakasan === suchanaPrakasan
+        (data) => data.suchanaPrakasan === trimmedyojanaKoNaam
       )
 
       if (exists) {
         toast.error("Item already exists")
       } else {
         // Proceed with the save operation
-        const result = await saveSuchanaPrakasan(suchanaPrakasan)
+        const result = await saveSuchanaPrakasan(trimmedyojanaKoNaam)
         if (result.status === "success") {
           setSuchanaPrakasan("")
           fetchSuchanaPrakasan()
@@ -171,7 +174,7 @@ export default function SuchanaPrakasan() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!suchanaPrakasan || btnDisable}
+            isDisabled={!suchanaPrakasan.trimEnd() || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>

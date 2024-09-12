@@ -90,11 +90,12 @@ export default function YojanaKaryaBivaran() {
 
   const onSubmit = async () => {
     setBtnDisable(true)
+    const trimmedName = yojanaKoKarya.trimEnd()
 
     if (editMode && editId) {
       // Check if `yojanaKoKarya` exists in other records, excluding the one being edited
       const existsInOtherItems = yojanaKaryaBivaranData.some(
-        (data) => data.yojanaKoKarya === yojanaKoKarya && data.id !== editId
+        (data) => data.yojanaKoKarya === trimmedName && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -107,7 +108,7 @@ export default function YojanaKaryaBivaran() {
       const result = await editYojanaKaryaBivaran(
         editId,
         yojanaKoKisim,
-        yojanaKoKarya
+        trimmedName
       )
       if (result.status === "success") {
         setYojanaKoKisim("")
@@ -121,17 +122,14 @@ export default function YojanaKaryaBivaran() {
     } else {
       // Check if `yojanaKoKarya` already exists in the data
       const exists = yojanaKaryaBivaranData.some(
-        (data) => data.yojanaKoKarya === yojanaKoKarya
+        (data) => data.yojanaKoKarya === trimmedName
       )
 
       if (exists) {
         toast.error("Item already exists")
       } else {
         // Proceed with the save operation
-        const result = await saveYonanaKaryaBivaran(
-          yojanaKoKisim,
-          yojanaKoKarya
-        )
+        const result = await saveYonanaKaryaBivaran(yojanaKoKisim, trimmedName)
         if (result.status === "success") {
           setYojanaKoKisim("")
           setYojanaKoKarya("")
@@ -218,7 +216,9 @@ export default function YojanaKaryaBivaran() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!yojanaKoKisim || !yojanaKoKarya || btnDisable}
+              isDisabled={
+                !yojanaKoKisim || !yojanaKoKarya.trimEnd() || btnDisable
+              }
             >
               {editMode ? "Edit" : "Save"}
             </Button>

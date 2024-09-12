@@ -70,10 +70,13 @@ export default function LabTest() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    const trimmedyojanaKoNaam = karyalayaKoNaam.trimEnd()
+
     if (editMode && editId) {
       // In edit mode, check if `karyalayaKoNaam` exists in other records, excluding the one being edited
       const existsInOtherItems = labTestData.some(
-        (data) => data.karyalayaKoNaam === karyalayaKoNaam && data.id !== editId
+        (data) =>
+          data.karyalayaKoNaam === trimmedyojanaKoNaam && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -83,7 +86,7 @@ export default function LabTest() {
       }
 
       // Proceed with the edit operation
-      const result = await editLabTest(editId, karyalayaKoNaam, thegana)
+      const result = await editLabTest(editId, trimmedyojanaKoNaam, thegana)
       if (result.status === "success") {
         setKaryalayaKoNaam("")
         setThegana("")
@@ -96,14 +99,14 @@ export default function LabTest() {
     } else {
       // In create mode, check if the `karyalayaKoNaam` already exists
       const exists = labTestData.some(
-        (data) => data.karyalayaKoNaam === karyalayaKoNaam
+        (data) => data.karyalayaKoNaam === trimmedyojanaKoNaam
       )
 
       if (exists) {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveLabTest(karyalayaKoNaam, thegana)
+        const result = await saveLabTest(trimmedyojanaKoNaam, thegana)
         if (result.status === "success") {
           setKaryalayaKoNaam("")
           setThegana("")
@@ -184,7 +187,7 @@ export default function LabTest() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!karyalayaKoNaam || !thegana || btnDisable}
+              isDisabled={!karyalayaKoNaam.trimEnd() || !thegana || btnDisable}
             >
               {editMode ? "Edit" : "Save"}
             </Button>

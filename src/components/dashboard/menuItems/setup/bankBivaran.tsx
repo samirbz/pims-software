@@ -71,12 +71,15 @@ export default function BankBivaran() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    const trimmedName = bankKoNaam.trimEnd()
+    const trimmedNameSecond = sakha.trimEnd()
+
     if (editMode && editId) {
       // In edit mode, check if the combination of bankKoNaam and sakha exists in other records, excluding the one being edited
       const existsInOtherItems = bankBivaranData.some(
         (data) =>
-          data.bankKoNaam === bankKoNaam &&
-          data.sakha === sakha &&
+          data.bankKoNaam === trimmedName &&
+          data.sakha === trimmedNameSecond &&
           data.id !== editId
       )
 
@@ -87,7 +90,11 @@ export default function BankBivaran() {
       }
 
       // Proceed with the edit operation
-      const result = await editBankBivaran(editId, bankKoNaam, sakha)
+      const result = await editBankBivaran(
+        editId,
+        trimmedName,
+        trimmedNameSecond
+      )
       if (result.status === "success") {
         setBankKoNaam("")
         setSakha("")
@@ -100,14 +107,15 @@ export default function BankBivaran() {
     } else {
       // In create mode, check if the bank entry with the same bankKoNaam and sakha already exists
       const exists = bankBivaranData.some(
-        (data) => data.bankKoNaam === bankKoNaam && data.sakha === sakha
+        (data) =>
+          data.bankKoNaam === trimmedName && data.sakha === trimmedNameSecond
       )
 
       if (exists) {
         toast.error("Bank with the same name and branch already exists")
       } else {
         // Proceed with save operation
-        const result = await saveBankBivaran(bankKoNaam, sakha)
+        const result = await saveBankBivaran(trimmedName, trimmedNameSecond)
         if (result.status === "success") {
           setBankKoNaam("")
           setSakha("")
@@ -188,7 +196,9 @@ export default function BankBivaran() {
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={!bankKoNaam || !sakha || btnDisable}
+              isDisabled={
+                !bankKoNaam.trimEnd() || !sakha.trimEnd() || btnDisable
+              }
             >
               {editMode ? "Edit" : "Save"}
             </Button>

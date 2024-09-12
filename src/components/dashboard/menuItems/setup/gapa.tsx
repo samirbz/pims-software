@@ -70,10 +70,12 @@ export default function Gapa() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    const trimmedName = gapa.trimEnd()
+
     if (editMode && editId) {
       // In edit mode, check if the `gapa` exists in other records, excluding the one being edited
       const existsInOtherItems = gapaData.some(
-        (data) => data.gapa === gapa && data.id !== editId
+        (data) => data.gapa === trimmedName && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -83,7 +85,7 @@ export default function Gapa() {
       }
 
       // Proceed with the edit operation
-      const result = await editGapa(editId, gapa)
+      const result = await editGapa(editId, trimmedName)
       if (result.status === "success") {
         setGapa("")
         setEditMode(false)
@@ -94,13 +96,13 @@ export default function Gapa() {
       }
     } else {
       // In create mode, check if the item already exists
-      const exists = gapaData.some((data) => data.gapa === gapa)
+      const exists = gapaData.some((data) => data.gapa === trimmedName)
 
       if (exists) {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveGapa(gapa)
+        const result = await saveGapa(trimmedName)
         if (result.status === "success") {
           setGapa("")
           fetchGapa()
@@ -170,7 +172,7 @@ export default function Gapa() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!gapa || btnDisable}
+            isDisabled={!gapa.trimEnd() || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>

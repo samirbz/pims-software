@@ -72,11 +72,12 @@ export default function YojanaChanotNikaya() {
   const onSubmit = async () => {
     setBtnDisable(true)
 
+    const trimmedName = yojanaChanotNikaya.trimEnd()
+
     if (editMode && editId) {
       // Check if `yojanaChanotNikaya` exists in other records, excluding the one being edited
       const existsInOtherItems = yojanaChanotNikayaData.some(
-        (data) =>
-          data.yojanaChanotNikaya === yojanaChanotNikaya && data.id !== editId
+        (data) => data.yojanaChanotNikaya === trimmedName && data.id !== editId
       )
 
       if (existsInOtherItems) {
@@ -86,7 +87,7 @@ export default function YojanaChanotNikaya() {
       }
 
       // Proceed with the edit operation
-      const result = await editYojanaChanotNikaya(editId, yojanaChanotNikaya)
+      const result = await editYojanaChanotNikaya(editId, trimmedName)
       if (result.status === "success") {
         setYojanaChanotNikaya("")
         setEditMode(false)
@@ -98,14 +99,14 @@ export default function YojanaChanotNikaya() {
     } else {
       // Check if `yojanaChanotNikaya` already exists in the data
       const exists = yojanaChanotNikayaData.some(
-        (data) => data.yojanaChanotNikaya === yojanaChanotNikaya
+        (data) => data.yojanaChanotNikaya === trimmedName
       )
 
       if (exists) {
         toast.error("Item already exists")
       } else {
         // Proceed with the save operation
-        const result = await saveYojanaChanotNikaya(yojanaChanotNikaya)
+        const result = await saveYojanaChanotNikaya(trimmedName)
         if (result.status === "success") {
           setYojanaChanotNikaya("")
           fetchYojanaChanotNikaya()
@@ -175,7 +176,7 @@ export default function YojanaChanotNikaya() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!yojanaChanotNikaya || btnDisable}
+            isDisabled={!yojanaChanotNikaya.trimEnd() || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>
