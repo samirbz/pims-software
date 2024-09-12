@@ -405,19 +405,32 @@ export default function YojanaDarta() {
   }
 
   const onSubmit = async () => {
-    setBtnDisable(true)
+    const trimmedyojanaKoNaam = yojanaKoNaam.trimEnd()
+
+    const existsYojanaKoNaam = yojanaDartaData.some(
+      (data) => data.yojanaKoNaam === trimmedyojanaKoNaam
+    )
+
+    const existYojanaKoWada = yojanaDartaData.some((data) => data.wada === wada)
+
+    console.log(existsYojanaKoNaam, existYojanaKoWada)
+
+    if (existsYojanaKoNaam && existYojanaKoWada) {
+      toast.error("duplicate yojana ko naam in same woda")
+      return
+    }
+
     setBiniyojitRakam(totalSum.toString())
     const checkAmount = Number(biniyojitRakam) > Number(totalBudget)
     if (checkAmount) {
       toast.error("Lagat srot Amount is greater than budget")
-      setBtnDisable(false)
       return
     }
     const result = await saveYojanaDarta(
       sabhaNirnayaMiti,
       prastabSwikritMiti,
       yojanaKoWada,
-      yojanaKoNaam,
+      trimmedyojanaKoNaam,
       budgetKitabSnum,
       mukhyaSamiti,
       anudanKoNaam,
@@ -498,7 +511,6 @@ export default function YojanaDarta() {
     } else {
       console.error("Error occurred during save")
     }
-    setBtnDisable(false)
   }
 
   useEffect(() => {
@@ -599,6 +611,11 @@ export default function YojanaDarta() {
   useEffect(() => {
     fetchYojanaDarta()
   }, [fetchTable])
+
+  useEffect(() => {
+    setBtnDisable(yojanaKoNaam.trim() === "")
+    fetchYojanaDarta()
+  }, [yojanaKoNaam])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -832,27 +849,6 @@ export default function YojanaDarta() {
               )}
             </div>
 
-            {/* <Select
-              label="योजनाको नाम"
-              size="sm"
-              className="w-full"
-              onChange={(e) => {
-                fetchBudget(e.target.value)
-              }}
-              placeholder="Select an option" // Optional: if you want a placeholder
-              selectedKeys={yojanaKoNaam ? new Set([yojanaKoNaam]) : new Set()} // Binding the selected value
-              onSelectionChange={(keys) => {
-                const selectedValue = Array.from(keys).join(", ")
-                setYojanaKoNaam(selectedValue)
-              }}
-              endContent={showLoadingYojanaNaam ? <Spinner size="sm" /> : ""}
-            >
-              {yojanaKoNaamData.map((item) => (
-                <SelectItem key={item.yojanaKoNaamDt}>
-                  {item.yojanaKoNaamDt}
-                </SelectItem>
-              ))}
-            </Select> */}
             <Input
               type="text"
               label="बजेट किताब सि.न."
@@ -1385,7 +1381,7 @@ export default function YojanaDarta() {
             </Select>
             <div className="flex gap-2">
               <Input
-                type="text"
+                type="Number"
                 label="उपलब्धि&nbsp;लक्ष्य"
                 size="sm"
                 className="w-full"
@@ -1437,7 +1433,7 @@ export default function YojanaDarta() {
             startContent={<FaRegSave />}
             className="w-full"
             onClick={onSubmit}
-            isDisabled={!yojanaKoNaam || btnDisable}
+            isDisabled={!yojanaKoNaam.trimEnd() || btnDisable}
           >
             Save
           </Button>
