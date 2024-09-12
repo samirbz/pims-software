@@ -404,6 +404,48 @@ export default function YojanaDarta() {
     }
   }
 
+  const clearAll = () => {
+    setSabhaNirnayaMiti("")
+    setPrastabSwikritMiti("")
+    setYojanaKoWada("")
+    setYojanaKoNaam("")
+    setBudgetKitabSnum("")
+    setMukhyaSamiti("")
+    setAnudanKoNaam("")
+    setLagatSrotHaru("")
+    setLagatSrotAmount("")
+    setAnudanKoNaam2("")
+    setLagatSrotHaru2("")
+    setLagatSrotAmount2("")
+    setAnudanKoNaam3("")
+    setLagatSrotHaru3("")
+    setLagatSrotAmount3("")
+    setYojanaUpachetra("")
+    setYojanaKoKisim("")
+    setWada("")
+    setKaryagatSamuha("")
+    setDateDisabled("उपभोक्ता समिति")
+    setPrabidhikEstimateAmount("")
+    setBudgetType("")
+    setBiniyojitRakam("")
+    setYojanaSwikrit("")
+    setContengency("")
+    setContengencyResult("")
+    setMarmatRakam("")
+    setMarkmatRakamResult("")
+    setDharautiRakam("")
+    setDharautiRakamResult("")
+    setKulAnudaanRakam("")
+    setJanaSramdanRakam("")
+    setThegana("")
+    setGharPariwarSankhya("")
+    setJanaSankhya("")
+    setKaryaBivaran("")
+    setUpalabdhiLakshya("")
+    setUplabdhiLakhshyaQty("")
+    setYojanaKoNaamData([])
+  }
+
   const onSubmit = async () => {
     const trimmedyojanaKoNaam = yojanaKoNaam.trimEnd()
 
@@ -1244,9 +1286,17 @@ export default function YojanaDarta() {
             onClick={() =>
               fetchTable ? setFetchTable(false) : setFetchTable(true)
             }
+            color="primary"
             className="mt-4 w-full sm:w-1/4"
           >
             Open table <RiArrowDownDoubleFill />
+          </Button>
+          <Button
+            color="default"
+            className="mt-2 w-full sm:w-1/4"
+            onPress={clearAll}
+          >
+            Reset Form
           </Button>
         </div>
 
