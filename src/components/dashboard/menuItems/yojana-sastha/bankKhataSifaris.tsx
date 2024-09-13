@@ -32,12 +32,12 @@ export default function BankKhataSifaris() {
       <br />
       <div className="flex w-auto flex-col sm:gap-2">
         <div className="flex flex-col gap-2">
-          <div className="flex gap-2">
+          <div className="flex justify-between">
             <Input
               type="text"
               label="पत्र संख्या"
               size="sm"
-              className="w-2/5"
+              className="w-1/2"
             />
             <form className="flex items-center gap-2 ">
               <label htmlFor="date">सिफारिस&nbsp;मिति</label>
@@ -55,7 +55,7 @@ export default function BankKhataSifaris() {
               <SelectItem key={animal.key}>{animal.label}</SelectItem>
             ))}
           </Select>
-          <Input type="text" label="उसको नाम" size="sm" />
+          <Input type="text" label="उ.सको नाम" size="sm" />
           <Input
             type="text"
             label="अध्यक्षको नाम"
@@ -72,31 +72,33 @@ export default function BankKhataSifaris() {
           <Input type="text" label="सचिवको नाम" size="sm" className="w-1/2" />
 
           <div className="flex gap-2">
-            <Select label="बैकको नाम" size="sm" className="w-3/5">
+            <Select label="बैकको नाम" size="sm">
               {animals.map((animal) => (
                 <SelectItem key={animal.key}>{animal.label}</SelectItem>
               ))}
             </Select>
-            <Input type="text" label=" " size="sm" className="w-2/5" />
+            <Input type="text" label=" " size="sm" />
           </div>
           <Select label="कर्मचारीको नाम" size="sm" className="w-1/2">
             {animals.map((animal) => (
               <SelectItem key={animal.key}>{animal.label}</SelectItem>
             ))}
           </Select>
-          <Select label="कर्मचारीको पद" size="sm" className="w-1/2">
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
+          <div className="relative flex items-center gap-2">
+            <Select label="कर्मचारीको पद" size="sm" className="w-1/2">
+              {animals.map((animal) => (
+                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              ))}
+            </Select>
 
-          <Button
-            color="secondary"
-            className="w-10 self-center"
-            startContent={<FaRegSave />}
-          >
-            Save
-          </Button>
+            <Button
+              color="secondary"
+              className="absolute right-0"
+              startContent={<FaRegSave />}
+            >
+              Save
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -2,10 +2,6 @@
 import {
   Button,
   Checkbox,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Input,
   Select,
   SelectItem,
@@ -14,7 +10,6 @@ import {
 import React, { useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
-import { MdModeEditOutline } from "react-icons/md"
 
 export default function PeskiVuktani() {
   const [date, setDate] = useState<string>("")
@@ -41,7 +36,7 @@ export default function PeskiVuktani() {
       </h1>
       <br />
       <div className="flex gap-8">
-        <section className="flex flex-col gap-2">
+        <section className="flex w-[70%] flex-col gap-2">
           <div className="flex gap-2">
             <Input
               isDisabled
@@ -100,116 +95,131 @@ export default function PeskiVuktani() {
               </Select>
               <Input type="text" label=" " size="sm" />
             </div>
-            <div className="flex justify-between gap-2">
+            <div className="flex gap-2">
               <Input
                 type="text"
                 label="समानिकरण अनुदान"
                 size="sm"
-                className="w-60"
+                className="w-1/2"
               />
               <Checkbox>यदी&nbsp;पुरानो&nbsp;आ.व.को&nbsp;योजना</Checkbox>
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <Input
-              isDisabled
+              isReadOnly
               type="text"
               label="पेश्की किस्ता रकम रु."
               size="sm"
-              className="w-44"
+              className="w-1/2"
             />
             <Textarea
               label="अन्य टिप्पणीको थप विवरण व्यहोरा"
-              className="max-w-xs"
+              variant="bordered"
+              size="sm"
             />
-            <div className="flex gap-2">
+            <Button color="default" className="w-32">
+              open Table
+            </Button>
+          </div>
+        </section>
+        <div className="flex flex-col gap-2">
+          <section className="flex flex-col gap-4 bg-blue-400 px-4 py-5">
+            <p>लागत विवरण</p>
+            <div className="flex gap-4">
               <Input
-                isDisabled
                 type="text"
-                label="योजनाको नाम खोज्नुहोस"
+                label="कुल ल.ई रकम"
                 size="sm"
-                className=""
+                className="w-auto"
               />
-              <Button color="secondary">Save</Button>
+              <Input
+                type="text"
+                label="विनियोजित रकम रु."
+                size="sm"
+                className="w-auto"
+              />
             </div>
-          </div>
-        </section>
-        <section className="flex h-[27rem] flex-col gap-4 bg-blue-400 p-4">
-          <p>लागत विवरण</p>
-          <div className="flex gap-4">
-            <Input
-              type="text"
-              label="कुल ल.ई रकम"
-              size="sm"
-              className="w-auto"
-            />
-            <Input
-              type="text"
-              label="विनियोजित रकम रु."
-              size="sm"
-              className="w-auto"
-            />
-          </div>
-          <div className="flex gap-4">
-            <Input
-              type="text"
-              label="खुद पाउने रकम रु."
-              size="sm"
-              className="w-auto"
-            />
-            <Input
-              type="text"
-              label="लागत सहभागिता रकम"
-              size="sm"
-              className="w-auto"
-            />
-          </div>
-          <div className="flex gap-4">
-            <Input
-              type="text"
-              label="कन्टेन्जेन्सी रकम"
-              size="sm"
-              className="w-auto"
-            />
-            <Input
-              type="text"
-              label="मर्मत सम्भार रकम"
-              size="sm"
-              className="w-auto"
-            />
-          </div>
-          <div className="flex gap-4">
-            <Input
-              type="text"
-              label="धरौटी रकम रु."
-              size="sm"
-              className="w-auto"
-            />
-            <Input
-              type="text"
-              label="पेश्की रकम रु."
-              size="sm"
-              className="w-auto"
-            />
-          </div>
-          <p>लागत श्रोत विवरण</p>
-          <div className="flex gap-4">
-            <Input
-              type="text"
-              label="धरौटी रकम रु."
-              size="sm"
-              className="w-auto"
-            />
-            <Input
-              type="text"
-              label="पेश्की रकम रु."
-              size="sm"
-              className="w-auto"
-            />
-          </div>
-        </section>
+            <div className="flex gap-4">
+              <Input
+                type="text"
+                label="खुद पाउने रकम रु."
+                size="sm"
+                className="w-auto"
+              />
+              <Input
+                type="text"
+                label="लागत सहभागिता रकम"
+                size="sm"
+                className="w-auto"
+              />
+            </div>
+            <div className="flex gap-4">
+              <Input
+                type="text"
+                label="कन्टेन्जेन्सी रकम"
+                size="sm"
+                className="w-auto"
+              />
+              <Input
+                type="text"
+                label="मर्मत सम्भार रकम"
+                size="sm"
+                className="w-auto"
+              />
+            </div>
+            <div className="flex gap-4">
+              <Input
+                type="text"
+                label="धरौटी रकम रु."
+                size="sm"
+                className="w-auto"
+              />
+              <Input
+                type="text"
+                label="पेश्की रकम रु."
+                size="sm"
+                className="w-auto"
+              />
+            </div>
+            <p>लागत श्रोत विवरण</p>
+            <div className="flex gap-4">
+              <Input
+                type="text"
+                label="धरौटी रकम रु."
+                size="sm"
+                className="w-auto"
+              />
+              <Input
+                type="text"
+                label="पेश्की रकम रु."
+                size="sm"
+                className="w-auto"
+              />
+            </div>
+          </section>
+          <section className="flex flex-col gap-4 bg-pink-400 px-4 py-5">
+            <p>लागत श्रोत विवारण </p>
+            <div className="flex flex-col gap-2">
+              <Input
+                type="text"
+                label="बितिय समानीकरण"
+                size="sm"
+                className="w-auto"
+              />
+              <Input
+                type="text"
+                label="लागत सहभागिता रकम "
+                size="sm"
+                className="w-auto"
+              />
+            </div>
+          </section>
+
+          <Button color="secondary">Save</Button>
+        </div>
       </div>
-      <div className="mb-2 flex max-h-[22rem] w-auto justify-center overflow-auto">
+      {/* <div className="mb-2 flex max-h-[22rem] w-auto justify-center overflow-auto">
         <table className="w-full border-collapse border">
           <thead className="sticky top-0  z-20 border-r-2 bg-purple-400">
             <tr>
@@ -253,7 +263,7 @@ export default function PeskiVuktani() {
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   )
 }

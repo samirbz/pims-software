@@ -84,19 +84,17 @@ export default function BankKhataBanda() {
               <SelectItem key={animal.key}>{animal.label}</SelectItem>
             ))}
           </Select>
-          <Select label="कर्मचारीको पद" size="sm" className="w-1/2">
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
+          <div className="flex items-center justify-between">
+            <Select label="कर्मचारीको पद" size="sm" className="w-1/2">
+              {animals.map((animal) => (
+                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              ))}
+            </Select>
 
-          <Button
-            color="secondary"
-            className="w-10 self-center"
-            startContent={<FaRegSave />}
-          >
-            Save
-          </Button>
+            <Button color="secondary" startContent={<FaRegSave />}>
+              Save
+            </Button>
+          </div>
         </div>
       </div>
     </div>

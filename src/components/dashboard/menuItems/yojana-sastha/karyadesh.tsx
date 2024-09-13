@@ -60,83 +60,41 @@ export default function Karyadesh() {
             type="text"
             label="अध्यक्ष/कर्मचारीको नाम"
             size="sm"
-            className="w-[66.66%]"
+            className="sm:w-1/2"
           />
           <div className="flex gap-2">
-            <Input
-              type="text"
-              label="लागत अनुमान रकम"
-              size="sm"
-              className="w-2/5"
-            />
-            <Input
-              type="text"
-              label="नगरपालिका रकम रु"
-              size="sm"
-              className="w-2/5"
-            />
+            <Input type="text" label="लागत अनुमान रकम" size="sm" />
+            <Input type="text" label="नगरपालिका रकम रु" size="sm" />
           </div>
           <div className="flex gap-2">
-            <Input
-              type="text"
-              label="कन्टेन्जेन्सी रकम"
-              size="sm"
-              className="w-2/5"
-            />
-            <Input
-              type="text"
-              label="खुद पाउने रकम"
-              size="sm"
-              className="w-2/5"
-            />
+            <Input type="text" label="कन्टेन्जेन्सी रकम" size="sm" />
+            <Input type="text" label="खुद पाउने रकम" size="sm" />
           </div>
           <div className="flex gap-2">
-            <Input
-              type="text"
-              label="बजेट किताबको सि.न."
-              size="sm"
-              className="w-2/5"
-            />
-            <Input
-              type="text"
-              label="उ.स. गठन मिति"
-              size="sm"
-              className="w-2/5"
-            />
+            <Input type="text" label="बजेट किताबको सि.न." size="sm" />
+            <Input type="text" label="उ.स. गठन मिति" size="sm" />
           </div>
           <Input type="text" label="मुख्य समितिको नाम" size="sm" className="" />
           <div className="flex gap-2">
-            <Input
-              type="text"
-              label="सभा निर्णय मिति"
-              size="sm"
-              className="w-2/5"
-            />
-            <Input
-              type="text"
-              label="आयोजना सम्पन्न मिति"
-              size="sm"
-              className="w-2/5"
-            />
+            <Input type="text" label="सभा निर्णय मिति" size="sm" />
+            <Input type="text" label="आयोजना सम्पन्न मिति" size="sm" />
           </div>
-          <Select label="कर्मचारीको नाम" size="sm" fullWidth>
+          <Select label="कर्मचारीको नाम" size="sm" className="sm:w-1/2">
             {animals.map((animal) => (
               <SelectItem key={animal.key}>{animal.label}</SelectItem>
             ))}
           </Select>
-          <Select label="कर्मचारीको पद" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
+          <div className="flex items-center justify-between">
+            <Select label="कर्मचारीको पद" size="sm" className="sm:w-1/2">
+              {animals.map((animal) => (
+                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              ))}
+            </Select>
 
-          <Button
-            color="secondary"
-            className="w-10 self-center"
-            startContent={<FaRegSave />}
-          >
-            Save
-          </Button>
+            <Button color="secondary" className="" startContent={<FaRegSave />}>
+              Save
+            </Button>
+          </div>
         </div>
       </div>
     </div>
