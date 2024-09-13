@@ -33,7 +33,7 @@ export default function SamjhautaSwikriti() {
       <div className="flex w-auto flex-col sm:gap-2">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
-            <Input type="text" label=" आ.व " size="sm" className="w-2/5" />
+            <Input type="text" label=" आ.व " size="sm" className="w-1/2" />
             <form className="flex items-center gap-2 ">
               <label htmlFor="date">मितिः-</label>
               <NepaliDatePicker
@@ -50,70 +50,133 @@ export default function SamjhautaSwikriti() {
               <SelectItem key={animal.key}>{animal.label}</SelectItem>
             ))}
           </Select>
-          <Input type="text" label="संस्था वा व्यक्तिको नाम" size="sm" />
-          <Input
-            type="text"
-            label="संस्थाको व्यक्तिको नाम"
-            size="sm"
-            className="w-[66.66%]"
-          />
+          <Input type="text" label="उपभोक्ता समितिको नाम " size="sm" />
+          <Input type="text" label="अध्यक्षको नाम" size="sm" />
           <div className="flex gap-2">
             <Input
-              isDisabled
-              type="text"
+              type="Number"
+              label="भेलामा उपस्थिती संख्या"
+              size="sm"
+              className="w-[66.66%]"
+            />
+            <Input
+              type="Number"
+              label="पदाधिकारी संख्या"
+              size="sm"
+              className="w-[66.66%]"
+            />
+            <Input
+              type="Number"
+              label="महिला संख्या"
+              size="sm"
+              className="w-[66.66%]"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Input
+              isReadOnly
+              type="Number"
               label=" लागत अनुमान रकम "
               size="sm"
+              color="success"
               value="12345"
             />
             <Input
-              isDisabled
-              type="text"
+              isReadOnly
+              type="Number"
               label=" नगरपालिका रकम रु. "
+              color="success"
               size="sm"
               value="12345"
             />
             <Input
-              isDisabled
-              type="text"
+              isReadOnly
+              type="Number"
               label=" लागत श्रमदान "
               value="12345"
               size="sm"
+              color="success"
             />
           </div>
           <div className="flex gap-2">
             <Input
-              isDisabled
-              type="text"
+              isReadOnly
+              type="Number"
               label="कन्टेन्जेन्सी रकम"
+              color="success"
               size="sm"
               value="12345"
-              className="w-[33.33%]"
             />
             <Input
-              isDisabled
-              type="text"
-              label=" खुद पाउने रकम "
+              isReadOnly
+              type="Number"
+              label=" खुद पाउने रकम"
+              color="success"
               size="sm"
               value="12345"
-              className="w-[33.33%]"
             />
+            <Input type="Number" label="अनुगमन समितिका सदस्य" size="sm" />
           </div>
-          <Input
-            type="text"
-            label="बजेट किताबको सि.न."
-            size="sm"
-            className="w-2/5"
-          />
-          <Input type="text" label="मुख्य समितिको नाम" size="sm" />
-          <Textarea label="अन्य टिप्पणी विवरण" className="w-full" />
 
-          <Button
-            color="secondary"
-            className="w-10 self-center"
-            startContent={<FaRegSave />}
-          >
-            Save
-          </Button>
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              label="बजेट किताबको सि.न."
+              size="sm"
+              className="w-1/2"
+            />
+            <form className="flex items-center gap-2 ">
+              <label htmlFor="date">उ.स. गठन मिति:-</label>
+              <NepaliDatePicker
+                inputClassName="form-control"
+                className="rounded-lg border p-1 "
+                value={date}
+                onChange={(value: string) => setDate(value)}
+                options={{ calenderLocale: "ne", valueLocale: "en" }}
+              />
+            </form>
+          </div>
+
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              label="मुख्य समितिको नाम"
+              className="w-1/2"
+              size="sm"
+            />
+
+            <form className="flex items-center gap-2 ">
+              <label htmlFor="date" className="whitespace-nowrap">
+                उ.स. निवेदन दिईएको मिति:-
+              </label>
+              <NepaliDatePicker
+                inputClassName="form-control"
+                className="rounded-lg border p-1 "
+                value={date}
+                onChange={(value: string) => setDate(value)}
+                options={{ calenderLocale: "ne", valueLocale: "en" }}
+              />
+            </form>
+          </div>
+          <Textarea
+            label="अन्य टिप्पणी विवरण"
+            className="w-full"
+            variant="bordered"
+          />
+          <div className="flex justify-between">
+            <Button color="default" className="flex justify-start">
+              Reset Form
+            </Button>
+            <div className="flex justify-end gap-2">
+              <Button color="primary">Add Member</Button>
+              <Button color="secondary" startContent={<FaRegSave />}>
+                Save
+              </Button>
+              <Button color="default" startContent={<FaRegSave />}>
+                Print
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
