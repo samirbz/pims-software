@@ -1165,7 +1165,7 @@ export async function editLabTest(
   }
 }
 
-// 12. yojana darta
+// 3-1. yojana darta
 export async function saveYojanaDarta(
   sabhaNirnayaMiti: string,
   prastabSwikritMiti: string,
@@ -1371,6 +1371,71 @@ export async function editYojanaDarta(
     return { status: "success", data: updatedRecord }
   } catch (error) {
     console.error("Error in updateBiniyojanBudget:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+// 30-2 samjhauta swikriti tippani
+export async function saveYojanaSwikritiTippani(
+  aawa: string,
+  miti: string,
+  yojanaKaryaKramKoNaam: string,
+  upavoktaSamitiKoNaam: string,
+  adhyachyaKoNaam: string,
+  velamaUpasthitiSankhya: string,
+  padakariSankhya: string,
+  mahilaSankhya: string,
+  lagatAnumanRakam: string,
+  nagarpalikaRakamRu: string,
+  lagatSramDan: string,
+  contengencyRakam: string,
+  khudPauneRakam: string,
+  anugamanSamitikaSadasya: string,
+  budgetKitabSNum: string,
+  ushaGathanMiti: string,
+  mukhyaSamitiKoNaam: string,
+  ushaNibedandiyiyekoMiti: string,
+  anyaTipaniBivaran: string,
+  yojanakoNaam: string,
+  wadaNum: string,
+  biniyojitRakamRu: string,
+  sanyojak: string,
+  sadasyaOne: string,
+  sadasyaTwo: string
+) {
+  try {
+    const dt = await prisma.samjhautaSwikritiTippani.create({
+      data: {
+        aawa,
+        miti,
+        yojanaKaryaKramKoNaam,
+        upavoktaSamitiKoNaam,
+        adhyachyaKoNaam,
+        velamaUpasthitiSankhya,
+        padakariSankhya,
+        mahilaSankhya,
+        lagatAnumanRakam,
+        nagarpalikaRakamRu,
+        lagatSramDan,
+        contengencyRakam,
+        khudPauneRakam,
+        anugamanSamitikaSadasya,
+        budgetKitabSNum,
+        ushaGathanMiti,
+        mukhyaSamitiKoNaam,
+        ushaNibedandiyiyekoMiti,
+        anyaTipaniBivaran,
+        yojanakoNaam,
+        wadaNum,
+        biniyojitRakamRu,
+        sanyojak,
+        sadasyaOne,
+        sadasyaTwo,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in yojanadarta:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }

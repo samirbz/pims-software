@@ -196,3 +196,32 @@ model YojanaDarta {
   barsikYojana            Boolean
   kramagatYojana          Boolean
 }
+
+model SamjhautaSwikritiTippani {
+  id                      String @id @default(cuid())
+  aawa                    String
+  miti                    String
+  yojanaKaryaKramKoNaam   String
+  upavoktaSamitiKoNaam    String
+  adhyachyaKoNaam         String
+  velamaUpasthitiSankhya  String
+  padakariSankhya         String
+  mahilaSankhya           String
+  lagatAnumanRakam        String
+  nagarpalikaRakamRu      String
+  lagatSramDan            String
+  contengencyRakam        String
+  khudPauneRakam          String
+  anugamanSamitikaSadasya String
+  budgetKitabSNum         String
+  ushaGathanMiti          String
+  mukhyaSamitiKoNaam      String
+  ushaNibedandiyiyekoMiti String
+  anyaTipaniBivaran       String
+  yojanakoNaam            String
+  wadaNum                 String
+  biniyojitRakamRu        String
+  sanyojak                String
+  sadasyaOne              String
+  sadasyaTwo              String
+}
