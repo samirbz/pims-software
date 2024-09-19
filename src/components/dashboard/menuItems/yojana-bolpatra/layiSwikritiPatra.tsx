@@ -27,7 +27,7 @@ export default function LayiSwikritiPatra() {
   return (
     <div className="flex flex-col justify-between bg-white">
       <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
-        बोलपत्र/दरभाउ पत्र/कोटेशन दररेट माग
+        लागत अनुमान स्वीकृत टिप्पणी
       </h1>
       <br />
       <div className="flex w-auto flex-col sm:gap-2">
@@ -43,54 +43,68 @@ export default function LayiSwikritiPatra() {
                 options={{ calenderLocale: "ne", valueLocale: "en" }}
               />
             </form>
+          </div>
+          <Select label="योजना/कार्यक्रमको नाम" size="sm" fullWidth>
+            {animals.map((animal) => (
+              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+            ))}
+          </Select>
+          <Input type="text" label="वडा न." size="sm" className="w-1/2" />
+          <div className="flex gap-2">
+            <Select label="अनुदान किसिम" size="sm">
+              {animals.map((animal) => (
+                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              ))}
+            </Select>
+
+            <Select label="लागतश्रोत  " size="sm">
+              {animals.map((animal) => (
+                <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              ))}
+            </Select>
+            <Input type="text" label="रकम " size="sm" />
+          </div>
+          <div className="flex gap-2">
             <Input
               type="text"
-              label=" कार्यको किसिम"
+              label="विनियोजित वजेट रकम रु."
               size="sm"
               className="w-1/2"
             />
             <Input
               type="text"
-              label=" दररेट पेश गर्ने दिन "
+              label="बजेट क्र.स./ सि.न."
               size="sm"
               className="w-1/2"
             />
           </div>
-          <Select label="योजना / कार्यको नाम" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
-          <Select label="पहिलो कम्पनी" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
-          <Select label="दोश्रो कम्पनी" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
-          <Select label="तेश्रो कम्पनी" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
-          <Select label="TOR/Bill of Quantity/Quotation" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
-          <Select label="कर्मचारीको नाम" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
-          <Select label="कर्मचारीको पद" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select>
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              label="लई रकम रु. (भ्याट बाहेक)"
+              size="sm"
+              className="w-1/2"
+            />
+            <Input
+              type="text"
+              label="भ्याट रकम रु."
+              size="sm"
+              className="w-1/2"
+            />
+          </div>
+          <Input
+            type="text"
+            label="भ्याट नलाग्ने रकम रु."
+            size="sm"
+            className="w-1/2"
+          />
+          <div className="flex gap-2">
+            <div className="flex w-full gap-2">
+              <Input type="text" label="कन्टेन्जेन्सी रु." size="sm" />
+              <Input type="text" label="&nbsp;" size="sm" />
+            </div>
+            <Input type="text" label="जम्मा रु." size="sm" />
+          </div>
 
           <div className="flex justify-between">
             <div className="flex justify-end gap-2">
