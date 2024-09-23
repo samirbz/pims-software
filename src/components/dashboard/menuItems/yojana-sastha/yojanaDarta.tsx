@@ -1103,7 +1103,7 @@ export default function YojanaDarta() {
                   const selectedValue = Array.from(keys).join(", ")
                   setLagatSrotHaru(selectedValue)
                 }}
-                endContent={showLoadingLagatSrot1 ? <Spinner size="sm" /> : ""}
+                endContent={showLoadingLagatSrot1 && <Spinner size="sm" />}
               >
                 {lagatSrotData.map((item) => (
                   <SelectItem key={item.lagatSrotKoNaam}>
