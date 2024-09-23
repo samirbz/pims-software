@@ -43,9 +43,11 @@ import {
   saveYojanaDarta,
   fetchYojanaDartaData,
   deleteYojanaDarta,
+  editYojanaDarta,
 } from "@/actions/formAction"
 import { ConvertToNepaliNumerals } from "@/lib/util"
 import { toast } from "react-toastify"
+import { AiOutlineClear } from "react-icons/ai"
 
 const qtyDataList = [
   { key: "1", label: "वटा" },
@@ -174,12 +176,17 @@ export default function YojanaDarta() {
 
   const [btnDisable, setBtnDisable] = useState(false)
 
+  const [editId, setEditId] = useState("")
+  const [showEditBtn, setShowEditBtn] = useState(false)
+
   // two checkboxed
   const [selectedCheckbox, setSelectedCheckbox] = useState<string | null>(
     "barsik"
   )
 
   const [dateDisabled, setDateDisabled] = useState("उपभोक्ता समिति")
+
+  const [clearAndCancelBtn, setClearAndCancelBtn] = useState(false)
 
   const handleBarsikYojanaChange = async () => {
     setSelectedCheckbox("barsik")
@@ -444,6 +451,8 @@ export default function YojanaDarta() {
     setUpalabdhiLakshya("")
     setUplabdhiLakhshyaQty("")
     setYojanaKoNaamData([])
+    setShowEditBtn(false)
+    setClearAndCancelBtn(false)
   }
 
   const onSubmit = async () => {
@@ -552,6 +561,103 @@ export default function YojanaDarta() {
       toast.success("successfully created")
     } else {
       console.error("Error occurred during save")
+    }
+  }
+
+  const handleEdit = async (item: any) => {
+    setShowEditBtn(true)
+    setEditId(item.id)
+    setSabhaNirnayaMiti(item.sabhaNirnayaMiti)
+    setPrastabSwikritMiti(item.prastabSwikritMiti)
+    setYojanaKoWada(item.yojanaKoWada)
+    setYojanaKoNaam(item.yojanaKoNaam)
+    setBudgetKitabSnum(item.budgetKitabSnum)
+    setMukhyaSamiti(item.mukhyaSamiti)
+    setAnudanKoNaam(item.anudanKoNaam)
+    setLagatSrotHaru(item.lagatSrotHaru)
+    setLagatSrotAmount(item.lagatSrotAmount)
+    setAnudanKoNaam2(item.anudaanKoNaam2)
+    setLagatSrotHaru2(item.lagatSrotHaru2)
+    setLagatSrotAmount2(item.lagatSrotAmount2)
+    setAnudanKoNaam3(item.anuddanKoNaam3)
+    setLagatSrotHaru3(item.lagatSrotHaru3)
+    setLagatSrotAmount3(item.lagatSrotAmount3)
+    setYojanaUpachetra(item.yojanaUpachetra)
+    setYojanaKoKisim(item.yojanaKoKisim)
+    setWada(item.wada)
+    setKaryagatSamuha(item.karyagatSamuha)
+    setDateDisabled("उपभोक्ता समिति")
+    setPrabidhikEstimateAmount(item.prabidhikEstimateAmount)
+    setBudgetType(item.budgetType)
+    setBiniyojitRakam(item.biniyojitRakam)
+    setYojanaSwikrit(item.yojanaSwikrit)
+    setContengency(item.contengency)
+    setContengencyResult(item.contengencyResult)
+    setMarmatRakam(item.marmatRakam)
+    setMarkmatRakamResult(item.markmatRakamResult)
+    setDharautiRakam(item.dharautiRakam)
+    setDharautiRakamResult(item.dharautiRakamResult)
+    setKulAnudaanRakam(item.kulAnudaanRakam)
+    setJanaSramdanRakam(item.janaSramdanRakam)
+    setThegana(item.thegana)
+    setGharPariwarSankhya(item.gharPariwarSankhya)
+    setJanaSankhya(item.janaSankhya)
+    setKaryaBivaran(item.karyaBivaran)
+    setUpalabdhiLakshya(item.upalabdhiLakshya)
+    setUplabdhiLakhshyaQty(item.upalabdhiLakshyaQty)
+    setYojanaKoNaamData([])
+    setClearAndCancelBtn(true)
+  }
+
+  const edit = async () => {
+    const result = await editYojanaDarta(
+      editId,
+      sabhaNirnayaMiti,
+      prastabSwikritMiti,
+      yojanaKoWada,
+      yojanaKoNaam,
+      budgetKitabSnum,
+      mukhyaSamiti,
+      anudanKoNaam,
+      lagatSrotHaru,
+      lagatSrotAmount,
+      anudanKoNaam2,
+      lagatSrotHaru2,
+      lagatSrotAmount2,
+      anudanKoNaam3,
+      lagatSrotHaru3,
+      lagatSrotAmount3,
+      yojanaUpachetra,
+      yojanaKoKisim,
+      wada,
+      karyagatSamuha,
+      prabidhikEstimateAmount,
+      budgetType,
+      biniyojitRakam,
+      yojanaSwikrit,
+      contengency,
+      contengencyResult,
+      marmatRakam,
+      markmatRakamResult,
+      dharautiRakam,
+      dharautiRakamResult,
+      kulAnudaanRakam,
+      janaSramdanRakam,
+      thegana,
+      gharPariwarSankhya,
+      janaSankhya,
+      karyaBivaran,
+      upalabdhiLakshya,
+      uplabdhiLakhshyaQty,
+      barsikYojana,
+      kramagatYojana
+    )
+    if (result.status === "success") {
+      setClearAndCancelBtn(false)
+      clearAll()
+      toast.success("successfully edited")
+    } else {
+      console.error("Error occurred")
     }
   }
 
@@ -764,7 +870,9 @@ export default function YojanaDarta() {
                                 ></Button>
                               </DropdownTrigger>
                               <DropdownMenu aria-label="Static Actions">
-                                <DropdownItem>Edit</DropdownItem>
+                                <DropdownItem onPress={() => handleEdit(item)}>
+                                  Edit
+                                </DropdownItem>
                                 <DropdownItem
                                   key="delete"
                                   className="text-danger"
@@ -1291,13 +1399,13 @@ export default function YojanaDarta() {
           >
             Open table <RiArrowDownDoubleFill />
           </Button>
-          <Button
+          {/* <Button
             color="default"
             className="mt-2 w-full sm:w-1/4"
             onPress={clearAll}
           >
             Reset Form
-          </Button>
+          </Button> */}
         </div>
 
         <div className="flex w-full flex-col gap-4 sm:w-1/3">
@@ -1478,15 +1586,35 @@ export default function YojanaDarta() {
               क्रमागत&nbsp;योजना
             </Checkbox>
           </div>
-          <Button
-            color="secondary"
-            startContent={<FaRegSave />}
-            className="w-full"
-            onClick={onSubmit}
-            isDisabled={!yojanaKoNaam.trimEnd() || btnDisable}
-          >
-            Save
-          </Button>
+          <div className="flex gap-2">
+            {showEditBtn ? (
+              <Button
+                color="secondary"
+                startContent={<MdModeEditOutline />}
+                className="w-12"
+                onClick={edit}
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button
+                color="secondary"
+                startContent={<FaRegSave />}
+                className="w-12"
+                onClick={onSubmit}
+                isDisabled={!yojanaKoNaam.trimEnd() || btnDisable}
+              >
+                Save
+              </Button>
+            )}
+            <Button
+              startContent={<AiOutlineClear />}
+              onPress={clearAll}
+              className="w-12"
+            >
+              {clearAndCancelBtn ? "Cancel" : "Clear"}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
