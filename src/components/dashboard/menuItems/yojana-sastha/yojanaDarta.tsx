@@ -347,7 +347,6 @@ export default function YojanaDarta() {
   }
 
   const fetchLagatSrotHaru = async (anudaanKoNaam: any) => {
-    setShowLoadingLagatSrot1(true)
     try {
       // Fetch the data from the API or data source
       const data = await fetchFilterLagatSrotData(anudaanKoNaam)
@@ -1083,6 +1082,7 @@ export default function YojanaDarta() {
                 onSelectionChange={(keys) => {
                   const selectedValue = Array.from(keys).join(", ")
                   setAnudanKoNaam(selectedValue)
+                  setShowLoadingLagatSrot1(true)
                 }}
               >
                 {aunudaanKisimData.map((item) => (
