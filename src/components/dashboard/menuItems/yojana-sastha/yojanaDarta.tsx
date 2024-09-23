@@ -584,7 +584,7 @@ export default function YojanaDarta() {
     }
   }
 
-  const handleEdit = async (item: any, onClose:any) => {
+  const handleEdit = async (item: any, onClose: any) => {
     onClose()
     setShowEditBtn(true)
     setEditId(item.id)
@@ -823,13 +823,13 @@ export default function YojanaDarta() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <Spinner color="primary" className="mb-36" />
-      </div>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex h-screen items-center justify-center">
+  //       <Spinner color="primary" className="mb-36" />
+  //     </div>
+  //   )
+  // }
 
   return (
     <div className="flex flex-col justify-between bg-white ">
@@ -968,6 +968,9 @@ export default function YojanaDarta() {
               onChange={(e) => {
                 fetchYojanaNaam(e.target.value)
               }}
+              endContent={
+                loading && <Spinner color="primary" className="mb-36" />
+              }
               placeholder="Select an option" // Optional: if you want a placeholder
               selectedKeys={yojanaKoWada ? new Set([yojanaKoWada]) : new Set()} // Binding the selected value
               onSelectionChange={(keys) => {
