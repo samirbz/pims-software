@@ -200,6 +200,26 @@ export default function YojanaDarta() {
     setBarsikYojana(false)
   }
 
+  useEffect(() => {
+    const handleBarsikYojanaChange = async () => {
+      setSelectedCheckbox("barsik")
+      setBarsikYojana(true)
+      setKramagatYojana(false)
+    }
+
+    const handleKramagatYojanaChange = async () => {
+      setSelectedCheckbox("kramagat")
+      setKramagatYojana(true)
+      setBarsikYojana(false)
+    }
+
+    if (barsikYojana) {
+      handleBarsikYojanaChange()
+    } else {
+      handleKramagatYojanaChange()
+    }
+  }, [barsikYojana, kramagatYojana])
+
   // input and select
   // const [inputValue, setInputValue] = useState<string>("")
 
@@ -564,7 +584,8 @@ export default function YojanaDarta() {
     }
   }
 
-  const handleEdit = async (item: any) => {
+  const handleEdit = async (item: any, onClose:any) => {
+    onClose()
     setShowEditBtn(true)
     setEditId(item.id)
     setSabhaNirnayaMiti(item.sabhaNirnayaMiti)
@@ -576,17 +597,17 @@ export default function YojanaDarta() {
     setAnudanKoNaam(item.anudanKoNaam)
     setLagatSrotHaru(item.lagatSrotHaru)
     setLagatSrotAmount(item.lagatSrotAmount)
-    setAnudanKoNaam2(item.anudaanKoNaam2)
+    setAnudanKoNaam2(item.anudanKoNaam2)
     setLagatSrotHaru2(item.lagatSrotHaru2)
     setLagatSrotAmount2(item.lagatSrotAmount2)
-    setAnudanKoNaam3(item.anuddanKoNaam3)
+    setAnudanKoNaam3(item.anudanKoNaam3)
     setLagatSrotHaru3(item.lagatSrotHaru3)
     setLagatSrotAmount3(item.lagatSrotAmount3)
     setYojanaUpachetra(item.yojanaUpachetra)
     setYojanaKoKisim(item.yojanaKoKisim)
     setWada(item.wada)
     setKaryagatSamuha(item.karyagatSamuha)
-    setDateDisabled("उपभोक्ता समिति")
+    setDateDisabled(item.karyagatSamuha)
     setPrabidhikEstimateAmount(item.prabidhikEstimateAmount)
     setBudgetType(item.budgetType)
     setBiniyojitRakam(item.biniyojitRakam)
@@ -604,10 +625,17 @@ export default function YojanaDarta() {
     setJanaSankhya(item.janaSankhya)
     setKaryaBivaran(item.karyaBivaran)
     setUpalabdhiLakshya(item.upalabdhiLakshya)
-    setUplabdhiLakhshyaQty(item.upalabdhiLakshyaQty)
+    setUplabdhiLakhshyaQty(item.uplabdhiLakhshyaQty)
+    setBarsikYojana(item.barsikYojana)
+    setKramagatYojana(item.kramagatYojana)
     setYojanaKoNaamData([])
     setClearAndCancelBtn(true)
   }
+
+  useEffect(() => {
+    lagatSrotAmount2 === "" ? setShowSecond(false) : setShowSecond(true)
+    lagatSrotAmount3 === "" ? setShowThird(false) : setShowThird(true)
+  }, [lagatSrotAmount2, lagatSrotAmount3])
 
   const edit = async () => {
     const result = await editYojanaDarta(
@@ -765,6 +793,12 @@ export default function YojanaDarta() {
     fetchYojanaDarta()
   }, [yojanaKoNaam])
 
+  useEffect(() => {
+    fetchLagatSrotHaru(anudanKoNaam)
+    fetchSecondLagatSrotHaru(anudanKoNaam2)
+    fetchThirdLagatSrotHaru(anudanKoNaam3)
+  }, [anudanKoNaam, anudanKoNaam2, anudanKoNaam3])
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -870,7 +904,9 @@ export default function YojanaDarta() {
                                 ></Button>
                               </DropdownTrigger>
                               <DropdownMenu aria-label="Static Actions">
-                                <DropdownItem onPress={() => handleEdit(item)}>
+                                <DropdownItem
+                                  onPress={() => handleEdit(item, onClose)}
+                                >
                                   Edit
                                 </DropdownItem>
                                 <DropdownItem
