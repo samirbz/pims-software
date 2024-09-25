@@ -54,6 +54,8 @@ export default function SamjhautaSwikriti() {
 
   const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
 
+  const [loading, setLoading] = useState(true)
+
   // const [btnDisable, setBtnDisable] = useState(false)
 
   const fetchYojanaDartaKoNaamData = async () => {
@@ -129,6 +131,7 @@ export default function SamjhautaSwikriti() {
   useEffect(() => {
     const getData = async () => {
       try {
+        setLoading(true)
         const data = await getYojanaDartaForSwikriti(yojanaKaryaKramKoNaam)
 
         console.log(data)
@@ -152,6 +155,8 @@ export default function SamjhautaSwikriti() {
         }
       } catch (error) {
         console.error("Error fetching Yojana Darta data:", error)
+      } finally {
+        setLoading(false) 
       }
     }
 
@@ -201,7 +206,8 @@ export default function SamjhautaSwikriti() {
                 yojanaKaryaKramKoNaam
                   ? new Set([yojanaKaryaKramKoNaam])
                   : new Set()
-              } // Binding the selected value
+              }
+              endContent={loading ? "loading..." : null}
               onSelectionChange={(keys) => {
                 const selectedValue = Array.from(keys).join(", ")
                 setYojanaKaryaKramKoNaam(selectedValue)
