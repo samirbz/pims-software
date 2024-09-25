@@ -887,11 +887,11 @@ export default function YojanaDarta() {
                           <TableCell>
                             {ConvertToNepaliNumerals(item.wada)}
                           </TableCell>
-                          <TableCell>N.a</TableCell>
+                          <TableCell>{item.prabidhikEstimateAmount}</TableCell>
                           <TableCell>
                             {ConvertToNepaliNumerals(item.kulAnudaanRakam)}
                           </TableCell>
-                          <TableCell>N.a</TableCell>
+                          <TableCell>{item.janaSramdanRakam}</TableCell>
                           <TableCell>
                             <Dropdown>
                               <DropdownTrigger>

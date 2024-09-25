@@ -135,7 +135,7 @@ export default function SamjhautaSwikriti() {
     setlagatSramDan("")
     setContengencyRakam("")
     setKhudPauneRakam("")
-  }, [])
+  }, [yojanaKaryaKramKoNaam])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
