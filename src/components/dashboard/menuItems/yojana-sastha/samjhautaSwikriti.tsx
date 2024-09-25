@@ -126,51 +126,41 @@ export default function SamjhautaSwikriti() {
     }
   }
 
-  const getData = async () => {
-    try {
-      const data = await getYojanaDartaForSwikriti(yojanaKaryaKramKoNaam)
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await getYojanaDartaForSwikriti(yojanaKaryaKramKoNaam)
 
-      console.log(data)
+        console.log(data)
 
-      if (
-        data &&
-        Array.isArray(data) &&
-        data.length > 0 &&
-        data[0].prabidhikEstimateAmount !== undefined
-      ) {
-        // Assuming you want to set the same value for all the states
-        const estimateAmount = data[0].prabidhikEstimateAmount
-        const kulAnudaan = data[0].kulAnudaanRakam
-        const janaSramdan = data[0].janaSramdanRakam
-        const contengency = data[0].dharautiRakamResult
-        // const kulanuddan = data[0].kulAnudaanRakam
+        if (data && data.length > 0) {
+          const estimateAmount = data[0].prabidhikEstimateAmount
+          const kulAnudaan = data[0].kulAnudaanRakam
+          const janaSramdan = data[0].janaSramdanRakam
+          const contengency = data[0].dharautiRakamResult
 
-        setLagatAnumanRakam(estimateAmount)
-        setNagarpalikaRakamRu(kulAnudaan)
-        setlagatSramDan(janaSramdan)
-        setContengencyRakam(contengency)
-        setKhudPauneRakam(kulAnudaan)
-      } else {
-        console.log(
-          "Data is either undefined, empty, or the expected property does not exist."
-        )
+          setLagatAnumanRakam(estimateAmount)
+          setNagarpalikaRakamRu(kulAnudaan)
+          setlagatSramDan(janaSramdan)
+          setContengencyRakam(contengency)
+          setKhudPauneRakam(kulAnudaan)
+          setUpavoktaSamitiKoNaam(
+            data[0].karyagatSamuha === "उपभोक्ता समिति"
+              ? yojanaKaryaKramKoNaam + " (उपभोक्ता समिति)"
+              : ""
+          )
+        }
+      } catch (error) {
+        console.error("Error fetching Yojana Darta data:", error)
       }
-    } catch (error) {
-      console.error("Error fetching Yojana Darta data:", error)
     }
-  }
+
+    getData()
+  }, [yojanaKaryaKramKoNaam])
 
   useEffect(() => {
     fetchYojanaDartaKoNaamData()
   }, [])
-
-  // useEffect(() => {
-  //   setLagatAnumanRakam("")
-  //   setNagarpalikaRakamRu("")
-  //   setlagatSramDan("")
-  //   setContengencyRakam("")
-  //   setKhudPauneRakam("")
-  // }, [yojanaKaryaKramKoNaam])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -215,7 +205,6 @@ export default function SamjhautaSwikriti() {
               onSelectionChange={(keys) => {
                 const selectedValue = Array.from(keys).join(", ")
                 setYojanaKaryaKramKoNaam(selectedValue)
-                getData()
               }}
             >
               {yojanaKoNaam.map((item) => (
