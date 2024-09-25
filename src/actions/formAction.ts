@@ -1267,6 +1267,22 @@ export async function fetchYojanaDartaData() {
     throw error
   }
 }
+
+export async function getYojanaDartaForSwikriti(yojanaKoNaam: string) {
+  try {
+    const data = await prisma.yojanaDarta.findMany({
+      where: {
+        yojanaKoNaam,
+      },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching Yojana Darta data:", error)
+    throw error
+  }
+}
+
+
 export async function deleteYojanaDarta(id: string) {
   try {
     await prisma.yojanaDarta.delete({
