@@ -24,6 +24,8 @@ import { GrDocumentPdf } from "react-icons/gr"
 import { AiOutlineFileAdd } from "react-icons/ai"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
+import { saveYojanaSamjhauta } from "@/actions/formAction"
+import { toast } from "react-toastify"
 
 const Content = () => (
   <div>
@@ -165,7 +167,336 @@ export default function YojanaSamjhauta() {
     { key: "otter", label: "Otter" },
     { key: "crocodile", label: "Crocodile" },
   ]
+
+  const [budgetKaryakram, setBudgetKarayakram] = useState("")
+  const [chaluAawa, setChaluAawa] = useState("")
+
+  // Tab 1
+  const [samjhautaMiti, setSamjhautaMiti] = useState("")
+  const [samjhautaNaam, setSamjhautaNaam] = useState("")
+  const [paad, setPaad] = useState("")
+  const [samjhautaThegana, setSamjhautaThegana] = useState("")
+  const [phoneNum, setPhoneNum] = useState("")
+  const [yonanaNaam, setYojanaNaam] = useState("")
+  const [yojanaThegana, setYojanaThegana] = useState("")
+  const [yojanaTheganaChild, setYojanaTheganaChild] = useState("")
+  const [yojanaUdeskya, setYojanaUdeskya] = useState("")
+  const [yojanaSwikritiGarneNikaya, setYojanaSwikritiGarneNikaya] = useState("")
+  const [yojanaSuruhuneMiti, setYojanaSuruhuneMiti] = useState("")
+  const [yojanaSsampanaHuneMiti, setYojanaSsampanaHuneMiti] = useState("")
+  const [yojanaKarya, setYojanaKarya] = useState("")
+  const [kisimPrakar, setKisimPrakar] = useState("")
+  const [lambaiMi, setLambaiMi] = useState("")
+  const [chetrafal, setChetrafal] = useState("")
+
+  // Tab 2
+  const [lagatAnumanRu, setLagatAnumanRu] = useState("")
+  const [binbatkachyat, setBinbatkachyat] = useState("")
+  const [janaSramdanRu, setJanaSramdanRu] = useState("")
+  const [jammaRakamRuTwo, setJammaRakamRuTwo] = useState("")
+  const [nepalsarkarbataRuPariman, setNepalsarkarbataRuPariman] = useState("")
+  const [nagarpalikabataRuPariman, setNagarpalikabataRuPariman] = useState("")
+  const [gaupalikaBataRuPariman, setGaupalikaBataRuPariman] = useState("")
+  const [gairsarkariSanghRuPariman, setGairsarkariSanghRuPariman] = useState("")
+  const [samudayamaAdharitRuPariman, setSamudayamaAdharitRuPariman] =
+    useState("")
+  const [bideshDatriSanghRuPariman, setBideshDatriSanghRuPariman] = useState("")
+  const [lagatSahavagitaRuPariman, setLagatSahavagitaRuPariman] = useState("")
+  const [anyaNikayaRuPariman, setAnyaNikayaRuPariman] = useState("")
+  const [nepalsarkarbataRuSamagrikoNaam, setNepalsarkarbataRuSamagrikoNaam] =
+    useState("")
+  const [nagarpalikabataRuSamagrikoNaam, setNagarpalikabataRuSamagrikoNaam] =
+    useState("")
+  const [gaupalikaBataRuSamagrikoNaam, setGaupalikaBataRuSamagrikoNaam] =
+    useState("")
+  const [gairsarkariSanghRuSamagrikoNaam, setGairsarkariSanghRuSamagrikoNaam] =
+    useState("")
+  const [
+    samudayamaAdharitRuSamagrikoNaam,
+    setSamudayamaAdharitRuSamagrikoNaam,
+  ] = useState("")
+  const [bideshDatriSanghRuSamagrikoNaam, setBideshDatriSanghRuSamagrikoNaam] =
+    useState("")
+  const [lagatSahavagitaRuSamagrikoNaam, setLagatSahavagitaRuSamagrikoNaam] =
+    useState("")
+  const [anyaNikayaRuSamagrikoNaam, setAnyaNikayaRuSamagrikoNaam] = useState("")
+
+  const [nepalsarkarbataRuYekai, setNepalsarkarbataRuYekai] = useState("")
+  const [nagarpalikabataRuYekai, setNagarpalikabataRuYekai] = useState("")
+  const [gaupalikaBataRuYekai, setGaupalikaBataRuYekai] = useState("")
+  const [gairsarkariSanghRuYekai, setGairsarkariSanghRuYekai] = useState("")
+  const [samudayamaAdharitRuYekai, setSamudayamaAdharitRuYekai] = useState("")
+  const [bideshDatriSanghRuYekai, setBideshDatriSanghRuYekai] = useState("")
+  const [lagatSahavagitaRuYekai, setLagatSahavagitaRuYekai] = useState("")
+  const [anyaNikayaRuYekai, setAnyaNikayaRuYekai] = useState("")
+  const [nepalsarkarbataRuShramRu, setNepalsarkarbataRuShramRu] = useState("")
+  const [nagarpalikabataRuShramRu, setNagarpalikabataRuShramRu] = useState("")
+  const [gaupalikaBataRuShramRu, setGaupalikaBataRuShramRu] = useState("")
+  const [gairsarkariSanghRuShramRu, setGairsarkariSanghRuShramRu] = useState("")
+  const [samudayamaAdharitRuShramRu, setSamudayamaAdharitRuShramRu] =
+    useState("")
+  const [bideshDatriSanghRuShramRu, setBideshDatriSanghRuShramRu] = useState("")
+  const [lagatSahavagitaRuShramRu, setLagatSahavagitaRuShramRu] = useState("")
+  const [anyaNikayaRuShramRu, setAnyaNikayaRuShramRu] = useState("")
+  const [gharpariwarSankhya, setGharpariwarSankhya] = useState("")
+  const [janaSankhya, setJanaSankhya] = useState("")
+  const [samudaya, setSamudaya] = useState("")
+  const [samudayaAdharit, setSamudayaAdharit] = useState("")
+
+  // Tab 3
+  const [kamgarneNikaya, setKamgarneNikaya] = useState("")
+  const [upavoktaSamiti, setUpavoktaSamiti] = useState("")
+  const [gathanVayekoMiti, setGathanVayekoMiti] = useState("")
+  const [adhyakchya, setAdhyakchya] = useState("")
+  const [adhyakchyaNaPraNa, setAdhyakchyaNaPraNa] = useState("")
+  const [upadhyekchya, setUpadhyekchya] = useState("")
+  const [sachib, setSachib] = useState("")
+  const [sachibNaPraNa, setSachibNaPraNa] = useState("")
+  const [kosaAdakshya, setKosaAdakshya] = useState("")
+  const [kosaAdakshyaNaPraNa, setKosaAdakshyaNaPraNa] = useState("")
+  const [sadasyaOne, setSadasyaOne] = useState("")
+  const [sadasyaTwo, setSadasyaTwo] = useState("")
+  const [sadasyaThree, setSadasyaThree] = useState("")
+  const [sadasyaFour, setSadasyaFour] = useState("")
+  const [sadasyaFive, setSadasyaFive] = useState("")
+  const [sadasyaSix, setSadasyaSix] = useState("")
+  const [sadasyaSeven, setSadasyaSeven] = useState("")
+  const [gathanGardaUpastithi, setGathanGardaUpastithi] = useState("")
+  const [samitimaJamma, setSamitimaJamma] = useState("")
+  const [mahilaSadasya, setMahilaSadasya] = useState("")
+
+  // Tab 4
+  const [pahiloKistaMiti, setPahiloKistaMiti] = useState("")
+  const [pahiloKistaPratisad, setPahiloKistaPratisad] = useState("")
+  const [pahiloKistaKistaKoRakam, setPahiloKistaKistaKoRakam] = useState("")
+  const [pahiloKistaNirmanSamagri, setPahiloKistaNirmanSamagri] = useState("")
+  const [pahiloKistaKaifiyat, setPahiloKistaKaifiyat] = useState("")
+  const [dosroKistaMiti, setDosroKistaMiti] = useState("")
+  const [dosroKistaKistaKoRakam, setDosroKistaKistaKoRakam] = useState("")
+  const [dosroKistaKaifiyat, setDosroKistaKaifiyat] = useState("")
+  const [jammaRakamRuTwoFour, setJammaRakamRuTwoFour] = useState("")
+  const [marmatSambhar, setMarmatSambhar] = useState("")
+  const [janaSramdan, setJanaSramdan] = useState("")
+  const [dastur, setDastur] = useState("")
+  const [byaj, setByaj] = useState("")
+  const [lagatSahavagita, setLagatSahavagita] = useState("")
+
+  // Tab 5
+  const [anyaSartHaruOne, setAnyaSartHaruOne] = useState("")
+  const [anyaSartHaruTwo, setAnyaSartHaruTwo] = useState("")
+  const [karyalayaKoTarfabata, setKaryalayaKoTarfabata] = useState("")
+  const [karyalayaKoTarfabataChild, setKaryalayaKoTarfabataChild] = useState("")
+  const [yojanaSakhaTarfabata, setYojanaSakhaTarfabata] = useState("")
+  const [yojanaSakhaTarfabataChild, setYojanaSakhaTarfabataChild] = useState("")
+
   const [date, setDate] = useState<string>("")
+
+  const onSubmit = async () => {
+    const result = await saveYojanaSamjhauta(
+      budgetKaryakram,
+      chaluAawa,
+      samjhautaMiti,
+      samjhautaNaam,
+      paad,
+      samjhautaThegana,
+      phoneNum,
+      yonanaNaam,
+      yojanaThegana,
+      yojanaTheganaChild,
+      yojanaUdeskya,
+      yojanaSwikritiGarneNikaya,
+      yojanaSuruhuneMiti,
+      yojanaSsampanaHuneMiti,
+      yojanaKarya,
+      kisimPrakar,
+      lambaiMi,
+      chetrafal,
+      lagatAnumanRu,
+      binbatkachyat,
+      janaSramdanRu,
+      jammaRakamRuTwo,
+      nepalsarkarbataRuPariman,
+      nagarpalikabataRuPariman,
+      gaupalikaBataRuPariman,
+      gairsarkariSanghRuPariman,
+      samudayamaAdharitRuPariman,
+      bideshDatriSanghRuPariman,
+      lagatSahavagitaRuPariman,
+      anyaNikayaRuPariman,
+      nepalsarkarbataRuSamagrikoNaam,
+      nagarpalikabataRuSamagrikoNaam,
+      gaupalikaBataRuSamagrikoNaam,
+      gairsarkariSanghRuSamagrikoNaam,
+      samudayamaAdharitRuSamagrikoNaam,
+      bideshDatriSanghRuSamagrikoNaam,
+      lagatSahavagitaRuSamagrikoNaam,
+      anyaNikayaRuSamagrikoNaam,
+      nepalsarkarbataRuYekai,
+      nagarpalikabataRuYekai,
+      gaupalikaBataRuYekai,
+      gairsarkariSanghRuYekai,
+      samudayamaAdharitRuYekai,
+      bideshDatriSanghRuYekai,
+      lagatSahavagitaRuYekai,
+      anyaNikayaRuYekai,
+      nepalsarkarbataRuShramRu,
+      nagarpalikabataRuShramRu,
+      gaupalikaBataRuShramRu,
+      gairsarkariSanghRuShramRu,
+      samudayamaAdharitRuShramRu,
+      bideshDatriSanghRuShramRu,
+      lagatSahavagitaRuShramRu,
+      anyaNikayaRuShramRu,
+      gharpariwarSankhya,
+      janaSankhya,
+      samudaya,
+      samudayaAdharit,
+      kamgarneNikaya,
+      upavoktaSamiti,
+      gathanVayekoMiti,
+      adhyakchya,
+      adhyakchyaNaPraNa,
+      upadhyekchya,
+      sachib,
+      sachibNaPraNa,
+      kosaAdakshya,
+      kosaAdakshyaNaPraNa,
+      sadasyaOne,
+      sadasyaTwo,
+      sadasyaThree,
+      sadasyaFour,
+      sadasyaFive,
+      sadasyaSix,
+      sadasyaSeven,
+      gathanGardaUpastithi,
+      samitimaJamma,
+      mahilaSadasya,
+      pahiloKistaMiti,
+      pahiloKistaPratisad,
+      pahiloKistaKistaKoRakam,
+      pahiloKistaNirmanSamagri,
+      pahiloKistaKaifiyat,
+      dosroKistaMiti,
+      dosroKistaKistaKoRakam,
+      dosroKistaKaifiyat,
+      jammaRakamRuTwoFour,
+      marmatSambhar,
+      janaSramdan,
+      dastur,
+      byaj,
+      lagatSahavagita,
+      anyaSartHaruOne,
+      anyaSartHaruTwo,
+      karyalayaKoTarfabata,
+      karyalayaKoTarfabataChild,
+      yojanaSakhaTarfabata,
+      yojanaSakhaTarfabataChild
+    )
+    if (result.status === "success") {
+      setBudgetKarayakram("")
+      setChaluAawa("")
+      setSamjhautaMiti("")
+      setSamjhautaNaam("")
+      setPaad("")
+      setSamjhautaThegana("")
+      setPhoneNum("")
+      setYojanaNaam("")
+      setYojanaThegana("")
+      setYojanaTheganaChild("")
+      setYojanaUdeskya("")
+      setYojanaSwikritiGarneNikaya("")
+      setYojanaSuruhuneMiti("")
+      setYojanaSsampanaHuneMiti("")
+      setYojanaKarya("")
+      setKisimPrakar("")
+      setLambaiMi("")
+      setChetrafal("")
+      setLagatAnumanRu("")
+      setBinbatkachyat("")
+      setJanaSramdanRu("")
+      setJammaRakamRuTwo("")
+      setNepalsarkarbataRuPariman("")
+      setNagarpalikabataRuPariman("")
+      setGaupalikaBataRuPariman("")
+      setGairsarkariSanghRuPariman("")
+      setSamudayamaAdharitRuPariman("")
+      setBideshDatriSanghRuPariman("")
+      setLagatSahavagitaRuPariman("")
+      setAnyaNikayaRuPariman("")
+      setNepalsarkarbataRuSamagrikoNaam("")
+      setNagarpalikabataRuSamagrikoNaam("")
+      setGaupalikaBataRuSamagrikoNaam("")
+      setGairsarkariSanghRuSamagrikoNaam("")
+      setSamudayamaAdharitRuSamagrikoNaam("")
+      setBideshDatriSanghRuSamagrikoNaam("")
+      setLagatSahavagitaRuSamagrikoNaam("")
+      setAnyaNikayaRuSamagrikoNaam("")
+      setNepalsarkarbataRuYekai("")
+      setNagarpalikabataRuYekai("")
+      setGaupalikaBataRuYekai("")
+      setGairsarkariSanghRuYekai("")
+      setSamudayamaAdharitRuYekai("")
+      setBideshDatriSanghRuYekai("")
+      setLagatSahavagitaRuYekai("")
+      setAnyaNikayaRuYekai("")
+      setNepalsarkarbataRuShramRu("")
+      setNagarpalikabataRuShramRu("")
+      setGaupalikaBataRuShramRu("")
+      setGairsarkariSanghRuShramRu("")
+      setSamudayamaAdharitRuShramRu("")
+      setBideshDatriSanghRuShramRu("")
+      setLagatSahavagitaRuShramRu("")
+      setAnyaNikayaRuShramRu("")
+      setGharpariwarSankhya("")
+      setJanaSankhya("")
+      setSamudaya("")
+      setSamudayaAdharit("")
+      setKamgarneNikaya("")
+      setUpavoktaSamiti("")
+      setGathanVayekoMiti("")
+      setAdhyakchya("")
+      setAdhyakchyaNaPraNa("")
+      setUpadhyekchya("")
+      setSachib("")
+      setSachibNaPraNa("")
+      setKosaAdakshya("")
+      setKosaAdakshyaNaPraNa("")
+      setSadasyaOne("")
+      setSadasyaTwo("")
+      setSadasyaThree("")
+      setSadasyaFour("")
+      setSadasyaFive("")
+      setSadasyaSix("")
+      setSadasyaSeven("")
+      setGathanGardaUpastithi("")
+      setSamitimaJamma("")
+      setMahilaSadasya("")
+      setPahiloKistaMiti("")
+      setPahiloKistaPratisad("")
+      setPahiloKistaKistaKoRakam("")
+      setPahiloKistaNirmanSamagri("")
+      setPahiloKistaKaifiyat("")
+      setDosroKistaMiti("")
+      setDosroKistaKistaKoRakam("")
+      setDosroKistaKaifiyat("")
+      setJammaRakamRuTwoFour("")
+      setMarmatSambhar("")
+      setJanaSramdan("")
+      setDastur("")
+      setByaj("")
+      setLagatSahavagita("")
+      setAnyaSartHaruOne("")
+      setAnyaSartHaruTwo("")
+      setKaryalayaKoTarfabata("")
+      setKaryalayaKoTarfabataChild("")
+      setYojanaSakhaTarfabata("")
+      setYojanaSakhaTarfabataChild("")
+      toast.success("successfully created")
+    } else {
+      console.error("Error occurred during save")
+    }
+  }
+
   return (
     <div className="flex w-full justify-center ">
       <div className="flex w-full flex-col ">
@@ -931,7 +1262,11 @@ export default function YojanaSamjhauta() {
             <Button startContent={<AiOutlineFileAdd />} color="default">
               Add Images/Photo
             </Button>
-            <Button startContent={<FaRegSave />} color="secondary">
+            <Button
+              startContent={<FaRegSave />}
+              color="secondary"
+              onClick={onSubmit}
+            >
               Save/Update
             </Button>
             <Button startContent={<FaPrint />} color="primary">
