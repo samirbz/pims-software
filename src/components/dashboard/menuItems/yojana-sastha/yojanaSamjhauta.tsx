@@ -18,11 +18,12 @@ import {
   ScrollShadow,
   Textarea,
 } from "@nextui-org/react"
-import { NepaliDatePicker } from "nepali-datepicker-reactjs"
-import "nepali-datepicker-reactjs/dist/index.css"
+
 import { FaPrint, FaRegSave } from "react-icons/fa"
 import { GrDocumentPdf } from "react-icons/gr"
 import { AiOutlineFileAdd } from "react-icons/ai"
+import { NepaliDatePicker } from "nepali-datepicker-reactjs"
+import "nepali-datepicker-reactjs/dist/index.css"
 
 const Content = () => (
   <div>
@@ -181,9 +182,7 @@ export default function YojanaSamjhauta() {
                 size="sm"
                 className="w-1/2"
               />
-              <p className="text-blue-600">
-                चालु आ.वः- २०८०/८१चालु आ.वः- २०८०/८१
-              </p>
+              <p className="text-blue-600">चालु आ.वः- २०८०/८१</p>
             </div>
           </div>
           <br />
@@ -336,11 +335,7 @@ export default function YojanaSamjhauta() {
                           <p className="text-blue-600 underline">
                             लागत व्यहोर्ने निकायहरु
                           </p>
-                          <Input
-                            type="text"
-                            label="समानिकरण अनुदान"
-                            size="sm"
-                          />
+                          <Input type="text" label="बिनबत कचयत" size="sm" />
                           <Input type="text" label="जनश्रमदान रु." size="sm" />
                         </div>
                         <br />
@@ -584,41 +579,120 @@ export default function YojanaSamjhauta() {
                       विवरण
                     </p>
                     <div className="mt-2 flex flex-col gap-2">
-                      <Select
-                        label="काम गर्ने निकाय"
-                        placeholder="संस्थागत"
-                        className="max-w-xs"
-                        size="sm"
-                      >
+                      <Select label="काम गर्ने निकाय" placeholder="" size="sm">
                         {animals.map((animal) => (
                           <SelectItem key={animal.key}>
                             {animal.label}
                           </SelectItem>
                         ))}
                       </Select>
-                      <Input
-                        type="text"
-                        label="कार्यालय तथा संस्थाको नाम"
-                        size="sm"
-                        className="w-3/5"
-                      />
-                      <div className="flex w-3/5 gap-8">
-                        <Input type="text" label="संस्थाको ठेगाना" size="sm" />
-                        <Input type="text" label="पान नं." size="sm" />
-                      </div>
+                      <Input type="text" label="उपवोक्ता समिति" size="sm" />
+
+                      <form className="flex items-center gap-2 pl-2 sm:p-0">
+                        <label htmlFor="date" className="block text-sm">
+                          गठन भएको मिति
+                        </label>
+                        <NepaliDatePicker
+                          inputClassName="form-control"
+                          className="rounded-lg border p-1"
+                          // value={}
+                          // onChange={(value: string) =>
+                          //   setPrastabSwikritMiti(value)
+                          // }
+                          options={{ calenderLocale: "ne", valueLocale: "en" }}
+                        />
+                      </form>
                       <p className="underline">
-                        कार्यालय तथा संस्थाको प्रतिनिधीको विवरण
+                        ख. पदाधिकारीकोहरुको नाम र ठेगाना
                       </p>
-                      <div className="flex w-1/2 gap-2">
-                        <Input type="text" label="व्यक्तिको नाम" size="sm" />
-                        <Input type="text" label="ना.प्र.न." size="sm" />
+                      <div className="flex w-full gap-8">
+                        <div className="flex w-full flex-col gap-2">
+                          <div className="flex gap-2">
+                            <Input type="text" label="१. अध्यक्ष" size="sm" />
+                            <Input type="text" label="ना.प्र.न." size="sm" />
+                          </div>
+                          <Input
+                            type="text"
+                            label="२.उपाध्यक्ष"
+                            size="sm"
+                            className="w-1/2"
+                          />
+                          <div className="flex gap-2">
+                            <Input type="text" label="३. सचिव" size="sm" />
+                            <Input type="text" label="ना.प्र.न." size="sm" />
+                          </div>
+                          <div className="flex gap-2">
+                            <Input
+                              type="text"
+                              label="४. कोषाध्यक्ष"
+                              size="sm"
+                            />
+                            <Input type="text" label="ना.प्र.न." size="sm" />
+                          </div>
+                          <Input
+                            type="text"
+                            label="५. सदस्य"
+                            size="sm"
+                            className="w-1/2"
+                          />
+                          <Input
+                            type="text"
+                            label="६. सदस्य"
+                            size="sm"
+                            className="w-1/2"
+                          />
+                          <Input
+                            type="text"
+                            label="७. सदस्य"
+                            size="sm"
+                            className="w-1/2"
+                          />
+                        </div>
+                        <div className="flex w-full flex-col gap-2">
+                          <Input
+                            type="text"
+                            label="८. सदस्य"
+                            size="sm"
+                            className="w-1/2"
+                          />
+                          <Input
+                            type="text"
+                            label="९. सदस्य"
+                            size="sm"
+                            className="w-1/2"
+                          />
+                          <Input
+                            type="text"
+                            label="१०. सदस्य"
+                            size="sm"
+                            className="w-1/2"
+                          />
+                          <Input
+                            type="text"
+                            label="११. सदस्य"
+                            size="sm"
+                            className="w-1/2"
+                          />
+                          <Input
+                            type="text"
+                            label="गठन गर्दा उपस्थित लाभान्वितको संख्या"
+                            size="sm"
+                          />
+                          <Input
+                            type="text"
+                            label="समितिमा जम्मा सदस्य संख्या"
+                            size="sm"
+                          />
+                          <div className="flex gap-2">
+                            <Input
+                              type="text"
+                              label="महिला सदस्य संख्या"
+                              size="sm"
+                            />
+                            <Button color="primary">अनुगमन सदस्य</Button>
+                          </div>
+                        </div>
                       </div>
-                      <Input
-                        type="text"
-                        label="रोहवरको नाम"
-                        size="sm"
-                        className="w-1/4"
-                      />
                     </div>
                   </div>
                 </CardBody>
@@ -785,15 +859,60 @@ export default function YojanaSamjhauta() {
             <Tab key="5" title="प्राविधिक तथा अन्य विवरण">
               <Card>
                 <CardBody>
-                  <div className="">
+                  <div>
                     <ScrollShadow className="h-60 text-sm">
                       <Content />
                     </ScrollShadow>
                     <p className="mt-2 text-blue-600 underline">अन्य शर्तहरु</p>
-
-                    <div className="flex flex-col gap-2">
-                      <Textarea className="h-20 max-w-xs" placeholder="1" />
-                      <Textarea className="h-20 max-w-xs" placeholder="2" />
+                    <div className="flex gap-2">
+                      <div className="flex w-full flex-col gap-2">
+                        <Textarea className="h-20" placeholder="1" />
+                        <Textarea className="h-20" placeholder="2" />
+                      </div>
+                      <div className="w-full ">
+                        <div className="flex gap-2">
+                          <div className="flex w-full flex-col gap-2">
+                            <Select
+                              label="कार्यालय तर्फबाट "
+                              placeholder=""
+                              size="sm"
+                            >
+                              {animals.map((animal) => (
+                                <SelectItem key={animal.key}>
+                                  {animal.label}
+                                </SelectItem>
+                              ))}
+                            </Select>
+                            <Select
+                              label="योजना शाखा तर्फबाट"
+                              placeholder=""
+                              size="sm"
+                            >
+                              {animals.map((animal) => (
+                                <SelectItem key={animal.key}>
+                                  {animal.label}
+                                </SelectItem>
+                              ))}
+                            </Select>
+                          </div>
+                          <div className="flex w-full flex-col gap-2">
+                            <Select label=" " placeholder="" size="sm">
+                              {animals.map((animal) => (
+                                <SelectItem key={animal.key}>
+                                  {animal.label}
+                                </SelectItem>
+                              ))}
+                            </Select>
+                            <Select label=" " placeholder="" size="sm">
+                              {animals.map((animal) => (
+                                <SelectItem key={animal.key}>
+                                  {animal.label}
+                                </SelectItem>
+                              ))}
+                            </Select>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </CardBody>
