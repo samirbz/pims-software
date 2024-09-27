@@ -312,8 +312,15 @@ model YojanaSamjhauta {
   pahiloKistaNirmanSamagri         String
   pahiloKistaKaifiyat              String
   dosroKistaMiti                   String
+  dosroKistaPratisat               String
   dosroKistaKistaKoRakam           String
+  dosroKistaNirmanSamagri          String
   dosroKistaKaifiyat               String
+  tesroKistaMiti                   String
+  tesroKistaPratisat               String
+  tesroKistaKistaKoRakam           String
+  tesroKistaNirmanSamagri          String
+  tesroKistaKaifiyat               String
   jammaRakamRuTwoFour              String
   marmatSambhar                    String
   janaSramdan                      String

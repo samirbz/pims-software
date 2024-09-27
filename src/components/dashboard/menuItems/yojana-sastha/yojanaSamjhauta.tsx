@@ -382,8 +382,15 @@ export default function YojanaSamjhauta() {
       pahiloKistaNirmanSamagri,
       pahiloKistaKaifiyat,
       dosroKistaMiti,
+      dosroKistaPratisat,
       dosroKistaKistaKoRakam,
+      dosroKistaNirmanSamagri,
       dosroKistaKaifiyat,
+      tesroKistaMiti,
+      tesroKistaPratisat,
+      tesroKistaKistaKoRakam,
+      tesroKistaNirmanSamagri,
+      tesroKistaKaifiyat,
       jammaRakamRuTwoFour,
       marmatSambhar,
       janaSramdan,
@@ -482,8 +489,15 @@ export default function YojanaSamjhauta() {
       setPahiloKistaNirmanSamagri("")
       setPahiloKistaKaifiyat("")
       setDosroKistaMiti("")
+      setDosroKistaPratisat("")
       setDosroKistaKistaKoRakam("")
+      setDosroKistaNirmanSamagri("")
       setDosroKistaKaifiyat("")
+      setTesroKistaMiti("")
+      setTesroKistaPratisat("")
+      setTesroKistaKistaKoRakam("")
+      setTesroKistaNirmanSamagri("")
+      setTesroKistaKaifiyat("")
       setJammaRakamRuTwoFour("")
       setMarmatSambhar("")
       setJanaSramdan("")
@@ -794,9 +808,9 @@ export default function YojanaSamjhauta() {
                                   type="text"
                                   label=""
                                   size="sm"
-                                  value={nagarpalikabataRuSamagrikoNaam}
+                                  value={nepalsarkarbataRuSamagrikoNaam}
                                   onChange={(e) =>
-                                    setNagarpalikabataRuSamagrikoNaam(
+                                    setNepalsarkarbataRuSamagrikoNaam(
                                       e.target.value
                                     )
                                   }
