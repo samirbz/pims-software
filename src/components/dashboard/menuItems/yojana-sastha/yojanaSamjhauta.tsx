@@ -272,8 +272,15 @@ export default function YojanaSamjhauta() {
   const [pahiloKistaNirmanSamagri, setPahiloKistaNirmanSamagri] = useState("")
   const [pahiloKistaKaifiyat, setPahiloKistaKaifiyat] = useState("")
   const [dosroKistaMiti, setDosroKistaMiti] = useState("")
+  const [dosroKistaPratisat, setDosroKistaPratisat] = useState("")
   const [dosroKistaKistaKoRakam, setDosroKistaKistaKoRakam] = useState("")
+  const [dosroKistaNirmanSamagri, setDosroKistaNirmanSamagri] = useState("")
   const [dosroKistaKaifiyat, setDosroKistaKaifiyat] = useState("")
+  const [tesroKistaMiti, setTesroKistaMiti] = useState("")
+  const [tesroKistaPratisat, setTesroKistaPratisat] = useState("")
+  const [tesroKistaKistaKoRakam, setTesroKistaKistaKoRakam] = useState("")
+  const [tesroKistaNirmanSamagri, setTesroKistaNirmanSamagri] = useState("")
+  const [tesroKistaKaifiyat, setTesroKistaKaifiyat] = useState("")
   const [jammaRakamRuTwoFour, setJammaRakamRuTwoFour] = useState("")
   const [marmatSambhar, setMarmatSambhar] = useState("")
   const [janaSramdan, setJanaSramdan] = useState("")
@@ -288,8 +295,6 @@ export default function YojanaSamjhauta() {
   const [karyalayaKoTarfabataChild, setKaryalayaKoTarfabataChild] = useState("")
   const [yojanaSakhaTarfabata, setYojanaSakhaTarfabata] = useState("")
   const [yojanaSakhaTarfabataChild, setYojanaSakhaTarfabataChild] = useState("")
-
-  const [date, setDate] = useState<string>("")
 
   const onSubmit = async () => {
     const result = await saveYojanaSamjhauta(
@@ -512,8 +517,10 @@ export default function YojanaSamjhauta() {
                 label="वजेट कार्यक्रम "
                 size="sm"
                 className="w-1/2"
+                value={budgetKaryakram}
+                onChange={(e) => setBudgetKarayakram(e.target.value)}
               />
-              <p className="text-blue-600">चालु आ.वः- २०८०/८१</p>
+              <p className="text-blue-600">चालु आ.वः- {chaluAawa}</p>
             </div>
           </div>
           <br />
@@ -535,8 +542,10 @@ export default function YojanaSamjhauta() {
                           <NepaliDatePicker
                             inputClassName="form-control"
                             className="rounded-lg border p-1 "
-                            value={date}
-                            onChange={(value: string) => setDate(value)}
+                            value={samjhautaMiti}
+                            onChange={(value: string) =>
+                              setSamjhautaMiti(value)
+                            }
                             options={{
                               calenderLocale: "ne",
                               valueLocale: "en",
@@ -546,10 +555,36 @@ export default function YojanaSamjhauta() {
                         <br />
                         <div className="flex flex-col gap-2">
                           <p>सम्झौता गर्ने संस्थाको व्यक्तिको विवरण</p>
-                          <Input type="text" label="१. नाम" size="sm" />
-                          <Input type="text" label="२.पद" size="sm" />
-                          <Input type="text" label="ठेगाना" size="sm" />
-                          <Input type="text" label="४. फोन न." size="sm" />
+                          <Input
+                            type="text"
+                            label="१. नाम"
+                            size="sm"
+                            value={samjhautaNaam}
+                            onChange={(e) => setSamjhautaNaam(e.target.value)}
+                          />
+                          <Input
+                            type="text"
+                            label="२.पद"
+                            size="sm"
+                            value={paad}
+                            onChange={(e) => setPaad(e.target.value)}
+                          />
+                          <Input
+                            type="text"
+                            label="ठेगाना"
+                            size="sm"
+                            value={samjhautaThegana}
+                            onChange={(e) =>
+                              setSamjhautaThegana(e.target.value)
+                            }
+                          />
+                          <Input
+                            type="text"
+                            label="४. फोन न."
+                            size="sm"
+                            value={phoneNum}
+                            onChange={(e) => setPhoneNum(e.target.value)}
+                          />
                         </div>
                         <br />
                         <p className=" text-purple-600">
@@ -574,15 +609,27 @@ export default function YojanaSamjhauta() {
                             label="ठेगाना"
                             size="sm"
                             className="w-[70%]"
+                            value={yojanaThegana}
+                            onChange={(e) => setYojanaThegana(e.target.value)}
                           />
                           <Input
                             type="text"
-                            label="वोडा "
+                            label=" "
                             size="sm"
                             className="w-[30%]"
+                            value={yojanaTheganaChild}
+                            onChange={(e) =>
+                              setYojanaTheganaChild(e.target.value)
+                            }
                           />
                         </div>
-                        <Input type="text" label="योजनाको उद्देश्य" size="sm" />
+                        <Input
+                          type="text"
+                          label="योजनाको उद्देश्य"
+                          size="sm"
+                          value={yojanaUdeskya}
+                          onChange={(e) => setYojanaUdeskya(e.target.value)}
+                        />
                         <Select
                           label="योजना स्वीकृत गर्ने निकाय"
                           size="sm"
@@ -599,12 +646,14 @@ export default function YojanaSamjhauta() {
                           <NepaliDatePicker
                             inputClassName="form-control"
                             className="rounded-lg border p-1 "
-                            value={date}
-                            onChange={(value: string) => setDate(value)}
                             options={{
                               calenderLocale: "ne",
                               valueLocale: "en",
                             }}
+                            value={yojanaSuruhuneMiti}
+                            onChange={(value: string) =>
+                              setYojanaSuruhuneMiti(value)
+                            }
                           />
                         </form>
                         <form className="flex items-center gap-2 ">
@@ -614,12 +663,14 @@ export default function YojanaSamjhauta() {
                           <NepaliDatePicker
                             inputClassName="form-control"
                             className="rounded-lg border p-1 "
-                            value={date}
-                            onChange={(value: string) => setDate(value)}
                             options={{
                               calenderLocale: "ne",
                               valueLocale: "en",
                             }}
+                            value={yojanaSsampanaHuneMiti}
+                            onChange={(value: string) =>
+                              setYojanaSsampanaHuneMiti(value)
+                            }
                           />
                         </form>
                         <p>आयोजनाको लागत अनुमानबाट प्राविधिक विवरण</p>
@@ -640,8 +691,20 @@ export default function YojanaSamjhauta() {
                           </Select>
                         </div>
                         <div className="flex gap-2">
-                          <Input type="text" label="लम्बाइ मि." size="sm" />
-                          <Input type="text" label="क्षेत्रफल" size="sm" />
+                          <Input
+                            type="text"
+                            label="लम्बाइ मि."
+                            size="sm"
+                            value={lambaiMi}
+                            onChange={(e) => setLambaiMi(e.target.value)}
+                          />
+                          <Input
+                            type="text"
+                            label="क्षेत्रफल"
+                            size="sm"
+                            value={chetrafal}
+                            onChange={(e) => setChetrafal(e.target.value)}
+                          />
                         </div>
                       </div>
                     </div>
@@ -662,12 +725,26 @@ export default function YojanaSamjhauta() {
                             type="text"
                             label="लागत अनुमान रु."
                             size="sm"
+                            value={lagatAnumanRu}
+                            onChange={(e) => setLagatAnumanRu(e.target.value)}
                           />
                           <p className="text-blue-600 underline">
                             लागत व्यहोर्ने निकायहरु
                           </p>
-                          <Input type="text" label="बिनबत कचयत" size="sm" />
-                          <Input type="text" label="जनश्रमदान रु." size="sm" />
+                          <Input
+                            type="text"
+                            label="बिनबत कचयत"
+                            size="sm"
+                            value={binbatkachyat}
+                            onChange={(e) => setBinbatkachyat(e.target.value)}
+                          />
+                          <Input
+                            type="text"
+                            label="जनश्रमदान रु."
+                            size="sm"
+                            value={janaSramdanRu}
+                            onChange={(e) => setJanaSramdanRu(e.target.value)}
+                          />
                         </div>
                         <br />
                         <Input
@@ -677,6 +754,8 @@ export default function YojanaSamjhauta() {
                           labelPlacement="outside-left"
                           size="lg"
                           className="font-bold"
+                          value={jammaRakamRuTwo}
+                          onChange={(e) => setJammaRakamRuTwo(e.target.value)}
                         />
                       </div>
 
@@ -697,13 +776,31 @@ export default function YojanaSamjhauta() {
                             <TableColumn className="w-28">श्रम रु.</TableColumn>
                           </TableHeader>
                           <TableBody>
-                            <TableRow key="1">
+                            <TableRow>
                               <TableCell>१.नेपाल सरकारबाट रु.</TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={nepalsarkarbataRuPariman}
+                                  onChange={(e) =>
+                                    setNepalsarkarbataRuPariman(e.target.value)
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={nagarpalikabataRuSamagrikoNaam}
+                                  onChange={(e) =>
+                                    setNagarpalikabataRuSamagrikoNaam(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
                                 <Select label="" className="max-w-xs" size="sm">
@@ -715,16 +812,42 @@ export default function YojanaSamjhauta() {
                                 </Select>
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={nepalsarkarbataRuShramRu}
+                                  onChange={(e) =>
+                                    setNepalsarkarbataRuShramRu(e.target.value)
+                                  }
+                                />
                               </TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow>
                               <TableCell>२.नगरपालिकाबाट रु.</TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={nagarpalikabataRuPariman}
+                                  onChange={(e) =>
+                                    setNagarpalikabataRuPariman(e.target.value)
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={nagarpalikabataRuSamagrikoNaam}
+                                  onChange={(e) =>
+                                    setNagarpalikabataRuSamagrikoNaam(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
                                 <Select label="" className="max-w-xs" size="sm">
@@ -736,16 +859,42 @@ export default function YojanaSamjhauta() {
                                 </Select>
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={nagarpalikabataRuShramRu}
+                                  onChange={(e) =>
+                                    setNagarpalikabataRuShramRu(e.target.value)
+                                  }
+                                />
                               </TableCell>
                             </TableRow>
-                            <TableRow key="3">
+                            <TableRow>
                               <TableCell>३.गाउँपालिकाबाट रु.</TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={gaupalikaBataRuPariman}
+                                  onChange={(e) =>
+                                    setGaupalikaBataRuPariman(e.target.value)
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={gaupalikaBataRuSamagrikoNaam}
+                                  onChange={(e) =>
+                                    setGaupalikaBataRuSamagrikoNaam(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
                                 <Select label="" className="max-w-xs" size="sm">
@@ -757,18 +906,44 @@ export default function YojanaSamjhauta() {
                                 </Select>
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={gaupalikaBataRuShramRu}
+                                  onChange={(e) =>
+                                    setGaupalikaBataRuShramRu(e.target.value)
+                                  }
+                                />
                               </TableCell>
                             </TableRow>
-                            <TableRow key="4">
+                            <TableRow>
                               <TableCell>
                                 ४.गैर सरकारी संघ संस्थाबाट रु.
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={gairsarkariSanghRuPariman}
+                                  onChange={(e) =>
+                                    setGairsarkariSanghRuPariman(e.target.value)
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={gairsarkariSanghRuSamagrikoNaam}
+                                  onChange={(e) =>
+                                    setGairsarkariSanghRuSamagrikoNaam(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
                                 <Select label="" className="max-w-xs" size="sm">
@@ -780,18 +955,46 @@ export default function YojanaSamjhauta() {
                                 </Select>
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={gairsarkariSanghRuShramRu}
+                                  onChange={(e) =>
+                                    setGairsarkariSanghRuShramRu(e.target.value)
+                                  }
+                                />
                               </TableCell>
                             </TableRow>
-                            <TableRow key="4">
+                            <TableRow>
                               <TableCell>
                                 ५.समुदायमा आधारित संस्थाबाट रु.
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={samudayamaAdharitRuPariman}
+                                  onChange={(e) =>
+                                    setSamudayamaAdharitRuPariman(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={samudayamaAdharitRuSamagrikoNaam}
+                                  onChange={(e) =>
+                                    setSamudayamaAdharitRuSamagrikoNaam(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
                                 <Select label="" className="max-w-xs" size="sm">
@@ -803,18 +1006,46 @@ export default function YojanaSamjhauta() {
                                 </Select>
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={samudayamaAdharitRuShramRu}
+                                  onChange={(e) =>
+                                    setSamudayamaAdharitRuShramRu(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                             </TableRow>
-                            <TableRow key="4">
+                            <TableRow>
                               <TableCell>
                                 ६.विदेशी दातृ संघ,संस्थाबाट रु.
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={bideshDatriSanghRuPariman}
+                                  onChange={(e) =>
+                                    setBideshDatriSanghRuPariman(e.target.value)
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={bideshDatriSanghRuSamagrikoNaam}
+                                  onChange={(e) =>
+                                    setBideshDatriSanghRuSamagrikoNaam(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
                                 <Select label="" className="max-w-xs" size="sm">
@@ -826,16 +1057,42 @@ export default function YojanaSamjhauta() {
                                 </Select>
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={bideshDatriSanghRuShramRu}
+                                  onChange={(e) =>
+                                    setBideshDatriSanghRuShramRu(e.target.value)
+                                  }
+                                />
                               </TableCell>
                             </TableRow>
-                            <TableRow key="4">
+                            <TableRow>
                               <TableCell>७.लागत सहभागिताबाट रु.</TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={lagatSahavagitaRuPariman}
+                                  onChange={(e) =>
+                                    setLagatSahavagitaRuPariman(e.target.value)
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={lagatSahavagitaRuSamagrikoNaam}
+                                  onChange={(e) =>
+                                    setLagatSahavagitaRuSamagrikoNaam(
+                                      e.target.value
+                                    )
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
                                 <Select label="" className="max-w-xs" size="sm">
@@ -847,16 +1104,40 @@ export default function YojanaSamjhauta() {
                                 </Select>
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={lagatSahavagitaRuShramRu}
+                                  onChange={(e) =>
+                                    setLagatSahavagitaRuShramRu(e.target.value)
+                                  }
+                                />
                               </TableCell>
                             </TableRow>
-                            <TableRow key="4">
+                            <TableRow>
                               <TableCell>८.अन्य निकायबाट रु.</TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={anyaNikayaRuPariman}
+                                  onChange={(e) =>
+                                    setAnyaNikayaRuPariman(e.target.value)
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={anyaNikayaRuSamagrikoNaam}
+                                  onChange={(e) =>
+                                    setAnyaNikayaRuSamagrikoNaam(e.target.value)
+                                  }
+                                />
                               </TableCell>
                               <TableCell>
                                 <Select label="" className="max-w-xs" size="sm">
@@ -868,7 +1149,15 @@ export default function YojanaSamjhauta() {
                                 </Select>
                               </TableCell>
                               <TableCell>
-                                <Input type="text" label="" size="sm" />
+                                <Input
+                                  type="text"
+                                  label=""
+                                  size="sm"
+                                  value={anyaNikayaRuShramRu}
+                                  onChange={(e) =>
+                                    setAnyaNikayaRuShramRu(e.target.value)
+                                  }
+                                />
                               </TableCell>
                             </TableRow>
                           </TableBody>
@@ -878,22 +1167,32 @@ export default function YojanaSamjhauta() {
                             label="घर परिवार संख्या"
                             size="sm"
                             className="w-40"
-                          ></Input>
+                            value={gharpariwarSankhya}
+                            onChange={(e) =>
+                              setGharpariwarSankhya(e.target.value)
+                            }
+                          />
                           <Input
                             label=" जनसंख्या"
                             size="sm"
                             className="w-40"
-                          ></Input>
+                            value={janaSankhya}
+                            onChange={(e) => setJanaSankhya(e.target.value)}
+                          />
                           <Input
                             label="समुदाय"
                             size="sm"
                             className="w-40"
-                          ></Input>
+                            value={samudaya}
+                            onChange={(e) => setSamudaya(e.target.value)}
+                          />
                           <Input
                             label=" समुदायमा आधारित / गैर सरकारी संस्था"
                             size="sm"
                             className="w-64"
-                          ></Input>
+                            value={samudayaAdharit}
+                            onChange={(e) => setSamudayaAdharit(e.target.value)}
+                          />
                         </div>
                       </div>
                     </div>
@@ -917,7 +1216,13 @@ export default function YojanaSamjhauta() {
                           </SelectItem>
                         ))}
                       </Select>
-                      <Input type="text" label="उपवोक्ता समिति" size="sm" />
+                      <Input
+                        type="text"
+                        label="उपवोक्ता समिति"
+                        size="sm"
+                        value={upavoktaSamiti}
+                        onChange={(e) => setUpavoktaSamiti(e.target.value)}
+                      />
 
                       <form className="flex items-center gap-2 pl-2 sm:p-0">
                         <label htmlFor="date" className="block text-sm">
@@ -926,10 +1231,10 @@ export default function YojanaSamjhauta() {
                         <NepaliDatePicker
                           inputClassName="form-control"
                           className="rounded-lg border p-1"
-                          // value={}
-                          // onChange={(value: string) =>
-                          //   setPrastabSwikritMiti(value)
-                          // }
+                          value={gathanVayekoMiti}
+                          onChange={(value: string) =>
+                            setGathanVayekoMiti(value)
+                          }
                           options={{ calenderLocale: "ne", valueLocale: "en" }}
                         />
                       </form>
@@ -939,44 +1244,88 @@ export default function YojanaSamjhauta() {
                       <div className="flex w-full gap-8">
                         <div className="flex w-full flex-col gap-2">
                           <div className="flex gap-2">
-                            <Input type="text" label="१. अध्यक्ष" size="sm" />
-                            <Input type="text" label="ना.प्र.न." size="sm" />
+                            <Input
+                              type="text"
+                              label="१. अध्यक्ष"
+                              size="sm"
+                              value={adhyakchya}
+                              onChange={(e) => setAdhyakchya(e.target.value)}
+                            />
+                            <Input
+                              type="text"
+                              label="ना.प्र.न."
+                              size="sm"
+                              value={adhyakchyaNaPraNa}
+                              onChange={(e) =>
+                                setAdhyakchyaNaPraNa(e.target.value)
+                              }
+                            />
                           </div>
                           <Input
                             type="text"
                             label="२.उपाध्यक्ष"
                             size="sm"
                             className="w-1/2"
+                            value={upadhyekchya}
+                            onChange={(e) => setUpadhyekchya(e.target.value)}
                           />
                           <div className="flex gap-2">
-                            <Input type="text" label="३. सचिव" size="sm" />
-                            <Input type="text" label="ना.प्र.न." size="sm" />
+                            <Input
+                              type="text"
+                              label="३. सचिव"
+                              size="sm"
+                              value={sachib}
+                              onChange={(e) => setSachib(e.target.value)}
+                            />
+                            <Input
+                              type="text"
+                              label="ना.प्र.न."
+                              size="sm"
+                              value={sachibNaPraNa}
+                              onChange={(e) => setSachibNaPraNa(e.target.value)}
+                            />
                           </div>
                           <div className="flex gap-2">
                             <Input
                               type="text"
                               label="४. कोषाध्यक्ष"
                               size="sm"
+                              value={kosaAdakshya}
+                              onChange={(e) => setKosaAdakshya(e.target.value)}
                             />
-                            <Input type="text" label="ना.प्र.न." size="sm" />
+                            <Input
+                              type="text"
+                              label="ना.प्र.न."
+                              size="sm"
+                              value={kosaAdakshyaNaPraNa}
+                              onChange={(e) =>
+                                setKosaAdakshyaNaPraNa(e.target.value)
+                              }
+                            />
                           </div>
                           <Input
                             type="text"
                             label="५. सदस्य"
                             size="sm"
                             className="w-1/2"
+                            value={sadasyaOne}
+                            onChange={(e) => setSadasyaOne(e.target.value)}
                           />
                           <Input
                             type="text"
                             label="६. सदस्य"
                             size="sm"
                             className="w-1/2"
+                            value={sadasyaTwo}
+                            onChange={(e) => setSadasyaTwo(e.target.value)}
                           />
                           <Input
                             type="text"
                             label="७. सदस्य"
                             size="sm"
                             className="w-1/2"
+                            value={sadasyaThree}
+                            onChange={(e) => setSadasyaThree(e.target.value)}
                           />
                         </div>
                         <div className="flex w-full flex-col gap-2">
@@ -985,40 +1334,56 @@ export default function YojanaSamjhauta() {
                             label="८. सदस्य"
                             size="sm"
                             className="w-1/2"
+                            value={sadasyaFour}
+                            onChange={(e) => setSadasyaFour(e.target.value)}
                           />
                           <Input
                             type="text"
                             label="९. सदस्य"
                             size="sm"
                             className="w-1/2"
+                            value={sadasyaFive}
+                            onChange={(e) => setSadasyaFive(e.target.value)}
                           />
                           <Input
                             type="text"
                             label="१०. सदस्य"
                             size="sm"
                             className="w-1/2"
+                            value={sadasyaSix}
+                            onChange={(e) => setSadasyaSix(e.target.value)}
                           />
                           <Input
                             type="text"
                             label="११. सदस्य"
                             size="sm"
                             className="w-1/2"
+                            value={sadasyaSeven}
+                            onChange={(e) => setSadasyaSeven(e.target.value)}
                           />
                           <Input
                             type="text"
                             label="गठन गर्दा उपस्थित लाभान्वितको संख्या"
                             size="sm"
+                            value={gathanGardaUpastithi}
+                            onChange={(e) =>
+                              setGathanGardaUpastithi(e.target.value)
+                            }
                           />
                           <Input
                             type="text"
                             label="समितिमा जम्मा सदस्य संख्या"
                             size="sm"
+                            value={samitimaJamma}
+                            onChange={(e) => setSamitimaJamma(e.target.value)}
                           />
                           <div className="flex gap-2">
                             <Input
                               type="text"
                               label="महिला सदस्य संख्या"
                               size="sm"
+                              value={mahilaSadasya}
+                              onChange={(e) => setMahilaSadasya(e.target.value)}
                             />
                             <Button color="primary">अनुगमन सदस्य</Button>
                           </div>
@@ -1044,15 +1409,17 @@ export default function YojanaSamjhauta() {
                       <TableColumn className="">कैफियत</TableColumn>
                     </TableHeader>
                     <TableBody>
-                      <TableRow key="1">
+                      <TableRow>
                         <TableCell>पहिलो किस्ता</TableCell>
                         <TableCell>
                           <form className="flex items-center gap-4 ">
                             <NepaliDatePicker
                               inputClassName="form-control"
                               className="rounded-lg border p-1 "
-                              value={date}
-                              onChange={(value: string) => setDate(value)}
+                              value={pahiloKistaMiti}
+                              onChange={(value: string) =>
+                                setPahiloKistaMiti(value)
+                              }
                               options={{
                                 calenderLocale: "ne",
                                 valueLocale: "en",
@@ -1061,27 +1428,61 @@ export default function YojanaSamjhauta() {
                           </form>
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={pahiloKistaPratisad}
+                            onChange={(e) =>
+                              setPahiloKistaPratisad(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={pahiloKistaKistaKoRakam}
+                            onChange={(e) =>
+                              setPahiloKistaKistaKoRakam(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={pahiloKistaNirmanSamagri}
+                            onChange={(e) =>
+                              setPahiloKistaNirmanSamagri(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={pahiloKistaKaifiyat}
+                            onChange={(e) =>
+                              setPahiloKistaKaifiyat(e.target.value)
+                            }
+                          />
                         </TableCell>
                       </TableRow>
-                      <TableRow key="1">
+                      <TableRow>
                         <TableCell>दोश्रो किस्ता</TableCell>
                         <TableCell>
                           <form className="flex items-center gap-4 ">
                             <NepaliDatePicker
                               inputClassName="form-control"
                               className="rounded-lg border p-1 "
-                              value={date}
-                              onChange={(value: string) => setDate(value)}
+                              value={dosroKistaMiti}
+                              onChange={(value: string) =>
+                                setDosroKistaMiti(value)
+                              }
                               options={{
                                 calenderLocale: "ne",
                                 valueLocale: "en",
@@ -1090,27 +1491,61 @@ export default function YojanaSamjhauta() {
                           </form>
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={dosroKistaPratisat}
+                            onChange={(e) =>
+                              setDosroKistaPratisat(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={dosroKistaKistaKoRakam}
+                            onChange={(e) =>
+                              setDosroKistaKistaKoRakam(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={dosroKistaNirmanSamagri}
+                            onChange={(e) =>
+                              setDosroKistaNirmanSamagri(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={dosroKistaKaifiyat}
+                            onChange={(e) =>
+                              setDosroKistaKaifiyat(e.target.value)
+                            }
+                          />
                         </TableCell>
                       </TableRow>
-                      <TableRow key="1">
+                      <TableRow>
                         <TableCell>तेश्रो किस्ता</TableCell>
                         <TableCell>
                           <form className="flex items-center gap-4 ">
                             <NepaliDatePicker
                               inputClassName="form-control"
                               className="rounded-lg border p-1 "
-                              value={date}
-                              onChange={(value: string) => setDate(value)}
+                              value={tesroKistaMiti}
+                              onChange={(value: string) =>
+                                setTesroKistaMiti(value)
+                              }
                               options={{
                                 calenderLocale: "ne",
                                 valueLocale: "en",
@@ -1119,16 +1554,48 @@ export default function YojanaSamjhauta() {
                           </form>
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={tesroKistaPratisat}
+                            onChange={(e) =>
+                              setTesroKistaPratisat(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={tesroKistaKistaKoRakam}
+                            onChange={(e) =>
+                              setTesroKistaKistaKoRakam(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={tesroKistaNirmanSamagri}
+                            onChange={(e) =>
+                              setTesroKistaNirmanSamagri(e.target.value)
+                            }
+                          />
                         </TableCell>
                         <TableCell>
-                          <Input type="text" label="" size="sm" />
+                          <Input
+                            type="text"
+                            label=""
+                            size="sm"
+                            value={tesroKistaKaifiyat}
+                            onChange={(e) =>
+                              setTesroKistaKaifiyat(e.target.value)
+                            }
+                          />
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -1140,6 +1607,8 @@ export default function YojanaSamjhauta() {
                     labelPlacement="outside-left"
                     size="lg"
                     className="font-bold sm:ml-96"
+                    value={jammaRakamRuTwoFour}
+                    onChange={(e) => setJammaRakamRuTwoFour(e.target.value)}
                   />
                   <br />
                   <div>
@@ -1156,28 +1625,40 @@ export default function YojanaSamjhauta() {
                             label="क.मर्मत सम्भारको जिम्मा लिने समिति / संस्थाको नाम"
                             size="sm"
                             className="w-[90%]"
+                            value={marmatSambhar}
+                            onChange={(e) => setMarmatSambhar(e.target.value)}
                           />
                           <div className="flex gap-2">
                             <Input
                               type="text"
                               label="ख. जनश्रमदान (श्रमशक्ति संख्या)"
                               size="sm"
+                              value={janaSramdan}
+                              onChange={(e) => setJanaSramdan(e.target.value)}
                             />
                             <Input
                               type="text"
                               label="ग. दस्तुर, चन्दा रु."
                               size="sm"
+                              value={dastur}
+                              onChange={(e) => setDastur(e.target.value)}
                             />
 
                             <Input
                               type="text"
                               label="घ. ब्याज, अन्य बचत रु."
                               size="sm"
+                              value={byaj}
+                              onChange={(e) => setByaj(e.target.value)}
                             />
                             <Input
                               type="text"
                               label="ङ. लागत सहभागिता वा अनुदानबाट रु."
                               size="sm"
+                              value={lagatSahavagita}
+                              onChange={(e) =>
+                                setLagatSahavagita(e.target.value)
+                              }
                             />
                           </div>
                         </div>
@@ -1197,8 +1678,18 @@ export default function YojanaSamjhauta() {
                     <p className="mt-2 text-blue-600 underline">अन्य शर्तहरु</p>
                     <div className="flex gap-2">
                       <div className="flex w-full flex-col gap-2">
-                        <Textarea className="h-20" placeholder="1" />
-                        <Textarea className="h-20" placeholder="2" />
+                        <Textarea
+                          className="h-20"
+                          placeholder="1"
+                          value={anyaSartHaruOne}
+                          onChange={(e) => setAnyaSartHaruOne(e.target.value)}
+                        />
+                        <Textarea
+                          className="h-20"
+                          placeholder="2"
+                          value={anyaSartHaruTwo}
+                          onChange={(e) => setAnyaSartHaruTwo(e.target.value)}
+                        />
                       </div>
                       <div className="w-full ">
                         <div className="flex gap-2">
