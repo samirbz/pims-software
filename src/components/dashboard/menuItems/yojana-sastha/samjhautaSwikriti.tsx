@@ -23,8 +23,9 @@ import {
   saveYojanaSwikritiTippani,
   getYojanaDartaForSwikriti,
 } from "@/actions/formAction"
-import { samjhautaSwikritiTippaniPDF } from "@/lib/pdfgenerator"
 import { toast } from "react-toastify"
+import PDFGeneratorPage from "@/lib/pdfgen"
+import { samjhautaSwikritiTippaniPDF } from "@/lib/pdfgenerator"
 
 export default function SamjhautaSwikriti() {
   const [aawa, setAawa] = useState("")
@@ -394,6 +395,7 @@ export default function SamjhautaSwikriti() {
                 >
                   Print
                 </Button>
+                <PDFGeneratorPage />
               </div>
             </div>
           </div>
