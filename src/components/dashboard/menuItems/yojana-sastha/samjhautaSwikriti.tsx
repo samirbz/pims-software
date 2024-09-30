@@ -23,6 +23,7 @@ import {
   saveYojanaSwikritiTippani,
   getYojanaDartaForSwikriti,
 } from "@/actions/formAction"
+import PDFGenerator from "@/lib/PDFGenerator"
 import { toast } from "react-toastify"
 
 export default function SamjhautaSwikriti() {
@@ -385,6 +386,7 @@ export default function SamjhautaSwikriti() {
                 <Button
                   color="default"
                   startContent={<FaRegSave />}
+                  onClick={PDFGenerator}
                 >
                   Print
                 </Button>
