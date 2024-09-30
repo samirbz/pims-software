@@ -29,6 +29,6 @@
     "src/app/members/office/user-setup/RegisterForm.tsx",
     "src/app/members/office/user-setup/data.js",
     "src/app/members/office/user-setup/Selects.jsx"
-  ],
+, "src/lib/pdfgenerator.ts"  ],
   "exclude": ["node_modules"]
 }

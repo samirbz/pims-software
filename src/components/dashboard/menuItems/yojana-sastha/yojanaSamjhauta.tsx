@@ -516,6 +516,10 @@ export default function YojanaSamjhauta() {
     }
   }
 
+  const generatePDF = () => {
+
+  }
+
   return (
     <div className="flex w-full justify-center ">
       <div className="flex w-full flex-col ">
@@ -1774,7 +1778,11 @@ export default function YojanaSamjhauta() {
             >
               Save/Update
             </Button>
-            <Button startContent={<FaPrint />} color="primary">
+            <Button
+              startContent={<FaPrint />}
+              onClick={generatePDF}
+              color="primary"
+            >
               Print Doc
             </Button>
           </div>

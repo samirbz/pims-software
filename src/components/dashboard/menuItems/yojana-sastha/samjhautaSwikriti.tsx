@@ -23,6 +23,7 @@ import {
   saveYojanaSwikritiTippani,
   getYojanaDartaForSwikriti,
 } from "@/actions/formAction"
+import { samjhautaSwikritiTippaniPDF } from "@/lib/pdfgenerator"
 import { toast } from "react-toastify"
 
 export default function SamjhautaSwikriti() {
@@ -128,6 +129,10 @@ export default function SamjhautaSwikriti() {
     }
   }
 
+  const generatePDF = () => {
+    samjhautaSwikritiTippaniPDF()
+  }
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -156,7 +161,7 @@ export default function SamjhautaSwikriti() {
       } catch (error) {
         console.error("Error fetching Yojana Darta data:", error)
       } finally {
-        setLoading(false) 
+        setLoading(false)
       }
     }
 
@@ -382,7 +387,11 @@ export default function SamjhautaSwikriti() {
                 >
                   Save
                 </Button>
-                <Button color="default" startContent={<FaRegSave />}>
+                <Button
+                  color="default"
+                  startContent={<FaRegSave />}
+                  onClick={generatePDF}
+                >
                   Print
                 </Button>
               </div>

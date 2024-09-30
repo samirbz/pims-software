@@ -334,3 +334,302 @@ model YojanaSamjhauta {
   yojanaSakhaTarfabata             String
   yojanaSakhaTarfabataChild        String
 }
+
+model KaryaDesh {
+  id                      String @id @default(cuid())
+  patraSankhya            String
+  miti                    String
+  yojanaKaryakramNaam     String
+  ushaSansthaKoNaam       String
+  adashyaKarmaCharikoNaam String
+  lagatAnumanRakam        String
+  nagarpalikaRakama       String
+  contengencyRakam        String
+  khudpauneRakam          String
+  budgetKitabSnum         String
+  ushaGathanmiti          String
+  mukhyaSamitiKoNaam      String
+  sabhaNirnayaMiti        String
+  ayojanaSampannaMiti     String
+  karamcharikoNaam        String
+  karmacharikoPaad        String
+}
+
+model bankKhataSifaris {
+  id               String @id @default(cuid())
+  patraSankhya     String
+  sifarisMiti      String
+  yojanakoNaam     String
+  ushakoNaam       String
+  adasyakoNaam     String
+  kosadasyaKoNaam  String
+  sachibkoNaam     String
+  bankKoNaam       String
+  bankKoSakha      String
+  karmacharikoNaam String
+  karmachariKoPaad String
+}
+
+model bankKhataBandaSifaris {
+  id                     String  @id @default(cuid())
+  patraSankhya           String
+  sifarisMiti            String
+  yojanakoNaam           String
+  yediPuranoAAwaKoYojana Boolean
+  ushakoNaam             String
+  wada                   String
+  bankKhataNum           String
+  bankKoNaam             String
+  bankKoSakha            String
+  karmachariKoNaam       String
+  karmacharikoPaad       String
+}
+
+model peskiBhuktani {
+  id                      String  @id @default(cuid())
+  aawamiti                String
+  karyakramKoNaam         String
+  tippaniMiti             String
+  yojanaKoNaam            String
+  ushaPratinidhi          String
+  khudpauneRakam          String
+  kamgarneSamuha          String
+  upavoktaSamiti          String
+  peskiKista              String
+  karmachariPaad          String
+  bankKhataNaam           String
+  bankKhataNum            String
+  samanikaranAnudan       String
+  yediPuranoAawakoYojana  Boolean
+  peskiKistaRakam         String
+  anyaTipanikoThapBivaran String
+  kullayiRakam            String
+  biniyojitRakam          String
+  khudpauneRakamTwo       String
+  lagatSahavagitaRakam    String
+  contengencyRakam        String
+  marmatSambharRakam      String
+  dharautiRakam           String
+  peskiRakam              String
+  bitiyeSamanikaran       String
+  lagatSahavagitaRakamTwo String
+}
+
+model runningBillBhuktani {
+  id                              String  @id @default(cuid())
+  aawaMiti                        String
+  karaykramKoNaam                 String
+  tippaniMiti                     String
+  yojanaKaryakramKoNaam           String
+  ushaPratinidhi                  String
+  khudPauneRakam                  String
+  peskiRakam                      String
+  ushaKaryalayaKoNaam             String
+  vuktanidineKista                String
+  contengencyPercent              String
+  contengencyResult               String
+  nagarpalikaMulyankanRakam       String
+  mulyankanContengency            String
+  mulyankanLagatSahavagitaRakam   String
+  khudMulyankanRakam              String
+  bankKhataNaam                   String
+  bankKhataNum                    String
+  samanikaranAnudaan              String
+  runningBillRakamRu              String
+  runnignBillmaPeski              Boolean
+  anyaTippaniThap                 String
+  kulLayiRakam                    String
+  biniyojitRakam                  String
+  vuktaniDinuparneRakam           String
+  halSammaBhukataniBhayekoRakam   String
+  vuktaniHunaBakiRakam            String
+  lagatSahavigitaRakam            String
+  contengencyRakam                String
+  marmatRakamRu                   String
+  samanikaranAnudanBiniyojitRakam String
+  samanikaranAnudanVuktaniRakam   String
+  samanikaranAnudanBankiRakam     String
+  agrimAayakarFirst               String
+  agrimAayakarSecond              String
+  SamajitSurakshyaFirst           String
+  SamajitSurakshyaSecond          String
+  bahalKarLagneRakamFirst         String
+  bahalKarLagneRakamSecond        String
+  parisramikKarLagneRakamFirst    String
+  parisramikKarLagneRakamSecond   String
+  akasmikKaarLagneRakamFirst      String
+  akasmikKaarLagneRakamSecond     String
+  mulyaAvibridhiKaarFirst         String
+  mulyaAvibridhiKaarSecond        String
+}
+
+model antimKistaFarfarak {
+  id                              String  @id @default(cuid())
+  gataAawaKramgatYojana           Boolean
+  aawaMiti                        String
+  karaykramKoNaam                 String
+  tippaniMiti                     String
+  yojanaKaryakramKoNaam           String
+  ushaPratinidhi                  String
+  peskiRakam                      String
+  khudpauneVuktaniRakam           String
+  runningBillRakam                String
+  ushaSansthaKoNaam               String
+  jammaMulyankanRakam             String
+  mulyankanContengency            String
+  nagarpalikaMulyankanRakam       String
+  khudMulyankanRakam              String
+  lagatSahavagita                 String
+  bankKoNaam                      String
+  bankKhataNum                    String
+  bitiyeSamanikaran               String
+  dharautiRakamKatti              String
+  dharautiRakamKattiSecond        String
+  marmatSambharKatti              String
+  marmatSambharKattiSecond        String
+  yojanaVautikPragati             String
+  yojanaVautikPragatiSecond       String
+  bhuktaniLineSanstha             Boolean
+  bhuktaniLineByekti              Boolean
+  tippaniAnyaThapBivaranVayema    String
+  kulLayiRakam                    String
+  biniyojitRakam                  String
+  vuktaniDinuparneRakam           String
+  halSammaBhukataniBhayekoRakam   String
+  vuktaniHunaBakiRakam            String
+  lagatSahavigitaRakam            String
+  contengencyRakam                String
+  marmatRakamRu                   String
+  samanikaranAnudanBiniyojitRakam String
+  samanikaranAnudanVuktaniRakam   String
+  samanikaranAnudanBankiRakam     String
+  agrimAayakarFirst               String
+  agrimAayakarSecond              String
+  bahalLagneRakamFirst            String
+  bahalLagneRakamSecond           String
+  samajikSurakshyaKarRakamFirst   String
+  samajikSurakshyaKarRakamSecond  String
+  parishramikKarLagneRakamFirst   String
+  parishramikKarLagneRakamSecond  String
+  akasmikKarLagneRakamFirst       String
+  akasmikKarLagneRakamSecond      String
+  mulyaAbhibridhikaarFirst        String
+  mulyaAbhibridhikaarSecond       String
+  bilbaSulkaFirst                 String
+  bilbaSulkaSecond                String
+  royaltibapatKattiRakam          String
+}
+
+model sasthaAnudanTippani {
+  id                             String  @id @default(cuid())
+  aawaMiti                       String
+  karyakramKoNaam                String
+  tippaniMiti                    String
+  yojanaKoNaam                   String
+  pratinidhiKarmachariKoNaam     String
+  khudpauneRakam                 String
+  kamgarneSamuha                 String
+  sasthaKaryalayaKoNaam          String
+  karamchariPaad                 String
+  bankKoNaam                     String
+  bankKhataNum                   String
+  bitiyeSamanikaran              String
+  anyaTippaniThapBivaran         String
+  kistaRakamRu                   String
+  kulLayiRakam                   String
+  biniyojitRakam                 String
+  vuktaniRakam                   String
+  lagatSahavagitaRakam           String
+  contengencyRakam               String
+  marmatSambharRakam             String
+  dharautiRakam                  String
+  bitiyeSamanikaranSecond        String
+  lagatSahavagitaRakamSecond     String
+  agrimAayekarLagneRakam         String
+  agrimAayekarLagneRakamSecond   String
+  samajikSurakhchyaKar           String
+  samajikSurakhchyaKarSecond     String
+  bahalKarLagneRakam             String
+  bahalKarLagneRakamSecond       String
+  parisramikKarLagneRakam        String
+  parisramikKarLagneRakamSecond  String
+  akasmikKarlagneRakam           String
+  akasmikKarlagneRakamSecond     String
+  mulyaAbhibridhiKaarRakam       String
+  mulyaAbhibridhiKaarRakamSecond String
+  tippaniBibavarn                Boolean
+}
+
+model vuktaniKarobarkoSifaris {
+  id                       String  @id @default(cuid())
+  awaMiti                  String
+  sifarisMiti              String
+  yojanaKoNaam             String
+  wada                     String
+  biniyojitRakamRu         String
+  mulyankanRakam           String
+  karobarRakam             String
+  checkAll                 Boolean
+  one                      Boolean
+  two                      Boolean
+  three                    Boolean
+  four                     Boolean
+  five                     Boolean
+  six                      Boolean
+  seven                    Boolean
+  eight                    Boolean
+  nine                     Boolean
+  ten                      Boolean
+  eleven                   Boolean
+  twelve                   Boolean
+  thirteen                 Boolean
+  fourteen                 Boolean
+  fifteen                  Boolean
+  sixteen                  Boolean
+  seventeen                Boolean
+  eighteen                 Boolean
+  nineeen                  Boolean
+  twenty                   Boolean
+  twentyone                Boolean
+  sifarisPatraMathiKarbahi String
+  sanyojak                 String
+  sadasyaOne               String
+  sadasyaTwo               String
+  sadasyaThree             String
+  sadasyaFour              String
+  baUSiNa                  String
+  kharchaSirsakNum         String
+  ushaRaAnumaanSamitimiti  String
+  padakariKarmachari       String
+}
+
+model upavoktaDartaPramanpatra {
+  id                           String @id @default(cuid())
+  dartaNum                     String
+  miti                         String
+  yojanakoNaam                 String
+  ushaKoNaam                   String
+  adashyaKoNaam                String
+  adashyaKoMobileNum           String
+  kosadasyaKoNaam              String
+  kosadasyaKoMobileNumber      String
+  sachiboaKoNaam               String
+  sachiboaKoMobileNumber       String
+  swikritiDineKarmacharikoNaam String
+  karamchariKoPaad             String
+}
+
+model myadthapPatra {
+  id                       String @id @default(cuid())
+  aawaMiti                 String
+  yediPuranoAawakoYojanan  String
+  miti                     String
+  yojanaKaryakramKoNaam    String
+  ushaSasthaKoNaam         String
+  adashyakoNaam            String
+  aayojanaSampannaHuneMiti String
+  myadThapHuneAntimMiti    String
+  nibedanPraptaVayekoMiti  String
+  karmachariNaam           String
+  karmachariPaad           String
+}
