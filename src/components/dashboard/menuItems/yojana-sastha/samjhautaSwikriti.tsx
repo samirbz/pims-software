@@ -24,8 +24,6 @@ import {
   getYojanaDartaForSwikriti,
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
-import PDFGeneratorPage from "@/lib/pdfgen"
-import { samjhautaSwikritiTippaniPDF } from "@/lib/pdfgenerator"
 
 export default function SamjhautaSwikriti() {
   const [aawa, setAawa] = useState("")
@@ -128,10 +126,6 @@ export default function SamjhautaSwikriti() {
     } else {
       console.error("Error occurred during save")
     }
-  }
-
-  const generatePDF = () => {
-    samjhautaSwikritiTippaniPDF()
   }
 
   useEffect(() => {
@@ -391,11 +385,9 @@ export default function SamjhautaSwikriti() {
                 <Button
                   color="default"
                   startContent={<FaRegSave />}
-                  onClick={generatePDF}
                 >
                   Print
                 </Button>
-                <PDFGeneratorPage />
               </div>
             </div>
           </div>

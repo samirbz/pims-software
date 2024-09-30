@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "prisma generate && prisma db push --force-reset && next build"
+    "vercel-build": "prisma generate && prisma db push --accept-data-loss && next build"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -18,12 +18,10 @@
     "@hookform/resolvers": "^3.9.0",
     "@nextui-org/react": "^2.4.2",
     "@prisma/client": "^5.16.2",
-    "@react-pdf/renderer": "^4.0.0",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.3",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.2",
-    "jspdf": "^2.5.2",
     "nepali-datepicker-reactjs": "^1.1.7",
     "nepali-datetime": "^1.2.1",
     "next": "14.2.5",
