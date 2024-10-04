@@ -1369,7 +1369,7 @@ export default function YojanaDarta() {
             <Input
               type="Number"
               label={
-                karyagatSamuha === "उपभोक्ता समिति"
+                karyagatSamuha === "उपभोक्ता समिति" || karyagatSamuha === ""
                   ? "प्राविधिक इस्टिमेट रकम रु."
                   : "प्रस्तावित रकम "
               }
@@ -1408,7 +1408,6 @@ export default function YojanaDarta() {
               size="sm"
               className="w-full sm:w-1/2"
               value={biniyojitRakam}
-              readOnly
             />
             <Select
               label="योजना स्वीकृत"
