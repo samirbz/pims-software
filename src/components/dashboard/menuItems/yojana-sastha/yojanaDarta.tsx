@@ -488,12 +488,17 @@ export default function YojanaDarta() {
       toast.error("duplicate yojana ko naam in same woda")
       return
     }
+    console.log(totalBudget)
 
     setBiniyojitRakam(totalSum.toString())
-    const checkAmount = Number(biniyojitRakam) > Number(totalBudget)
-    if (checkAmount) {
-      toast.error("Lagat srot Amount is greater than budget")
-      return
+    const checkAmount = Number(prabidhikEstimateAmount) < Number(biniyojitRakam)
+    if (karyagatSamuha === "उपभोक्ता समिति") {
+      if (checkAmount) {
+        toast.error(
+          "prabidik estimate amount is less than total biniyojit amount"
+        )
+        return
+      }
     }
     const result = await saveYojanaDarta(
       sabhaNirnayaMiti,
