@@ -63,9 +63,8 @@ const qtyDataList = [
 const karyagatSamuhaList = [
   { key: "1", label: "उपभोक्ता समिति" },
   { key: "2", label: "व्यक्तिगत " },
-  { key: "3", label: "संस्थागत" },
-  { key: "4", label: "संस्थागत " },
-  { key: "5", label: "अनुदान" },
+  { key: "3", label: "संस्थागत " },
+  { key: "4", label: "अनुदान" },
 ]
 const yojanaKoKisimList = [
   { key: "1", label: "अनुदान (गाउँ/नगरपालिका)" },
