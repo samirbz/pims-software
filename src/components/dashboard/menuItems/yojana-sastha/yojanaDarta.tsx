@@ -966,9 +966,7 @@ export default function YojanaDarta() {
               onChange={(e) => {
                 fetchYojanaNaam(e.target.value)
               }}
-              endContent={
-                loading && <Spinner color="primary" className="mb-36" />
-              }
+              endContent={loading && <Spinner color="primary" />}
               placeholder="Select an option" // Optional: if you want a placeholder
               selectedKeys={yojanaKoWada ? new Set([yojanaKoWada]) : new Set()} // Binding the selected value
               onSelectionChange={(keys) => {
@@ -1056,6 +1054,7 @@ export default function YojanaDarta() {
               const selectedValue = Array.from(keys).join(", ")
               setMukhyaSamiti(selectedValue)
             }}
+            startContent={loading && <Spinner color="primary" />}
           >
             {mukhyaSamitiData.map((item) => (
               <SelectItem key={item.mukhyaSamitiKoNaam}>
@@ -1083,6 +1082,7 @@ export default function YojanaDarta() {
                   setAnudanKoNaam(selectedValue)
                   setShowLoadingLagatSrot1(true)
                 }}
+                startContent={loading && <Spinner color="primary" />}
               >
                 {aunudaanKisimData.map((item) => (
                   <SelectItem key={item.anudaanKoNaam}>
@@ -1284,6 +1284,7 @@ export default function YojanaDarta() {
               const selectedValue = Array.from(keys).join(", ")
               setYojanaUpachetra(selectedValue)
             }}
+            startContent={loading && <Spinner color="primary" />}
           >
             {ayojanaUpachetraData.map((item) => (
               <SelectItem key={item.yojanaPrakar}>
