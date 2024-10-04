@@ -1368,7 +1368,11 @@ export default function YojanaDarta() {
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
               type="Number"
-              label="प्राविधिक इस्टिमेट रकम रु."
+              label={
+                karyagatSamuha === "उपभोक्ता समिति"
+                  ? "प्राविधिक इस्टिमेट रकम रु."
+                  : "प्रस्तावित रकम "
+              }
               size="sm"
               className="w-full sm:w-1/2"
               // onChange={(e) => {
