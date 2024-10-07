@@ -24,7 +24,7 @@ import {
   getYojanaDartaForSwikriti,
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
-import PDFGenerator from "@/lib/PDFGenerator"
+import SamjhautaSwikritiPrint from "@/lib/print/PrintSamjhautaSwikrit"
 
 export default function SamjhautaSwikriti() {
   const [aawa, setAawa] = useState("")
@@ -386,7 +386,7 @@ export default function SamjhautaSwikriti() {
                 <Button
                   color="default"
                   startContent={<FaRegSave />}
-                  onClick={() => PDFGenerator("sameer")}
+                  onClick={() => SamjhautaSwikritiPrint("sameer")}
                 >
                   Print
                 </Button>
