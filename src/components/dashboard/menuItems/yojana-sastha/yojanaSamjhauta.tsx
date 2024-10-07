@@ -26,6 +26,7 @@ import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { saveYojanaSamjhauta } from "@/actions/formAction"
 import { toast } from "react-toastify"
+import yojanaSamjhautaPrint from "@/lib/print/PrintYojanaSamjhauta"
 
 const Content = () => (
   <div>
@@ -514,10 +515,6 @@ export default function YojanaSamjhauta() {
     } else {
       console.error("Error occurred during save")
     }
-  }
-
-  const generatePDF = () => {
-
   }
 
   return (
@@ -1780,7 +1777,7 @@ export default function YojanaSamjhauta() {
             </Button>
             <Button
               startContent={<FaPrint />}
-              onClick={generatePDF}
+              onClick={() => yojanaSamjhautaPrint("test")}
               color="primary"
             >
               Print Doc
