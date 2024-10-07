@@ -386,7 +386,7 @@ export default function SamjhautaSwikriti() {
                 <Button
                   color="default"
                   startContent={<FaRegSave />}
-                  onClick={() => SamjhautaSwikritiPrint("sameer")}
+                  onClick={() => SamjhautaSwikritiPrint("yojana ko naam")}
                 >
                   Print
                 </Button>
