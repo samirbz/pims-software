@@ -7,9 +7,20 @@ const openPrintWindow = (htmlContent: string) => {
 
   if (printWindow) {
     printWindow.document.write(`
-      <html>
+     <html>
         <head>
           <title>Print</title>
+          <style>
+            @media print {
+              body {
+                margin: 0;
+                padding: 0;
+              }
+              header, footer {
+                display: none !important;
+              }
+            }
+          </style>
         </head>
         <body>
           ${htmlContent}
@@ -55,16 +66,22 @@ const printContent = async (yojanaKoNaam: any) => {
 
   // Sample HTML content to print
   const htmlContent = `
-    <div style="text-align: center;">
-      <img src="${imageDataUrl}" alt="Logo" style="width: 115px; height: 95px;" />
-      <p style="font-size:1.5rem;">शुद्धोधन गाउँपालिका</p>
-      <p style="font-size:1.5rem;">गाउँ कार्यपालिकाको कार्यालय</p>
-      <p style="font-size:1.3rem;">मानपकडी, रुपन्देही</p>
-      <p style="font-size:1.3rem;">लुम्बिनी प्रदेश नेपाल</p>
-      <p style="margin: 0; text-align: right;">मितिः 2081/6/12</p>
-      <p style="margin: 0; text-align: center; flex: 1;">विषयः-योजना/कार्यक्रमको सम्झौता सम्बन्धमा ।</p>
-      <h2><u style="text-underline-offset: 8px;">टिप्पणी र आदेश</u></h2>
-    </div>
+<div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+  <div style="text-align: center;">
+    <img src="${imageDataUrl}" alt="Logo" style="width: 115px; height: 95px;" />
+  </div>
+  <div style="text-align: center; margin-right:40%;">
+    <p style="font-size: 1rem; line-height: 0.6;">शुद्धोधन गाउँपालिका</p>
+    <p style="font-size: 0.8rem; line-height: 0.6;">गाउँ कार्यपालिकाको कार्यालय</p>
+    <p style="font-size: 0.8rem; line-height: 0.6;">मानपकडी, रुपन्देही</p>
+    <p style="font-size: 0.8rem; line-height: 0.6;">लुम्बिनी प्रदेश नेपाल</p>
+  </div>
+</div>
+
+  <p style="margin: 0; text-align: right;font-size: 0.8rem;">मितिः 2081/6/12</p>
+  <p style="margin: 0; text-align: center; font-size: 0.8rem;">विषयः-योजना/कार्यक्रमको सम्झौता सम्बन्धमा ।</p>
+  <h3 style=" text-align:center;"><u style="text-underline-offset: 8px;">टिप्पणी र आदेश</u></h3>
+   
     <div style="margin-top: 20px;">
       <p>श्रीमान,</p>
       <p>&nbsp; &nbsp;&nbsp; &nbsp;  चालु आ.ब. 2080/81 को लागि yojana chanot nikaya बाट स्वीकृत बार्षिक योजना तथा कार्यक्रम अन्तर्गत mukhya samiti तर्फको सि.नं. 32 मा ${yojanaKoNaam} वडा नं. 8 का लागि budget karyakram 3 रु.1000.00  रु.2000.00 गरि जम्मा रु.3000.00   विनियोजन भएको छ ।</p>

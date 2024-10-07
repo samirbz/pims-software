@@ -10,6 +10,17 @@ const openPrintWindow = (htmlContent: string) => {
       <html>
         <head>
           <title>Print</title>
+          <style>
+            @media print {
+              body {
+                margin: 0;
+                padding: 0;
+              }
+              header, footer {
+                display: none !important;
+              }
+            }
+          </style>
         </head>
         <body>
           ${htmlContent}
