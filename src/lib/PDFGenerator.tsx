@@ -11,10 +11,9 @@ import {
   AlignmentType,
   WidthType,
   VerticalAlign,
-  BorderStyle,
 } from "docx"
 
-const PDFGenerator = async () => {
+const PDFGenerator = async (yojanaKoNaam: any) => {
   // Fetch the image from the public directory
   const imagePath = "/images/gov-logo.png"
   const blob = await fetch(imagePath).then((r) => r.blob())
@@ -28,135 +27,38 @@ const PDFGenerator = async () => {
       {
         properties: {},
         children: [
-          // Table for left-side image and right-side text
-          new Table({
-            rows: [
-              new TableRow({
-                children: [
-                  // Left side: Image
-                  new TableCell({
-                    borders: {
-                      top: {
-                        style: BorderStyle.NONE,
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                      bottom: {
-                        style: BorderStyle.NONE,
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                      left: {
-                        style: BorderStyle.NONE,
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                      right: {
-                        style: BorderStyle.NONE,
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                    },
+          new Paragraph({
+            children: [
+              new ImageRun({
+                data: uint8Array,
+                transformation: {
+                  width: 115,
+                  height: 95,
+                },
+                floating: {
+                  horizontalPosition: {
+                    offset: 900000,
+                  },
+                  verticalPosition: {
+                    offset: 1014400,
+                  },
 
-                    children: [
-                      new Paragraph({
-                        children: [
-                          new ImageRun({
-                            data: uint8Array,
-                            transformation: {
-                              width: 110, // Adjust width and height to match the logo size
-                              height: 90,
-                            },
-                          }),
-                        ],
-                      }),
-                    ],
-                    verticalAlign: VerticalAlign.CENTER,
-                    width: { size: 15, type: WidthType.PERCENTAGE }, // Image column width
-                  }),
-
-                  // Right side: Heading and text
-                  new TableCell({
-                    borders: {
-                      top: {
-                        style: BorderStyle.NONE,
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                      bottom: {
-                        style: BorderStyle.NONE,
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                      left: {
-                        style: BorderStyle.NONE,
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                      right: {
-                        style: BorderStyle.NONE,
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                    },
-                    children: [
-                      new Paragraph({
-                        children: [
-                          new TextRun({
-                            text: "                          शुद्धोधन गाउँपालिका",
-                            size: 32,
-                          }),
-                        ],
-                        alignment: AlignmentType.LEFT,
-                      }),
-                      new Paragraph({
-                        children: [
-                          new TextRun({
-                            text: "                      गाउँ कार्यपालिकाको कार्यालय",
-                            size: 32,
-                          }),
-                        ],
-                        alignment: AlignmentType.LEFT,
-                      }),
-                      new Paragraph({
-                        children: [
-                          new TextRun({
-                            text: "                           मानपकडी, रुपन्देही",
-                            size: 32,
-                          }),
-                        ],
-                        alignment: AlignmentType.LEFT,
-                      }),
-                      new Paragraph({
-                        children: [
-                          new TextRun({
-                            text: "                         लुम्बिनी प्रदेश, नेपाल",
-                            size: 32,
-                          }),
-                        ],
-                        alignment: AlignmentType.LEFT,
-                      }),
-                    ],
-                    verticalAlign: VerticalAlign.CENTER,
-                    width: { size: 85, type: WidthType.PERCENTAGE },
-                  }),
-                ],
+                  margins: {
+                    top: 201440,
+                    bottom: 201440,
+                  },
+                },
               }),
             ],
           }),
 
-          // Spacing
-          new Paragraph({
-            children: [new TextRun(" ")],
-          }),
-
-          // Title Section
           new Paragraph({
             children: [
               new TextRun({
-                text: "विषय: योजना/कार्यक्रमको सन्दर्भमा सम्झौता |",
-                bold: true,
-                size: 28,
+                text: "शुद्धोधन गाउँपालिका",
+                size: 24,
+                noProof: true,
+                font: "Arial Unicode MS",
               }),
             ],
             alignment: AlignmentType.CENTER,
@@ -164,15 +66,60 @@ const PDFGenerator = async () => {
           new Paragraph({
             children: [
               new TextRun({
-                text: "टिप्पणी र आदेश",
-                bold: true,
-                size: 40,
+                text: "गाउँ कार्यपालिकाको कार्यालय",
+                size: 24,
+                noProof: true,
+                font: "Arial Unicode MS",
+              }),
+            ],
+            alignment: AlignmentType.CENTER,
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "मानपकडी, रुपन्देही",
+                size: 24,
+                font: "Arial Unicode MS",
+                noProof: true,
+              }),
+            ],
+            alignment: AlignmentType.CENTER,
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "लुम्बिनी प्रदेश नेपाल",
+                size: 24,
+                font: "Arial Unicode MS",
+                noProof: true,
               }),
             ],
             alignment: AlignmentType.CENTER,
           }),
 
-          // Table for Date and Reference Number
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "मितिः  2081/6/12",
+                size: 24,
+                noProof: true,
+                font: "Arial Unicode MS",
+              }),
+            ],
+            alignment: AlignmentType.RIGHT,
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "विषयः-योजना/कार्यक्रमको सम्झौता सम्बन्धमा ।",
+                size: 24,
+                noProof: true,
+                font: "Arial Unicode MS",
+              }),
+            ],
+            alignment: AlignmentType.CENTER,
+          }),
+
           new Table({
             width: {
               size: 100,
@@ -182,108 +129,78 @@ const PDFGenerator = async () => {
               new TableRow({
                 children: [
                   new TableCell({
+                    verticalAlign: VerticalAlign.CENTER,
                     children: [
                       new Paragraph({
+                        alignment: AlignmentType.CENTER,
                         children: [
                           new TextRun({
-                            text: "श्रीमान,",
-                            size: 24,
+                            text: "टिप्पणी र आदेश",
+                            bold: true,
+                            size: 36,
+                            noProof: true,
+                            font: "Arial Unicode MS",
                           }),
                         ],
                       }),
                     ],
-                  }),
-                  new TableCell({
-                    children: [
-                      new Paragraph({
-                        children: [
-                          new TextRun({
-                            text: "मिति: २०८१/६/१२",
-                            size: 24,
-                          }),
-                        ],
-                      }),
-                    ],
-                    width: {
-                      size: 50,
-                      type: WidthType.PERCENTAGE,
-                    },
                   }),
                 ],
               }),
             ],
           }),
 
-          // Spacing
-          new Paragraph({
-            children: [new TextRun(" ")],
-          }),
-
-          // Main Paragraph with Bold and Regular Text
-          new Paragraph({
-            children: [
-              new TextRun("चारू आ.व. २०८०/८१ को लागि "),
-              new TextRun({
-                text: "योजना छनोट निकाय",
-                bold: true,
-                highlight: "yellow",
-              }),
-              new TextRun(" बाट स्वीकृत वार्षिक योजना तथा कार्यक्रम अन्तर्गत "),
-              new TextRun({
-                text: "मुख्य समिति",
-                bold: true,
-                highlight: "yellow",
-              }),
-              new TextRun({
-                text: " बैठकले सि.नं. २३ मा योजना को नाम second वडा नं. ६ का लागि ",
-                bold: true,
-                highlight: "yellow",
-              }),
-              new TextRun({
-                text: "budget कार्यक्रम रु. १०००.०० रु. २०००.०० गरि जम्मा रु. ३०००.००",
-                bold: true,
-                highlight: "yellow",
-              }),
-              new TextRun(" विनियोजन भएको छ ।"),
-            ],
-          }),
-
-          // Additional text from the image
           new Paragraph({
             children: [
               new TextRun({
-                text: "उक्त योजना कार्यान्वयनको लागि योजना बाट सदस्य लगायत उपभोक्ताहरुको बैठक योजना स्थलगत जनप्रतिनिधि/कर्मचारीको उपस्थितिमा मिति २०८१/६/१० मा जनताको उपभोक्ता समितिका अध्यक्ष/सचिव/कोषाध्यक्ष पदमा १ जना महिला सहित ०.०० प्रतिशत महिला सदस्यको भएको जनताको उपभोक्ता समितिको गठन भएको देखिन्छ ।",
-              }),
-            ],
-          }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "सल्लाहकार २ जनाको योजनागत अनुगमन समिति समेत गठन भएको देखिन्छ। उक्त समितिको बैठकको निर्णयक प्रतिवेदन र समितिका सबै सदस्यहरुको नागरिकता प्रमाण पत्रको प्रतिलिपिहरुसंगै राजिनामा सहितको लागि उपभोक्ता समितिबाट मिति २०८१/६/१२ गते निवेदन प्राप्त भएको छ ।",
-              }),
-            ],
-          }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "उक्त योजनाको लागि आवश्यक शर्ताबाध्यताहरु सम्बन्धित र जिम्मेवार सहित रु. २,०००.०० को राजग सम्बन्धानुसार पेश भए बमोजिम प्रमाण सम्वन्धमा बिना निर्णय पेश गर्न रोकिएको छ ।",
+                text: "श्रीमान,",
+                noProof: true,
+                size: 24,
+                font: "Arial Unicode MS",
               }),
             ],
           }),
 
-          // Signature Area
           new Paragraph({
             children: [
-              new TextRun("तयार गर्ने"),
-              new TextRun("                पेश गर्ने"),
+              new TextRun({
+                text: "\tचालु आ.ब. 2080/81 को लागि yojana chanot nikaya बाट स्वीकृत बार्षिक योजना तथा कार्यक्रम अन्तर्गत mukhya samiti तर्फको सि.नं. 32 मा yojana ko naam second वडा नं. 8 का लागि budget karyakram 3 रु.1000.00  रु.2000.00 गरि जम्मा रु.3000.00   विनियोजन भएको छ ।",
+                noProof: true,
+                size: 24,
+                font: "Arial Unicode MS",
+              }),
             ],
-            alignment: AlignmentType.CENTER,
           }),
 
-          // Footer text
           new Paragraph({
-            children: [new TextRun("सदर गर्ने")],
-            alignment: AlignmentType.RIGHT,
+            children: [
+              new TextRun({
+                text: "\tउक्त योजना कार्यान्वयनको लागि योजना बाट सदस्य लगायत उपभोक्ताहरुको बैठक योजना स्थलगत जनप्रतिनिधि/कर्मचारीको उपस्थितिमा मिति २०८१/६/१० मा जनताको उपभोक्ता समितिका अध्यक्ष/सचिव/कोषाध्यक्ष पदमा १ जना महिला सहित ०.०० प्रतिशत महिला सदस्यको भएको जनताको उपभोक्ता समितिको गठन भएको देखिन्छ ।",
+                noProof: true,
+                size: 24,
+                font: "Arial Unicode MS",
+              }),
+            ],
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "\tहाल सम्झौताको लागि 8 नं वडा कार्यालयको सिफारिस पत्र, उपभोक्ता भेलाको उपस्थिति र निर्णय, उपभोक्ता समितिको बैठकको निर्णयको प्रतिलिपिहरु र समितिका सबै सदस्यहरुको नागरीकता प्रमाण पत्रको प्रतिलिपिहरु संलग्न राखि सम्झौताको लागि उपभोक्ता समितिबाट मिति 2081/6/12 गते निवेदन प्राप्त भएको छ ।",
+                noProof: true,
+                size: 24,
+                font: "Arial Unicode MS",
+              }),
+            ],
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "\tसो योजनाको लागि प्राविधिक शाखाबाट कन्टेन्जेन्सी र जनश्रमदान सहित रु. 3,000.00 को लागत अनुमान संग्लन भई पेश हुन आएकोले, लागत अनुमान अनुसारको कार्य सो योजनामा स्वीकृत बजेटबाट सम्पन्न गर्ने गरी उक्त योजना कार्यान्वयनको लागि गठित उपभोक्ता समितिसँग सम्झौता गरी कार्यादेश दिन निर्णयार्थ पेश गरेको छु ।",
+                noProof: true,
+                size: 24,
+                font: "Arial Unicode MS",
+              }),
+            ],
           }),
         ],
       },

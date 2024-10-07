@@ -386,7 +386,7 @@ export default function SamjhautaSwikriti() {
                 <Button
                   color="default"
                   startContent={<FaRegSave />}
-                  onClick={PDFGenerator}
+                  onClick={() => PDFGenerator("sameer")}
                 >
                   Print
                 </Button>
