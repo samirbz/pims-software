@@ -79,24 +79,24 @@ const printContent = async (yojanaKoNaam: any) => {
 </div>
 
   <p style="margin: 0; text-align: right;font-size: 0.8rem;">मितिः 2081/6/12</p>
-  <p style="margin: 0; text-align: center; font-size: 0.8rem;">विषयः-योजना/कार्यक्रमको सम्झौता सम्बन्धमा ।</p>
+  <h3 style="margin: 0; text-align: center; font-size: 1rem;">विषयः-योजना/कार्यक्रमको सम्झौता सम्बन्धमा ।</h3>
   <h3 style=" text-align:center;"><u style="text-underline-offset: 8px;">टिप्पणी र आदेश</u></h3>
    
     <div style="margin-top: 20px;">
-      <p>श्रीमान,</p>
-      <p>&nbsp; &nbsp;&nbsp; &nbsp;  चालु आ.ब. 2080/81 को लागि yojana chanot nikaya बाट स्वीकृत बार्षिक योजना तथा कार्यक्रम अन्तर्गत mukhya samiti तर्फको सि.नं. 32 मा ${yojanaKoNaam} वडा नं. 8 का लागि budget karyakram 3 रु.1000.00  रु.2000.00 गरि जम्मा रु.3000.00   विनियोजन भएको छ ।</p>
-      <p>&nbsp; &nbsp;&nbsp; &nbsp;  उक्त योजना कार्यान्वयनको लागि योजना बाट सदस्य लगायत उपभोक्ताहरुको बैठक योजना स्थलगत जनप्रतिनिधि/कर्मचारीको उपस्थितिमा मिति २०८१/६/१० मा जनताको उपभोक्ता समितिका अध्यक्ष/सचिव/कोषाध्यक्ष पदमा १ जना महिला सहित ०.०० प्रतिशत महिला सदस्यको भएको जनताको उपभोक्ता समितिको गठन भएको देखिन्छ ।
-      <p>&nbsp; &nbsp;&nbsp; &nbsp;  हाल सम्झौताको लागि 8 नं वडा कार्यालयको सिफारिस पत्र, उपभोक्ता भेलाको उपस्थिति र निर्णय, उपभोक्ता समितिको बैठकको निर्णयको प्रतिलिपिहरु र समितिका सबै सदस्यहरुको नागरीकता प्रमाण पत्रको प्रतिलिपिहरु संलग्न राखि सम्झौताको लागि उपभोक्ता समितिबाट मिति 2081/6/12 गते निवेदन प्राप्त भएको छ ।</p>
-      <p>&nbsp; &nbsp;&nbsp; &nbsp;  सो योजनाको लागि प्राविधिक शाखाबाट कन्टेन्जेन्सी र जनश्रमदान सहित रु. 3,000.00 को लागत अनुमान संग्लन भई पेश हुन आएकोले, लागत अनुमान अनुसारको कार्य सो योजनामा स्वीकृत बजेटबाट सम्पन्न गर्ने गरी उक्त योजना कार्यान्वयनको लागि गठित उपभोक्ता समितिसँग सम्झौता गरी कार्यादेश दिन निर्णयार्थ पेश गरेको छु ।</p>
+      <p style="font-size: 0.8rem;">श्रीमान,</p>
+      <p style="font-size: 0.8rem;">&nbsp; &nbsp;&nbsp; &nbsp;  चालु आ.ब. 2080/81 को लागि yojana chanot nikaya बाट स्वीकृत बार्षिक योजना तथा कार्यक्रम अन्तर्गत mukhya samiti तर्फको सि.नं. 32 मा ${yojanaKoNaam} वडा नं. 8 का लागि budget karyakram 3 रु.1000.00  रु.2000.00 गरि जम्मा रु.3000.00   विनियोजन भएको छ ।</p>
+      <p  style="font-size: 0.8rem;">&nbsp; &nbsp;&nbsp; &nbsp;  उक्त योजना कार्यान्वयनको लागि योजना बाट सदस्य लगायत उपभोक्ताहरुको बैठक योजना स्थलगत जनप्रतिनिधि/कर्मचारीको उपस्थितिमा मिति २०८१/६/१० मा जनताको उपभोक्ता समितिका अध्यक्ष/सचिव/कोषाध्यक्ष पदमा १ जना महिला सहित ०.०० प्रतिशत महिला सदस्यको भएको जनताको उपभोक्ता समितिको गठन भएको देखिन्छ ।
+      <p  style="font-size: 0.8rem;">&nbsp; &nbsp;&nbsp; &nbsp;  हाल सम्झौताको लागि 8 नं वडा कार्यालयको सिफारिस पत्र, उपभोक्ता भेलाको उपस्थिति र निर्णय, उपभोक्ता समितिको बैठकको निर्णयको प्रतिलिपिहरु र समितिका सबै सदस्यहरुको नागरीकता प्रमाण पत्रको प्रतिलिपिहरु संलग्न राखि सम्झौताको लागि उपभोक्ता समितिबाट मिति 2081/6/12 गते निवेदन प्राप्त भएको छ ।</p>
+      <p  style="font-size: 0.8rem;">&nbsp; &nbsp;&nbsp; &nbsp;  सो योजनाको लागि प्राविधिक शाखाबाट कन्टेन्जेन्सी र जनश्रमदान सहित रु. 3,000.00 को लागत अनुमान संग्लन भई पेश हुन आएकोले, लागत अनुमान अनुसारको कार्य सो योजनामा स्वीकृत बजेटबाट सम्पन्न गर्ने गरी उक्त योजना कार्यान्वयनको लागि गठित उपभोक्ता समितिसँग सम्झौता गरी कार्यादेश दिन निर्णयार्थ पेश गरेको छु ।</p>
      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 80px;">
   <div style="text-align: center;">
-    <p style="margin: 0; border-top: 1px solid black; width: 120px; padding-top: 10px;">तयार गर्ने</p>
+    <p style="margin: 0; border-top: 1px solid black; width: 120px; padding-top: 10px; font-size: 0.8rem;">तयार गर्ने</p>
   </div>
   <div style="text-align: center;">
-    <p style="margin: 0; border-top: 1px solid black; width: 120px; padding-top: 10px;">पेश गर्ने</p>
+    <p style="margin: 0; border-top: 1px solid black; width: 120px; padding-top: 10px; font-size: 0.8rem;">पेश गर्ने</p>
   </div>
   <div style="text-align: center;">
-    <p style="margin: 0; border-top: 1px solid black; width: 120px; padding-top: 10px;">सदर गर्ने</p>
+    <p style="margin: 0; border-top: 1px solid black; width: 120px; padding-top: 10px; font-size: 0.8rem;">सदर गर्ने</p>
   </div>
 </div>
 
