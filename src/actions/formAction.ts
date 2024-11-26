@@ -216,7 +216,6 @@ export async function deleteAnudaanKoNaam(id: string) {
 
 export async function editAnudaanKoNaam(id: string, anudaanKoNaam: string) {
   try {
-    // Update the record in the database
     const updatedRecord = await prisma.anudaanKoNaam.update({
       where: {
         id,
