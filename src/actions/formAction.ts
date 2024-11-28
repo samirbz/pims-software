@@ -1465,13 +1465,87 @@ export async function fetchDataByYojanaKaryaKramKoNaam(
       },
     })
 
-    return { status: "success", data }
+    if (data && data.length > 0) {
+      return { status: "success", data }
+    } else {
+      return { status: "error", error: "No records found" }
+    }
   } catch (error) {
     console.error("Error fetching data:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
 
+export async function updateYojanaSwikritiTippani(
+  aawa: string,
+  miti: string,
+  yojanaKaryaKramKoNaam: string,
+  upavoktaSamitiKoNaam: string,
+  adhyachyaKoNaam: string,
+  velamaUpasthitiSankhya: string,
+  padakariSankhya: string,
+  mahilaSankhya: string,
+  lagatAnumanRakam: string,
+  nagarpalikaRakamRu: string,
+  lagatSramDan: string,
+  contengencyRakam: string,
+  khudPauneRakam: string,
+  anugamanSamitikaSadasya: string,
+  budgetKitabSNum: string,
+  ushaGathanMiti: string,
+  mukhyaSamitiKoNaam: string,
+  ushaNibedandiyiyekoMiti: string,
+  anyaTipaniBivaran: string,
+  yojanakoNaam: string,
+  wadaNum: string,
+  biniyojitRakamRu: string,
+  sanyojak: string,
+  sadasyaOne: string,
+  sadasyaTwo: string
+) {
+  try {
+    const result = await prisma.samjhautaSwikritiTippani.updateMany({
+      where: {
+        yojanaKaryaKramKoNaam,
+      },
+      data: {
+        aawa,
+        miti,
+        upavoktaSamitiKoNaam,
+        adhyachyaKoNaam,
+        velamaUpasthitiSankhya,
+        padakariSankhya,
+        mahilaSankhya,
+        lagatAnumanRakam,
+        nagarpalikaRakamRu,
+        lagatSramDan,
+        contengencyRakam,
+        khudPauneRakam,
+        anugamanSamitikaSadasya,
+        budgetKitabSNum,
+        ushaGathanMiti,
+        mukhyaSamitiKoNaam,
+        ushaNibedandiyiyekoMiti,
+        anyaTipaniBivaran,
+        yojanakoNaam,
+        wadaNum,
+        biniyojitRakamRu,
+        sanyojak,
+        sadasyaOne,
+        sadasyaTwo,
+      },
+    })
+
+    if (result.count > 0) {
+      return { status: "success", message: "Record updated successfully" }
+    } else {
+      return { status: "error", error: "No matching record found" }
+    }
+  } catch (error) {
+    console.error("Error updating record:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
 
 // 3-1. yojana samjhauta
 export async function saveYojanaSamjhauta(

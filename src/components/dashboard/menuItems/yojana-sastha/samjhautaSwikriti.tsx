@@ -23,6 +23,7 @@ import {
   saveYojanaSwikritiTippani,
   getYojanaDartaForSwikriti,
   fetchDataByYojanaKaryaKramKoNaam,
+  updateYojanaSwikritiTippani,
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
 import SamjhautaSwikritiPrint from "@/lib/print/PrintSamjhautaSwikrit"
@@ -57,6 +58,8 @@ export default function SamjhautaSwikriti() {
   const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
+
+  const [saveOrEdit, setSaveOrEdit] = useState("Save")
 
   // const [btnDisable, setBtnDisable] = useState(false)
 
@@ -93,63 +96,168 @@ export default function SamjhautaSwikriti() {
     }
   }
 
+  const handleSaveOrEdit = async (yojanaKaryaKramKoNaam: string) => {
+    try {
+      const response = await fetchDataByYojanaKaryaKramKoNaam(
+        yojanaKaryaKramKoNaam
+      )
+
+      if (
+        response.status === "success" &&
+        response.data &&
+        response.data.length > 0
+      ) {
+        const data = response.data[0]
+        setAawa(data.aawa)
+        setMiti(data.miti)
+        setYojanaKaryaKramKoNaam(data.yojanaKaryaKramKoNaam)
+        setUpavoktaSamitiKoNaam(data.upavoktaSamitiKoNaam)
+        setAdhyachyaKoNaam(data.adhyachyaKoNaam)
+        setVelamaUpasthitiSankhya(data.velamaUpasthitiSankhya)
+        setPadakariSankhya(data.padakariSankhya)
+        setMahilaSankhya(data.mahilaSankhya)
+        setLagatAnumanRakam(data.lagatAnumanRakam)
+        setNagarpalikaRakamRu(data.nagarpalikaRakamRu)
+        setlagatSramDan(data.lagatSramDan)
+        setContengencyRakam(data.contengencyRakam)
+        setKhudPauneRakam(data.khudPauneRakam)
+        setAnugamanSamitikaSadasya(data.anugamanSamitikaSadasya)
+        setVudgetKitabSNum(data.budgetKitabSNum)
+        setUshaGathanMiti(data.ushaGathanMiti)
+        setMukhyaSamitiKoNaam(data.mukhyaSamitiKoNaam)
+        setUshaNibedandiyiyekoMiti(data.ushaGathanMiti)
+        setAnyaTipaniBivaran(data.anyaTipaniBivaran)
+        setYojanakoNaam(data.yojanakoNaam)
+        setWadaNum(data.wadaNum)
+        setBiniyojitRakamRu(data.biniyojitRakamRu)
+        setSanyojak(data.sanyojak)
+        setSadasyaOne(data.sadasyaOne)
+        setSadasyaTwo(data.sadasyaTwo)
+        setSaveOrEdit("Edit")
+      }
+    } catch (error) {
+      console.error("Error in handleAlertData:", error)
+      alert("An unexpected error occurred.")
+    }
+  }
+
   const onSubmit = async () => {
-    const result = await saveYojanaSwikritiTippani(
-      aawa,
-      miti,
-      yojanaKaryaKramKoNaam,
-      upavoktaSamitiKoNaam,
-      adhyachyaKoNaam,
-      velamaUpasthitiSankhya,
-      padakariSankhya,
-      mahilaSankhya,
-      lagatAnumanRakam,
-      nagarpalikaRakamRu,
-      lagatSramDan,
-      contengencyRakam,
-      khudPauneRakam,
-      anugamanSamitikaSadasya,
-      budgetKitabSNum,
-      ushaGathanMiti,
-      mukhyaSamitiKoNaam,
-      ushaNibedandiyiyekoMiti,
-      anyaTipaniBivaran,
-      yojanakoNaam,
-      wadaNum,
-      biniyojitRakamRu,
-      sanyojak,
-      sadasyaOne,
-      sadasyaTwo
-    )
-    if (result.status === "success") {
-      setAawa("")
-      setMiti("")
-      setYojanaKaryaKramKoNaam("")
-      setUpavoktaSamitiKoNaam("")
-      setAdhyachyaKoNaam("")
-      setVelamaUpasthitiSankhya("")
-      setPadakariSankhya("")
-      setMahilaSankhya("")
-      setLagatAnumanRakam("")
-      setNagarpalikaRakamRu("")
-      setlagatSramDan("")
-      setContengencyRakam("")
-      setKhudPauneRakam("")
-      setAnugamanSamitikaSadasya("")
-      setVudgetKitabSNum("")
-      setUshaGathanMiti("")
-      setMukhyaSamitiKoNaam("")
-      setUshaNibedandiyiyekoMiti("")
-      setAnyaTipaniBivaran("")
-      setYojanakoNaam("")
-      setWadaNum("")
-      setBiniyojitRakamRu("")
-      setSanyojak("")
-      setSadasyaOne("")
-      setSadasyaTwo("")
-      toast.success("successfully created")
+    if (saveOrEdit === "Edit") {
+      const result = await updateYojanaSwikritiTippani(
+        aawa,
+        miti,
+        yojanaKaryaKramKoNaam,
+        upavoktaSamitiKoNaam,
+        adhyachyaKoNaam,
+        velamaUpasthitiSankhya,
+        padakariSankhya,
+        mahilaSankhya,
+        lagatAnumanRakam,
+        nagarpalikaRakamRu,
+        lagatSramDan,
+        contengencyRakam,
+        khudPauneRakam,
+        anugamanSamitikaSadasya,
+        budgetKitabSNum,
+        ushaGathanMiti,
+        mukhyaSamitiKoNaam,
+        ushaNibedandiyiyekoMiti,
+        anyaTipaniBivaran,
+        yojanakoNaam,
+        wadaNum,
+        biniyojitRakamRu,
+        sanyojak,
+        sadasyaOne,
+        sadasyaTwo
+      )
+      if (result.status === "success") {
+        setAawa("")
+        setMiti("")
+        setYojanaKaryaKramKoNaam("")
+        setUpavoktaSamitiKoNaam("")
+        setAdhyachyaKoNaam("")
+        setVelamaUpasthitiSankhya("")
+        setPadakariSankhya("")
+        setMahilaSankhya("")
+        setLagatAnumanRakam("")
+        setNagarpalikaRakamRu("")
+        setlagatSramDan("")
+        setContengencyRakam("")
+        setKhudPauneRakam("")
+        setAnugamanSamitikaSadasya("")
+        setVudgetKitabSNum("")
+        setUshaGathanMiti("")
+        setMukhyaSamitiKoNaam("")
+        setUshaNibedandiyiyekoMiti("")
+        setAnyaTipaniBivaran("")
+        setYojanakoNaam("")
+        setWadaNum("")
+        setBiniyojitRakamRu("")
+        setSanyojak("")
+        setSadasyaOne("")
+        setSadasyaTwo("")
+        toast.success("successfully Edited")
+      } else {
+        console.error("Error occurred during save")
+      }
     } else {
-      console.error("Error occurred during save")
+      const result = await saveYojanaSwikritiTippani(
+        aawa,
+        miti,
+        yojanaKaryaKramKoNaam,
+        upavoktaSamitiKoNaam,
+        adhyachyaKoNaam,
+        velamaUpasthitiSankhya,
+        padakariSankhya,
+        mahilaSankhya,
+        lagatAnumanRakam,
+        nagarpalikaRakamRu,
+        lagatSramDan,
+        contengencyRakam,
+        khudPauneRakam,
+        anugamanSamitikaSadasya,
+        budgetKitabSNum,
+        ushaGathanMiti,
+        mukhyaSamitiKoNaam,
+        ushaNibedandiyiyekoMiti,
+        anyaTipaniBivaran,
+        yojanakoNaam,
+        wadaNum,
+        biniyojitRakamRu,
+        sanyojak,
+        sadasyaOne,
+        sadasyaTwo
+      )
+      if (result.status === "success") {
+        setAawa("")
+        setMiti("")
+        setYojanaKaryaKramKoNaam("")
+        setUpavoktaSamitiKoNaam("")
+        setAdhyachyaKoNaam("")
+        setVelamaUpasthitiSankhya("")
+        setPadakariSankhya("")
+        setMahilaSankhya("")
+        setLagatAnumanRakam("")
+        setNagarpalikaRakamRu("")
+        setlagatSramDan("")
+        setContengencyRakam("")
+        setKhudPauneRakam("")
+        setAnugamanSamitikaSadasya("")
+        setVudgetKitabSNum("")
+        setUshaGathanMiti("")
+        setMukhyaSamitiKoNaam("")
+        setUshaNibedandiyiyekoMiti("")
+        setAnyaTipaniBivaran("")
+        setYojanakoNaam("")
+        setWadaNum("")
+        setBiniyojitRakamRu("")
+        setSanyojak("")
+        setSadasyaOne("")
+        setSadasyaTwo("")
+        toast.success("successfully created")
+      } else {
+        console.error("Error occurred during save")
+      }
     }
   }
 
@@ -188,7 +296,7 @@ export default function SamjhautaSwikriti() {
         setLoading(false)
       }
     }
-
+    handleSaveOrEdit(yojanaKaryaKramKoNaam)
     getData()
   }, [yojanaKaryaKramKoNaam])
 
@@ -409,7 +517,7 @@ export default function SamjhautaSwikriti() {
                   startContent={<FaRegSave />}
                   onClick={onSubmit}
                 >
-                  Save
+                  {saveOrEdit}
                 </Button>
                 <Button
                   color="default"
