@@ -22,6 +22,7 @@ import {
   fetchYojanaDartaData,
   saveYojanaSwikritiTippani,
   getYojanaDartaForSwikriti,
+  fetchDataByYojanaKaryaKramKoNaam,
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
 import SamjhautaSwikritiPrint from "@/lib/print/PrintSamjhautaSwikrit"
@@ -66,6 +67,29 @@ export default function SamjhautaSwikriti() {
       setYojanaKoNaam(data)
     } catch (e) {
       console.error("Error fetching anudaan data", e)
+    }
+  }
+
+  const handleAlertData = async (yojanaKaryaKramKoNaam: string) => {
+    if (!yojanaKaryaKramKoNaam) {
+      alert("Please select yojana")
+      return
+    }
+
+    try {
+      const response = await fetchDataByYojanaKaryaKramKoNaam(
+        yojanaKaryaKramKoNaam
+      )
+
+      if (response.status === "success") {
+        // Alerting the data as a string
+        alert(JSON.stringify(response.data, null, 2))
+      } else {
+        alert("Error: " + response.error)
+      }
+    } catch (error) {
+      console.error("Error in handleAlertData:", error)
+      alert("An unexpected error occurred.")
     }
   }
 
@@ -386,9 +410,43 @@ export default function SamjhautaSwikriti() {
                 <Button
                   color="default"
                   startContent={<FaRegSave />}
-                  onClick={() => SamjhautaSwikritiPrint("yojana ko naam")}
+                  onClick={async () => {
+                    if (!yojanaKaryaKramKoNaam) {
+                      alert("Please select yojana")
+                      return
+                    }
+
+                    try {
+                      const response = await fetchDataByYojanaKaryaKramKoNaam(
+                        yojanaKaryaKramKoNaam
+                      )
+
+                      // Ensure response.data exists and is not empty
+                      if (
+                        response.status === "success" &&
+                        response.data &&
+                        response.data.length > 0
+                      ) {
+                        // Pass the first item in the data array to printContent
+                        SamjhautaSwikritiPrint(response.data[0])
+                      } else {
+                        alert("No data found or error occurred.")
+                      }
+                    } catch (error) {
+                      console.error("Error fetching data:", error)
+                      alert("An unexpected error occurred.")
+                    }
+                  }}
                 >
                   Print
+                </Button>
+
+                <Button
+                  color="default"
+                  startContent={<FaRegSave />}
+                  onClick={() => handleAlertData(yojanaKaryaKramKoNaam)}
+                >
+                  show data for Print
                 </Button>
               </div>
             </div>

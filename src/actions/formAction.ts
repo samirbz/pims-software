@@ -1454,6 +1454,25 @@ export async function saveYojanaSwikritiTippani(
   }
 }
 
+// Get swikriti tippani data
+export async function fetchDataByYojanaKaryaKramKoNaam(
+  yojanaKaryaKramKoNaam: string
+) {
+  try {
+    const data = await prisma.samjhautaSwikritiTippani.findMany({
+      where: {
+        yojanaKaryaKramKoNaam,
+      },
+    })
+
+    return { status: "success", data }
+  } catch (error) {
+    console.error("Error fetching data:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+
 // 3-1. yojana samjhauta
 export async function saveYojanaSamjhauta(
   budgetKaryakram: string,
