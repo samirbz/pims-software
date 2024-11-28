@@ -834,6 +834,11 @@ export default function YojanaDarta() {
   //   )
   // }
 
+  const [filterAyojanaKoNaam, setFilterAyojanaKoNaam] = useState("")
+  const filteredItems = items.filter((item) =>
+    item.yojanaKoNaam.toLowerCase().includes(filterAyojanaKoNaam.toLowerCase())
+  )
+
   return (
     <div className="flex flex-col justify-between bg-white ">
       <h1 className="form-title text-center text-xl font-semibold sm:text-2xl">
@@ -848,86 +853,100 @@ export default function YojanaDarta() {
                 योजना दर्ता उपभोक्ता समिती/संस्थागत/व्यक्तिगत र संस्थागत अनुदान
               </ModalHeader>
               <ModalBody>
-                {loading ? (
-                  <div className="my-4 flex w-full justify-center">
-                    <Spinner color="primary" />
-                  </div>
-                ) : (
-                  <Table
-                    aria-label="Example static collection table"
-                    className="h-auto min-w-full"
-                    bottomContent={
-                      <div className="flex w-full justify-center">
-                        <Pagination
-                          isCompact
-                          showControls
-                          showShadow
-                          color="secondary"
-                          page={page}
-                          total={pages}
-                          onChange={(page) => setPage(page)}
-                        />
-                      </div>
-                    }
-                  >
-                    <TableHeader>
-                      <TableColumn>सि.न.</TableColumn>
-                      <TableColumn>आयोजना नाम</TableColumn>
-                      <TableColumn>आयोजनको प्रकार</TableColumn>
-                      <TableColumn>वडा न.</TableColumn>
-                      <TableColumn>ल.ई रकम</TableColumn>
-                      <TableColumn>अनुदान रकम</TableColumn>
-                      <TableColumn>सहभागिता</TableColumn>
-                      <TableColumn>Edit</TableColumn>
-                    </TableHeader>
-                    <TableBody>
-                      {items.map((item, index) => (
-                        <TableRow key={item.id}>
-                          <TableCell>
-                            {(page - 1) * rowsPerPage + index + 1}
-                          </TableCell>
-                          <TableCell>{item.yojanaKoNaam}</TableCell>
-                          <TableCell>{item.yojanaUpachetra}</TableCell>
-                          <TableCell>
-                            {ConvertToNepaliNumerals(item.wada)}
-                          </TableCell>
-                          <TableCell>{item.prabidhikEstimateAmount}</TableCell>
-                          <TableCell>
-                            {ConvertToNepaliNumerals(item.kulAnudaanRakam)}
-                          </TableCell>
-                          <TableCell>{item.janaSramdanRakam}</TableCell>
-                          <TableCell>
-                            <Dropdown>
-                              <DropdownTrigger>
-                                <Button
-                                  className="z-10"
-                                  variant="shadow"
-                                  size="sm"
-                                  startContent={<MdModeEditOutline />}
-                                ></Button>
-                              </DropdownTrigger>
-                              <DropdownMenu aria-label="Static Actions">
-                                <DropdownItem
-                                  onPress={() => handleEdit(item, onClose)}
-                                >
-                                  Edit
-                                </DropdownItem>
-                                <DropdownItem
-                                  key="delete"
-                                  className="text-danger"
-                                  color="danger"
-                                  onPress={() => confirmDelete(item.id)}
-                                >
-                                  Delete
-                                </DropdownItem>
-                              </DropdownMenu>
-                            </Dropdown>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                )}
+                <div className="flex flex-col gap-4">
+                  {/* Filter Input */}
+                  <Input
+                    type="text"
+                    placeholder="आयोजना नाम खोज्नुहोस्..."
+                    value={filterAyojanaKoNaam}
+                    onChange={(e) => setFilterAyojanaKoNaam(e.target.value)}
+                    size="sm"
+                    className="w-full"
+                  />
+
+                  {loading ? (
+                    <div className="my-4 flex w-full justify-center">
+                      <Spinner color="primary" />
+                    </div>
+                  ) : (
+                    <Table
+                      aria-label="Example static collection table"
+                      className="h-auto min-w-full"
+                      bottomContent={
+                        <div className="flex w-full justify-center">
+                          <Pagination
+                            isCompact
+                            showControls
+                            showShadow
+                            color="secondary"
+                            page={page}
+                            total={pages}
+                            onChange={(page) => setPage(page)}
+                          />
+                        </div>
+                      }
+                    >
+                      <TableHeader>
+                        <TableColumn>सि.न.</TableColumn>
+                        <TableColumn>आयोजना नाम</TableColumn>
+                        <TableColumn>आयोजनको प्रकार</TableColumn>
+                        <TableColumn>वडा न.</TableColumn>
+                        <TableColumn>ल.ई रकम</TableColumn>
+                        <TableColumn>अनुदान रकम</TableColumn>
+                        <TableColumn>सहभागिता</TableColumn>
+                        <TableColumn>Edit</TableColumn>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredItems.map((item, index) => (
+                          <TableRow key={item.id}>
+                            <TableCell>
+                              {(page - 1) * rowsPerPage + index + 1}
+                            </TableCell>
+                            <TableCell>{item.yojanaKoNaam}</TableCell>
+                            <TableCell>{item.yojanaUpachetra}</TableCell>
+                            <TableCell>
+                              {ConvertToNepaliNumerals(item.wada)}
+                            </TableCell>
+                            <TableCell>
+                              {item.prabidhikEstimateAmount}
+                            </TableCell>
+                            <TableCell>
+                              {ConvertToNepaliNumerals(item.kulAnudaanRakam)}
+                            </TableCell>
+                            <TableCell>{item.janaSramdanRakam}</TableCell>
+                            <TableCell>
+                              <Dropdown>
+                                <DropdownTrigger>
+                                  <Button
+                                    className="z-10"
+                                    variant="shadow"
+                                    size="sm"
+                                    startContent={<MdModeEditOutline />}
+                                  ></Button>
+                                </DropdownTrigger>
+                                <DropdownMenu aria-label="Static Actions">
+                                  <DropdownItem
+                                    onPress={() => handleEdit(item, onClose)}
+                                  >
+                                    Edit
+                                  </DropdownItem>
+                                  <DropdownItem
+                                    key="delete"
+                                    className="text-danger"
+                                    color="danger"
+                                    onPress={() => confirmDelete(item.id)}
+                                  >
+                                    Delete
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              </Dropdown>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                </div>
               </ModalBody>
             </>
           )}
