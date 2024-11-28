@@ -166,12 +166,16 @@ export default function SamjhautaSwikriti() {
           const kulAnudaan = data[0].kulAnudaanRakam
           const janaSramdan = data[0].janaSramdanRakam
           const contengency = data[0].dharautiRakamResult
+          const mukhyaSamitiKoNaam = data[0].mukhyaSamiti
+          const vudgetKitabSNum = data[0].budgetKitabSnum
 
           setLagatAnumanRakam(estimateAmount)
           setNagarpalikaRakamRu(kulAnudaan)
           setlagatSramDan(janaSramdan)
           setContengencyRakam(contengency)
           setKhudPauneRakam(kulAnudaan)
+          setMukhyaSamitiKoNaam(mukhyaSamitiKoNaam)
+          setVudgetKitabSNum(vudgetKitabSNum)
           setUpavoktaSamitiKoNaam(
             data[0].karyagatSamuha === "उपभोक्ता समिति"
               ? yojanaKaryaKramKoNaam + " (उपभोक्ता समिति)"
