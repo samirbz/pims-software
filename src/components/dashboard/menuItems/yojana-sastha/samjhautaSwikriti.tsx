@@ -24,6 +24,7 @@ import {
   getYojanaDartaForSwikriti,
   fetchDataByYojanaKaryaKramKoNaam,
   updateYojanaSwikritiTippani,
+  getSamjhautaSwikritiTippani,
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
 import SamjhautaSwikritiPrint from "@/lib/print/PrintSamjhautaSwikrit"
@@ -101,10 +102,12 @@ export default function SamjhautaSwikriti() {
       const response = await fetchDataByYojanaKaryaKramKoNaam(
         yojanaKaryaKramKoNaam
       )
+      const data = await getSamjhautaSwikritiTippani(yojanaKaryaKramKoNaam)
 
       if (
         response.status === "success" &&
         response.data &&
+        data &&
         response.data.length > 0
       ) {
         const data = response.data[0]
@@ -134,6 +137,24 @@ export default function SamjhautaSwikriti() {
         setSadasyaOne(data.sadasyaOne)
         setSadasyaTwo(data.sadasyaTwo)
         setSaveOrEdit("Edit")
+      } else {
+        setAdhyachyaKoNaam("")
+        setVelamaUpasthitiSankhya("")
+        setPadakariSankhya("")
+        setMahilaSankhya("")
+        setAnugamanSamitikaSadasya("")
+        setVudgetKitabSNum("")
+        setUshaGathanMiti("")
+        setMukhyaSamitiKoNaam("")
+        setUshaNibedandiyiyekoMiti("")
+        setAnyaTipaniBivaran("")
+        setYojanakoNaam("")
+        setWadaNum("")
+        setBiniyojitRakamRu("")
+        setSanyojak("")
+        setSadasyaOne("")
+        setSadasyaTwo("")
+        setSaveOrEdit("Save")
       }
     } catch (error) {
       console.error("Error in handleAlertData:", error)
@@ -196,6 +217,7 @@ export default function SamjhautaSwikriti() {
         setSanyojak("")
         setSadasyaOne("")
         setSadasyaTwo("")
+        setSaveOrEdit("Save")
         toast.success("successfully Edited")
       } else {
         console.error("Error occurred during save")
@@ -267,8 +289,6 @@ export default function SamjhautaSwikriti() {
         setLoading(true)
         const data = await getYojanaDartaForSwikriti(yojanaKaryaKramKoNaam)
 
-        console.log(data)
-
         if (data && data.length > 0) {
           const estimateAmount = data[0].prabidhikEstimateAmount
           const kulAnudaan = data[0].kulAnudaanRakam
@@ -289,6 +309,28 @@ export default function SamjhautaSwikriti() {
               ? yojanaKaryaKramKoNaam + " (उपभोक्ता समिति)"
               : ""
           )
+        } else {
+          setAdhyachyaKoNaam("")
+          setVelamaUpasthitiSankhya("")
+          setPadakariSankhya("")
+          setMahilaSankhya("")
+          setLagatAnumanRakam("")
+          setNagarpalikaRakamRu("")
+          setlagatSramDan("")
+          setContengencyRakam("")
+          setKhudPauneRakam("")
+          setAnugamanSamitikaSadasya("")
+          setVudgetKitabSNum("")
+          setUshaGathanMiti("")
+          setMukhyaSamitiKoNaam("")
+          setUshaNibedandiyiyekoMiti("")
+          setAnyaTipaniBivaran("")
+          setYojanakoNaam("")
+          setWadaNum("")
+          setBiniyojitRakamRu("")
+          setSanyojak("")
+          setSadasyaOne("")
+          setSadasyaTwo("")
         }
       } catch (error) {
         console.error("Error fetching Yojana Darta data:", error)

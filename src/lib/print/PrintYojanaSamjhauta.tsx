@@ -48,7 +48,7 @@ const openPrintWindow = (htmlContent: string) => {
   }
 }
 
-const printContent = async (yojanaKoNaam: any) => {
+const printContent = async (data: any) => {
   const imagePath = "/images/gov-logo.png"
   const blob = await fetch(imagePath).then((r) => r.blob())
 

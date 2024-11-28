@@ -1476,6 +1476,20 @@ export async function fetchDataByYojanaKaryaKramKoNaam(
   }
 }
 
+export async function getSamjhautaSwikritiTippani(yojanaKaryaKramKoNaam: string) {
+  try {
+    const data = await prisma.samjhautaSwikritiTippani.findMany({
+      where: {
+        yojanaKaryaKramKoNaam,
+      },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching Yojana Darta data:", error)
+    throw error
+  }
+}
+
 export async function updateYojanaSwikritiTippani(
   aawa: string,
   miti: string,
@@ -1549,6 +1563,7 @@ export async function updateYojanaSwikritiTippani(
 
 // 3-1. yojana samjhauta
 export async function saveYojanaSamjhauta(
+  yojanaKaryaKramKoNaam: string,
   budgetKaryakram: string,
   chaluAawa: string,
   samjhautaMiti: string,
@@ -1658,6 +1673,7 @@ export async function saveYojanaSamjhauta(
   try {
     const dt = await prisma.yojanaSamjhauta.create({
       data: {
+        yojanaKaryaKramKoNaam,
         budgetKaryakram,
         chaluAawa,
         samjhautaMiti,
@@ -1768,6 +1784,275 @@ export async function saveYojanaSamjhauta(
     return { status: "success", data: dt }
   } catch (error) {
     console.error("Error in yojanadarta:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function getYojanaSamjhauta(yojanaKaryaKramKoNaam: string) {
+  try {
+    const data = await prisma.yojanaSamjhauta.findMany({
+      where: {
+        yojanaKaryaKramKoNaam,
+      },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching Yojana Darta data:", error)
+    throw error
+  }
+}
+
+export async function fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
+  yojanaKaryaKramKoNaam: string
+) {
+  try {
+    const data = await prisma.yojanaSamjhauta.findMany({
+      where: {
+        yojanaKaryaKramKoNaam,
+      },
+    })
+
+    if (data && data.length > 0) {
+      return { status: "success", data }
+    } else {
+      return { status: "error", error: "No records found" }
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function updateYojanaSamjhauta(
+  yojanaKaryaKramKoNaam: string,
+  budgetKaryakram: string,
+  chaluAawa: string,
+  samjhautaMiti: string,
+  samjhautaNaam: string,
+  paad: string,
+  samjhautaThegana: string,
+  phoneNum: string,
+  yonanaNaam: string,
+  yojanaThegana: string,
+  yojanaTheganaChild: string,
+  yojanaUdeskya: string,
+  yojanaSwikritiGarneNikaya: string,
+  yojanaSuruhuneMiti: string,
+  yojanaSsampanaHuneMiti: string,
+  yojanaKarya: string,
+  kisimPrakar: string,
+  lambaiMi: string,
+  chetrafal: string,
+  lagatAnumanRu: string,
+  binbatkachyat: string,
+  janaSramdanRu: string,
+  jammaRakamRuTwo: string,
+  nepalsarkarbataRuPariman: string,
+  nagarpalikabataRuPariman: string,
+  gaupalikaBataRuPariman: string,
+  gairsarkariSanghRuPariman: string,
+  samudayamaAdharitRuPariman: string,
+  bideshDatriSanghRuPariman: string,
+  lagatSahavagitaRuPariman: string,
+  anyaNikayaRuPariman: string,
+  nepalsarkarbataRuSamagrikoNaam: string,
+  nagarpalikabataRuSamagrikoNaam: string,
+  gaupalikaBataRuSamagrikoNaam: string,
+  gairsarkariSanghRuSamagrikoNaam: string,
+  samudayamaAdharitRuSamagrikoNaam: string,
+  bideshDatriSanghRuSamagrikoNaam: string,
+  lagatSahavagitaRuSamagrikoNaam: string,
+  anyaNikayaRuSamagrikoNaam: string,
+  nepalsarkarbataRuYekai: string,
+  nagarpalikabataRuYekai: string,
+  gaupalikaBataRuYekai: string,
+  gairsarkariSanghRuYekai: string,
+  samudayamaAdharitRuYekai: string,
+  bideshDatriSanghRuYekai: string,
+  lagatSahavagitaRuYekai: string,
+  anyaNikayaRuYekai: string,
+  nepalsarkarbataRuShramRu: string,
+  nagarpalikabataRuShramRu: string,
+  gaupalikaBataRuShramRu: string,
+  gairsarkariSanghRuShramRu: string,
+  samudayamaAdharitRuShramRu: string,
+  bideshDatriSanghRuShramRu: string,
+  lagatSahavagitaRuShramRu: string,
+  anyaNikayaRuShramRu: string,
+  gharpariwarSankhya: string,
+  janaSankhya: string,
+  samudaya: string,
+  samudayaAdharit: string,
+  kamgarneNikaya: string,
+  upavoktaSamiti: string,
+  gathanVayekoMiti: string,
+  adhyakchya: string,
+  adhyakchyaNaPraNa: string,
+  upadhyekchya: string,
+  sachib: string,
+  sachibNaPraNa: string,
+  kosaAdakshya: string,
+  kosaAdakshyaNaPraNa: string,
+  sadasyaOne: string,
+  sadasyaTwo: string,
+  sadasyaThree: string,
+  sadasyaFour: string,
+  sadasyaFive: string,
+  sadasyaSix: string,
+  sadasyaSeven: string,
+  gathanGardaUpastithi: string,
+  samitimaJamma: string,
+  mahilaSadasya: string,
+  pahiloKistaMiti: string,
+  pahiloKistaPratisad: string,
+  pahiloKistaKistaKoRakam: string,
+  pahiloKistaNirmanSamagri: string,
+  pahiloKistaKaifiyat: string,
+  dosroKistaMiti: string,
+  dosroKistaPratisat: string,
+  dosroKistaKistaKoRakam: string,
+  dosroKistaNirmanSamagri: string,
+  dosroKistaKaifiyat: string,
+  tesroKistaMiti: string,
+  tesroKistaPratisat: string,
+  tesroKistaKistaKoRakam: string,
+  tesroKistaNirmanSamagri: string,
+  tesroKistaKaifiyat: string,
+  jammaRakamRuTwoFour: string,
+  marmatSambhar: string,
+  janaSramdan: string,
+  dastur: string,
+  byaj: string,
+  lagatSahavagita: string,
+  anyaSartHaruOne: string,
+  anyaSartHaruTwo: string,
+  karyalayaKoTarfabata: string,
+  karyalayaKoTarfabataChild: string,
+  yojanaSakhaTarfabata: string,
+  yojanaSakhaTarfabataChild: string
+) {
+  try {
+    const result = await prisma.yojanaSamjhauta.updateMany({
+      where: {
+        yojanaKaryaKramKoNaam,
+      },
+      data: {
+        yojanaKaryaKramKoNaam,
+        budgetKaryakram,
+        chaluAawa,
+        samjhautaMiti,
+        samjhautaNaam,
+        paad,
+        samjhautaThegana,
+        phoneNum,
+        yonanaNaam,
+        yojanaThegana,
+        yojanaTheganaChild,
+        yojanaUdeskya,
+        yojanaSwikritiGarneNikaya,
+        yojanaSuruhuneMiti,
+        yojanaSsampanaHuneMiti,
+        yojanaKarya,
+        kisimPrakar,
+        lambaiMi,
+        chetrafal,
+        lagatAnumanRu,
+        binbatkachyat,
+        janaSramdanRu,
+        jammaRakamRuTwo,
+        nepalsarkarbataRuPariman,
+        nagarpalikabataRuPariman,
+        gaupalikaBataRuPariman,
+        gairsarkariSanghRuPariman,
+        samudayamaAdharitRuPariman,
+        bideshDatriSanghRuPariman,
+        lagatSahavagitaRuPariman,
+        anyaNikayaRuPariman,
+        nepalsarkarbataRuSamagrikoNaam,
+        nagarpalikabataRuSamagrikoNaam,
+        gaupalikaBataRuSamagrikoNaam,
+        gairsarkariSanghRuSamagrikoNaam,
+        samudayamaAdharitRuSamagrikoNaam,
+        bideshDatriSanghRuSamagrikoNaam,
+        lagatSahavagitaRuSamagrikoNaam,
+        anyaNikayaRuSamagrikoNaam,
+        nepalsarkarbataRuYekai,
+        nagarpalikabataRuYekai,
+        gaupalikaBataRuYekai,
+        gairsarkariSanghRuYekai,
+        samudayamaAdharitRuYekai,
+        bideshDatriSanghRuYekai,
+        lagatSahavagitaRuYekai,
+        anyaNikayaRuYekai,
+        nepalsarkarbataRuShramRu,
+        nagarpalikabataRuShramRu,
+        gaupalikaBataRuShramRu,
+        gairsarkariSanghRuShramRu,
+        samudayamaAdharitRuShramRu,
+        bideshDatriSanghRuShramRu,
+        lagatSahavagitaRuShramRu,
+        anyaNikayaRuShramRu,
+        gharpariwarSankhya,
+        janaSankhya,
+        samudaya,
+        samudayaAdharit,
+        kamgarneNikaya,
+        upavoktaSamiti,
+        gathanVayekoMiti,
+        adhyakchya,
+        adhyakchyaNaPraNa,
+        upadhyekchya,
+        sachib,
+        sachibNaPraNa,
+        kosaAdakshya,
+        kosaAdakshyaNaPraNa,
+        sadasyaOne,
+        sadasyaTwo,
+        sadasyaThree,
+        sadasyaFour,
+        sadasyaFive,
+        sadasyaSix,
+        sadasyaSeven,
+        gathanGardaUpastithi,
+        samitimaJamma,
+        mahilaSadasya,
+        pahiloKistaMiti,
+        pahiloKistaPratisad,
+        pahiloKistaKistaKoRakam,
+        pahiloKistaNirmanSamagri,
+        pahiloKistaKaifiyat,
+        dosroKistaMiti,
+        dosroKistaPratisat,
+        dosroKistaKistaKoRakam,
+        dosroKistaNirmanSamagri,
+        dosroKistaKaifiyat,
+        tesroKistaMiti,
+        tesroKistaPratisat,
+        tesroKistaKistaKoRakam,
+        tesroKistaNirmanSamagri,
+        tesroKistaKaifiyat,
+        jammaRakamRuTwoFour,
+        marmatSambhar,
+        janaSramdan,
+        dastur,
+        byaj,
+        lagatSahavagita,
+        anyaSartHaruOne,
+        anyaSartHaruTwo,
+        karyalayaKoTarfabata,
+        karyalayaKoTarfabataChild,
+        yojanaSakhaTarfabata,
+        yojanaSakhaTarfabataChild,
+      },
+    })
+
+    if (result.count > 0) {
+      return { status: "success", message: "Record updated successfully" }
+    } else {
+      return { status: "error", error: "No matching record found" }
+    }
+  } catch (error) {
+    console.error("Error updating record:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }

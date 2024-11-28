@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Tabs,
   Tab,
@@ -24,7 +24,13 @@ import { GrDocumentPdf } from "react-icons/gr"
 import { AiOutlineFileAdd } from "react-icons/ai"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
-import { saveYojanaSamjhauta } from "@/actions/formAction"
+import {
+  saveYojanaSamjhauta,
+  fetchYojanaDartaData,
+  fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta,
+  getYojanaSamjhauta,
+  updateYojanaSamjhauta,
+} from "@/actions/formAction"
 import { toast } from "react-toastify"
 import yojanaSamjhautaPrint from "@/lib/print/PrintYojanaSamjhauta"
 
@@ -297,225 +303,969 @@ export default function YojanaSamjhauta() {
   const [yojanaSakhaTarfabata, setYojanaSakhaTarfabata] = useState("")
   const [yojanaSakhaTarfabataChild, setYojanaSakhaTarfabataChild] = useState("")
 
-  const onSubmit = async () => {
-    const result = await saveYojanaSamjhauta(
-      budgetKaryakram,
-      chaluAawa,
-      samjhautaMiti,
-      samjhautaNaam,
-      paad,
-      samjhautaThegana,
-      phoneNum,
-      yonanaNaam,
-      yojanaThegana,
-      yojanaTheganaChild,
-      yojanaUdeskya,
-      yojanaSwikritiGarneNikaya,
-      yojanaSuruhuneMiti,
-      yojanaSsampanaHuneMiti,
-      yojanaKarya,
-      kisimPrakar,
-      lambaiMi,
-      chetrafal,
-      lagatAnumanRu,
-      binbatkachyat,
-      janaSramdanRu,
-      jammaRakamRuTwo,
-      nepalsarkarbataRuPariman,
-      nagarpalikabataRuPariman,
-      gaupalikaBataRuPariman,
-      gairsarkariSanghRuPariman,
-      samudayamaAdharitRuPariman,
-      bideshDatriSanghRuPariman,
-      lagatSahavagitaRuPariman,
-      anyaNikayaRuPariman,
-      nepalsarkarbataRuSamagrikoNaam,
-      nagarpalikabataRuSamagrikoNaam,
-      gaupalikaBataRuSamagrikoNaam,
-      gairsarkariSanghRuSamagrikoNaam,
-      samudayamaAdharitRuSamagrikoNaam,
-      bideshDatriSanghRuSamagrikoNaam,
-      lagatSahavagitaRuSamagrikoNaam,
-      anyaNikayaRuSamagrikoNaam,
-      nepalsarkarbataRuYekai,
-      nagarpalikabataRuYekai,
-      gaupalikaBataRuYekai,
-      gairsarkariSanghRuYekai,
-      samudayamaAdharitRuYekai,
-      bideshDatriSanghRuYekai,
-      lagatSahavagitaRuYekai,
-      anyaNikayaRuYekai,
-      nepalsarkarbataRuShramRu,
-      nagarpalikabataRuShramRu,
-      gaupalikaBataRuShramRu,
-      gairsarkariSanghRuShramRu,
-      samudayamaAdharitRuShramRu,
-      bideshDatriSanghRuShramRu,
-      lagatSahavagitaRuShramRu,
-      anyaNikayaRuShramRu,
-      gharpariwarSankhya,
-      janaSankhya,
-      samudaya,
-      samudayaAdharit,
-      kamgarneNikaya,
-      upavoktaSamiti,
-      gathanVayekoMiti,
-      adhyakchya,
-      adhyakchyaNaPraNa,
-      upadhyekchya,
-      sachib,
-      sachibNaPraNa,
-      kosaAdakshya,
-      kosaAdakshyaNaPraNa,
-      sadasyaOne,
-      sadasyaTwo,
-      sadasyaThree,
-      sadasyaFour,
-      sadasyaFive,
-      sadasyaSix,
-      sadasyaSeven,
-      gathanGardaUpastithi,
-      samitimaJamma,
-      mahilaSadasya,
-      pahiloKistaMiti,
-      pahiloKistaPratisad,
-      pahiloKistaKistaKoRakam,
-      pahiloKistaNirmanSamagri,
-      pahiloKistaKaifiyat,
-      dosroKistaMiti,
-      dosroKistaPratisat,
-      dosroKistaKistaKoRakam,
-      dosroKistaNirmanSamagri,
-      dosroKistaKaifiyat,
-      tesroKistaMiti,
-      tesroKistaPratisat,
-      tesroKistaKistaKoRakam,
-      tesroKistaNirmanSamagri,
-      tesroKistaKaifiyat,
-      jammaRakamRuTwoFour,
-      marmatSambhar,
-      janaSramdan,
-      dastur,
-      byaj,
-      lagatSahavagita,
-      anyaSartHaruOne,
-      anyaSartHaruTwo,
-      karyalayaKoTarfabata,
-      karyalayaKoTarfabataChild,
-      yojanaSakhaTarfabata,
-      yojanaSakhaTarfabataChild
-    )
-    if (result.status === "success") {
-      setBudgetKarayakram("")
-      setChaluAawa("")
-      setSamjhautaMiti("")
-      setSamjhautaNaam("")
-      setPaad("")
-      setSamjhautaThegana("")
-      setPhoneNum("")
-      setYojanaNaam("")
-      setYojanaThegana("")
-      setYojanaTheganaChild("")
-      setYojanaUdeskya("")
-      setYojanaSwikritiGarneNikaya("")
-      setYojanaSuruhuneMiti("")
-      setYojanaSsampanaHuneMiti("")
-      setYojanaKarya("")
-      setKisimPrakar("")
-      setLambaiMi("")
-      setChetrafal("")
-      setLagatAnumanRu("")
-      setBinbatkachyat("")
-      setJanaSramdanRu("")
-      setJammaRakamRuTwo("")
-      setNepalsarkarbataRuPariman("")
-      setNagarpalikabataRuPariman("")
-      setGaupalikaBataRuPariman("")
-      setGairsarkariSanghRuPariman("")
-      setSamudayamaAdharitRuPariman("")
-      setBideshDatriSanghRuPariman("")
-      setLagatSahavagitaRuPariman("")
-      setAnyaNikayaRuPariman("")
-      setNepalsarkarbataRuSamagrikoNaam("")
-      setNagarpalikabataRuSamagrikoNaam("")
-      setGaupalikaBataRuSamagrikoNaam("")
-      setGairsarkariSanghRuSamagrikoNaam("")
-      setSamudayamaAdharitRuSamagrikoNaam("")
-      setBideshDatriSanghRuSamagrikoNaam("")
-      setLagatSahavagitaRuSamagrikoNaam("")
-      setAnyaNikayaRuSamagrikoNaam("")
-      setNepalsarkarbataRuYekai("")
-      setNagarpalikabataRuYekai("")
-      setGaupalikaBataRuYekai("")
-      setGairsarkariSanghRuYekai("")
-      setSamudayamaAdharitRuYekai("")
-      setBideshDatriSanghRuYekai("")
-      setLagatSahavagitaRuYekai("")
-      setAnyaNikayaRuYekai("")
-      setNepalsarkarbataRuShramRu("")
-      setNagarpalikabataRuShramRu("")
-      setGaupalikaBataRuShramRu("")
-      setGairsarkariSanghRuShramRu("")
-      setSamudayamaAdharitRuShramRu("")
-      setBideshDatriSanghRuShramRu("")
-      setLagatSahavagitaRuShramRu("")
-      setAnyaNikayaRuShramRu("")
-      setGharpariwarSankhya("")
-      setJanaSankhya("")
-      setSamudaya("")
-      setSamudayaAdharit("")
-      setKamgarneNikaya("")
-      setUpavoktaSamiti("")
-      setGathanVayekoMiti("")
-      setAdhyakchya("")
-      setAdhyakchyaNaPraNa("")
-      setUpadhyekchya("")
-      setSachib("")
-      setSachibNaPraNa("")
-      setKosaAdakshya("")
-      setKosaAdakshyaNaPraNa("")
-      setSadasyaOne("")
-      setSadasyaTwo("")
-      setSadasyaThree("")
-      setSadasyaFour("")
-      setSadasyaFive("")
-      setSadasyaSix("")
-      setSadasyaSeven("")
-      setGathanGardaUpastithi("")
-      setSamitimaJamma("")
-      setMahilaSadasya("")
-      setPahiloKistaMiti("")
-      setPahiloKistaPratisad("")
-      setPahiloKistaKistaKoRakam("")
-      setPahiloKistaNirmanSamagri("")
-      setPahiloKistaKaifiyat("")
-      setDosroKistaMiti("")
-      setDosroKistaPratisat("")
-      setDosroKistaKistaKoRakam("")
-      setDosroKistaNirmanSamagri("")
-      setDosroKistaKaifiyat("")
-      setTesroKistaMiti("")
-      setTesroKistaPratisat("")
-      setTesroKistaKistaKoRakam("")
-      setTesroKistaNirmanSamagri("")
-      setTesroKistaKaifiyat("")
-      setJammaRakamRuTwoFour("")
-      setMarmatSambhar("")
-      setJanaSramdan("")
-      setDastur("")
-      setByaj("")
-      setLagatSahavagita("")
-      setAnyaSartHaruOne("")
-      setAnyaSartHaruTwo("")
-      setKaryalayaKoTarfabata("")
-      setKaryalayaKoTarfabataChild("")
-      setYojanaSakhaTarfabata("")
-      setYojanaSakhaTarfabataChild("")
-      toast.success("successfully created")
-    } else {
-      console.error("Error occurred during save")
+  const [yojanaKaryaKramKoNaam, setYojanaKaryaKramKoNaam] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
+
+  const [saveOrEdit, setSaveOrEdit] = useState("Save")
+
+  const handleSaveOrEdit = async (yojanaKaryaKramKoNaam: string) => {
+    try {
+      const response = await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
+        yojanaKaryaKramKoNaam
+      )
+
+      if (
+        response.status === "success" &&
+        response.data &&
+        response.data.length > 0
+      ) {
+        const data = response.data[0]
+        setBudgetKarayakram(data.budgetKaryakram)
+        setChaluAawa(data.chaluAawa)
+        setSamjhautaMiti(data.samjhautaMiti)
+        setSamjhautaNaam(data.samjhautaNaam)
+        setPaad(data.paad)
+        setSamjhautaThegana(data.samjhautaThegana)
+        setPhoneNum(data.phoneNum)
+        setYojanaNaam(data.yonanaNaam)
+        setYojanaThegana(data.yojanaThegana)
+        setYojanaTheganaChild(data.yojanaTheganaChild)
+        setYojanaUdeskya(data.yojanaUdeskya)
+        setYojanaSwikritiGarneNikaya(data.yojanaSwikritiGarneNikaya)
+        setYojanaSuruhuneMiti(data.yojanaSuruhuneMiti)
+        setYojanaSsampanaHuneMiti(data.yojanaSsampanaHuneMiti)
+        setYojanaKarya(data.yojanaKarya)
+        setKisimPrakar(data.kisimPrakar)
+        setLambaiMi(data.lambaiMi)
+        setChetrafal(data.chetrafal)
+        setLagatAnumanRu(data.lagatAnumanRu)
+        setBinbatkachyat(data.binbatkachyat)
+        setJanaSramdanRu(data.janaSramdanRu)
+        setJammaRakamRuTwo(data.jammaRakamRuTwo)
+        setNepalsarkarbataRuPariman(data.nepalsarkarbataRuPariman)
+        setNagarpalikabataRuPariman(data.nagarpalikabataRuPariman)
+        setGaupalikaBataRuPariman(data.gaupalikaBataRuPariman)
+        setGairsarkariSanghRuPariman(data.gairsarkariSanghRuPariman)
+        setSamudayamaAdharitRuPariman(data.samudayamaAdharitRuPariman)
+        setBideshDatriSanghRuPariman(data.bideshDatriSanghRuPariman)
+        setLagatSahavagitaRuPariman(data.lagatSahavagitaRuPariman)
+        setAnyaNikayaRuPariman(data.anyaNikayaRuPariman)
+        setNepalsarkarbataRuSamagrikoNaam(data.nepalsarkarbataRuSamagrikoNaam)
+        setNagarpalikabataRuSamagrikoNaam(data.nagarpalikabataRuSamagrikoNaam)
+        setGaupalikaBataRuSamagrikoNaam(data.gaupalikaBataRuSamagrikoNaam)
+        setGairsarkariSanghRuSamagrikoNaam(data.gairsarkariSanghRuSamagrikoNaam)
+        setSamudayamaAdharitRuSamagrikoNaam(
+          data.samudayamaAdharitRuSamagrikoNaam
+        )
+        setBideshDatriSanghRuSamagrikoNaam(data.bideshDatriSanghRuSamagrikoNaam)
+        setLagatSahavagitaRuSamagrikoNaam(data.lagatSahavagitaRuSamagrikoNaam)
+        setAnyaNikayaRuSamagrikoNaam(data.anyaNikayaRuSamagrikoNaam)
+        setNepalsarkarbataRuYekai(data.nepalsarkarbataRuYekai)
+        setNagarpalikabataRuYekai(data.nagarpalikabataRuYekai)
+        setGaupalikaBataRuYekai(data.gaupalikaBataRuYekai)
+        setGairsarkariSanghRuYekai(data.gairsarkariSanghRuYekai)
+        setSamudayamaAdharitRuYekai(data.samudayamaAdharitRuYekai)
+        setBideshDatriSanghRuYekai(data.bideshDatriSanghRuYekai)
+        setLagatSahavagitaRuYekai(data.lagatSahavagitaRuYekai)
+        setAnyaNikayaRuYekai(data.anyaNikayaRuYekai)
+        setNepalsarkarbataRuShramRu(data.nepalsarkarbataRuShramRu)
+        setNagarpalikabataRuShramRu(data.nagarpalikabataRuShramRu)
+        setGaupalikaBataRuShramRu(data.gaupalikaBataRuShramRu)
+        setGairsarkariSanghRuShramRu(data.gairsarkariSanghRuShramRu)
+        setSamudayamaAdharitRuShramRu(data.samudayamaAdharitRuShramRu)
+        setBideshDatriSanghRuShramRu(data.bideshDatriSanghRuShramRu)
+        setLagatSahavagitaRuShramRu(data.lagatSahavagitaRuShramRu)
+        setAnyaNikayaRuShramRu(data.anyaNikayaRuShramRu)
+        setGharpariwarSankhya(data.gharpariwarSankhya)
+        setJanaSankhya(data.janaSankhya)
+        setSamudaya(data.samudaya)
+        setSamudayaAdharit(data.samudayaAdharit)
+        setKamgarneNikaya(data.kamgarneNikaya)
+        setUpavoktaSamiti(data.upavoktaSamiti)
+        setGathanVayekoMiti(data.gathanVayekoMiti)
+        setAdhyakchya(data.adhyakchya)
+        setAdhyakchyaNaPraNa(data.adhyakchyaNaPraNa)
+        setUpadhyekchya(data.upadhyekchya)
+        setSachib(data.sachib)
+        setSachibNaPraNa(data.sachibNaPraNa)
+        setKosaAdakshya(data.kosaAdakshya)
+        setKosaAdakshyaNaPraNa(data.kosaAdakshyaNaPraNa)
+        setSadasyaOne(data.sadasyaOne)
+        setSadasyaTwo(data.sadasyaTwo)
+        setSadasyaThree(data.sadasyaThree)
+        setSadasyaFour(data.sadasyaFour)
+        setSadasyaFive(data.sadasyaFive)
+        setSadasyaSix(data.sadasyaSix)
+        setSadasyaSeven(data.sadasyaSeven)
+        setGathanGardaUpastithi(data.gathanGardaUpastithi)
+        setSamitimaJamma(data.samitimaJamma)
+        setMahilaSadasya(data.mahilaSadasya)
+        setPahiloKistaMiti(data.pahiloKistaMiti)
+        setPahiloKistaPratisad(data.pahiloKistaPratisad)
+        setPahiloKistaKistaKoRakam(data.pahiloKistaKistaKoRakam)
+        setPahiloKistaNirmanSamagri(data.pahiloKistaNirmanSamagri)
+        setPahiloKistaKaifiyat(data.pahiloKistaKaifiyat)
+        setDosroKistaMiti(data.dosroKistaMiti)
+        setDosroKistaPratisat(data.dosroKistaPratisat)
+        setDosroKistaKistaKoRakam(data.dosroKistaKistaKoRakam)
+        setDosroKistaNirmanSamagri(data.dosroKistaNirmanSamagri)
+        setDosroKistaKaifiyat(data.dosroKistaKaifiyat)
+        setTesroKistaMiti(data.tesroKistaMiti)
+        setTesroKistaPratisat(data.tesroKistaPratisat)
+        setTesroKistaKistaKoRakam(data.tesroKistaKistaKoRakam)
+        setTesroKistaNirmanSamagri(data.tesroKistaNirmanSamagri)
+        setTesroKistaKaifiyat(data.tesroKistaKaifiyat)
+        setJammaRakamRuTwoFour(data.jammaRakamRuTwoFour)
+        setMarmatSambhar(data.marmatSambhar)
+        setJanaSramdan(data.janaSramdan)
+        setDastur(data.dastur)
+        setByaj(data.byaj)
+        setLagatSahavagita(data.lagatSahavagita)
+        setAnyaSartHaruOne(data.anyaSartHaruOne)
+        setAnyaSartHaruTwo(data.anyaSartHaruTwo)
+        setKaryalayaKoTarfabata(data.karyalayaKoTarfabata)
+        setKaryalayaKoTarfabataChild(data.karyalayaKoTarfabataChild)
+        setYojanaSakhaTarfabata(data.yojanaSakhaTarfabata)
+        setYojanaSakhaTarfabataChild(data.yojanaSakhaTarfabataChild)
+        setSaveOrEdit("Edit")
+      }
+    } catch (error) {
+      console.error("Error in handleAlertData:", error)
+      alert("An unexpected error occurred.")
     }
   }
+
+  const onSubmit = async () => {
+    if (saveOrEdit === "Edit") {
+      const result = await updateYojanaSamjhauta(
+        yojanaKaryaKramKoNaam,
+        budgetKaryakram,
+        chaluAawa,
+        samjhautaMiti,
+        samjhautaNaam,
+        paad,
+        samjhautaThegana,
+        phoneNum,
+        yonanaNaam,
+        yojanaThegana,
+        yojanaTheganaChild,
+        yojanaUdeskya,
+        yojanaSwikritiGarneNikaya,
+        yojanaSuruhuneMiti,
+        yojanaSsampanaHuneMiti,
+        yojanaKarya,
+        kisimPrakar,
+        lambaiMi,
+        chetrafal,
+        lagatAnumanRu,
+        binbatkachyat,
+        janaSramdanRu,
+        jammaRakamRuTwo,
+        nepalsarkarbataRuPariman,
+        nagarpalikabataRuPariman,
+        gaupalikaBataRuPariman,
+        gairsarkariSanghRuPariman,
+        samudayamaAdharitRuPariman,
+        bideshDatriSanghRuPariman,
+        lagatSahavagitaRuPariman,
+        anyaNikayaRuPariman,
+        nepalsarkarbataRuSamagrikoNaam,
+        nagarpalikabataRuSamagrikoNaam,
+        gaupalikaBataRuSamagrikoNaam,
+        gairsarkariSanghRuSamagrikoNaam,
+        samudayamaAdharitRuSamagrikoNaam,
+        bideshDatriSanghRuSamagrikoNaam,
+        lagatSahavagitaRuSamagrikoNaam,
+        anyaNikayaRuSamagrikoNaam,
+        nepalsarkarbataRuYekai,
+        nagarpalikabataRuYekai,
+        gaupalikaBataRuYekai,
+        gairsarkariSanghRuYekai,
+        samudayamaAdharitRuYekai,
+        bideshDatriSanghRuYekai,
+        lagatSahavagitaRuYekai,
+        anyaNikayaRuYekai,
+        nepalsarkarbataRuShramRu,
+        nagarpalikabataRuShramRu,
+        gaupalikaBataRuShramRu,
+        gairsarkariSanghRuShramRu,
+        samudayamaAdharitRuShramRu,
+        bideshDatriSanghRuShramRu,
+        lagatSahavagitaRuShramRu,
+        anyaNikayaRuShramRu,
+        gharpariwarSankhya,
+        janaSankhya,
+        samudaya,
+        samudayaAdharit,
+        kamgarneNikaya,
+        upavoktaSamiti,
+        gathanVayekoMiti,
+        adhyakchya,
+        adhyakchyaNaPraNa,
+        upadhyekchya,
+        sachib,
+        sachibNaPraNa,
+        kosaAdakshya,
+        kosaAdakshyaNaPraNa,
+        sadasyaOne,
+        sadasyaTwo,
+        sadasyaThree,
+        sadasyaFour,
+        sadasyaFive,
+        sadasyaSix,
+        sadasyaSeven,
+        gathanGardaUpastithi,
+        samitimaJamma,
+        mahilaSadasya,
+        pahiloKistaMiti,
+        pahiloKistaPratisad,
+        pahiloKistaKistaKoRakam,
+        pahiloKistaNirmanSamagri,
+        pahiloKistaKaifiyat,
+        dosroKistaMiti,
+        dosroKistaPratisat,
+        dosroKistaKistaKoRakam,
+        dosroKistaNirmanSamagri,
+        dosroKistaKaifiyat,
+        tesroKistaMiti,
+        tesroKistaPratisat,
+        tesroKistaKistaKoRakam,
+        tesroKistaNirmanSamagri,
+        tesroKistaKaifiyat,
+        jammaRakamRuTwoFour,
+        marmatSambhar,
+        janaSramdan,
+        dastur,
+        byaj,
+        lagatSahavagita,
+        anyaSartHaruOne,
+        anyaSartHaruTwo,
+        karyalayaKoTarfabata,
+        karyalayaKoTarfabataChild,
+        yojanaSakhaTarfabata,
+        yojanaSakhaTarfabataChild
+      )
+      if (result.status === "success") {
+        setYojanaKaryaKramKoNaam("")
+        setBudgetKarayakram("")
+        setChaluAawa("")
+        setSamjhautaMiti("")
+        setSamjhautaNaam("")
+        setPaad("")
+        setSamjhautaThegana("")
+        setPhoneNum("")
+        setYojanaNaam("")
+        setYojanaThegana("")
+        setYojanaTheganaChild("")
+        setYojanaUdeskya("")
+        setYojanaSwikritiGarneNikaya("")
+        setYojanaSuruhuneMiti("")
+        setYojanaSsampanaHuneMiti("")
+        setYojanaKarya("")
+        setKisimPrakar("")
+        setLambaiMi("")
+        setChetrafal("")
+        setLagatAnumanRu("")
+        setBinbatkachyat("")
+        setJanaSramdanRu("")
+        setJammaRakamRuTwo("")
+        setNepalsarkarbataRuPariman("")
+        setNagarpalikabataRuPariman("")
+        setGaupalikaBataRuPariman("")
+        setGairsarkariSanghRuPariman("")
+        setSamudayamaAdharitRuPariman("")
+        setBideshDatriSanghRuPariman("")
+        setLagatSahavagitaRuPariman("")
+        setAnyaNikayaRuPariman("")
+        setNepalsarkarbataRuSamagrikoNaam("")
+        setNagarpalikabataRuSamagrikoNaam("")
+        setGaupalikaBataRuSamagrikoNaam("")
+        setGairsarkariSanghRuSamagrikoNaam("")
+        setSamudayamaAdharitRuSamagrikoNaam("")
+        setBideshDatriSanghRuSamagrikoNaam("")
+        setLagatSahavagitaRuSamagrikoNaam("")
+        setAnyaNikayaRuSamagrikoNaam("")
+        setNepalsarkarbataRuYekai("")
+        setNagarpalikabataRuYekai("")
+        setGaupalikaBataRuYekai("")
+        setGairsarkariSanghRuYekai("")
+        setSamudayamaAdharitRuYekai("")
+        setBideshDatriSanghRuYekai("")
+        setLagatSahavagitaRuYekai("")
+        setAnyaNikayaRuYekai("")
+        setNepalsarkarbataRuShramRu("")
+        setNagarpalikabataRuShramRu("")
+        setGaupalikaBataRuShramRu("")
+        setGairsarkariSanghRuShramRu("")
+        setSamudayamaAdharitRuShramRu("")
+        setBideshDatriSanghRuShramRu("")
+        setLagatSahavagitaRuShramRu("")
+        setAnyaNikayaRuShramRu("")
+        setGharpariwarSankhya("")
+        setJanaSankhya("")
+        setSamudaya("")
+        setSamudayaAdharit("")
+        setKamgarneNikaya("")
+        setUpavoktaSamiti("")
+        setGathanVayekoMiti("")
+        setAdhyakchya("")
+        setAdhyakchyaNaPraNa("")
+        setUpadhyekchya("")
+        setSachib("")
+        setSachibNaPraNa("")
+        setKosaAdakshya("")
+        setKosaAdakshyaNaPraNa("")
+        setSadasyaOne("")
+        setSadasyaTwo("")
+        setSadasyaThree("")
+        setSadasyaFour("")
+        setSadasyaFive("")
+        setSadasyaSix("")
+        setSadasyaSeven("")
+        setGathanGardaUpastithi("")
+        setSamitimaJamma("")
+        setMahilaSadasya("")
+        setPahiloKistaMiti("")
+        setPahiloKistaPratisad("")
+        setPahiloKistaKistaKoRakam("")
+        setPahiloKistaNirmanSamagri("")
+        setPahiloKistaKaifiyat("")
+        setDosroKistaMiti("")
+        setDosroKistaPratisat("")
+        setDosroKistaKistaKoRakam("")
+        setDosroKistaNirmanSamagri("")
+        setDosroKistaKaifiyat("")
+        setTesroKistaMiti("")
+        setTesroKistaPratisat("")
+        setTesroKistaKistaKoRakam("")
+        setTesroKistaNirmanSamagri("")
+        setTesroKistaKaifiyat("")
+        setJammaRakamRuTwoFour("")
+        setMarmatSambhar("")
+        setJanaSramdan("")
+        setDastur("")
+        setByaj("")
+        setLagatSahavagita("")
+        setAnyaSartHaruOne("")
+        setAnyaSartHaruTwo("")
+        setKaryalayaKoTarfabata("")
+        setKaryalayaKoTarfabataChild("")
+        setYojanaSakhaTarfabata("")
+        setYojanaSakhaTarfabataChild("")
+        toast.success("successfully Edited")
+      } else {
+        console.error("Error occurred during save")
+      }
+    } else {
+      const result = await saveYojanaSamjhauta(
+        yojanaKaryaKramKoNaam,
+        budgetKaryakram,
+        chaluAawa,
+        samjhautaMiti,
+        samjhautaNaam,
+        paad,
+        samjhautaThegana,
+        phoneNum,
+        yonanaNaam,
+        yojanaThegana,
+        yojanaTheganaChild,
+        yojanaUdeskya,
+        yojanaSwikritiGarneNikaya,
+        yojanaSuruhuneMiti,
+        yojanaSsampanaHuneMiti,
+        yojanaKarya,
+        kisimPrakar,
+        lambaiMi,
+        chetrafal,
+        lagatAnumanRu,
+        binbatkachyat,
+        janaSramdanRu,
+        jammaRakamRuTwo,
+        nepalsarkarbataRuPariman,
+        nagarpalikabataRuPariman,
+        gaupalikaBataRuPariman,
+        gairsarkariSanghRuPariman,
+        samudayamaAdharitRuPariman,
+        bideshDatriSanghRuPariman,
+        lagatSahavagitaRuPariman,
+        anyaNikayaRuPariman,
+        nepalsarkarbataRuSamagrikoNaam,
+        nagarpalikabataRuSamagrikoNaam,
+        gaupalikaBataRuSamagrikoNaam,
+        gairsarkariSanghRuSamagrikoNaam,
+        samudayamaAdharitRuSamagrikoNaam,
+        bideshDatriSanghRuSamagrikoNaam,
+        lagatSahavagitaRuSamagrikoNaam,
+        anyaNikayaRuSamagrikoNaam,
+        nepalsarkarbataRuYekai,
+        nagarpalikabataRuYekai,
+        gaupalikaBataRuYekai,
+        gairsarkariSanghRuYekai,
+        samudayamaAdharitRuYekai,
+        bideshDatriSanghRuYekai,
+        lagatSahavagitaRuYekai,
+        anyaNikayaRuYekai,
+        nepalsarkarbataRuShramRu,
+        nagarpalikabataRuShramRu,
+        gaupalikaBataRuShramRu,
+        gairsarkariSanghRuShramRu,
+        samudayamaAdharitRuShramRu,
+        bideshDatriSanghRuShramRu,
+        lagatSahavagitaRuShramRu,
+        anyaNikayaRuShramRu,
+        gharpariwarSankhya,
+        janaSankhya,
+        samudaya,
+        samudayaAdharit,
+        kamgarneNikaya,
+        upavoktaSamiti,
+        gathanVayekoMiti,
+        adhyakchya,
+        adhyakchyaNaPraNa,
+        upadhyekchya,
+        sachib,
+        sachibNaPraNa,
+        kosaAdakshya,
+        kosaAdakshyaNaPraNa,
+        sadasyaOne,
+        sadasyaTwo,
+        sadasyaThree,
+        sadasyaFour,
+        sadasyaFive,
+        sadasyaSix,
+        sadasyaSeven,
+        gathanGardaUpastithi,
+        samitimaJamma,
+        mahilaSadasya,
+        pahiloKistaMiti,
+        pahiloKistaPratisad,
+        pahiloKistaKistaKoRakam,
+        pahiloKistaNirmanSamagri,
+        pahiloKistaKaifiyat,
+        dosroKistaMiti,
+        dosroKistaPratisat,
+        dosroKistaKistaKoRakam,
+        dosroKistaNirmanSamagri,
+        dosroKistaKaifiyat,
+        tesroKistaMiti,
+        tesroKistaPratisat,
+        tesroKistaKistaKoRakam,
+        tesroKistaNirmanSamagri,
+        tesroKistaKaifiyat,
+        jammaRakamRuTwoFour,
+        marmatSambhar,
+        janaSramdan,
+        dastur,
+        byaj,
+        lagatSahavagita,
+        anyaSartHaruOne,
+        anyaSartHaruTwo,
+        karyalayaKoTarfabata,
+        karyalayaKoTarfabataChild,
+        yojanaSakhaTarfabata,
+        yojanaSakhaTarfabataChild
+      )
+      if (result.status === "success") {
+        setBudgetKarayakram("")
+        setChaluAawa("")
+        setSamjhautaMiti("")
+        setSamjhautaNaam("")
+        setPaad("")
+        setSamjhautaThegana("")
+        setPhoneNum("")
+        setYojanaNaam("")
+        setYojanaThegana("")
+        setYojanaTheganaChild("")
+        setYojanaUdeskya("")
+        setYojanaSwikritiGarneNikaya("")
+        setYojanaSuruhuneMiti("")
+        setYojanaSsampanaHuneMiti("")
+        setYojanaKarya("")
+        setKisimPrakar("")
+        setLambaiMi("")
+        setChetrafal("")
+        setLagatAnumanRu("")
+        setBinbatkachyat("")
+        setJanaSramdanRu("")
+        setJammaRakamRuTwo("")
+        setNepalsarkarbataRuPariman("")
+        setNagarpalikabataRuPariman("")
+        setGaupalikaBataRuPariman("")
+        setGairsarkariSanghRuPariman("")
+        setSamudayamaAdharitRuPariman("")
+        setBideshDatriSanghRuPariman("")
+        setLagatSahavagitaRuPariman("")
+        setAnyaNikayaRuPariman("")
+        setNepalsarkarbataRuSamagrikoNaam("")
+        setNagarpalikabataRuSamagrikoNaam("")
+        setGaupalikaBataRuSamagrikoNaam("")
+        setGairsarkariSanghRuSamagrikoNaam("")
+        setSamudayamaAdharitRuSamagrikoNaam("")
+        setBideshDatriSanghRuSamagrikoNaam("")
+        setLagatSahavagitaRuSamagrikoNaam("")
+        setAnyaNikayaRuSamagrikoNaam("")
+        setNepalsarkarbataRuYekai("")
+        setNagarpalikabataRuYekai("")
+        setGaupalikaBataRuYekai("")
+        setGairsarkariSanghRuYekai("")
+        setSamudayamaAdharitRuYekai("")
+        setBideshDatriSanghRuYekai("")
+        setLagatSahavagitaRuYekai("")
+        setAnyaNikayaRuYekai("")
+        setNepalsarkarbataRuShramRu("")
+        setNagarpalikabataRuShramRu("")
+        setGaupalikaBataRuShramRu("")
+        setGairsarkariSanghRuShramRu("")
+        setSamudayamaAdharitRuShramRu("")
+        setBideshDatriSanghRuShramRu("")
+        setLagatSahavagitaRuShramRu("")
+        setAnyaNikayaRuShramRu("")
+        setGharpariwarSankhya("")
+        setJanaSankhya("")
+        setSamudaya("")
+        setSamudayaAdharit("")
+        setKamgarneNikaya("")
+        setUpavoktaSamiti("")
+        setGathanVayekoMiti("")
+        setAdhyakchya("")
+        setAdhyakchyaNaPraNa("")
+        setUpadhyekchya("")
+        setSachib("")
+        setSachibNaPraNa("")
+        setKosaAdakshya("")
+        setKosaAdakshyaNaPraNa("")
+        setSadasyaOne("")
+        setSadasyaTwo("")
+        setSadasyaThree("")
+        setSadasyaFour("")
+        setSadasyaFive("")
+        setSadasyaSix("")
+        setSadasyaSeven("")
+        setGathanGardaUpastithi("")
+        setSamitimaJamma("")
+        setMahilaSadasya("")
+        setPahiloKistaMiti("")
+        setPahiloKistaPratisad("")
+        setPahiloKistaKistaKoRakam("")
+        setPahiloKistaNirmanSamagri("")
+        setPahiloKistaKaifiyat("")
+        setDosroKistaMiti("")
+        setDosroKistaPratisat("")
+        setDosroKistaKistaKoRakam("")
+        setDosroKistaNirmanSamagri("")
+        setDosroKistaKaifiyat("")
+        setTesroKistaMiti("")
+        setTesroKistaPratisat("")
+        setTesroKistaKistaKoRakam("")
+        setTesroKistaNirmanSamagri("")
+        setTesroKistaKaifiyat("")
+        setJammaRakamRuTwoFour("")
+        setMarmatSambhar("")
+        setJanaSramdan("")
+        setDastur("")
+        setByaj("")
+        setLagatSahavagita("")
+        setAnyaSartHaruOne("")
+        setAnyaSartHaruTwo("")
+        setKaryalayaKoTarfabata("")
+        setKaryalayaKoTarfabataChild("")
+        setYojanaSakhaTarfabata("")
+        setYojanaSakhaTarfabataChild("")
+        setYojanaKaryaKramKoNaam("")
+        toast.success("successfully Created")
+      } else {
+        console.error("Error occurred during save")
+      }
+    }
+  }
+
+  const fetchYojanaDartaKoNaamData = async () => {
+    try {
+      const data = await fetchYojanaDartaData()
+      console.log("Fetched Anudaan Data:", data) // For debugging
+      setYojanaKoNaam(data)
+      setLoading(false)
+    } catch (e) {
+      console.error("Error fetching anudaan data", e)
+    }
+  }
+
+  const handleAlertData = async (yojanaKaryaKramKoNaam: string) => {
+    if (!yojanaKaryaKramKoNaam) {
+      alert("Please select yojana")
+      return
+    }
+
+    try {
+      const response = await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
+        yojanaKaryaKramKoNaam
+      )
+
+      if (response.status === "success") {
+        // Alerting the data as a string
+        alert(JSON.stringify(response.data, null, 2))
+      } else {
+        alert("Error: " + response.error)
+      }
+    } catch (error) {
+      console.error("Error in handleAlertData:", error)
+      alert("An unexpected error occurred.")
+    }
+  }
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        setLoading(true)
+        const data = await getYojanaSamjhauta(yojanaKaryaKramKoNaam)
+
+        console.log(data)
+
+        if (data && data.length > 0) {
+          const yojanaKaryaKramKoNaam = data[0].yojanaKaryaKramKoNaam
+          const budgetKaryakram = data[0].budgetKaryakram
+          const chaluAawa = data[0].chaluAawa
+          const samjhautaMiti = data[0].samjhautaMiti
+          const samjhautaNaam = data[0].samjhautaNaam
+          const paad = data[0].paad
+          const samjhautaThegana = data[0].samjhautaThegana
+          const phoneNum = data[0].phoneNum
+          const yonanaNaam = data[0].yonanaNaam
+          const yojanaThegana = data[0].yojanaThegana
+          const yojanaTheganaChild = data[0].yojanaTheganaChild
+          const yojanaUdeskya = data[0].yojanaUdeskya
+          const yojanaSwikritiGarneNikaya = data[0].yojanaSwikritiGarneNikaya
+          const yojanaSuruhuneMiti = data[0].yojanaSuruhuneMiti
+          const yojanaSsampanaHuneMiti = data[0].yojanaSsampanaHuneMiti
+          const yojanaKarya = data[0].yojanaKarya
+          const kisimPrakar = data[0].kisimPrakar
+          const lambaiMi = data[0].lambaiMi
+          const chetrafal = data[0].chetrafal
+          const lagatAnumanRu = data[0].lagatAnumanRu
+          const binbatkachyat = data[0].binbatkachyat
+          const janaSramdanRu = data[0].janaSramdanRu
+          const jammaRakamRuTwo = data[0].jammaRakamRuTwo
+          const nepalsarkarbataRuPariman = data[0].nepalsarkarbataRuPariman
+          const nagarpalikabataRuPariman = data[0].nagarpalikabataRuPariman
+          const gaupalikaBataRuPariman = data[0].gaupalikaBataRuPariman
+          const gairsarkariSanghRuPariman = data[0].gairsarkariSanghRuPariman
+          const samudayamaAdharitRuPariman = data[0].samudayamaAdharitRuPariman
+          const bideshDatriSanghRuPariman = data[0].bideshDatriSanghRuPariman
+          const lagatSahavagitaRuPariman = data[0].lagatSahavagitaRuPariman
+          const anyaNikayaRuPariman = data[0].anyaNikayaRuPariman
+          const nepalsarkarbataRuSamagrikoNaam =
+            data[0].nepalsarkarbataRuSamagrikoNaam
+          const nagarpalikabataRuSamagrikoNaam =
+            data[0].nagarpalikabataRuSamagrikoNaam
+          const gaupalikaBataRuSamagrikoNaam =
+            data[0].gaupalikaBataRuSamagrikoNaam
+          const gairsarkariSanghRuSamagrikoNaam =
+            data[0].gairsarkariSanghRuSamagrikoNaam
+          const samudayamaAdharitRuSamagrikoNaam =
+            data[0].samudayamaAdharitRuSamagrikoNaam
+          const bideshDatriSanghRuSamagrikoNaam =
+            data[0].bideshDatriSanghRuSamagrikoNaam
+          const lagatSahavagitaRuSamagrikoNaam =
+            data[0].lagatSahavagitaRuSamagrikoNaam
+          const anyaNikayaRuSamagrikoNaam = data[0].anyaNikayaRuSamagrikoNaam
+          const nepalsarkarbataRuYekai = data[0].nepalsarkarbataRuYekai
+          const nagarpalikabataRuYekai = data[0].nagarpalikabataRuYekai
+          const gaupalikaBataRuYekai = data[0].gaupalikaBataRuYekai
+          const gairsarkariSanghRuYekai = data[0].gairsarkariSanghRuYekai
+          const samudayamaAdharitRuYekai = data[0].samudayamaAdharitRuYekai
+          const bideshDatriSanghRuYekai = data[0].bideshDatriSanghRuYekai
+          const lagatSahavagitaRuYekai = data[0].lagatSahavagitaRuYekai
+          const anyaNikayaRuYekai = data[0].anyaNikayaRuYekai
+          const nepalsarkarbataRuShramRu = data[0].nepalsarkarbataRuShramRu
+          const nagarpalikabataRuShramRu = data[0].nagarpalikabataRuShramRu
+          const gaupalikaBataRuShramRu = data[0].gaupalikaBataRuShramRu
+          const gairsarkariSanghRuShramRu = data[0].gairsarkariSanghRuShramRu
+          const samudayamaAdharitRuShramRu = data[0].samudayamaAdharitRuShramRu
+          const bideshDatriSanghRuShramRu = data[0].bideshDatriSanghRuShramRu
+          const lagatSahavagitaRuShramRu = data[0].lagatSahavagitaRuShramRu
+          const anyaNikayaRuShramRu = data[0].anyaNikayaRuShramRu
+          const gharpariwarSankhya = data[0].gharpariwarSankhya
+          const janaSankhya = data[0].janaSankhya
+          const samudaya = data[0].samudaya
+          const samudayaAdharit = data[0].samudayaAdharit
+          const kamgarneNikaya = data[0].kamgarneNikaya
+          const upavoktaSamiti = data[0].upavoktaSamiti
+          const gathanVayekoMiti = data[0].gathanVayekoMiti
+          const adhyakchya = data[0].adhyakchya
+          const adhyakchyaNaPraNa = data[0].adhyakchyaNaPraNa
+          const upadhyekchya = data[0].upadhyekchya
+          const sachib = data[0].sachib
+          const sachibNaPraNa = data[0].sachibNaPraNa
+          const kosaAdakshya = data[0].kosaAdakshya
+          const kosaAdakshyaNaPraNa = data[0].kosaAdakshyaNaPraNa
+          const sadasyaOne = data[0].sadasyaOne
+          const sadasyaTwo = data[0].sadasyaTwo
+          const sadasyaThree = data[0].sadasyaThree
+          const sadasyaFour = data[0].sadasyaFour
+          const sadasyaFive = data[0].sadasyaFive
+          const sadasyaSix = data[0].sadasyaSix
+          const sadasyaSeven = data[0].sadasyaSeven
+          const gathanGardaUpastithi = data[0].gathanGardaUpastithi
+          const samitimaJamma = data[0].samitimaJamma
+          const mahilaSadasya = data[0].mahilaSadasya
+          const pahiloKistaMiti = data[0].pahiloKistaMiti
+          const pahiloKistaPratisad = data[0].pahiloKistaPratisad
+          const pahiloKistaKistaKoRakam = data[0].pahiloKistaKistaKoRakam
+          const pahiloKistaNirmanSamagri = data[0].pahiloKistaNirmanSamagri
+          const pahiloKistaKaifiyat = data[0].pahiloKistaKaifiyat
+          const dosroKistaMiti = data[0].dosroKistaMiti
+          const dosroKistaPratisat = data[0].dosroKistaPratisat
+          const dosroKistaKistaKoRakam = data[0].dosroKistaKistaKoRakam
+          const dosroKistaNirmanSamagri = data[0].dosroKistaNirmanSamagri
+          const dosroKistaKaifiyat = data[0].dosroKistaKaifiyat
+          const tesroKistaMiti = data[0].tesroKistaMiti
+          const tesroKistaPratisat = data[0].tesroKistaPratisat
+          const tesroKistaKistaKoRakam = data[0].tesroKistaKistaKoRakam
+          const tesroKistaNirmanSamagri = data[0].tesroKistaNirmanSamagri
+          const tesroKistaKaifiyat = data[0].tesroKistaKaifiyat
+          const jammaRakamRuTwoFour = data[0].jammaRakamRuTwoFour
+          const marmatSambhar = data[0].marmatSambhar
+          const janaSramdan = data[0].janaSramdan
+          const dastur = data[0].dastur
+          const byaj = data[0].byaj
+          const lagatSahavagita = data[0].lagatSahavagita
+          const anyaSartHaruOne = data[0].anyaSartHaruOne
+          const anyaSartHaruTwo = data[0].anyaSartHaruTwo
+          const karyalayaKoTarfabata = data[0].karyalayaKoTarfabata
+          const karyalayaKoTarfabataChild = data[0].karyalayaKoTarfabataChild
+          const yojanaSakhaTarfabata = data[0].yojanaSakhaTarfabata
+          const yojanaSakhaTarfabataChild = data[0].yojanaSakhaTarfabataChild
+
+          setYojanaKaryaKramKoNaam(yojanaKaryaKramKoNaam)
+          setBudgetKarayakram(budgetKaryakram)
+          setChaluAawa(chaluAawa)
+          setSamjhautaMiti(samjhautaMiti)
+          setSamjhautaNaam(samjhautaNaam)
+          setPaad(paad)
+          setSamjhautaThegana(samjhautaThegana)
+          setPhoneNum(phoneNum)
+          setYojanaNaam(yonanaNaam)
+          setYojanaThegana(yojanaThegana)
+          setYojanaTheganaChild(yojanaTheganaChild)
+          setYojanaUdeskya(yojanaUdeskya)
+          setYojanaSwikritiGarneNikaya(yojanaSwikritiGarneNikaya)
+          setYojanaSuruhuneMiti(yojanaSuruhuneMiti)
+          setYojanaSsampanaHuneMiti(yojanaSsampanaHuneMiti)
+          setYojanaKarya(yojanaKarya)
+          setKisimPrakar(kisimPrakar)
+          setLambaiMi(lambaiMi)
+          setChetrafal(chetrafal)
+          setLagatAnumanRu(lagatAnumanRu)
+          setBinbatkachyat(binbatkachyat)
+          setJanaSramdanRu(janaSramdanRu)
+          setJammaRakamRuTwo(jammaRakamRuTwo)
+          setNepalsarkarbataRuPariman(nepalsarkarbataRuPariman)
+          setNagarpalikabataRuPariman(nagarpalikabataRuPariman)
+          setGaupalikaBataRuPariman(gaupalikaBataRuPariman)
+          setGairsarkariSanghRuPariman(gairsarkariSanghRuPariman)
+          setSamudayamaAdharitRuPariman(samudayamaAdharitRuPariman)
+          setBideshDatriSanghRuPariman(bideshDatriSanghRuPariman)
+          setLagatSahavagitaRuPariman(lagatSahavagitaRuPariman)
+          setAnyaNikayaRuPariman(anyaNikayaRuPariman)
+          setNepalsarkarbataRuSamagrikoNaam(nepalsarkarbataRuSamagrikoNaam)
+          setNagarpalikabataRuSamagrikoNaam(nagarpalikabataRuSamagrikoNaam)
+          setGaupalikaBataRuSamagrikoNaam(gaupalikaBataRuSamagrikoNaam)
+          setGairsarkariSanghRuSamagrikoNaam(gairsarkariSanghRuSamagrikoNaam)
+          setSamudayamaAdharitRuSamagrikoNaam(samudayamaAdharitRuSamagrikoNaam)
+          setBideshDatriSanghRuSamagrikoNaam(bideshDatriSanghRuSamagrikoNaam)
+          setLagatSahavagitaRuSamagrikoNaam(lagatSahavagitaRuSamagrikoNaam)
+          setAnyaNikayaRuSamagrikoNaam(anyaNikayaRuSamagrikoNaam)
+          setNepalsarkarbataRuYekai(nepalsarkarbataRuYekai)
+          setNagarpalikabataRuYekai(nagarpalikabataRuYekai)
+          setGaupalikaBataRuYekai(gaupalikaBataRuYekai)
+          setGairsarkariSanghRuYekai(gairsarkariSanghRuYekai)
+          setSamudayamaAdharitRuYekai(samudayamaAdharitRuYekai)
+          setBideshDatriSanghRuYekai(bideshDatriSanghRuYekai)
+          setLagatSahavagitaRuYekai(lagatSahavagitaRuYekai)
+          setAnyaNikayaRuYekai(anyaNikayaRuYekai)
+          setNepalsarkarbataRuShramRu(nepalsarkarbataRuShramRu)
+          setNagarpalikabataRuShramRu(nagarpalikabataRuShramRu)
+          setGaupalikaBataRuShramRu(gaupalikaBataRuShramRu)
+          setGairsarkariSanghRuShramRu(gairsarkariSanghRuShramRu)
+          setSamudayamaAdharitRuShramRu(samudayamaAdharitRuShramRu)
+          setBideshDatriSanghRuShramRu(bideshDatriSanghRuShramRu)
+          setLagatSahavagitaRuShramRu(lagatSahavagitaRuShramRu)
+          setAnyaNikayaRuShramRu(anyaNikayaRuShramRu)
+          setGharpariwarSankhya(gharpariwarSankhya)
+          setJanaSankhya(janaSankhya)
+          setSamudaya(samudaya)
+          setSamudayaAdharit(samudayaAdharit)
+          setKamgarneNikaya(kamgarneNikaya)
+          setUpavoktaSamiti(upavoktaSamiti)
+          setGathanVayekoMiti(gathanVayekoMiti)
+          setAdhyakchya(adhyakchya)
+          setAdhyakchyaNaPraNa(adhyakchyaNaPraNa)
+          setUpadhyekchya(upadhyekchya)
+          setSachib(sachib)
+          setSachibNaPraNa(sachibNaPraNa)
+          setKosaAdakshya(kosaAdakshya)
+          setKosaAdakshyaNaPraNa(kosaAdakshyaNaPraNa)
+          setSadasyaOne(sadasyaOne)
+          setSadasyaTwo(sadasyaTwo)
+          setSadasyaThree(sadasyaThree)
+          setSadasyaFour(sadasyaFour)
+          setSadasyaFive(sadasyaFive)
+          setSadasyaSix(sadasyaSix)
+          setSadasyaSeven(sadasyaSeven)
+          setGathanGardaUpastithi(gathanGardaUpastithi)
+          setSamitimaJamma(samitimaJamma)
+          setMahilaSadasya(mahilaSadasya)
+          setPahiloKistaMiti(pahiloKistaMiti)
+          setPahiloKistaPratisad(pahiloKistaPratisad)
+          setPahiloKistaKistaKoRakam(pahiloKistaKistaKoRakam)
+          setPahiloKistaNirmanSamagri(pahiloKistaNirmanSamagri)
+          setPahiloKistaKaifiyat(pahiloKistaKaifiyat)
+          setDosroKistaMiti(dosroKistaMiti)
+          setDosroKistaPratisat(dosroKistaPratisat)
+          setDosroKistaKistaKoRakam(dosroKistaKistaKoRakam)
+          setDosroKistaNirmanSamagri(dosroKistaNirmanSamagri)
+          setDosroKistaKaifiyat(dosroKistaKaifiyat)
+          setTesroKistaMiti(tesroKistaMiti)
+          setTesroKistaPratisat(tesroKistaPratisat)
+          setTesroKistaKistaKoRakam(tesroKistaKistaKoRakam)
+          setTesroKistaNirmanSamagri(tesroKistaNirmanSamagri)
+          setTesroKistaKaifiyat(tesroKistaKaifiyat)
+          setJammaRakamRuTwoFour(jammaRakamRuTwoFour)
+          setMarmatSambhar(marmatSambhar)
+          setJanaSramdan(janaSramdan)
+          setDastur(dastur)
+          setByaj(byaj)
+          setLagatSahavagita(lagatSahavagita)
+          setAnyaSartHaruOne(anyaSartHaruOne)
+          setAnyaSartHaruTwo(anyaSartHaruTwo)
+          setKaryalayaKoTarfabata(karyalayaKoTarfabata)
+          setKaryalayaKoTarfabataChild(karyalayaKoTarfabataChild)
+          setYojanaSakhaTarfabata(yojanaSakhaTarfabata)
+          setYojanaSakhaTarfabataChild(yojanaSakhaTarfabataChild)
+        } else {
+          setBudgetKarayakram("")
+          setChaluAawa("")
+          setSamjhautaMiti("")
+          setSamjhautaNaam("")
+          setPaad("")
+          setSamjhautaThegana("")
+          setPhoneNum("")
+          setYojanaNaam("")
+          setYojanaThegana("")
+          setYojanaTheganaChild("")
+          setYojanaUdeskya("")
+          setYojanaSwikritiGarneNikaya("")
+          setYojanaSuruhuneMiti("")
+          setYojanaSsampanaHuneMiti("")
+          setYojanaKarya("")
+          setKisimPrakar("")
+          setLambaiMi("")
+          setChetrafal("")
+          setLagatAnumanRu("")
+          setBinbatkachyat("")
+          setJanaSramdanRu("")
+          setJammaRakamRuTwo("")
+          setNepalsarkarbataRuPariman("")
+          setNagarpalikabataRuPariman("")
+          setGaupalikaBataRuPariman("")
+          setGairsarkariSanghRuPariman("")
+          setSamudayamaAdharitRuPariman("")
+          setBideshDatriSanghRuPariman("")
+          setLagatSahavagitaRuPariman("")
+          setAnyaNikayaRuPariman("")
+          setNepalsarkarbataRuSamagrikoNaam("")
+          setNagarpalikabataRuSamagrikoNaam("")
+          setGaupalikaBataRuSamagrikoNaam("")
+          setGairsarkariSanghRuSamagrikoNaam("")
+          setSamudayamaAdharitRuSamagrikoNaam("")
+          setBideshDatriSanghRuSamagrikoNaam("")
+          setLagatSahavagitaRuSamagrikoNaam("")
+          setAnyaNikayaRuSamagrikoNaam("")
+          setNepalsarkarbataRuYekai("")
+          setNagarpalikabataRuYekai("")
+          setGaupalikaBataRuYekai("")
+          setGairsarkariSanghRuYekai("")
+          setSamudayamaAdharitRuYekai("")
+          setBideshDatriSanghRuYekai("")
+          setLagatSahavagitaRuYekai("")
+          setAnyaNikayaRuYekai("")
+          setNepalsarkarbataRuShramRu("")
+          setNagarpalikabataRuShramRu("")
+          setGaupalikaBataRuShramRu("")
+          setGairsarkariSanghRuShramRu("")
+          setSamudayamaAdharitRuShramRu("")
+          setBideshDatriSanghRuShramRu("")
+          setLagatSahavagitaRuShramRu("")
+          setAnyaNikayaRuShramRu("")
+          setGharpariwarSankhya("")
+          setJanaSankhya("")
+          setSamudaya("")
+          setSamudayaAdharit("")
+          setKamgarneNikaya("")
+          setUpavoktaSamiti("")
+          setGathanVayekoMiti("")
+          setAdhyakchya("")
+          setAdhyakchyaNaPraNa("")
+          setUpadhyekchya("")
+          setSachib("")
+          setSachibNaPraNa("")
+          setKosaAdakshya("")
+          setKosaAdakshyaNaPraNa("")
+          setSadasyaOne("")
+          setSadasyaTwo("")
+          setSadasyaThree("")
+          setSadasyaFour("")
+          setSadasyaFive("")
+          setSadasyaSix("")
+          setSadasyaSeven("")
+          setGathanGardaUpastithi("")
+          setSamitimaJamma("")
+          setMahilaSadasya("")
+          setPahiloKistaMiti("")
+          setPahiloKistaPratisad("")
+          setPahiloKistaKistaKoRakam("")
+          setPahiloKistaNirmanSamagri("")
+          setPahiloKistaKaifiyat("")
+          setDosroKistaMiti("")
+          setDosroKistaPratisat("")
+          setDosroKistaKistaKoRakam("")
+          setDosroKistaNirmanSamagri("")
+          setDosroKistaKaifiyat("")
+          setTesroKistaMiti("")
+          setTesroKistaPratisat("")
+          setTesroKistaKistaKoRakam("")
+          setTesroKistaNirmanSamagri("")
+          setTesroKistaKaifiyat("")
+          setJammaRakamRuTwoFour("")
+          setMarmatSambhar("")
+          setJanaSramdan("")
+          setDastur("")
+          setByaj("")
+          setLagatSahavagita("")
+          setAnyaSartHaruOne("")
+          setAnyaSartHaruTwo("")
+          setKaryalayaKoTarfabata("")
+          setKaryalayaKoTarfabataChild("")
+          setYojanaSakhaTarfabata("")
+          setYojanaSakhaTarfabataChild("")
+          setSaveOrEdit("Save")
+        }
+      } catch (error) {
+        console.error("Error fetching Yojana Darta data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    handleSaveOrEdit(yojanaKaryaKramKoNaam)
+    getData()
+  }, [yojanaKaryaKramKoNaam])
+
+  useEffect(() => {
+    if (saveOrEdit === "Save") {
+      fetchYojanaDartaKoNaamData()
+    }
+  }, [saveOrEdit])
 
   return (
     <div className="flex w-full justify-center ">
@@ -527,6 +1277,28 @@ export default function YojanaSamjhauta() {
             </h1>
             <br />
             <div className="flex items-center gap-4">
+              <Select
+                label="योजना / कार्यक्रमको नाम"
+                size="sm"
+                className="w-[30%]"
+                placeholder="Select an option" // Optional: if you want a placeholder
+                selectedKeys={
+                  yojanaKaryaKramKoNaam
+                    ? new Set([yojanaKaryaKramKoNaam])
+                    : new Set()
+                }
+                endContent={loading ? "loading..." : null}
+                onSelectionChange={(keys) => {
+                  const selectedValue = Array.from(keys).join(", ")
+                  setYojanaKaryaKramKoNaam(selectedValue)
+                }}
+              >
+                {yojanaKoNaam.map((item) => (
+                  <SelectItem key={item.yojanaKoNaam} value={item.yojanaKoNaam}>
+                    {item.yojanaKoNaam}
+                  </SelectItem>
+                ))}
+              </Select>
               <Input
                 type="text"
                 label="वजेट कार्यक्रम "
@@ -1769,18 +2541,53 @@ export default function YojanaSamjhauta() {
               Add Images/Photo
             </Button>
             <Button
-              startContent={<FaRegSave />}
               color="secondary"
+              startContent={<FaRegSave />}
               onClick={onSubmit}
             >
-              Save/Update
+              {saveOrEdit}
+            </Button>
+
+            <Button
+              color="default"
+              startContent={<FaRegSave />}
+              onClick={async () => {
+                if (!yojanaKaryaKramKoNaam) {
+                  alert("Please select yojana")
+                  return
+                }
+
+                try {
+                  const response =
+                    await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
+                      yojanaKaryaKramKoNaam
+                    )
+
+                  // Ensure response.data exists and is not empty
+                  if (
+                    response.status === "success" &&
+                    response.data &&
+                    response.data.length > 0
+                  ) {
+                    // Pass the first item in the data array to printContent
+                    yojanaSamjhautaPrint(response.data[0])
+                  } else {
+                    alert("No data found or error occurred.")
+                  }
+                } catch (error) {
+                  console.error("Error fetching data:", error)
+                  alert("An unexpected error occurred.")
+                }
+              }}
+            >
+              Print
             </Button>
             <Button
-              startContent={<FaPrint />}
-              onClick={() => yojanaSamjhautaPrint("test")}
-              color="primary"
+              color="default"
+              startContent={<FaRegSave />}
+              onClick={() => handleAlertData(yojanaKaryaKramKoNaam)}
             >
-              Print Doc
+              show data for Print
             </Button>
           </div>
         </div>

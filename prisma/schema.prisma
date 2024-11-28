@@ -228,6 +228,7 @@ model SamjhautaSwikritiTippani {
 
 model YojanaSamjhauta {
   id                               String @id @default(cuid())
+  yojanaKaryaKramKoNaam            String
   budgetKaryakram                  String
   chaluAawa                        String
   samjhautaMiti                    String
