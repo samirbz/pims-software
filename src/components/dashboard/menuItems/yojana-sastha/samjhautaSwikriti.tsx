@@ -143,9 +143,7 @@ export default function SamjhautaSwikriti() {
         setPadakariSankhya("")
         setMahilaSankhya("")
         setAnugamanSamitikaSadasya("")
-        setVudgetKitabSNum("")
         setUshaGathanMiti("")
-        setMukhyaSamitiKoNaam("")
         setUshaNibedandiyiyekoMiti("")
         setAnyaTipaniBivaran("")
         setYojanakoNaam("")
@@ -287,25 +285,26 @@ export default function SamjhautaSwikriti() {
     const getData = async () => {
       try {
         setLoading(true)
-        const data = await getYojanaDartaForSwikriti(yojanaKaryaKramKoNaam)
+        const response = await getYojanaDartaForSwikriti(yojanaKaryaKramKoNaam)
 
-        if (data && data.length > 0) {
-          const estimateAmount = data[0].prabidhikEstimateAmount
-          const kulAnudaan = data[0].kulAnudaanRakam
-          const janaSramdan = data[0].janaSramdanRakam
-          const contengency = data[0].dharautiRakamResult
-          const mukhyaSamitiKoNaam = data[0].mukhyaSamiti
-          const vudgetKitabSNum = data[0].budgetKitabSnum
+        if (response && response.length > 0) {
+          const data = response[0]
+          // const estimateAmount = data[0].prabidhikEstimateAmount
+          // const kulAnudaan = data[0].kulAnudaanRakam
+          // const janaSramdan = data[0].janaSramdanRakam
+          // const contengency = data[0].dharautiRakamResult
+          // const mukhyaSamitiKoNaam = data[0].mukhyaSamiti
+          // const vudgetKitabSNum = data[0].budgetKitabSnum
 
-          setLagatAnumanRakam(estimateAmount)
-          setNagarpalikaRakamRu(kulAnudaan)
-          setlagatSramDan(janaSramdan)
-          setContengencyRakam(contengency)
-          setKhudPauneRakam(kulAnudaan)
-          setMukhyaSamitiKoNaam(mukhyaSamitiKoNaam)
-          setVudgetKitabSNum(vudgetKitabSNum)
+          setLagatAnumanRakam(data.prabidhikEstimateAmount)
+          setNagarpalikaRakamRu(data.kulAnudaanRakam)
+          setlagatSramDan(data.janaSramdanRakam)
+          setContengencyRakam(data.dharautiRakamResult)
+          setKhudPauneRakam(data.kulAnudaanRakam)
+          setMukhyaSamitiKoNaam(data.mukhyaSamiti)
+          setVudgetKitabSNum(data.budgetKitabSnum)
           setUpavoktaSamitiKoNaam(
-            data[0].karyagatSamuha === "उपभोक्ता समिति"
+            data.karyagatSamuha === "उपभोक्ता समिति"
               ? yojanaKaryaKramKoNaam + " (उपभोक्ता समिति)"
               : ""
           )
