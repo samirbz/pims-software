@@ -245,17 +245,6 @@ export default function YojanaDarta() {
   )
   // end
 
-  const [page, setPage] = useState(1)
-  const rowsPerPage = 7
-
-  const pages = Math.ceil(yojanaDartaData.length / rowsPerPage)
-
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage
-    const end = start + rowsPerPage
-    return yojanaDartaData.slice(start, end)
-  }, [page, yojanaDartaData])
-
   const fetchWadaData = async () => {
     try {
       const data = await fetchWadaNumData()
@@ -835,9 +824,26 @@ export default function YojanaDarta() {
   // }
 
   const [filterAyojanaKoNaam, setFilterAyojanaKoNaam] = useState("")
-  const filteredItems = items.filter((item) =>
-    item.yojanaKoNaam.toLowerCase().includes(filterAyojanaKoNaam.toLowerCase())
-  )
+  const [page, setPage] = useState(1)
+  const rowsPerPage = 7
+
+  // Filter the full dataset first
+  const filteredYojanaDartaData = React.useMemo(() => {
+    return yojanaDartaData.filter((item) =>
+      item.yojanaKoNaam
+        .toLowerCase()
+        .includes(filterAyojanaKoNaam.toLowerCase())
+    )
+  }, [filterAyojanaKoNaam, yojanaDartaData])
+
+  // Paginate the filtered data
+  const paginatedItems = React.useMemo(() => {
+    const start = (page - 1) * rowsPerPage
+    const end = start + rowsPerPage
+    return filteredYojanaDartaData.slice(start, end)
+  }, [page, filteredYojanaDartaData])
+
+  const totalPages = Math.ceil(filteredYojanaDartaData.length / rowsPerPage)
 
   return (
     <div className="flex flex-col justify-between bg-white ">
@@ -880,7 +886,7 @@ export default function YojanaDarta() {
                             showShadow
                             color="secondary"
                             page={page}
-                            total={pages}
+                            total={totalPages}
                             onChange={(page) => setPage(page)}
                           />
                         </div>
@@ -897,7 +903,7 @@ export default function YojanaDarta() {
                         <TableColumn>Edit</TableColumn>
                       </TableHeader>
                       <TableBody>
-                        {filteredItems.map((item, index) => (
+                        {paginatedItems.map((item, index) => (
                           <TableRow key={item.id}>
                             <TableCell>
                               {(page - 1) * rowsPerPage + index + 1}
