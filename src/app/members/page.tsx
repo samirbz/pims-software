@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 import { getSessionDetail } from "@/actions/authActions"
 
@@ -232,12 +233,18 @@ const Nav = () => {
   const [selectedKey, setSelectedKey] = useState("0")
   const [userd, setUserd] = useState<Userd | null>(null)
 
+  const router = useRouter()
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
 
   const handleMenuClick = ({ key }: { key: string }) => {
     setSelectedKey(key)
+    // Redirect to /fiscalyear if "Switch Fiscal Year" is clicked
+    if (key === "sub9") {
+      router.push("/fiscalyear")
+    }
   }
 
   const fetchUserData = async () => {

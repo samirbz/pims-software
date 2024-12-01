@@ -3,11 +3,19 @@ import { auth } from "./auth"
 import { authRoutes, adminRoutes } from "./routes"
 
 export default auth((req) => {
-  const { nextUrl } = req
+  const { nextUrl, cookies } = req
   const isLoggedIn = !!req.auth
   const user = req.auth?.user // Assuming user information is stored in req.auth.user
 
+  // Get the fiscalYear cookie
+  const fiscalYear = cookies.get("fiscalYear")?.value
+
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+
+  // Redirect to /fiscalyear if trying to access /members without fiscalYear set
+  if (nextUrl.pathname === "/members" && !fiscalYear) {
+    return NextResponse.redirect(new URL("/fiscalyear", nextUrl))
+  }
 
   if (isAuthRoute) {
     if (isLoggedIn) {

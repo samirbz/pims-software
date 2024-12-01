@@ -1,9 +1,9 @@
 "use client"
 import { NextUIProvider } from "@nextui-org/react"
-import React, { ReactNode} from "react"
+import React, { ReactNode } from "react"
 import { ToastContainer } from "react-toastify"
+import { MyContextProvider } from "../context/MyContext"
 import "react-toastify/dist/ReactToastify.css"
-
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
@@ -13,7 +13,7 @@ export default function Providers({ children }: { children: ReactNode }) {
         hideProgressBar
         className="z-50"
       />
-    {children}
+      <MyContextProvider>{children}</MyContextProvider>
     </NextUIProvider>
   )
 }
