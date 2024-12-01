@@ -1,5 +1,3 @@
-"use client"
-
 import React, {
   createContext,
   useContext,
@@ -12,6 +10,7 @@ import nookies from "nookies"
 interface MyContextType {
   value: string | null
   setValue: (newValue: string) => void
+  clearValue: () => void // Add clearValue to the context type
 }
 
 const MyContext = createContext<MyContextType | undefined>(undefined)
@@ -29,6 +28,12 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     nookies.set(null, "fiscalYear", newValue, { path: "/" }) // Set cookie
   }
 
+  // Clear value and remove cookies
+  const clearValue = () => {
+    setValueState(null)
+    nookies.destroy(null, "fiscalYear", { path: "/" }) // Remove cookie
+  }
+
   // Initialize state from cookies
   useEffect(() => {
     const cookies = nookies.get(null)
@@ -36,7 +41,7 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
   }, [])
 
   return (
-    <MyContext.Provider value={{ value, setValue }}>
+    <MyContext.Provider value={{ value, setValue, clearValue }}>
       {children}
     </MyContext.Provider>
   )

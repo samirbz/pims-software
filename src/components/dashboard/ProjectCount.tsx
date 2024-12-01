@@ -1,7 +1,6 @@
 "use client"
-import React, { useState } from "react"
+import React from "react"
 import { ConvertToNepaliNumerals } from "@/lib/util"
-import { Input } from "@nextui-org/react"
 
 export default function ProjectCount() {
   const paragraphs = [
@@ -11,24 +10,6 @@ export default function ProjectCount() {
     "रनीङ बिल निकास",
     "चालुमा आ.व सम्पन्न योजना",
   ]
-
-  const [inputValue, setInputValue] = useState<string>("")
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-
-    // Remove any non-numeric characters and convert Nepali numerals to Western numerals
-    const numericValue = value
-      .replace(/[^०-९0-9]/g, "")
-      .replace(/[०-९]/g, (char) => {
-        return "0123456789"[char.charCodeAt(0) - "०".charCodeAt(0)]
-      })
-
-    // Convert the cleaned value to Nepali numerals
-    const nepaliValue = ConvertToNepaliNumerals(numericValue)
-
-    setInputValue(nepaliValue)
-  }
 
   return (
     <div className="ml-4">
@@ -61,14 +42,6 @@ export default function ProjectCount() {
             ))}
           </tbody>
         </table>
-        <Input
-          label="nepali number testing"
-          onChange={handleChange}
-          value={inputValue}
-          size="sm"
-          className="mt-8 w-72"
-          color="success"
-        />
       </div>
     </div>
   )

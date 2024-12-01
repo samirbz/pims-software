@@ -1,7 +1,8 @@
 "use client"
 import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { fetchFyData } from "@/actions/formAction"
+import { useMyContext } from "../../context/MyContext"
 
 import { getSessionDetail } from "@/actions/authActions"
 
@@ -17,7 +18,7 @@ import {
 } from "@ant-design/icons"
 import { MdOutlinePhonelinkSetup } from "react-icons/md"
 import type { MenuProps } from "antd"
-import { Layout, Menu, theme } from "antd"
+import { Layout, Menu, theme, Modal } from "antd"
 
 import BSDateDisplay from "@/components/dashboard/topNavItems/BSDateDisplay"
 import Title from "@/components/dashboard/topNavItems/Title"
@@ -232,8 +233,9 @@ const Nav = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [selectedKey, setSelectedKey] = useState("0")
   const [userd, setUserd] = useState<Userd | null>(null)
-
-  const router = useRouter()
+  const [fiscalYears, setFiscalYears] = useState<any[]>([])
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const { setValue, clearValue } = useMyContext()
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -241,9 +243,10 @@ const Nav = () => {
 
   const handleMenuClick = ({ key }: { key: string }) => {
     setSelectedKey(key)
-    // Redirect to /fiscalyear if "Switch Fiscal Year" is clicked
+
+    // Open modal when "Switch Fiscal Year" is clicked
     if (key === "sub9") {
-      router.push("/fiscalyear")
+      fetchFiscalYears()
     }
   }
 
@@ -252,9 +255,29 @@ const Nav = () => {
     setUserd(userData)
   }
 
+  const fetchFiscalYears = async () => {
+    try {
+      const data = await fetchFyData()
+      if (data.length === 0) {
+        clearValue()
+      } else {
+        setFiscalYears(data) // Populate fiscal years
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    setIsModalVisible(true)
+  }
+
   useEffect(() => {
     fetchUserData()
   }, [])
+
+  // Handle fiscal year selection
+  const handleSelectYear = (year: string) => {
+    setValue(year) // Update context and cookie
+    setIsModalVisible(false) // Close modal
+  }
 
   const renderContent = () => {
     switch (selectedKey) {
@@ -479,89 +502,119 @@ const Nav = () => {
   }, [userd?.email])
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-        theme="dark"
-        width={250}
-        style={{
-          overflow: "auto",
-          height: "100vh",
-        }}
-      >
-        <div className="my-4 ml-6 flex gap-4 font-semibold ">
-          <Image
-            src="/PIMS.ico"
-            width={40}
-            height={40}
-            alt="logo"
-            onClick={handleClick}
-            className="cursor-pointer"
-          />
-
-          {collapsed ? (
-            ""
-          ) : (
-            <p
-              onClick={handleClick}
-              className="cursor-pointer text-3xl text-orange-500"
+    <>
+      <Modal open={isModalVisible} footer={null} closable={false} centered>
+        <div className="w-auto rounded-lg bg-gray-300 shadow-2xl">
+          {/* Header Section */}
+          <div className="flex items-center justify-between rounded-t-lg bg-blue-600 px-4 py-2">
+            <h1 className="text-xl font-medium text-gray-100">आर्थिक वर्ष</h1>
+            <button
+              onClick={() => setIsModalVisible(false)}
+              className="rounded-full bg-transparent p-1 text-gray-100 transition hover:bg-gray-100 hover:text-blue-600"
             >
-              PIMS
-            </p>
-          )}
-        </div>
+              ✖
+            </button>
+          </div>
 
-        <Menu
+          {/* Button Section */}
+          <div className="flex flex-col items-center gap-2 p-4">
+            {fiscalYears.map((year) => (
+              <button
+                key={year.id} // Use a unique key
+                onClick={() => handleSelectYear(year.fy)} // Pass only the fiscal year
+                className="w-full max-w-sm rounded-md bg-gray-100 px-4 py-2 text-lg font-medium text-gray-700 transition hover:bg-blue-600 hover:text-white hover:shadow-lg"
+              >
+                {year.fy} {/* Render a specific property like `fy` */}
+              </button>
+            ))}
+          </div>
+        </div>
+      </Modal>
+
+      <Layout style={{ minHeight: "100vh" }}>
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
           theme="dark"
-          mode="inline"
-          items={filteredMenuItems}
-          onClick={handleMenuClick}
-          openKeys={openKeys}
-          onOpenChange={handleOpenChange}
-        />
-      </Sider>
-      <Layout>
-        <Header
+          width={250}
           style={{
-            padding: 0,
-            background: "#F5F5F5",
-            height: 60,
-            boxShadow:
-              "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            overflow: "auto",
+            height: "100vh",
           }}
-          className="flex justify-center "
         >
-          <div className="ml-4 flex w-full items-center justify-between">
-            <BSDateDisplay />
-            <div className="hidden sm:block">
-              <Title />
-            </div>
-            <AccountButton />
+          <div className="my-4 ml-6 flex gap-4 font-semibold ">
+            <Image
+              src="/PIMS.ico"
+              width={40}
+              height={40}
+              alt="logo"
+              onClick={handleClick}
+              className="cursor-pointer"
+            />
+
+            {collapsed ? (
+              ""
+            ) : (
+              <p
+                onClick={handleClick}
+                className="cursor-pointer text-3xl text-orange-500"
+              >
+                PIMS
+              </p>
+            )}
           </div>
-        </Header>
-        <Content
-          style={{
-            margin: "16px 16px",
-            overflow: "auto", // Enable scrolling
-          }}
-          className="vertical-center "
-        >
-          <div
+
+          <Menu
+            theme="dark"
+            mode="inline"
+            items={filteredMenuItems}
+            onClick={handleMenuClick}
+            openKeys={openKeys}
+            onOpenChange={handleOpenChange}
+          />
+        </Sider>
+        <Layout>
+          <Header
             style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              padding: 0,
+              background: "#F5F5F5",
+              height: 60,
+              boxShadow:
+                "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
-            className="overflow-auto"
+            className="flex justify-center "
           >
-            {renderContent()} {/* Render content based on selected key */}
-          </div>
-        </Content>
+            <div className="ml-4 flex w-full items-center justify-between">
+              <BSDateDisplay />
+              <div className="hidden sm:block">
+                <Title />
+              </div>
+              <AccountButton />
+            </div>
+          </Header>
+          <Content
+            style={{
+              margin: "16px 16px",
+              overflow: "auto", // Enable scrolling
+            }}
+            className="vertical-center "
+          >
+            <div
+              style={{
+                padding: 24,
+                minHeight: 360,
+                background: colorBgContainer,
+                borderRadius: borderRadiusLG,
+              }}
+              className="overflow-auto"
+            >
+              {renderContent()} {/* Render content based on selected key */}
+            </div>
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </>
   )
 }
 
