@@ -161,6 +161,9 @@ export default function FiscalYearPage() {
           </Button>
         </div>
         <br />
+        <span className="text-sm text-black">
+          (आर्थिक वर्ष क्रम्बद्द सेट गर्नुहोस)
+        </span>
         {loading ? (
           <div className="my-4 flex w-full justify-center">
             <Spinner color="primary" />

@@ -80,6 +80,7 @@ import YojanaJachpass from "@/components/dashboard/menuItems/anugaman/yojanaJach
 import YojanaHastantaran from "@/components/dashboard/menuItems/anugaman/yojanaHastantaran"
 import JachPassTathafarfarakPratibedan from "@/components/dashboard/menuItems/anugaman/jachPassTathafarfarakPratibedan"
 import AnugamanGarekoMiti from "@/components/dashboard/menuItems/anugaman/anugamanGarekoMiti"
+import { toast } from "react-toastify"
 
 const { Header, Content, Sider } = Layout
 
@@ -235,7 +236,25 @@ const Nav = () => {
   const [userd, setUserd] = useState<Userd | null>(null)
   const [fiscalYears, setFiscalYears] = useState<any[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const { setValue, clearValue } = useMyContext()
+  const { value, setValue, clearValue } = useMyContext()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchFyData()
+        if (data.length === 0) {
+          clearValue()
+          toast.warning("fiscal year not found!")
+        } else if (value === null) {
+          setValue(data[data.length - 1]?.fy)
+        }
+      } catch (error) {
+        console.error("Error fetching fiscal year data:", error)
+      }
+    }
+
+    fetchData()
+  }, [value, setValue, clearValue])
 
   const {
     token: { colorBgContainer, borderRadiusLG },
