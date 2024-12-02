@@ -61,54 +61,64 @@ model TskData {
 
 model MukhyaSamitiKoNaam {
   id                 String @id @default(cuid())
+  fiscalyear         String
   mukhyaSamitiKoNaam String
 }
 
 model AnudaanKoNaam {
   id            String @id @default(cuid())
+  fiscalyear    String
   anudaanKoNaam String
 }
 
 model LagatSrot {
   id              String @id @default(cuid())
+  fiscalyear      String
   anudanKoKisim   String
   lagatSrotKoNaam String
 }
 
 model YojanaPrakar {
   id           String @id @default(cuid())
+  fiscalyear   String
   yojanaPrakar String
 }
 
 model YojanaKaryaBivaran {
   id            String @id @default(cuid())
+  fiscalyear    String
   yojanaKoKisim String
   yojanaKoKarya String
 }
 
 model YojanaChanotNikaya {
   id                 String @id @default(cuid())
+  fiscalyear         String
   yojanaChanotNikaya String
 }
 
 model Gapa {
-  id   String @id @default(cuid())
-  gapa String
+  id         String @id @default(cuid())
+  fiscalyear String
+  gapa       String
 }
 
 model WadaNum {
-  id      String @id @default(cuid())
-  wadaNum String
+  id         String @id @default(cuid())
+  fiscalyear String
+  wadaNum    String
 }
 
 model BankBivaran {
   id         String @id @default(cuid())
+  fiscalyear String
   bankKoNaam String
   sakha      String
 }
 
 model yojanaBudget {
   id              String @id @default(cuid())
+  fiscalyear      String
   yojanaKoNaam    String
   wadaNum         String
   anudanKisim     String
@@ -120,6 +130,7 @@ model yojanaBudget {
 
 model yojanaBudgetSecond {
   id                    String @id @default(cuid())
+  fiscalyear            String
   yojanaKoNaamDt        String
   wadaNumDt             String
   anudanKisimDt         String
@@ -132,6 +143,7 @@ model yojanaBudgetSecond {
 
 model suchikritFarm {
   id                         String @id @default(cuid())
+  fiscalyear                 String
   formKoNaam                 String
   dartaMiti                  String
   formKoThegana              String
@@ -145,17 +157,20 @@ model suchikritFarm {
 
 model SuchanaPrakasan {
   id              String @id @default(cuid())
+  fiscalyear      String
   suchanaPrakasan String
 }
 
 model LabTest {
   id              String @id @default(cuid())
+  fiscalyear      String
   karyalayaKoNaam String
   thegana         String
 }
 
 model YojanaDarta {
   id                      String  @id @default(cuid())
+  fiscalyear              String
   sabhaNirnayaMiti        String
   prastabSwikritMiti      String
   yojanaKoWada            String
@@ -199,6 +214,7 @@ model YojanaDarta {
 
 model SamjhautaSwikritiTippani {
   id                      String @id @default(cuid())
+  fiscalyear              String
   aawa                    String
   miti                    String
   yojanaKaryaKramKoNaam   String
@@ -228,6 +244,7 @@ model SamjhautaSwikritiTippani {
 
 model YojanaSamjhauta {
   id                               String @id @default(cuid())
+  fiscalyear                       String
   yojanaKaryaKramKoNaam            String
   budgetKaryakram                  String
   chaluAawa                        String
@@ -338,6 +355,7 @@ model YojanaSamjhauta {
 
 model KaryaDesh {
   id                      String @id @default(cuid())
+  fiscalyear              String
   patraSankhya            String
   miti                    String
   yojanaKaryakramNaam     String
@@ -358,6 +376,7 @@ model KaryaDesh {
 
 model bankKhataSifaris {
   id               String @id @default(cuid())
+  fiscalyear       String
   patraSankhya     String
   sifarisMiti      String
   yojanakoNaam     String
@@ -373,6 +392,7 @@ model bankKhataSifaris {
 
 model bankKhataBandaSifaris {
   id                     String  @id @default(cuid())
+  fiscalyear             String
   patraSankhya           String
   sifarisMiti            String
   yojanakoNaam           String
@@ -388,6 +408,7 @@ model bankKhataBandaSifaris {
 
 model peskiBhuktani {
   id                      String  @id @default(cuid())
+  fiscalyear              String
   aawamiti                String
   karyakramKoNaam         String
   tippaniMiti             String
@@ -418,6 +439,7 @@ model peskiBhuktani {
 
 model runningBillBhuktani {
   id                              String  @id @default(cuid())
+  fiscalyear                      String
   aawaMiti                        String
   karaykramKoNaam                 String
   tippaniMiti                     String
@@ -466,6 +488,7 @@ model runningBillBhuktani {
 
 model antimKistaFarfarak {
   id                              String  @id @default(cuid())
+  fiscalyear                      String
   gataAawaKramgatYojana           Boolean
   aawaMiti                        String
   karaykramKoNaam                 String
@@ -523,6 +546,7 @@ model antimKistaFarfarak {
 
 model sasthaAnudanTippani {
   id                             String  @id @default(cuid())
+  fiscalyear                     String
   aawaMiti                       String
   karyakramKoNaam                String
   tippaniMiti                    String
@@ -563,6 +587,7 @@ model sasthaAnudanTippani {
 
 model vuktaniKarobarkoSifaris {
   id                       String  @id @default(cuid())
+  fiscalyear               String
   awaMiti                  String
   sifarisMiti              String
   yojanaKoNaam             String
@@ -606,6 +631,7 @@ model vuktaniKarobarkoSifaris {
 
 model upavoktaDartaPramanpatra {
   id                           String @id @default(cuid())
+  fiscalyear                   String
   dartaNum                     String
   miti                         String
   yojanakoNaam                 String
@@ -622,6 +648,7 @@ model upavoktaDartaPramanpatra {
 
 model myadthapPatra {
   id                       String @id @default(cuid())
+  fiscalyear               String
   aawaMiti                 String
   yediPuranoAawakoYojanan  String
   miti                     String

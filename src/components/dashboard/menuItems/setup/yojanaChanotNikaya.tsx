@@ -32,6 +32,7 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { useMyContext } from "@/context/MyContext"
 
 export default function YojanaChanotNikaya() {
   const [yojanaChanotNikaya, setYojanaChanotNikaya] = useState("")
@@ -49,6 +50,7 @@ export default function YojanaChanotNikaya() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(yojanaChanotNikayaData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -60,7 +62,7 @@ export default function YojanaChanotNikaya() {
   const fetchYojanaChanotNikaya = async () => {
     try {
       setLoading(true)
-      const data = await fetchYojanaChanotNikayaData()
+      const data = await fetchYojanaChanotNikayaData(value || "")
       setYojanaChanotNikayaData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -87,7 +89,11 @@ export default function YojanaChanotNikaya() {
       }
 
       // Proceed with the edit operation
-      const result = await editYojanaChanotNikaya(editId, trimmedName)
+      const result = await editYojanaChanotNikaya(
+        editId,
+        trimmedName,
+        value || ""
+      )
       if (result.status === "success") {
         setYojanaChanotNikaya("")
         setEditMode(false)
@@ -106,7 +112,7 @@ export default function YojanaChanotNikaya() {
         toast.error("Item already exists")
       } else {
         // Proceed with the save operation
-        const result = await saveYojanaChanotNikaya(trimmedName)
+        const result = await saveYojanaChanotNikaya(trimmedName, value || "")
         if (result.status === "success") {
           setYojanaChanotNikaya("")
           fetchYojanaChanotNikaya()
@@ -132,8 +138,19 @@ export default function YojanaChanotNikaya() {
   }
 
   useEffect(() => {
+    const fetchYojanaChanotNikaya = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchYojanaChanotNikayaData(value || "")
+        setYojanaChanotNikayaData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
     fetchYojanaChanotNikaya() // Fetch data when the component mounts
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -145,7 +162,7 @@ export default function YojanaChanotNikaya() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteYojanaChanotNikaya(deleteId)
+      const result = await deleteYojanaChanotNikaya(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchYojanaChanotNikaya()

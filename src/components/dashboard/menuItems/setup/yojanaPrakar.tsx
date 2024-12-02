@@ -23,6 +23,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { MdModeEditOutline } from "react-icons/md"
+import { useMyContext } from "@/context/MyContext"
 
 import {
   saveYojanaPrakar,
@@ -47,7 +48,7 @@ export default function YojanaPrakar() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(yojanaPrakarData.length / rowsPerPage)
-
+  const { value } = useMyContext()
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
@@ -58,7 +59,7 @@ export default function YojanaPrakar() {
   const fetchYojanaPrakar = async () => {
     try {
       setLoading(true)
-      const data = await fetchYojanaPrakarData()
+      const data = await fetchYojanaPrakarData(value || "")
       setYojanaPrakarData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -84,7 +85,7 @@ export default function YojanaPrakar() {
         }
 
         // Proceed with the edit operation
-        const result = await editYojanaPrakar(editId, trimmedName)
+        const result = await editYojanaPrakar(editId, trimmedName, value || "")
         if (result.status === "success") {
           setYojanaPrakar("")
           setEditMode(false)
@@ -101,7 +102,7 @@ export default function YojanaPrakar() {
           toast.error("Item already exists")
         } else {
           // Proceed with the save operation
-          const result = await saveYojanaPrakar(trimmedName)
+          const result = await saveYojanaPrakar(trimmedName, value || "")
           if (result.status === "success") {
             setYojanaPrakar("")
             fetchYojanaPrakar()
@@ -130,8 +131,19 @@ export default function YojanaPrakar() {
   }
 
   useEffect(() => {
+    const fetchYojanaPrakar = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchYojanaPrakarData(value || "")
+        setYojanaPrakarData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
     fetchYojanaPrakar()
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -143,7 +155,7 @@ export default function YojanaPrakar() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteYojanaPrakar(deleteId)
+      const result = await deleteYojanaPrakar(deleteId, value || "")
       if (result.status === "success") {
         fetchYojanaPrakar()
       } else {

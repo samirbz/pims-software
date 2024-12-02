@@ -31,6 +31,7 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { useMyContext } from "@/context/MyContext"
 
 export default function SuchanaPrakasan() {
   const [suchanaPrakasan, setSuchanaPrakasan] = useState("")
@@ -46,6 +47,7 @@ export default function SuchanaPrakasan() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(suchanaPrakasanData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -57,7 +59,7 @@ export default function SuchanaPrakasan() {
   const fetchSuchanaPrakasan = async () => {
     try {
       setLoading(false)
-      const data = await fetchSuchanaPrakasanData()
+      const data = await fetchSuchanaPrakasanData(value || "")
       setSuchanaPrakasanData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -85,7 +87,11 @@ export default function SuchanaPrakasan() {
       }
 
       // Proceed with the edit operation
-      const result = await editSuchanaPrakasan(editId, trimmedyojanaKoNaam)
+      const result = await editSuchanaPrakasan(
+        editId,
+        trimmedyojanaKoNaam,
+        value || ""
+      )
       if (result.status === "success") {
         setSuchanaPrakasan("")
         setEditMode(false)
@@ -104,7 +110,10 @@ export default function SuchanaPrakasan() {
         toast.error("Item already exists")
       } else {
         // Proceed with the save operation
-        const result = await saveSuchanaPrakasan(trimmedyojanaKoNaam)
+        const result = await saveSuchanaPrakasan(
+          trimmedyojanaKoNaam,
+          value || ""
+        )
         if (result.status === "success") {
           setSuchanaPrakasan("")
           fetchSuchanaPrakasan()
@@ -130,8 +139,20 @@ export default function SuchanaPrakasan() {
   }
 
   useEffect(() => {
+    const fetchSuchanaPrakasan = async () => {
+      try {
+        setLoading(false)
+        const data = await fetchSuchanaPrakasanData(value || "")
+        setSuchanaPrakasanData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
     fetchSuchanaPrakasan() // Fetch data when the component mounts
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -143,7 +164,7 @@ export default function SuchanaPrakasan() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteSuchanaPrakasan(deleteId)
+      const result = await deleteSuchanaPrakasan(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchSuchanaPrakasan()

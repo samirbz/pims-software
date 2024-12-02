@@ -48,6 +48,7 @@ import {
 import { ConvertToNepaliNumerals } from "@/lib/util"
 import { toast } from "react-toastify"
 import { AiOutlineClear } from "react-icons/ai"
+import { useMyContext } from "@/context/MyContext"
 
 const qtyDataList = [
   { key: "1", label: "वटा" },
@@ -187,6 +188,8 @@ export default function YojanaDarta() {
 
   const [clearAndCancelBtn, setClearAndCancelBtn] = useState(false)
 
+  const { value } = useMyContext()
+
   const handleBarsikYojanaChange = async () => {
     setSelectedCheckbox("barsik")
     setBarsikYojana(true)
@@ -245,20 +248,11 @@ export default function YojanaDarta() {
   )
   // end
 
-  const fetchWadaData = async () => {
-    try {
-      const data = await fetchWadaNumData()
-      setWadaN(data)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
-    }
-  }
-
   // fetch for auto fill according to yojana wadaNum
   const fetchYojanaNaam = async (wadaNum: any) => {
     setShowLoadingYojanaNaam(true)
     try {
-      const data = await fetchYojanaBudgetDataSecond()
+      const data = await fetchYojanaBudgetDataSecond(value || "")
       const filteredData = data.filter(
         (item: any) => item.wadaNumDt === wadaNum
       )
@@ -272,7 +266,7 @@ export default function YojanaDarta() {
 
   const fetchBudget = async (yojanaKoNaamDt: any) => {
     try {
-      const data = await fetchYojanaBudgetDataSecond()
+      const data = await fetchYojanaBudgetDataSecond(value || "")
       const filteredData = data.filter(
         (item: any) => item.yojanaKoNaamDt === yojanaKoNaamDt
       )
@@ -292,52 +286,10 @@ export default function YojanaDarta() {
     }
   }
 
-  const fetchMukhyaSamiti = async () => {
-    try {
-      const data = await fetchMukyaSamitiData()
-      // Filter the data based on the provided ID
-
-      setMukhyaSamitiData(data)
-    } catch (e) {
-      console.error("Error fetching Mukhya Samiti data", e)
-    }
-  }
-
-  const fetchAnudaanKoNaam = async () => {
-    try {
-      const data = await fetchAnudaanKoNaamData()
-      // Filter the data based on the provided ID
-      // const filteredData = data.filter((item: any) => item.id === id)
-      setAunudaanKisimData(data)
-    } catch (e) {
-      console.error("Error fetching Mukhya Samiti data", e)
-    }
-  }
-  const fetchSecondAnudaanKoNaam = async () => {
-    try {
-      const data = await fetchAnudaanKoNaamData()
-      // Filter the data based on the provided ID
-      // const filteredData = data.filter((item: any) => item.id === id)
-      setAunudaanKisimSecondData(data)
-    } catch (e) {
-      console.error("Error fetching Mukhya Samiti data", e)
-    }
-  }
-  const fetchThirdAnudaanKoNaam = async () => {
-    try {
-      const data = await fetchAnudaanKoNaamData()
-      // Filter the data based on the provided ID
-      // const filteredData = data.filter((item: any) => item.id === id)
-      setAunudaanKisimThirdData(data)
-    } catch (e) {
-      console.error("Error fetching Mukhya Samiti data", e)
-    }
-  }
-
   const fetchLagatSrotHaru = async (anudaanKoNaam: any) => {
     try {
       // Fetch the data from the API or data source
-      const data = await fetchFilterLagatSrotData(anudaanKoNaam)
+      const data = await fetchFilterLagatSrotData(anudaanKoNaam, value || "")
 
       // Set the filtered data in the state
       setLagatSrotData(data)
@@ -352,7 +304,7 @@ export default function YojanaDarta() {
     setShowLoadingLagatSrot2(true)
     try {
       // Fetch the data from the API or data source
-      const data = await fetchFilterLagatSrotData(anudaanKoNaam)
+      const data = await fetchFilterLagatSrotData(anudaanKoNaam, value || "")
 
       // Set the filtered data in the state
       setLagatSrotSecondData(data)
@@ -367,7 +319,7 @@ export default function YojanaDarta() {
     setShowLoadingLagatSrot3(true)
     try {
       // Fetch the data from the API or data source
-      const data = await fetchFilterLagatSrotData(anudaanKoNaam)
+      const data = await fetchFilterLagatSrotData(anudaanKoNaam, value || "")
 
       // Set the filtered data in the state
       setLagatSrotThirdData(data)
@@ -379,39 +331,9 @@ export default function YojanaDarta() {
     }
   }
 
-  const ayojanaUpachetra = async () => {
-    try {
-      const data = await fetchYojanaPrakarData()
-      setAyojanaUpachetraData(data)
-    } catch (e) {
-      // Handle any errors that occur during the fetch or filtering process
-      console.error("Error fetching data", e)
-    }
-  }
-
-  const fetchYojanaKaryaBivaran = async () => {
-    try {
-      const data = await fetchYojanaKaryaBivaranData()
-      setYojanaKaryaBivaranData(data)
-    } catch (e) {
-      // Handle any errors that occur during the fetch or filtering process
-      console.error("Error fetching data", e)
-    }
-  }
-
-  const fetYojanaChanotNikaya = async () => {
-    try {
-      const data = await fetchYojanaChanotNikayaData()
-      setYojanaChanotNikaya(data)
-    } catch (e) {
-      // Handle any errors that occur during the fetch or filtering process
-      console.error("Error fetching data", e)
-    }
-  }
-
   const fetchYojanaDarta = async () => {
     try {
-      const data = await fetchYojanaDartaData()
+      const data = await fetchYojanaDartaData(value || "")
       setYojanaDartaData(data)
     } catch (e) {
       console.error("Error fetching anudaan data", e)
@@ -528,7 +450,8 @@ export default function YojanaDarta() {
       upalabdhiLakshya,
       uplabdhiLakhshyaQty,
       barsikYojana,
-      kramagatYojana
+      kramagatYojana,
+      value || ""
     )
     if (result.status === "success") {
       setSabhaNirnayaMiti("")
@@ -670,7 +593,8 @@ export default function YojanaDarta() {
       upalabdhiLakshya,
       uplabdhiLakhshyaQty,
       barsikYojana,
-      kramagatYojana
+      kramagatYojana,
+      value || ""
     )
     if (result.status === "success") {
       setClearAndCancelBtn(false)
@@ -682,6 +606,98 @@ export default function YojanaDarta() {
   }
 
   useEffect(() => {
+    const fetchWadaData = async () => {
+      try {
+        const data = await fetchWadaNumData(value || "")
+        setWadaN(data)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
+
+    const fetchMukhyaSamiti = async () => {
+      try {
+        const data = await fetchMukyaSamitiData(value || "")
+        // Filter the data based on the provided ID
+
+        setMukhyaSamitiData(data)
+      } catch (e) {
+        console.error("Error fetching Mukhya Samiti data", e)
+      }
+    }
+
+    const fetchAnudaanKoNaam = async () => {
+      try {
+        const data = await fetchAnudaanKoNaamData(value || "")
+        // Filter the data based on the provided ID
+        // const filteredData = data.filter((item: any) => item.id === id)
+        setAunudaanKisimData(data)
+      } catch (e) {
+        console.error("Error fetching Mukhya Samiti data", e)
+      }
+    }
+
+    const fetchSecondAnudaanKoNaam = async () => {
+      try {
+        const data = await fetchAnudaanKoNaamData(value || "")
+        // Filter the data based on the provided ID
+        // const filteredData = data.filter((item: any) => item.id === id)
+        setAunudaanKisimSecondData(data)
+      } catch (e) {
+        console.error("Error fetching Mukhya Samiti data", e)
+      }
+    }
+
+    const fetchThirdAnudaanKoNaam = async () => {
+      try {
+        const data = await fetchAnudaanKoNaamData(value || "")
+        // Filter the data based on the provided ID
+        // const filteredData = data.filter((item: any) => item.id === id)
+        setAunudaanKisimThirdData(data)
+      } catch (e) {
+        console.error("Error fetching Mukhya Samiti data", e)
+      }
+    }
+
+    const fetchYojanaKaryaBivaran = async () => {
+      try {
+        const data = await fetchYojanaKaryaBivaranData(value || "")
+        setYojanaKaryaBivaranData(data)
+      } catch (e) {
+        // Handle any errors that occur during the fetch or filtering process
+        console.error("Error fetching data", e)
+      }
+    }
+
+    const ayojanaUpachetra = async () => {
+      try {
+        const data = await fetchYojanaPrakarData(value || "")
+        setAyojanaUpachetraData(data)
+      } catch (e) {
+        // Handle any errors that occur during the fetch or filtering process
+        console.error("Error fetching data", e)
+      }
+    }
+
+    const fetYojanaChanotNikaya = async () => {
+      try {
+        const data = await fetchYojanaChanotNikayaData(value || "")
+        setYojanaChanotNikaya(data)
+      } catch (e) {
+        // Handle any errors that occur during the fetch or filtering process
+        console.error("Error fetching data", e)
+      }
+    }
+
+    const fetchYojanaDarta = async () => {
+      try {
+        const data = await fetchYojanaDartaData(value || "")
+        setYojanaDartaData(data)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
+
     const fetchAllData = async () => {
       try {
         // Fetch all data concurrently
@@ -704,7 +720,7 @@ export default function YojanaDarta() {
     }
 
     fetchAllData()
-  }, [])
+  }, [value])
 
   useEffect(() => {
     setTotalSum(
@@ -777,19 +793,82 @@ export default function YojanaDarta() {
   }, [dharautiRakamResult])
 
   useEffect(() => {
+    const fetchYojanaDarta = async () => {
+      try {
+        const data = await fetchYojanaDartaData(value || "")
+        setYojanaDartaData(data)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
     fetchYojanaDarta()
-  }, [fetchTable])
+  }, [value])
 
   useEffect(() => {
     setBtnDisable(yojanaKoNaam.trim() === "")
+    const fetchYojanaDarta = async () => {
+      try {
+        const data = await fetchYojanaDartaData(value || "")
+        setYojanaDartaData(data)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
     fetchYojanaDarta()
-  }, [yojanaKoNaam])
+  }, [yojanaKoNaam, value])
 
   useEffect(() => {
+    const fetchLagatSrotHaru = async (anudaanKoNaam: any) => {
+      try {
+        // Fetch the data from the API or data source
+        const data = await fetchFilterLagatSrotData(anudaanKoNaam, value || "")
+
+        // Set the filtered data in the state
+        setLagatSrotData(data)
+      } catch (e) {
+        // Handle any errors that occur during the fetch or filtering process
+        console.error("Error fetching Lagat Srot data", e)
+      } finally {
+        setShowLoadingLagatSrot1(false)
+      }
+    }
+
+    const fetchSecondLagatSrotHaru = async (anudaanKoNaam: any) => {
+      setShowLoadingLagatSrot2(true)
+      try {
+        // Fetch the data from the API or data source
+        const data = await fetchFilterLagatSrotData(anudaanKoNaam, value || "")
+
+        // Set the filtered data in the state
+        setLagatSrotSecondData(data)
+      } catch (e) {
+        // Handle any errors that occur during the fetch or filtering process
+        console.error("Error fetching Lagat Srot data", e)
+      } finally {
+        setShowLoadingLagatSrot2(false)
+      }
+    }
+
+    const fetchThirdLagatSrotHaru = async (anudaanKoNaam: any) => {
+      setShowLoadingLagatSrot3(true)
+      try {
+        // Fetch the data from the API or data source
+        const data = await fetchFilterLagatSrotData(anudaanKoNaam, value || "")
+
+        // Set the filtered data in the state
+        setLagatSrotThirdData(data)
+      } catch (e) {
+        // Handle any errors that occur during the fetch or filtering process
+        console.error("Error fetching data", e)
+      } finally {
+        setShowLoadingLagatSrot3(false)
+      }
+    }
+
     fetchLagatSrotHaru(anudanKoNaam)
     fetchSecondLagatSrotHaru(anudanKoNaam2)
     fetchThirdLagatSrotHaru(anudanKoNaam3)
-  }, [anudanKoNaam, anudanKoNaam2, anudanKoNaam3])
+  }, [anudanKoNaam, anudanKoNaam2, anudanKoNaam3, value])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -803,7 +882,7 @@ export default function YojanaDarta() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteYojanaDarta(deleteId)
+      const result = await deleteYojanaDarta(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchYojanaDarta()

@@ -23,6 +23,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import React, { useState, useEffect } from "react"
+import { useMyContext } from "@/context/MyContext"
 
 import {
   saveMukyaSamiti,
@@ -46,6 +47,8 @@ export default function MukhyaSamiti() {
 
   const pages = Math.ceil(mukhyaSamitiKoNaamData.length / rowsPerPage)
 
+  const { value } = useMyContext()
+
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
@@ -55,7 +58,7 @@ export default function MukhyaSamiti() {
   const fetchMukhyaSamiti = async () => {
     try {
       setLoading(true)
-      const data = await fetchMukyaSamitiData()
+      const data = await fetchMukyaSamitiData(value || "")
       setMukhyaSamitiKoNaamData(data)
     } catch (error) {
       console.error("Error fetching data:", error)
@@ -83,7 +86,11 @@ export default function MukhyaSamiti() {
       }
 
       // Proceed with the edit operation
-      const result = await editMukhyaSamitiKonaam(editId, trimmedName)
+      const result = await editMukhyaSamitiKonaam(
+        editId,
+        trimmedName,
+        value || ""
+      )
       if (result.status === "success") {
         setMukhyaSamitiKoNaam("")
         setEditMode(false)
@@ -102,7 +109,7 @@ export default function MukhyaSamiti() {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveMukyaSamiti(trimmedName)
+        const result = await saveMukyaSamiti(trimmedName, value || "")
         if (result.status === "success") {
           setMukhyaSamitiKoNaam("")
           fetchMukhyaSamiti()
@@ -128,8 +135,20 @@ export default function MukhyaSamiti() {
   }
 
   useEffect(() => {
+    const fetchMukhyaSamiti = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchMukyaSamitiData(value || "") // Provide default value for null
+        setMukhyaSamitiKoNaamData(data)
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
     fetchMukhyaSamiti()
-  }, [])
+  }, [value]) // Add `value` as a dependency
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -141,7 +160,7 @@ export default function MukhyaSamiti() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteMukyaSamitiKoNaam(deleteId)
+      const result = await deleteMukyaSamitiKoNaam(deleteId, value || "")
       if (result.status === "success") {
         fetchMukhyaSamiti()
       } else {

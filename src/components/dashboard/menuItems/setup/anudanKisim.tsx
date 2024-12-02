@@ -23,6 +23,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { MdModeEditOutline } from "react-icons/md"
+import { useMyContext } from "@/context/MyContext"
 
 import {
   saveAnudaanKoNaam,
@@ -48,6 +49,8 @@ export default function AnudanKisim() {
 
   const pages = Math.ceil(anudaanKoNaamData.length / rowsPerPage)
 
+  const { value } = useMyContext()
+
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
@@ -58,7 +61,7 @@ export default function AnudanKisim() {
   const fetchAnudaan = async () => {
     try {
       setLoading(true)
-      const data = await fetchAnudaanKoNaamData()
+      const data = await fetchAnudaanKoNaamData(value || "")
       setanudaanKoNaamData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -85,7 +88,7 @@ export default function AnudanKisim() {
       }
 
       // Proceed with the edit operation
-      const result = await editAnudaanKoNaam(editId, trimmedName)
+      const result = await editAnudaanKoNaam(editId, trimmedName, value || "")
       if (result.status === "success") {
         setAnudaanKoNaam("")
         setEditMode(false)
@@ -102,7 +105,7 @@ export default function AnudanKisim() {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveAnudaanKoNaam(trimmedName)
+        const result = await saveAnudaanKoNaam(trimmedName, value || "")
         if (result.status === "success") {
           setAnudaanKoNaam("")
           fetchAnudaan()
@@ -128,8 +131,19 @@ export default function AnudanKisim() {
   }
 
   useEffect(() => {
-    fetchAnudaan() // Fetch data when the component mounts
-  }, [])
+    const fetchAnudaan = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchAnudaanKoNaamData(value || "")
+        setanudaanKoNaamData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false) // Set loading to false after fetching data
+      }
+    }
+    fetchAnudaan()
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -141,7 +155,7 @@ export default function AnudanKisim() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteAnudaanKoNaam(deleteId)
+      const result = await deleteAnudaanKoNaam(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchAnudaan()

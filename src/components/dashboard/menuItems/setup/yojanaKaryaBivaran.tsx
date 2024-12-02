@@ -34,6 +34,7 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { useMyContext } from "@/context/MyContext"
 
 export default function YojanaKaryaBivaran() {
   const [yojanaKoKisim, setYojanaKoKisim] = useState("")
@@ -53,6 +54,7 @@ export default function YojanaKaryaBivaran() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(yojanaKaryaBivaranData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -64,7 +66,7 @@ export default function YojanaKaryaBivaran() {
   const fetchYojanaKaryaBivaran = async () => {
     try {
       setLoading(true)
-      const data = await fetchYojanaKaryaBivaranData()
+      const data = await fetchYojanaKaryaBivaranData(value || "")
       setYojanaKaryaBivaranData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -73,20 +75,31 @@ export default function YojanaKaryaBivaran() {
     }
   }
 
-  const fetchYojanaPrData = async () => {
-    try {
-      const data = await fetchYojanaPrakarData()
-      console.log("Fetched yojana prakar data:", data) // For debugging
-      setYojanaPrakarData(data)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
-    }
-  }
-
   useEffect(() => {
+    const fetchYojanaKaryaBivaran = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchYojanaKaryaBivaranData(value || "")
+        setYojanaKaryaBivaranData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false) // Set loading to false after fetching data
+      }
+    }
+    const fetchYojanaPrData = async () => {
+      try {
+        const data = await fetchYojanaPrakarData(value || "")
+        console.log("Fetched yojana prakar data:", data) // For debugging
+        setYojanaPrakarData(data)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
+
     fetchYojanaKaryaBivaran()
     fetchYojanaPrData()
-  }, [])
+  }, [value])
 
   const onSubmit = async () => {
     setBtnDisable(true)
@@ -108,7 +121,8 @@ export default function YojanaKaryaBivaran() {
       const result = await editYojanaKaryaBivaran(
         editId,
         yojanaKoKisim,
-        trimmedName
+        trimmedName,
+        value || ""
       )
       if (result.status === "success") {
         setYojanaKoKisim("")
@@ -129,7 +143,11 @@ export default function YojanaKaryaBivaran() {
         toast.error("Item already exists")
       } else {
         // Proceed with the save operation
-        const result = await saveYonanaKaryaBivaran(yojanaKoKisim, trimmedName)
+        const result = await saveYonanaKaryaBivaran(
+          yojanaKoKisim,
+          trimmedName,
+          value || ""
+        )
         if (result.status === "success") {
           setYojanaKoKisim("")
           setYojanaKoKarya("")
@@ -167,7 +185,7 @@ export default function YojanaKaryaBivaran() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteYojanaKarayBivaran(deleteId)
+      const result = await deleteYojanaKarayBivaran(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchYojanaKaryaBivaran()

@@ -33,6 +33,7 @@ import {
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
 import yojanaSamjhautaPrint from "@/lib/print/PrintYojanaSamjhauta"
+import { useMyContext } from "@/context/MyContext"
 
 const Content = () => (
   <div>
@@ -308,133 +309,7 @@ export default function YojanaSamjhauta() {
   const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
 
   const [saveOrEdit, setSaveOrEdit] = useState("Save")
-
-  const handleSaveOrEdit = async (yojanaKaryaKramKoNaam: string) => {
-    try {
-      const response = await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
-        yojanaKaryaKramKoNaam
-      )
-
-      if (
-        response.status === "success" &&
-        response.data &&
-        response.data.length > 0
-      ) {
-        const data = response.data[0]
-        setBudgetKarayakram(data.budgetKaryakram)
-        setChaluAawa(data.chaluAawa)
-        setSamjhautaMiti(data.samjhautaMiti)
-        setSamjhautaNaam(data.samjhautaNaam)
-        setPaad(data.paad)
-        setSamjhautaThegana(data.samjhautaThegana)
-        setPhoneNum(data.phoneNum)
-        setYojanaNaam(data.yonanaNaam)
-        setYojanaThegana(data.yojanaThegana)
-        setYojanaTheganaChild(data.yojanaTheganaChild)
-        setYojanaUdeskya(data.yojanaUdeskya)
-        setYojanaSwikritiGarneNikaya(data.yojanaSwikritiGarneNikaya)
-        setYojanaSuruhuneMiti(data.yojanaSuruhuneMiti)
-        setYojanaSsampanaHuneMiti(data.yojanaSsampanaHuneMiti)
-        setYojanaKarya(data.yojanaKarya)
-        setKisimPrakar(data.kisimPrakar)
-        setLambaiMi(data.lambaiMi)
-        setChetrafal(data.chetrafal)
-        setLagatAnumanRu(data.lagatAnumanRu)
-        setBinbatkachyat(data.binbatkachyat)
-        setJanaSramdanRu(data.janaSramdanRu)
-        setJammaRakamRuTwo(data.jammaRakamRuTwo)
-        setNepalsarkarbataRuPariman(data.nepalsarkarbataRuPariman)
-        setNagarpalikabataRuPariman(data.nagarpalikabataRuPariman)
-        setGaupalikaBataRuPariman(data.gaupalikaBataRuPariman)
-        setGairsarkariSanghRuPariman(data.gairsarkariSanghRuPariman)
-        setSamudayamaAdharitRuPariman(data.samudayamaAdharitRuPariman)
-        setBideshDatriSanghRuPariman(data.bideshDatriSanghRuPariman)
-        setLagatSahavagitaRuPariman(data.lagatSahavagitaRuPariman)
-        setAnyaNikayaRuPariman(data.anyaNikayaRuPariman)
-        setNepalsarkarbataRuSamagrikoNaam(data.nepalsarkarbataRuSamagrikoNaam)
-        setNagarpalikabataRuSamagrikoNaam(data.nagarpalikabataRuSamagrikoNaam)
-        setGaupalikaBataRuSamagrikoNaam(data.gaupalikaBataRuSamagrikoNaam)
-        setGairsarkariSanghRuSamagrikoNaam(data.gairsarkariSanghRuSamagrikoNaam)
-        setSamudayamaAdharitRuSamagrikoNaam(
-          data.samudayamaAdharitRuSamagrikoNaam
-        )
-        setBideshDatriSanghRuSamagrikoNaam(data.bideshDatriSanghRuSamagrikoNaam)
-        setLagatSahavagitaRuSamagrikoNaam(data.lagatSahavagitaRuSamagrikoNaam)
-        setAnyaNikayaRuSamagrikoNaam(data.anyaNikayaRuSamagrikoNaam)
-        setNepalsarkarbataRuYekai(data.nepalsarkarbataRuYekai)
-        setNagarpalikabataRuYekai(data.nagarpalikabataRuYekai)
-        setGaupalikaBataRuYekai(data.gaupalikaBataRuYekai)
-        setGairsarkariSanghRuYekai(data.gairsarkariSanghRuYekai)
-        setSamudayamaAdharitRuYekai(data.samudayamaAdharitRuYekai)
-        setBideshDatriSanghRuYekai(data.bideshDatriSanghRuYekai)
-        setLagatSahavagitaRuYekai(data.lagatSahavagitaRuYekai)
-        setAnyaNikayaRuYekai(data.anyaNikayaRuYekai)
-        setNepalsarkarbataRuShramRu(data.nepalsarkarbataRuShramRu)
-        setNagarpalikabataRuShramRu(data.nagarpalikabataRuShramRu)
-        setGaupalikaBataRuShramRu(data.gaupalikaBataRuShramRu)
-        setGairsarkariSanghRuShramRu(data.gairsarkariSanghRuShramRu)
-        setSamudayamaAdharitRuShramRu(data.samudayamaAdharitRuShramRu)
-        setBideshDatriSanghRuShramRu(data.bideshDatriSanghRuShramRu)
-        setLagatSahavagitaRuShramRu(data.lagatSahavagitaRuShramRu)
-        setAnyaNikayaRuShramRu(data.anyaNikayaRuShramRu)
-        setGharpariwarSankhya(data.gharpariwarSankhya)
-        setJanaSankhya(data.janaSankhya)
-        setSamudaya(data.samudaya)
-        setSamudayaAdharit(data.samudayaAdharit)
-        setKamgarneNikaya(data.kamgarneNikaya)
-        setUpavoktaSamiti(data.upavoktaSamiti)
-        setGathanVayekoMiti(data.gathanVayekoMiti)
-        setAdhyakchya(data.adhyakchya)
-        setAdhyakchyaNaPraNa(data.adhyakchyaNaPraNa)
-        setUpadhyekchya(data.upadhyekchya)
-        setSachib(data.sachib)
-        setSachibNaPraNa(data.sachibNaPraNa)
-        setKosaAdakshya(data.kosaAdakshya)
-        setKosaAdakshyaNaPraNa(data.kosaAdakshyaNaPraNa)
-        setSadasyaOne(data.sadasyaOne)
-        setSadasyaTwo(data.sadasyaTwo)
-        setSadasyaThree(data.sadasyaThree)
-        setSadasyaFour(data.sadasyaFour)
-        setSadasyaFive(data.sadasyaFive)
-        setSadasyaSix(data.sadasyaSix)
-        setSadasyaSeven(data.sadasyaSeven)
-        setGathanGardaUpastithi(data.gathanGardaUpastithi)
-        setSamitimaJamma(data.samitimaJamma)
-        setMahilaSadasya(data.mahilaSadasya)
-        setPahiloKistaMiti(data.pahiloKistaMiti)
-        setPahiloKistaPratisad(data.pahiloKistaPratisad)
-        setPahiloKistaKistaKoRakam(data.pahiloKistaKistaKoRakam)
-        setPahiloKistaNirmanSamagri(data.pahiloKistaNirmanSamagri)
-        setPahiloKistaKaifiyat(data.pahiloKistaKaifiyat)
-        setDosroKistaMiti(data.dosroKistaMiti)
-        setDosroKistaPratisat(data.dosroKistaPratisat)
-        setDosroKistaKistaKoRakam(data.dosroKistaKistaKoRakam)
-        setDosroKistaNirmanSamagri(data.dosroKistaNirmanSamagri)
-        setDosroKistaKaifiyat(data.dosroKistaKaifiyat)
-        setTesroKistaMiti(data.tesroKistaMiti)
-        setTesroKistaPratisat(data.tesroKistaPratisat)
-        setTesroKistaKistaKoRakam(data.tesroKistaKistaKoRakam)
-        setTesroKistaNirmanSamagri(data.tesroKistaNirmanSamagri)
-        setTesroKistaKaifiyat(data.tesroKistaKaifiyat)
-        setJammaRakamRuTwoFour(data.jammaRakamRuTwoFour)
-        setMarmatSambhar(data.marmatSambhar)
-        setJanaSramdan(data.janaSramdan)
-        setDastur(data.dastur)
-        setByaj(data.byaj)
-        setLagatSahavagita(data.lagatSahavagita)
-        setAnyaSartHaruOne(data.anyaSartHaruOne)
-        setAnyaSartHaruTwo(data.anyaSartHaruTwo)
-        setKaryalayaKoTarfabata(data.karyalayaKoTarfabata)
-        setKaryalayaKoTarfabataChild(data.karyalayaKoTarfabataChild)
-        setYojanaSakhaTarfabata(data.yojanaSakhaTarfabata)
-        setYojanaSakhaTarfabataChild(data.yojanaSakhaTarfabataChild)
-        setSaveOrEdit("Edit")
-      }
-    } catch (error) {
-      console.error("Error in handleAlertData:", error)
-      alert("An unexpected error occurred.")
-    }
-  }
+  const { value } = useMyContext()
 
   const onSubmit = async () => {
     if (saveOrEdit === "Edit") {
@@ -544,7 +419,8 @@ export default function YojanaSamjhauta() {
         karyalayaKoTarfabata,
         karyalayaKoTarfabataChild,
         yojanaSakhaTarfabata,
-        yojanaSakhaTarfabataChild
+        yojanaSakhaTarfabataChild,
+        value || ""
       )
       if (result.status === "success") {
         setYojanaKaryaKramKoNaam("")
@@ -764,7 +640,8 @@ export default function YojanaSamjhauta() {
         karyalayaKoTarfabata,
         karyalayaKoTarfabataChild,
         yojanaSakhaTarfabata,
-        yojanaSakhaTarfabataChild
+        yojanaSakhaTarfabataChild,
+        value || ""
       )
       if (result.status === "success") {
         setBudgetKarayakram("")
@@ -880,17 +757,6 @@ export default function YojanaSamjhauta() {
     }
   }
 
-  const fetchYojanaDartaKoNaamData = async () => {
-    try {
-      const data = await fetchYojanaDartaData()
-      console.log("Fetched Anudaan Data:", data) // For debugging
-      setYojanaKoNaam(data)
-      setLoading(false)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
-    }
-  }
-
   const handleAlertData = async (yojanaKaryaKramKoNaam: string) => {
     if (!yojanaKaryaKramKoNaam) {
       alert("Please select yojana")
@@ -899,7 +765,8 @@ export default function YojanaSamjhauta() {
 
     try {
       const response = await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
-        yojanaKaryaKramKoNaam
+        yojanaKaryaKramKoNaam,
+        value || ""
       )
 
       if (response.status === "success") {
@@ -918,7 +785,10 @@ export default function YojanaSamjhauta() {
     const getData = async () => {
       try {
         setLoading(true)
-        const data = await getYojanaSamjhauta(yojanaKaryaKramKoNaam)
+        const data = await getYojanaSamjhauta(
+          yojanaKaryaKramKoNaam,
+          value || ""
+        )
 
         console.log(data)
 
@@ -1257,15 +1127,158 @@ export default function YojanaSamjhauta() {
         setLoading(false)
       }
     }
+
+    const handleSaveOrEdit = async (yojanaKaryaKramKoNaam: string) => {
+      try {
+        const response =
+          await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
+            yojanaKaryaKramKoNaam,
+            value || ""
+          )
+
+        if (
+          response.status === "success" &&
+          response.data &&
+          response.data.length > 0
+        ) {
+          const data = response.data[0]
+          setBudgetKarayakram(data.budgetKaryakram)
+          setChaluAawa(data.chaluAawa)
+          setSamjhautaMiti(data.samjhautaMiti)
+          setSamjhautaNaam(data.samjhautaNaam)
+          setPaad(data.paad)
+          setSamjhautaThegana(data.samjhautaThegana)
+          setPhoneNum(data.phoneNum)
+          setYojanaNaam(data.yonanaNaam)
+          setYojanaThegana(data.yojanaThegana)
+          setYojanaTheganaChild(data.yojanaTheganaChild)
+          setYojanaUdeskya(data.yojanaUdeskya)
+          setYojanaSwikritiGarneNikaya(data.yojanaSwikritiGarneNikaya)
+          setYojanaSuruhuneMiti(data.yojanaSuruhuneMiti)
+          setYojanaSsampanaHuneMiti(data.yojanaSsampanaHuneMiti)
+          setYojanaKarya(data.yojanaKarya)
+          setKisimPrakar(data.kisimPrakar)
+          setLambaiMi(data.lambaiMi)
+          setChetrafal(data.chetrafal)
+          setLagatAnumanRu(data.lagatAnumanRu)
+          setBinbatkachyat(data.binbatkachyat)
+          setJanaSramdanRu(data.janaSramdanRu)
+          setJammaRakamRuTwo(data.jammaRakamRuTwo)
+          setNepalsarkarbataRuPariman(data.nepalsarkarbataRuPariman)
+          setNagarpalikabataRuPariman(data.nagarpalikabataRuPariman)
+          setGaupalikaBataRuPariman(data.gaupalikaBataRuPariman)
+          setGairsarkariSanghRuPariman(data.gairsarkariSanghRuPariman)
+          setSamudayamaAdharitRuPariman(data.samudayamaAdharitRuPariman)
+          setBideshDatriSanghRuPariman(data.bideshDatriSanghRuPariman)
+          setLagatSahavagitaRuPariman(data.lagatSahavagitaRuPariman)
+          setAnyaNikayaRuPariman(data.anyaNikayaRuPariman)
+          setNepalsarkarbataRuSamagrikoNaam(data.nepalsarkarbataRuSamagrikoNaam)
+          setNagarpalikabataRuSamagrikoNaam(data.nagarpalikabataRuSamagrikoNaam)
+          setGaupalikaBataRuSamagrikoNaam(data.gaupalikaBataRuSamagrikoNaam)
+          setGairsarkariSanghRuSamagrikoNaam(
+            data.gairsarkariSanghRuSamagrikoNaam
+          )
+          setSamudayamaAdharitRuSamagrikoNaam(
+            data.samudayamaAdharitRuSamagrikoNaam
+          )
+          setBideshDatriSanghRuSamagrikoNaam(
+            data.bideshDatriSanghRuSamagrikoNaam
+          )
+          setLagatSahavagitaRuSamagrikoNaam(data.lagatSahavagitaRuSamagrikoNaam)
+          setAnyaNikayaRuSamagrikoNaam(data.anyaNikayaRuSamagrikoNaam)
+          setNepalsarkarbataRuYekai(data.nepalsarkarbataRuYekai)
+          setNagarpalikabataRuYekai(data.nagarpalikabataRuYekai)
+          setGaupalikaBataRuYekai(data.gaupalikaBataRuYekai)
+          setGairsarkariSanghRuYekai(data.gairsarkariSanghRuYekai)
+          setSamudayamaAdharitRuYekai(data.samudayamaAdharitRuYekai)
+          setBideshDatriSanghRuYekai(data.bideshDatriSanghRuYekai)
+          setLagatSahavagitaRuYekai(data.lagatSahavagitaRuYekai)
+          setAnyaNikayaRuYekai(data.anyaNikayaRuYekai)
+          setNepalsarkarbataRuShramRu(data.nepalsarkarbataRuShramRu)
+          setNagarpalikabataRuShramRu(data.nagarpalikabataRuShramRu)
+          setGaupalikaBataRuShramRu(data.gaupalikaBataRuShramRu)
+          setGairsarkariSanghRuShramRu(data.gairsarkariSanghRuShramRu)
+          setSamudayamaAdharitRuShramRu(data.samudayamaAdharitRuShramRu)
+          setBideshDatriSanghRuShramRu(data.bideshDatriSanghRuShramRu)
+          setLagatSahavagitaRuShramRu(data.lagatSahavagitaRuShramRu)
+          setAnyaNikayaRuShramRu(data.anyaNikayaRuShramRu)
+          setGharpariwarSankhya(data.gharpariwarSankhya)
+          setJanaSankhya(data.janaSankhya)
+          setSamudaya(data.samudaya)
+          setSamudayaAdharit(data.samudayaAdharit)
+          setKamgarneNikaya(data.kamgarneNikaya)
+          setUpavoktaSamiti(data.upavoktaSamiti)
+          setGathanVayekoMiti(data.gathanVayekoMiti)
+          setAdhyakchya(data.adhyakchya)
+          setAdhyakchyaNaPraNa(data.adhyakchyaNaPraNa)
+          setUpadhyekchya(data.upadhyekchya)
+          setSachib(data.sachib)
+          setSachibNaPraNa(data.sachibNaPraNa)
+          setKosaAdakshya(data.kosaAdakshya)
+          setKosaAdakshyaNaPraNa(data.kosaAdakshyaNaPraNa)
+          setSadasyaOne(data.sadasyaOne)
+          setSadasyaTwo(data.sadasyaTwo)
+          setSadasyaThree(data.sadasyaThree)
+          setSadasyaFour(data.sadasyaFour)
+          setSadasyaFive(data.sadasyaFive)
+          setSadasyaSix(data.sadasyaSix)
+          setSadasyaSeven(data.sadasyaSeven)
+          setGathanGardaUpastithi(data.gathanGardaUpastithi)
+          setSamitimaJamma(data.samitimaJamma)
+          setMahilaSadasya(data.mahilaSadasya)
+          setPahiloKistaMiti(data.pahiloKistaMiti)
+          setPahiloKistaPratisad(data.pahiloKistaPratisad)
+          setPahiloKistaKistaKoRakam(data.pahiloKistaKistaKoRakam)
+          setPahiloKistaNirmanSamagri(data.pahiloKistaNirmanSamagri)
+          setPahiloKistaKaifiyat(data.pahiloKistaKaifiyat)
+          setDosroKistaMiti(data.dosroKistaMiti)
+          setDosroKistaPratisat(data.dosroKistaPratisat)
+          setDosroKistaKistaKoRakam(data.dosroKistaKistaKoRakam)
+          setDosroKistaNirmanSamagri(data.dosroKistaNirmanSamagri)
+          setDosroKistaKaifiyat(data.dosroKistaKaifiyat)
+          setTesroKistaMiti(data.tesroKistaMiti)
+          setTesroKistaPratisat(data.tesroKistaPratisat)
+          setTesroKistaKistaKoRakam(data.tesroKistaKistaKoRakam)
+          setTesroKistaNirmanSamagri(data.tesroKistaNirmanSamagri)
+          setTesroKistaKaifiyat(data.tesroKistaKaifiyat)
+          setJammaRakamRuTwoFour(data.jammaRakamRuTwoFour)
+          setMarmatSambhar(data.marmatSambhar)
+          setJanaSramdan(data.janaSramdan)
+          setDastur(data.dastur)
+          setByaj(data.byaj)
+          setLagatSahavagita(data.lagatSahavagita)
+          setAnyaSartHaruOne(data.anyaSartHaruOne)
+          setAnyaSartHaruTwo(data.anyaSartHaruTwo)
+          setKaryalayaKoTarfabata(data.karyalayaKoTarfabata)
+          setKaryalayaKoTarfabataChild(data.karyalayaKoTarfabataChild)
+          setYojanaSakhaTarfabata(data.yojanaSakhaTarfabata)
+          setYojanaSakhaTarfabataChild(data.yojanaSakhaTarfabataChild)
+          setSaveOrEdit("Edit")
+        }
+      } catch (error) {
+        console.error("Error in handleAlertData:", error)
+        alert("An unexpected error occurred.")
+      }
+    }
     handleSaveOrEdit(yojanaKaryaKramKoNaam)
     getData()
-  }, [yojanaKaryaKramKoNaam])
+  }, [yojanaKaryaKramKoNaam, value])
 
   useEffect(() => {
+    const fetchYojanaDartaKoNaamData = async () => {
+      try {
+        const data = await fetchYojanaDartaData(value || "")
+        console.log("Fetched Anudaan Data:", data) // For debugging
+        setYojanaKoNaam(data)
+        setLoading(false)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
     if (saveOrEdit === "Save") {
       fetchYojanaDartaKoNaamData()
     }
-  }, [saveOrEdit])
+  }, [saveOrEdit, value])
 
   return (
     <div className="flex w-full justify-center ">
@@ -2560,7 +2573,8 @@ export default function YojanaSamjhauta() {
                 try {
                   const response =
                     await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
-                      yojanaKaryaKramKoNaam
+                      yojanaKaryaKramKoNaam,
+                      value || ""
                     )
 
                   // Ensure response.data exists and is not empty

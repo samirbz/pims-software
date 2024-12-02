@@ -33,6 +33,7 @@ import {
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { ConvertToNepaliNumerals } from "@/lib/util"
+import { useMyContext } from "@/context/MyContext"
 
 export default function Wada() {
   const [wadaNum, setWadaNum] = useState("")
@@ -48,7 +49,7 @@ export default function Wada() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(wadaNumData.length / rowsPerPage)
-
+const { value } = useMyContext()
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
@@ -59,7 +60,7 @@ export default function Wada() {
   const fetchWadaNum = async () => {
     try {
       setLoading(true)
-      const data = await fetchWadaNumData()
+      const data = await fetchWadaNumData(value || "")
       setWadaNumData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -92,7 +93,7 @@ export default function Wada() {
       }
 
       // Perform edit operation
-      const result = await editWadaNum(editId, trimmedName)
+      const result = await editWadaNum(editId, trimmedName, value || "")
       if (result.status === "success") {
         setWadaNum("")
         setEditMode(false)
@@ -107,7 +108,7 @@ export default function Wada() {
         toast.error("Item already exists")
       } else {
         // Perform save operation
-        const result = await savewadaNum(trimmedName)
+        const result = await savewadaNum(trimmedName, value || "")
         if (result.status === "success") {
           setWadaNum("")
           fetchWadaNum()
@@ -133,8 +134,19 @@ export default function Wada() {
   }
 
   useEffect(() => {
+    const fetchWadaNum = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchWadaNumData(value || "")
+        setWadaNumData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
     fetchWadaNum()
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -146,7 +158,7 @@ export default function Wada() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteWadaNum(deleteId)
+      const result = await deleteWadaNum(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchWadaNum()

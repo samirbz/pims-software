@@ -28,6 +28,7 @@ import {
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
 import SamjhautaSwikritiPrint from "@/lib/print/PrintSamjhautaSwikrit"
+import { useMyContext } from "@/context/MyContext"
 
 export default function SamjhautaSwikriti() {
   const [aawa, setAawa] = useState("")
@@ -62,17 +63,9 @@ export default function SamjhautaSwikriti() {
 
   const [saveOrEdit, setSaveOrEdit] = useState("Save")
 
-  // const [btnDisable, setBtnDisable] = useState(false)
+  const { value } = useMyContext()
 
-  const fetchYojanaDartaKoNaamData = async () => {
-    try {
-      const data = await fetchYojanaDartaData()
-      console.log("Fetched Anudaan Data:", data) // For debugging
-      setYojanaKoNaam(data)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
-    }
-  }
+  // const [btnDisable, setBtnDisable] = useState(false)
 
   const handleAlertData = async (yojanaKaryaKramKoNaam: string) => {
     if (!yojanaKaryaKramKoNaam) {
@@ -82,7 +75,8 @@ export default function SamjhautaSwikriti() {
 
     try {
       const response = await fetchDataByYojanaKaryaKramKoNaam(
-        yojanaKaryaKramKoNaam
+        yojanaKaryaKramKoNaam,
+        value || ""
       )
 
       if (response.status === "success") {
@@ -90,69 +84,6 @@ export default function SamjhautaSwikriti() {
         alert(JSON.stringify(response.data, null, 2))
       } else {
         alert("Error: " + response.error)
-      }
-    } catch (error) {
-      console.error("Error in handleAlertData:", error)
-      alert("An unexpected error occurred.")
-    }
-  }
-
-  const handleSaveOrEdit = async (yojanaKaryaKramKoNaam: string) => {
-    try {
-      const response = await fetchDataByYojanaKaryaKramKoNaam(
-        yojanaKaryaKramKoNaam
-      )
-      const data = await getSamjhautaSwikritiTippani(yojanaKaryaKramKoNaam)
-
-      if (
-        response.status === "success" &&
-        response.data &&
-        data &&
-        response.data.length > 0
-      ) {
-        const data = response.data[0]
-        setAawa(data.aawa)
-        setMiti(data.miti)
-        setYojanaKaryaKramKoNaam(data.yojanaKaryaKramKoNaam)
-        setUpavoktaSamitiKoNaam(data.upavoktaSamitiKoNaam)
-        setAdhyachyaKoNaam(data.adhyachyaKoNaam)
-        setVelamaUpasthitiSankhya(data.velamaUpasthitiSankhya)
-        setPadakariSankhya(data.padakariSankhya)
-        setMahilaSankhya(data.mahilaSankhya)
-        setLagatAnumanRakam(data.lagatAnumanRakam)
-        setNagarpalikaRakamRu(data.nagarpalikaRakamRu)
-        setlagatSramDan(data.lagatSramDan)
-        setContengencyRakam(data.contengencyRakam)
-        setKhudPauneRakam(data.khudPauneRakam)
-        setAnugamanSamitikaSadasya(data.anugamanSamitikaSadasya)
-        setVudgetKitabSNum(data.budgetKitabSNum)
-        setUshaGathanMiti(data.ushaGathanMiti)
-        setMukhyaSamitiKoNaam(data.mukhyaSamitiKoNaam)
-        setUshaNibedandiyiyekoMiti(data.ushaGathanMiti)
-        setAnyaTipaniBivaran(data.anyaTipaniBivaran)
-        setYojanakoNaam(data.yojanakoNaam)
-        setWadaNum(data.wadaNum)
-        setBiniyojitRakamRu(data.biniyojitRakamRu)
-        setSanyojak(data.sanyojak)
-        setSadasyaOne(data.sadasyaOne)
-        setSadasyaTwo(data.sadasyaTwo)
-        setSaveOrEdit("Edit")
-      } else {
-        setAdhyachyaKoNaam("")
-        setVelamaUpasthitiSankhya("")
-        setPadakariSankhya("")
-        setMahilaSankhya("")
-        setAnugamanSamitikaSadasya("")
-        setUshaGathanMiti("")
-        setUshaNibedandiyiyekoMiti("")
-        setAnyaTipaniBivaran("")
-        setYojanakoNaam("")
-        setWadaNum("")
-        setBiniyojitRakamRu("")
-        setSanyojak("")
-        setSadasyaOne("")
-        setSadasyaTwo("")
-        setSaveOrEdit("Save")
       }
     } catch (error) {
       console.error("Error in handleAlertData:", error)
@@ -187,7 +118,8 @@ export default function SamjhautaSwikriti() {
         biniyojitRakamRu,
         sanyojak,
         sadasyaOne,
-        sadasyaTwo
+        sadasyaTwo,
+        value || ""
       )
       if (result.status === "success") {
         setAawa("")
@@ -246,7 +178,8 @@ export default function SamjhautaSwikriti() {
         biniyojitRakamRu,
         sanyojak,
         sadasyaOne,
-        sadasyaTwo
+        sadasyaTwo,
+        value || ""
       )
       if (result.status === "success") {
         setAawa("")
@@ -285,17 +218,13 @@ export default function SamjhautaSwikriti() {
     const getData = async () => {
       try {
         setLoading(true)
-        const response = await getYojanaDartaForSwikriti(yojanaKaryaKramKoNaam)
+        const response = await getYojanaDartaForSwikriti(
+          yojanaKaryaKramKoNaam,
+          value || ""
+        )
 
         if (response && response.length > 0) {
           const data = response[0]
-          // const estimateAmount = data[0].prabidhikEstimateAmount
-          // const kulAnudaan = data[0].kulAnudaanRakam
-          // const janaSramdan = data[0].janaSramdanRakam
-          // const contengency = data[0].dharautiRakamResult
-          // const mukhyaSamitiKoNaam = data[0].mukhyaSamiti
-          // const vudgetKitabSNum = data[0].budgetKitabSnum
-
           setLagatAnumanRakam(data.prabidhikEstimateAmount)
           setNagarpalikaRakamRu(data.kulAnudaanRakam)
           setlagatSramDan(data.janaSramdanRakam)
@@ -337,13 +266,89 @@ export default function SamjhautaSwikriti() {
         setLoading(false)
       }
     }
+
+    const handleSaveOrEdit = async (yojanaKaryaKramKoNaam: string) => {
+      try {
+        const response = await fetchDataByYojanaKaryaKramKoNaam(
+          yojanaKaryaKramKoNaam,
+          value || ""
+        )
+        const data = await getSamjhautaSwikritiTippani(
+          yojanaKaryaKramKoNaam,
+          value || ""
+        )
+
+        if (
+          response.status === "success" &&
+          response.data &&
+          data &&
+          response.data.length > 0
+        ) {
+          const data = response.data[0]
+          setAawa(data.aawa)
+          setMiti(data.miti)
+          setYojanaKaryaKramKoNaam(data.yojanaKaryaKramKoNaam)
+          setUpavoktaSamitiKoNaam(data.upavoktaSamitiKoNaam)
+          setAdhyachyaKoNaam(data.adhyachyaKoNaam)
+          setVelamaUpasthitiSankhya(data.velamaUpasthitiSankhya)
+          setPadakariSankhya(data.padakariSankhya)
+          setMahilaSankhya(data.mahilaSankhya)
+          setLagatAnumanRakam(data.lagatAnumanRakam)
+          setNagarpalikaRakamRu(data.nagarpalikaRakamRu)
+          setlagatSramDan(data.lagatSramDan)
+          setContengencyRakam(data.contengencyRakam)
+          setKhudPauneRakam(data.khudPauneRakam)
+          setAnugamanSamitikaSadasya(data.anugamanSamitikaSadasya)
+          setVudgetKitabSNum(data.budgetKitabSNum)
+          setUshaGathanMiti(data.ushaGathanMiti)
+          setMukhyaSamitiKoNaam(data.mukhyaSamitiKoNaam)
+          setUshaNibedandiyiyekoMiti(data.ushaGathanMiti)
+          setAnyaTipaniBivaran(data.anyaTipaniBivaran)
+          setYojanakoNaam(data.yojanakoNaam)
+          setWadaNum(data.wadaNum)
+          setBiniyojitRakamRu(data.biniyojitRakamRu)
+          setSanyojak(data.sanyojak)
+          setSadasyaOne(data.sadasyaOne)
+          setSadasyaTwo(data.sadasyaTwo)
+          setSaveOrEdit("Edit")
+        } else {
+          setAdhyachyaKoNaam("")
+          setVelamaUpasthitiSankhya("")
+          setPadakariSankhya("")
+          setMahilaSankhya("")
+          setAnugamanSamitikaSadasya("")
+          setUshaGathanMiti("")
+          setUshaNibedandiyiyekoMiti("")
+          setAnyaTipaniBivaran("")
+          setYojanakoNaam("")
+          setWadaNum("")
+          setBiniyojitRakamRu("")
+          setSanyojak("")
+          setSadasyaOne("")
+          setSadasyaTwo("")
+          setSaveOrEdit("Save")
+        }
+      } catch (error) {
+        console.error("Error in handleAlertData:", error)
+        alert("An unexpected error occurred.")
+      }
+    }
     handleSaveOrEdit(yojanaKaryaKramKoNaam)
     getData()
-  }, [yojanaKaryaKramKoNaam])
+  }, [yojanaKaryaKramKoNaam, value])
 
   useEffect(() => {
+    const fetchYojanaDartaKoNaamData = async () => {
+      try {
+        const data = await fetchYojanaDartaData(value || "")
+        console.log("Fetched Anudaan Data:", data) // For debugging
+        setYojanaKoNaam(data)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
     fetchYojanaDartaKoNaamData()
-  }, [])
+  }, [value])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -362,7 +367,7 @@ export default function SamjhautaSwikriti() {
                 label=" आ.व "
                 size="sm"
                 className="w-1/2"
-                value={aawa}
+                value={value || ""}
                 onChange={(e) => setAawa(e.target.value)}
               />
               <form className="flex items-center gap-2 ">
@@ -571,7 +576,8 @@ export default function SamjhautaSwikriti() {
 
                     try {
                       const response = await fetchDataByYojanaKaryaKramKoNaam(
-                        yojanaKaryaKramKoNaam
+                        yojanaKaryaKramKoNaam,
+                        value || ""
                       )
 
                       // Ensure response.data exists and is not empty

@@ -122,111 +122,126 @@ export async function deleteTskData(id: string) {
 
 //  ***************setup menu item********************************
 // 1. mukhya samiti
-export async function saveMukyaSamiti(mukhyaSamitiKoNaam: string) {
+export async function saveMukyaSamiti(
+  mukhyaSamitiKoNaam: string,
+  fiscalyear: string
+) {
   try {
     const mukhyaSamiti = await prisma.mukhyaSamitiKoNaam.create({
       data: {
         mukhyaSamitiKoNaam,
+        fiscalyear, // Save fiscalyear as well
       },
     })
     return { status: "success", data: mukhyaSamiti }
   } catch (error) {
-    console.error("Error in registerUser:", error)
+    console.error("Error in saveMukyaSamiti:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
 
-export async function fetchMukyaSamitiData() {
+export async function fetchMukyaSamitiData(fiscalyear: string) {
   try {
-    const data = await prisma.mukhyaSamitiKoNaam.findMany()
+    const data = await prisma.mukhyaSamitiKoNaam.findMany({
+      where: {
+        fiscalyear, // Match the provided fiscalyear
+      },
+    })
     return data
   } catch (error) {
-    console.error("Error fetching staff names:", error)
+    console.error("Error fetching Mukya Samiti data:", error)
     throw error
   }
 }
-export async function deleteMukyaSamitiKoNaam(id: string) {
+
+export async function deleteMukyaSamitiKoNaam(id: string, fiscalyear: string) {
   try {
-    await prisma.mukhyaSamitiKoNaam.delete({
-      where: { id },
+    await prisma.mukhyaSamitiKoNaam.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
-    console.error("Failed to delete date:", error)
-    return { status: "error", error: "something went wrong" }
+    console.error("Failed to delete Mukya Samiti:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }
 
 export async function editMukhyaSamitiKonaam(
   id: string,
-  mukhyaSamitiKoNaam: string
+  mukhyaSamitiKoNaam: string,
+  fiscalyear: string
 ) {
   try {
-    // Update the record in the database
-    const updatedRecord = await prisma.mukhyaSamitiKoNaam.update({
-      where: {
-        id,
-      },
+    const updatedRecord = await prisma.mukhyaSamitiKoNaam.updateMany({
+      where: { id, fiscalyear },
       data: {
         mukhyaSamitiKoNaam,
       },
     })
     return { status: "success", data: updatedRecord }
   } catch (error) {
-    console.error("Error in updateBiniyojanBudget:", error)
+    console.error("Error in editMukhyaSamitiKonaam:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
 
 //  2. anudan kisim
-export async function saveAnudaanKoNaam(anudaanKoNaam: string) {
+export async function saveAnudaanKoNaam(
+  anudaanKoNaam: string,
+  fiscalyear: string
+) {
   try {
     const anudaan = await prisma.anudaanKoNaam.create({
       data: {
         anudaanKoNaam,
+        fiscalyear,
       },
     })
     return { status: "success", data: anudaan }
   } catch (error) {
-    console.error("Error in registerUser:", error)
+    console.error("Error in saveAnudaanKoNaam:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
 
-export async function fetchAnudaanKoNaamData() {
+export async function fetchAnudaanKoNaamData(fiscalyear: string) {
   try {
-    const data = await prisma.anudaanKoNaam.findMany()
+    const data = await prisma.anudaanKoNaam.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
-    console.error("Error fetching staff names:", error)
+    console.error("Error fetching Anudaan Ko Naam data:", error)
     throw error
   }
 }
-export async function deleteAnudaanKoNaam(id: string) {
+export async function deleteAnudaanKoNaam(id: string, fiscalyear: string) {
   try {
-    await prisma.anudaanKoNaam.delete({
-      where: { id },
+    await prisma.anudaanKoNaam.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
-    console.error("Failed to delete date:", error)
-    return { status: "error", error: "something went wrong" }
+    console.error("Failed to delete Anudaan Ko Naam:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }
 
-export async function editAnudaanKoNaam(id: string, anudaanKoNaam: string) {
+export async function editAnudaanKoNaam(
+  id: string,
+  anudaanKoNaam: string,
+  fiscalyear: string
+) {
   try {
-    const updatedRecord = await prisma.anudaanKoNaam.update({
-      where: {
-        id,
-      },
+    const updatedRecord = await prisma.anudaanKoNaam.updateMany({
+      where: { id, fiscalyear },
       data: {
         anudaanKoNaam,
       },
     })
     return { status: "success", data: updatedRecord }
   } catch (error) {
-    console.error("Error in updateBiniyojanBudget:", error)
+    console.error("Error in editAnudaanKoNaam:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
@@ -234,37 +249,45 @@ export async function editAnudaanKoNaam(id: string, anudaanKoNaam: string) {
 // 3.Lagat srot
 export async function saveLagatSrot(
   anudanKoKisim: string,
-  lagatSrotKoNaam: string
+  lagatSrotKoNaam: string,
+  fiscalyear: string
 ) {
   try {
     const dt = await prisma.lagatSrot.create({
       data: {
         anudanKoKisim,
         lagatSrotKoNaam,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
   } catch (error) {
-    console.error("Error in registerUser:", error)
+    console.error("Error in saveLagatSrot:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
 
-export async function fetchLagatSrotData() {
+export async function fetchLagatSrotData(fiscalyear: string) {
   try {
-    const data = await prisma.lagatSrot.findMany()
+    const data = await prisma.lagatSrot.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
-    console.error("Error fetching staff names:", error)
+    console.error("Error fetching Lagat Srot data:", error)
     throw error
   }
 }
 
-export async function fetchFilterLagatSrotData(anudaanKoNaam: string) {
+export async function fetchFilterLagatSrotData(
+  anudaanKoNaam: string,
+  fiscalyear: string
+) {
   try {
     const data = await prisma.lagatSrot.findMany({
       where: {
         anudanKoKisim: anudaanKoNaam,
+        fiscalyear,
       },
     })
     return data
@@ -274,29 +297,27 @@ export async function fetchFilterLagatSrotData(anudaanKoNaam: string) {
   }
 }
 
-export async function deleteLagatSrot(id: string) {
+export async function deleteLagatSrot(id: string, fiscalyear: string) {
   try {
-    await prisma.lagatSrot.delete({
-      where: { id },
+    await prisma.lagatSrot.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
-    console.error("Failed to delete date:", error)
-    return { status: "error", error: "something went wrong" }
+    console.error("Failed to delete Lagat Srot:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }
 
 export async function editLagatSrot(
   id: string,
   anudanKoKisim: string,
-  lagatSrotKoNaam: string
+  lagatSrotKoNaam: string,
+  fiscalyear: string
 ) {
   try {
-    // Update the record in the database
-    const updatedRecord = await prisma.lagatSrot.update({
-      where: {
-        id,
-      },
+    const updatedRecord = await prisma.lagatSrot.updateMany({
+      where: { id, fiscalyear },
       data: {
         anudanKoKisim,
         lagatSrotKoNaam,
@@ -304,39 +325,45 @@ export async function editLagatSrot(
     })
     return { status: "success", data: updatedRecord }
   } catch (error) {
-    console.error("Error in updateBiniyojanBudget:", error)
+    console.error("Error in editLagatSrot:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
 
 // 4.yojana prakar
-export async function saveYojanaPrakar(yojanaPrakar: string) {
+export async function saveYojanaPrakar(
+  yojanaPrakar: string,
+  fiscalyear: string
+) {
   try {
     const yojana = await prisma.yojanaPrakar.create({
       data: {
         yojanaPrakar,
+        fiscalyear,
       },
     })
     return { status: "success", data: yojana }
   } catch (error) {
-    console.error("Error in registerUser:", error)
+    console.error("Error in saveYojanaPrakar:", error)
     return { status: "error", error: "Something went wrong" }
   }
 }
 
-export async function fetchYojanaPrakarData() {
+export async function fetchYojanaPrakarData(fiscalyear: string) {
   try {
-    const data = await prisma.yojanaPrakar.findMany()
+    const data = await prisma.yojanaPrakar.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
-    console.error("Error fetching staff names:", error)
+    console.error("Error fetching Yojana Prakar data:", error)
     throw error
   }
 }
-export async function deleteYojanaPrakar(id: string) {
+export async function deleteYojanaPrakar(id: string, fiscalyear: string) {
   try {
-    await prisma.yojanaPrakar.delete({
-      where: { id },
+    await prisma.yojanaPrakar.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -345,12 +372,17 @@ export async function deleteYojanaPrakar(id: string) {
   }
 }
 
-export async function editYojanaPrakar(id: string, yojanaPrakar: string) {
+export async function editYojanaPrakar(
+  id: string,
+  yojanaPrakar: string,
+  fiscalyear: string
+) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.yojanaPrakar.update({
+    const updatedRecord = await prisma.yojanaPrakar.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         yojanaPrakar,
@@ -366,13 +398,15 @@ export async function editYojanaPrakar(id: string, yojanaPrakar: string) {
 // 5.Yojaana karya bivaran
 export async function saveYonanaKaryaBivaran(
   yojanaKoKisim: string,
-  yojanaKoKarya: string
+  yojanaKoKarya: string,
+  fiscalyear: string
 ) {
   try {
     const dt = await prisma.yojanaKaryaBivaran.create({
       data: {
         yojanaKoKisim,
         yojanaKoKarya,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -382,19 +416,21 @@ export async function saveYonanaKaryaBivaran(
   }
 }
 
-export async function fetchYojanaKaryaBivaranData() {
+export async function fetchYojanaKaryaBivaranData(fiscalyear: string) {
   try {
-    const data = await prisma.yojanaKaryaBivaran.findMany()
+    const data = await prisma.yojanaKaryaBivaran.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteYojanaKarayBivaran(id: string) {
+export async function deleteYojanaKarayBivaran(id: string, fiscalyear: string) {
   try {
-    await prisma.yojanaKaryaBivaran.delete({
-      where: { id },
+    await prisma.yojanaKaryaBivaran.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -406,13 +442,15 @@ export async function deleteYojanaKarayBivaran(id: string) {
 export async function editYojanaKaryaBivaran(
   id: string,
   yojanaKoKisim: string,
-  yojanaKoKarya: string
+  yojanaKoKarya: string,
+  fiscalyear: string
 ) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.yojanaKaryaBivaran.update({
+    const updatedRecord = await prisma.yojanaKaryaBivaran.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         yojanaKoKisim,
@@ -427,11 +465,15 @@ export async function editYojanaKaryaBivaran(
 }
 
 // 6.yojana chanot nikaya
-export async function saveYojanaChanotNikaya(yojanaChanotNikaya: string) {
+export async function saveYojanaChanotNikaya(
+  yojanaChanotNikaya: string,
+  fiscalyear: string
+) {
   try {
     const yojana = await prisma.yojanaChanotNikaya.create({
       data: {
         yojanaChanotNikaya,
+        fiscalyear,
       },
     })
     return { status: "success", data: yojana }
@@ -441,19 +483,21 @@ export async function saveYojanaChanotNikaya(yojanaChanotNikaya: string) {
   }
 }
 
-export async function fetchYojanaChanotNikayaData() {
+export async function fetchYojanaChanotNikayaData(fiscalyear: string) {
   try {
-    const data = await prisma.yojanaChanotNikaya.findMany()
+    const data = await prisma.yojanaChanotNikaya.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteYojanaChanotNikaya(id: string) {
+export async function deleteYojanaChanotNikaya(id: string, fiscalyear: string) {
   try {
-    await prisma.yojanaChanotNikaya.delete({
-      where: { id },
+    await prisma.yojanaChanotNikaya.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -464,13 +508,15 @@ export async function deleteYojanaChanotNikaya(id: string) {
 
 export async function editYojanaChanotNikaya(
   id: string,
-  yojanaChanotNikaya: string
+  yojanaChanotNikaya: string,
+  fiscalyear: string
 ) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.yojanaChanotNikaya.update({
+    const updatedRecord = await prisma.yojanaChanotNikaya.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         yojanaChanotNikaya,
@@ -484,11 +530,12 @@ export async function editYojanaChanotNikaya(
 }
 
 // 7.gapa/nagarpalikako naam
-export async function saveGapa(gapa: string) {
+export async function saveGapa(gapa: string, fiscalyear: string) {
   try {
     const dt = await prisma.gapa.create({
       data: {
         gapa,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -498,19 +545,21 @@ export async function saveGapa(gapa: string) {
   }
 }
 
-export async function fetchGapaData() {
+export async function fetchGapaData(fiscalyear: string) {
   try {
-    const data = await prisma.gapa.findMany()
+    const data = await prisma.gapa.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteGapa(id: string) {
+export async function deleteGapa(id: string, fiscalyear: string) {
   try {
-    await prisma.gapa.delete({
-      where: { id },
+    await prisma.gapa.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -519,12 +568,13 @@ export async function deleteGapa(id: string) {
   }
 }
 
-export async function editGapa(id: string, gapa: string) {
+export async function editGapa(id: string, gapa: string, fiscalyear: string) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.gapa.update({
+    const updatedRecord = await prisma.gapa.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         gapa,
@@ -538,11 +588,12 @@ export async function editGapa(id: string, gapa: string) {
 }
 
 // 8.wada num
-export async function savewadaNum(wadaNum: string) {
+export async function savewadaNum(wadaNum: string, fiscalyear: string) {
   try {
     const dt = await prisma.wadaNum.create({
       data: {
         wadaNum,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -552,19 +603,21 @@ export async function savewadaNum(wadaNum: string) {
   }
 }
 
-export async function fetchWadaNumData() {
+export async function fetchWadaNumData(fiscalyear: string) {
   try {
-    const data = await prisma.wadaNum.findMany()
+    const data = await prisma.wadaNum.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteWadaNum(id: string) {
+export async function deleteWadaNum(id: string, fiscalyear: string) {
   try {
-    await prisma.wadaNum.delete({
-      where: { id },
+    await prisma.wadaNum.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -573,12 +626,17 @@ export async function deleteWadaNum(id: string) {
   }
 }
 
-export async function editWadaNum(id: string, wadaNum: string) {
+export async function editWadaNum(
+  id: string,
+  wadaNum: string,
+  fiscalyear: string
+) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.wadaNum.update({
+    const updatedRecord = await prisma.wadaNum.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         wadaNum,
@@ -592,12 +650,17 @@ export async function editWadaNum(id: string, wadaNum: string) {
 }
 
 // 9.Bank bivaran
-export async function saveBankBivaran(bankKoNaam: string, sakha: string) {
+export async function saveBankBivaran(
+  bankKoNaam: string,
+  sakha: string,
+  fiscalyear: string
+) {
   try {
     const dt = await prisma.bankBivaran.create({
       data: {
         bankKoNaam,
         sakha,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -607,19 +670,21 @@ export async function saveBankBivaran(bankKoNaam: string, sakha: string) {
   }
 }
 
-export async function fetchBankBivaranData() {
+export async function fetchBankBivaranData(fiscalyear: string) {
   try {
-    const data = await prisma.bankBivaran.findMany()
+    const data = await prisma.bankBivaran.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteBankBivaran(id: string) {
+export async function deleteBankBivaran(id: string, fiscalyear: string) {
   try {
-    await prisma.bankBivaran.delete({
-      where: { id },
+    await prisma.bankBivaran.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -631,13 +696,15 @@ export async function deleteBankBivaran(id: string) {
 export async function editBankBivaran(
   id: string,
   bankKoNaam: string,
-  sakha: string
+  sakha: string,
+  fiscalyear: string
 ) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.bankBivaran.update({
+    const updatedRecord = await prisma.bankBivaran.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         bankKoNaam,
@@ -659,7 +726,8 @@ export async function saveYojanaBudget(
   biniyojanBudget: string,
   budgetKaryakram: string,
   yojanaKisim: string,
-  mukhyaSamiti: string
+  mukhyaSamiti: string,
+  fiscalyear: string
 ) {
   try {
     // Check if a record with the same yojanaKoNaam and wadaNum already exists
@@ -667,6 +735,7 @@ export async function saveYojanaBudget(
       where: {
         yojanaKoNaam,
         wadaNum,
+        fiscalyear,
       },
     })
 
@@ -687,6 +756,7 @@ export async function saveYojanaBudget(
         budgetKaryakram,
         yojanaKisim,
         mukhyaSamiti,
+        fiscalyear,
       },
     })
 
@@ -697,19 +767,21 @@ export async function saveYojanaBudget(
   }
 }
 
-export async function fetchYojanaBudgetData() {
+export async function fetchYojanaBudgetData(fiscalyear: string) {
   try {
-    const data = await prisma.yojanaBudget.findMany()
+    const data = await prisma.yojanaBudget.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteYojanaBudget(id: string) {
+export async function deleteYojanaBudget(id: string, fiscalyear: string) {
   try {
-    await prisma.yojanaBudget.delete({
-      where: { id },
+    await prisma.yojanaBudget.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -721,13 +793,15 @@ export async function deleteYojanaBudget(id: string) {
 //  10-1 yojana budget update
 export async function updateBiniyojanBudget(
   id: string,
-  biniyojanBudget: string
+  biniyojanBudget: string,
+  fiscalyear: string
 ) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.yojanaBudget.update({
+    const updatedRecord = await prisma.yojanaBudget.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         biniyojanBudget,
@@ -750,7 +824,8 @@ export async function saveYojanaBudgetDt(
   budgetKaryakramDt: string,
   yojanaKisimDt: string,
   mukhyaSamitiDt: string,
-  chaniyekoMukhyaYojana: string
+  chaniyekoMukhyaYojana: string,
+  fiscalyear: string
 ) {
   try {
     const dt = await prisma.yojanaBudgetSecond.create({
@@ -763,6 +838,7 @@ export async function saveYojanaBudgetDt(
         yojanaKisimDt,
         mukhyaSamitiDt,
         chaniyekoMukhyaYojana,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -774,9 +850,11 @@ export async function saveYojanaBudgetDt(
 
 //  yojan darta auto fill
 
-export async function fetchYojanaBudgetDataSecond() {
+export async function fetchYojanaBudgetDataSecond(fiscalyear: string) {
   try {
-    const data = await prisma.yojanaBudgetSecond.findMany()
+    const data = await prisma.yojanaBudgetSecond.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
@@ -784,10 +862,10 @@ export async function fetchYojanaBudgetDataSecond() {
   }
 }
 
-export async function deleteYojanaBudgetSecond(id: string) {
+export async function deleteYojanaBudgetSecond(id: string, fiscalyear: string) {
   try {
-    await prisma.yojanaBudgetSecond.delete({
-      where: { id },
+    await prisma.yojanaBudgetSecond.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -797,18 +875,19 @@ export async function deleteYojanaBudgetSecond(id: string) {
 }
 
 export async function deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
-  chaniyekoMukhyaYojana: string
+  chaniyekoMukhyaYojana: string,
+  fiscalyear: string
 ) {
   try {
     // Check if no records match the chaniyekoMukhyaYojana
     const existingRecords = await prisma.yojanaBudgetSecond.findMany({
-      where: { chaniyekoMukhyaYojana },
+      where: { chaniyekoMukhyaYojana, fiscalyear },
     })
 
     if (existingRecords.length === 0) {
       // No matching records found, proceed to delete
       await prisma.yojanaBudgetSecond.deleteMany({
-        where: { chaniyekoMukhyaYojana },
+        where: { chaniyekoMukhyaYojana, fiscalyear },
       })
 
       return { status: "success" }
@@ -823,7 +902,8 @@ export async function deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
 
 export async function sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
   chaniyekoMukhyaYojana: string,
-  wadaNumDt: string
+  wadaNumDt: string,
+  fiscalyear: string
 ) {
   try {
     // Fetch all records that match both chaniyekoMukhyaYojana and wadaNum
@@ -831,6 +911,7 @@ export async function sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
       where: {
         chaniyekoMukhyaYojana,
         wadaNumDt, // Ensure wadaNum matches
+        fiscalyear,
       },
       select: {
         biniyojanBudgetDt: true,
@@ -858,13 +939,15 @@ export async function editYojanaBudgetFirst(
   biniyojanBudget: string,
   budgetKaryakram: string,
   yojanaKisim: string,
-  mukhyaSamiti: string
+  mukhyaSamiti: string,
+  fiscalyear: string
 ) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.yojanaBudget.update({
+    const updatedRecord = await prisma.yojanaBudget.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         yojanaKoNaam,
@@ -886,7 +969,8 @@ export async function editYojanaBudgetFirst(
 
 export async function getIdForYojanaBudgetFromSecondEdit(
   yojanaKoNaam: string,
-  wadaNum: string
+  wadaNum: string,
+  fiscalyear: string
 ) {
   try {
     // Fetch the record(s) matching yojanaKoNaam and wadaNum, and return the id and biniyojanBudget
@@ -894,6 +978,7 @@ export async function getIdForYojanaBudgetFromSecondEdit(
       where: {
         yojanaKoNaam,
         wadaNum,
+        fiscalyear,
       },
       select: {
         id: true, // Return the id
@@ -910,13 +995,15 @@ export async function getIdForYojanaBudgetFromSecondEdit(
 
 export async function editYojanaBudgetYojanaKoNaamFromFirstEdit(
   oldYojanaKoNaam: string, // Old value to search for
-  newYojanaKoNaam: string // New value to update
+  newYojanaKoNaam: string, // New value to update
+  fiscalyear: string
 ) {
   try {
     // Update all records where chaniyekoMukhyaYojana matches the old value
     const updatedRecord = await prisma.yojanaBudgetSecond.updateMany({
       where: {
-        chaniyekoMukhyaYojana: oldYojanaKoNaam, // Match the old value
+        chaniyekoMukhyaYojana: oldYojanaKoNaam,
+        fiscalyear, // Match the old value
       },
       data: {
         chaniyekoMukhyaYojana: newYojanaKoNaam, // Set to the new value
@@ -936,13 +1023,15 @@ export async function editYojanaBudgetSecond(
   yojanaKoNaamDt: string,
   wadaNumDt: string,
   biniyojanBudgetDt: string,
-  chaniyekoMukhyaYojana: string
+  chaniyekoMukhyaYojana: string,
+  fiscalyear: string
 ) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.yojanaBudgetSecond.update({
+    const updatedRecord = await prisma.yojanaBudgetSecond.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         yojanaKoNaamDt,
@@ -969,7 +1058,8 @@ export async function saveSuchikritForm(
   pramanPatraSankhya: string,
   phoneNum: string,
   suchiDartaNum: string,
-  suchikritHunaChahekoKharid: string
+  suchikritHunaChahekoKharid: string,
+  fiscalyear: string
 ) {
   try {
     const dt = await prisma.suchikritFarm.create({
@@ -983,6 +1073,7 @@ export async function saveSuchikritForm(
         phoneNum,
         suchiDartaNum,
         suchikritHunaChahekoKharid,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -992,24 +1083,29 @@ export async function saveSuchikritForm(
   }
 }
 
-export async function fetchSuchikritFormData() {
+export async function fetchSuchikritFormData(fiscalyear: string) {
   try {
-    const data = await prisma.suchikritFarm.findMany()
+    const data = await prisma.suchikritFarm.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteSuchikritForm(id: string) {
+export async function deleteSuchikritForm(
+  id: string,
+  fiscalyear: string
+): Promise<{ status: string; error?: string }> {
   try {
-    await prisma.suchikritFarm.delete({
-      where: { id },
+    await prisma.suchikritFarm.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
-    console.error("Failed to delete date:", error)
-    return { status: "error", error: "something went wrong" }
+    console.error("Failed to delete record:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }
 
@@ -1023,13 +1119,15 @@ export async function editSuchikritForm(
   pramanPatraSankhya: string,
   phoneNum: string,
   suchiDartaNum: string,
-  suchikritHunaChahekoKharid: string
+  suchikritHunaChahekoKharid: string,
+  fiscalyear: string
 ) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.suchikritFarm.update({
+    const updatedRecord = await prisma.suchikritFarm.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         formKoNaam,
@@ -1051,11 +1149,15 @@ export async function editSuchikritForm(
 }
 
 // 12. suchana prakasan
-export async function saveSuchanaPrakasan(suchanaPrakasan: string) {
+export async function saveSuchanaPrakasan(
+  suchanaPrakasan: string,
+  fiscalyear: string
+) {
   try {
     const dt = await prisma.suchanaPrakasan.create({
       data: {
         suchanaPrakasan,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -1065,19 +1167,21 @@ export async function saveSuchanaPrakasan(suchanaPrakasan: string) {
   }
 }
 
-export async function fetchSuchanaPrakasanData() {
+export async function fetchSuchanaPrakasanData(fiscalyear: string) {
   try {
-    const data = await prisma.suchanaPrakasan.findMany()
+    const data = await prisma.suchanaPrakasan.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteSuchanaPrakasan(id: string) {
+export async function deleteSuchanaPrakasan(id: string, fiscalyear: string) {
   try {
-    await prisma.suchanaPrakasan.delete({
-      where: { id },
+    await prisma.suchanaPrakasan.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -1086,12 +1190,17 @@ export async function deleteSuchanaPrakasan(id: string) {
   }
 }
 
-export async function editSuchanaPrakasan(id: string, suchanaPrakasan: string) {
+export async function editSuchanaPrakasan(
+  id: string,
+  suchanaPrakasan: string,
+  fiscalyear: string
+) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.suchanaPrakasan.update({
+    const updatedRecord = await prisma.suchanaPrakasan.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         suchanaPrakasan,
@@ -1105,12 +1214,17 @@ export async function editSuchanaPrakasan(id: string, suchanaPrakasan: string) {
 }
 
 // 13.Lab Test
-export async function saveLabTest(karyalayaKoNaam: string, thegana: string) {
+export async function saveLabTest(
+  karyalayaKoNaam: string,
+  thegana: string,
+  fiscalyear: string
+) {
   try {
     const dt = await prisma.labTest.create({
       data: {
         karyalayaKoNaam,
         thegana,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -1120,19 +1234,21 @@ export async function saveLabTest(karyalayaKoNaam: string, thegana: string) {
   }
 }
 
-export async function fetchLabTestData() {
+export async function fetchLabTestData(fiscalyear: string) {
   try {
-    const data = await prisma.labTest.findMany()
+    const data = await prisma.labTest.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
     throw error
   }
 }
-export async function deleteLabTest(id: string) {
+export async function deleteLabTest(id: string, fiscalyear: string) {
   try {
-    await prisma.labTest.delete({
-      where: { id },
+    await prisma.labTest.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -1144,13 +1260,15 @@ export async function deleteLabTest(id: string) {
 export async function editLabTest(
   id: string,
   karyalayaKoNaam: string,
-  thegana: string
+  thegana: string,
+  fiscalyear: string
 ) {
   try {
     // Update the record in the database
-    const updatedRecord = await prisma.labTest.update({
+    const updatedRecord = await prisma.labTest.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         karyalayaKoNaam,
@@ -1204,7 +1322,8 @@ export async function saveYojanaDarta(
   upalabdhiLakshya: string,
   uplabdhiLakhshyaQty: string,
   barsikYojana: boolean,
-  kramagatYojana: boolean
+  kramagatYojana: boolean,
+  fiscalyear: string
 ) {
   try {
     const dt = await prisma.yojanaDarta.create({
@@ -1248,6 +1367,7 @@ export async function saveYojanaDarta(
         uplabdhiLakhshyaQty,
         barsikYojana,
         kramagatYojana,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -1257,9 +1377,11 @@ export async function saveYojanaDarta(
   }
 }
 
-export async function fetchYojanaDartaData() {
+export async function fetchYojanaDartaData(fiscalyear: string) {
   try {
-    const data = await prisma.yojanaDarta.findMany()
+    const data = await prisma.yojanaDarta.findMany({
+      where: { fiscalyear },
+    })
     return data
   } catch (error) {
     console.error("Error fetching staff names:", error)
@@ -1267,11 +1389,15 @@ export async function fetchYojanaDartaData() {
   }
 }
 
-export async function getYojanaDartaForSwikriti(yojanaKoNaam: string) {
+export async function getYojanaDartaForSwikriti(
+  yojanaKoNaam: string,
+  fiscalyear: string
+) {
   try {
     const data = await prisma.yojanaDarta.findMany({
       where: {
         yojanaKoNaam,
+        fiscalyear,
       },
     })
     return data
@@ -1281,10 +1407,10 @@ export async function getYojanaDartaForSwikriti(yojanaKoNaam: string) {
   }
 }
 
-export async function deleteYojanaDarta(id: string) {
+export async function deleteYojanaDarta(id: string, fiscalyear: string) {
   try {
-    await prisma.yojanaDarta.delete({
-      where: { id },
+    await prisma.yojanaDarta.deleteMany({
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
@@ -1333,12 +1459,14 @@ export async function editYojanaDarta(
   upalabdhiLakshya: string,
   uplabdhiLakhshyaQty: string,
   barsikYojana: boolean,
-  kramagatYojana: boolean
+  kramagatYojana: boolean,
+  fiscalyear: string
 ) {
   try {
-    const updatedRecord = await prisma.yojanaDarta.update({
+    const updatedRecord = await prisma.yojanaDarta.updateMany({
       where: {
         id,
+        fiscalyear,
       },
       data: {
         sabhaNirnayaMiti,
@@ -1415,7 +1543,8 @@ export async function saveYojanaSwikritiTippani(
   biniyojitRakamRu: string,
   sanyojak: string,
   sadasyaOne: string,
-  sadasyaTwo: string
+  sadasyaTwo: string,
+  fiscalyear: string
 ) {
   try {
     const dt = await prisma.samjhautaSwikritiTippani.create({
@@ -1445,6 +1574,7 @@ export async function saveYojanaSwikritiTippani(
         sanyojak,
         sadasyaOne,
         sadasyaTwo,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -1456,12 +1586,14 @@ export async function saveYojanaSwikritiTippani(
 
 // Get swikriti tippani data
 export async function fetchDataByYojanaKaryaKramKoNaam(
-  yojanaKaryaKramKoNaam: string
+  yojanaKaryaKramKoNaam: string,
+  fiscalyear: string
 ) {
   try {
     const data = await prisma.samjhautaSwikritiTippani.findMany({
       where: {
         yojanaKaryaKramKoNaam,
+        fiscalyear,
       },
     })
 
@@ -1476,11 +1608,15 @@ export async function fetchDataByYojanaKaryaKramKoNaam(
   }
 }
 
-export async function getSamjhautaSwikritiTippani(yojanaKaryaKramKoNaam: string) {
+export async function getSamjhautaSwikritiTippani(
+  yojanaKaryaKramKoNaam: string,
+  fiscalyear: string
+) {
   try {
     const data = await prisma.samjhautaSwikritiTippani.findMany({
       where: {
         yojanaKaryaKramKoNaam,
+        fiscalyear,
       },
     })
     return data
@@ -1515,12 +1651,14 @@ export async function updateYojanaSwikritiTippani(
   biniyojitRakamRu: string,
   sanyojak: string,
   sadasyaOne: string,
-  sadasyaTwo: string
+  sadasyaTwo: string,
+  fiscalyear: string
 ) {
   try {
     const result = await prisma.samjhautaSwikritiTippani.updateMany({
       where: {
         yojanaKaryaKramKoNaam,
+        fiscalyear,
       },
       data: {
         aawa,
@@ -1668,7 +1806,8 @@ export async function saveYojanaSamjhauta(
   karyalayaKoTarfabata: string,
   karyalayaKoTarfabataChild: string,
   yojanaSakhaTarfabata: string,
-  yojanaSakhaTarfabataChild: string
+  yojanaSakhaTarfabataChild: string,
+  fiscalyear: string
 ) {
   try {
     const dt = await prisma.yojanaSamjhauta.create({
@@ -1779,6 +1918,7 @@ export async function saveYojanaSamjhauta(
         karyalayaKoTarfabataChild,
         yojanaSakhaTarfabata,
         yojanaSakhaTarfabataChild,
+        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -1788,11 +1928,15 @@ export async function saveYojanaSamjhauta(
   }
 }
 
-export async function getYojanaSamjhauta(yojanaKaryaKramKoNaam: string) {
+export async function getYojanaSamjhauta(
+  yojanaKaryaKramKoNaam: string,
+  fiscalyear: string
+) {
   try {
     const data = await prisma.yojanaSamjhauta.findMany({
       where: {
         yojanaKaryaKramKoNaam,
+        fiscalyear,
       },
     })
     return data
@@ -1803,12 +1947,14 @@ export async function getYojanaSamjhauta(yojanaKaryaKramKoNaam: string) {
 }
 
 export async function fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
-  yojanaKaryaKramKoNaam: string
+  yojanaKaryaKramKoNaam: string,
+  fiscalyear: string
 ) {
   try {
     const data = await prisma.yojanaSamjhauta.findMany({
       where: {
         yojanaKaryaKramKoNaam,
+        fiscalyear,
       },
     })
 
@@ -1929,12 +2075,14 @@ export async function updateYojanaSamjhauta(
   karyalayaKoTarfabata: string,
   karyalayaKoTarfabataChild: string,
   yojanaSakhaTarfabata: string,
-  yojanaSakhaTarfabataChild: string
+  yojanaSakhaTarfabataChild: string,
+  fiscalyear: string
 ) {
   try {
     const result = await prisma.yojanaSamjhauta.updateMany({
       where: {
         yojanaKaryaKramKoNaam,
+        fiscalyear,
       },
       data: {
         yojanaKaryaKramKoNaam,

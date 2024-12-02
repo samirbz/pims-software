@@ -31,6 +31,7 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { useMyContext } from "@/context/MyContext"
 
 export default function LabTest() {
   const [karyalayaKoNaam, setKaryalayaKoNaam] = useState("")
@@ -47,6 +48,7 @@ export default function LabTest() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(labTestData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -58,7 +60,7 @@ export default function LabTest() {
   const fetchLabTest = async () => {
     try {
       setLoading(true)
-      const data = await fetchLabTestData()
+      const data = await fetchLabTestData(value || "")
       setlabTestData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -86,7 +88,12 @@ export default function LabTest() {
       }
 
       // Proceed with the edit operation
-      const result = await editLabTest(editId, trimmedyojanaKoNaam, thegana)
+      const result = await editLabTest(
+        editId,
+        trimmedyojanaKoNaam,
+        thegana,
+        value || ""
+      )
       if (result.status === "success") {
         setKaryalayaKoNaam("")
         setThegana("")
@@ -106,7 +113,11 @@ export default function LabTest() {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveLabTest(trimmedyojanaKoNaam, thegana)
+        const result = await saveLabTest(
+          trimmedyojanaKoNaam,
+          thegana,
+          value || ""
+        )
         if (result.status === "success") {
           setKaryalayaKoNaam("")
           setThegana("")
@@ -135,8 +146,19 @@ export default function LabTest() {
   }
 
   useEffect(() => {
+    const fetchLabTest = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchLabTestData(value || "")
+        setlabTestData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
     fetchLabTest() // Fetch data when the component mounts
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -148,7 +170,7 @@ export default function LabTest() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteLabTest(deleteId)
+      const result = await deleteLabTest(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchLabTest()

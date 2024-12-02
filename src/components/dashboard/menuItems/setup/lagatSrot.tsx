@@ -33,6 +33,7 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { useMyContext } from "@/context/MyContext"
 
 export default function LagatSrot() {
   const [anudanKoKisim, setAnudanKoKisim] = useState("")
@@ -49,6 +50,7 @@ export default function LagatSrot() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(lagatSrotData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -59,22 +61,12 @@ export default function LagatSrot() {
   const fetchLagatSrot = async () => {
     try {
       setLoading(true)
-      const data = await fetchLagatSrotData()
+      const data = await fetchLagatSrotData(value || "")
       setLagatSrotData(data)
     } catch (error) {
       console.error("Error fetching lagat srot data:", error)
     } finally {
       setLoading(false)
-    }
-  }
-
-  const fetchAnudaanData = async () => {
-    try {
-      const data = await fetchAnudaanKoNaamData()
-      console.log("Fetched Anudaan Data:", data) // For debugging
-      setAnudanData(data)
-    } catch (e) {
-      console.error("Error fetching anudaan data", e)
     }
   }
 
@@ -99,7 +91,12 @@ export default function LagatSrot() {
       }
 
       // Proceed with the edit operation
-      const result = await editLagatSrot(editId, anudanKoKisim, trimmedName)
+      const result = await editLagatSrot(
+        editId,
+        anudanKoKisim,
+        trimmedName,
+        value || ""
+      )
       if (result.status === "success") {
         setAnudanKoKisim("")
         setLagatSrotKoNaam("")
@@ -121,7 +118,11 @@ export default function LagatSrot() {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveLagatSrot(anudanKoKisim, trimmedName)
+        const result = await saveLagatSrot(
+          anudanKoKisim,
+          trimmedName,
+          value || ""
+        )
         if (result.status === "success") {
           setAnudanKoKisim("")
           setLagatSrotKoNaam("")
@@ -150,9 +151,30 @@ export default function LagatSrot() {
   }
 
   useEffect(() => {
+    const fetchLagatSrot = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchLagatSrotData(value || "")
+        setLagatSrotData(data)
+      } catch (error) {
+        console.error("Error fetching lagat srot data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    const fetchAnudaanData = async () => {
+      try {
+        const data = await fetchAnudaanKoNaamData(value || "")
+        console.log("Fetched Anudaan Data:", data) // For debugging
+        setAnudanData(data)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
+
     fetchLagatSrot()
     fetchAnudaanData()
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -164,7 +186,7 @@ export default function LagatSrot() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteLagatSrot(deleteId)
+      const result = await deleteLagatSrot(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchLagatSrot()

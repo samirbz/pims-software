@@ -23,6 +23,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { MdModeEditOutline } from "react-icons/md"
+import { useMyContext } from "@/context/MyContext"
 
 import {
   saveGapa,
@@ -47,6 +48,7 @@ export default function Gapa() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(gapaData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -58,7 +60,7 @@ export default function Gapa() {
   const fetchGapa = async () => {
     try {
       setLoading(true)
-      const data = await fetchGapaData()
+      const data = await fetchGapaData(value || "")
       setGapaData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -85,7 +87,7 @@ export default function Gapa() {
       }
 
       // Proceed with the edit operation
-      const result = await editGapa(editId, trimmedName)
+      const result = await editGapa(editId, trimmedName, value || "")
       if (result.status === "success") {
         setGapa("")
         setEditMode(false)
@@ -102,7 +104,7 @@ export default function Gapa() {
         toast.error("Item already exists")
       } else {
         // Proceed with save operation
-        const result = await saveGapa(trimmedName)
+        const result = await saveGapa(trimmedName, value || "")
         if (result.status === "success") {
           setGapa("")
           fetchGapa()
@@ -128,8 +130,19 @@ export default function Gapa() {
   }
 
   useEffect(() => {
+      const fetchGapa = async () => {
+        try {
+          setLoading(true)
+          const data = await fetchGapaData(value || "")
+          setGapaData(data)
+        } catch (error) {
+          console.error("Error fetching fiscal years:", error)
+        } finally {
+          setLoading(false)
+        }
+      }
     fetchGapa()
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -141,7 +154,7 @@ export default function Gapa() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteGapa(deleteId)
+      const result = await deleteGapa(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchGapa()

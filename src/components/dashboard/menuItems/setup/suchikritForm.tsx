@@ -23,6 +23,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
+import { useMyContext } from "@/context/MyContext"
 
 import {
   saveSuchikritForm,
@@ -57,6 +58,7 @@ export default function SuchikritForm() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(suchikritFormData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -68,7 +70,7 @@ export default function SuchikritForm() {
   const fetchSuchikritForm = async () => {
     try {
       setLoading(false)
-      const data = await fetchSuchikritFormData()
+      const data = await fetchSuchikritFormData(value || "")
       setSuchikritFormData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -104,7 +106,8 @@ export default function SuchikritForm() {
         pramanPatraSankhya,
         phoneNum,
         suchiDartaNum,
-        suchikritHunaChahekoKharid
+        suchikritHunaChahekoKharid,
+        value || ""
       )
       if (result.status === "success") {
         setFormKoNaam("")
@@ -141,7 +144,8 @@ export default function SuchikritForm() {
           pramanPatraSankhya,
           phoneNum,
           suchiDartaNum,
-          suchikritHunaChahekoKharid
+          suchikritHunaChahekoKharid,
+          value || ""
         )
         if (result.status === "success") {
           setFormKoNaam("")
@@ -193,8 +197,19 @@ export default function SuchikritForm() {
   }
 
   useEffect(() => {
+    const fetchSuchikritForm = async () => {
+      try {
+        setLoading(false)
+        const data = await fetchSuchikritFormData(value || "")
+        setSuchikritFormData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
     fetchSuchikritForm() // Fetch data when the component mounts
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -206,7 +221,7 @@ export default function SuchikritForm() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteSuchikritForm(deleteId)
+      const result = await deleteSuchikritForm(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchSuchikritForm()

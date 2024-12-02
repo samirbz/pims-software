@@ -32,6 +32,7 @@ import {
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { useMyContext } from "@/context/MyContext"
 
 export default function BankBivaran() {
   const [bankKoNaam, setBankKoNaam] = useState("")
@@ -48,6 +49,7 @@ export default function BankBivaran() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(bankBivaranData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -59,7 +61,7 @@ export default function BankBivaran() {
   const fetchBankBivaran = async () => {
     try {
       setLoading(false)
-      const data = await fetchBankBivaranData()
+      const data = await fetchBankBivaranData(value || "")
       setBankBivaranData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -93,7 +95,8 @@ export default function BankBivaran() {
       const result = await editBankBivaran(
         editId,
         trimmedName,
-        trimmedNameSecond
+        trimmedNameSecond,
+        value || ""
       )
       if (result.status === "success") {
         setBankKoNaam("")
@@ -115,7 +118,11 @@ export default function BankBivaran() {
         toast.error("Bank with the same name and branch already exists")
       } else {
         // Proceed with save operation
-        const result = await saveBankBivaran(trimmedName, trimmedNameSecond)
+        const result = await saveBankBivaran(
+          trimmedName,
+          trimmedNameSecond,
+          value || ""
+        )
         if (result.status === "success") {
           setBankKoNaam("")
           setSakha("")
@@ -144,8 +151,19 @@ export default function BankBivaran() {
   }
 
   useEffect(() => {
+    const fetchBankBivaran = async () => {
+      try {
+        setLoading(false)
+        const data = await fetchBankBivaranData(value || "")
+        setBankBivaranData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
     fetchBankBivaran() // Fetch data when the component mounts
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -157,7 +175,7 @@ export default function BankBivaran() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteBankBivaran(deleteId)
+      const result = await deleteBankBivaran(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchBankBivaran()

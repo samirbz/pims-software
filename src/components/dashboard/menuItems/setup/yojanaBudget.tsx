@@ -48,6 +48,7 @@ import * as XLSX from "xlsx"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { ConvertToNepaliNumerals } from "@/lib/util"
+import { useMyContext } from "@/context/MyContext"
 
 export default function YojanaBudget() {
   const [yojanaKoNaam, setYojanaKoNaam] = useState("")
@@ -162,6 +163,7 @@ export default function YojanaBudget() {
   const rowsPerPage = 4
 
   const pages = Math.ceil(yojanaBudgetData.length / rowsPerPage)
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -192,7 +194,7 @@ export default function YojanaBudget() {
   const fetchYojanaBudgetLocal = async () => {
     try {
       setLoading(false)
-      const data = await fetchYojanaBudgetData()
+      const data = await fetchYojanaBudgetData(value || "")
       setYojanaBudgetData(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -203,7 +205,7 @@ export default function YojanaBudget() {
   const fetchYojanaBudgetSecondLocal = async () => {
     try {
       setLoading(false)
-      const data = await fetchYojanaBudgetDataSecond()
+      const data = await fetchYojanaBudgetDataSecond(value || "")
       setYojanaBudgetDataDt(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -213,9 +215,32 @@ export default function YojanaBudget() {
   }
 
   useEffect(() => {
+    const fetchYojanaBudgetLocal = async () => {
+      try {
+        setLoading(false)
+        const data = await fetchYojanaBudgetData(value || "")
+        setYojanaBudgetData(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    const fetchYojanaBudgetSecondLocal = async () => {
+      try {
+        setLoading(false)
+        const data = await fetchYojanaBudgetDataSecond(value || "")
+        setYojanaBudgetDataDt(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
     fetchYojanaBudgetLocal()
     fetchYojanaBudgetSecondLocal()
-  }, [])
+  }, [value])
 
   //  delete first
   const handleDelete = async (id: string) => {
@@ -229,10 +254,11 @@ export default function YojanaBudget() {
         (data) => data.id === deleteUserId
       )
       const updateResult = await deleteYojanaBudgetChaniyekoMukhyaYojanaSecond(
-        matchOldBudget.yojanaKoNaam
+        matchOldBudget.yojanaKoNaam,
+        value || ""
       )
       if (updateResult.status === "success") {
-        await deleteYojanaBudget(deleteUserId)
+        await deleteYojanaBudget(deleteUserId, value || "")
         fetchYojanaBudgetLocal()
         fetchYojanaBudgetSecondLocal()
         toast.success("successfully deleted")
@@ -292,14 +318,21 @@ export default function YojanaBudget() {
       const resNew = res.toString()
 
       // Update the budget
-      const updateResult = await updateBiniyojanBudget(secondId, resNew)
+      const updateResult = await updateBiniyojanBudget(
+        secondId,
+        resNew,
+        value || ""
+      )
       if (updateResult.status !== "success") {
         console.error("Failed to update budget:", updateResult)
         return
       }
 
       // Delete the budget entry
-      const deleteResult = await deleteYojanaBudgetSecond(deleteUserIdSecond)
+      const deleteResult = await deleteYojanaBudgetSecond(
+        deleteUserIdSecond,
+        value || ""
+      )
       if (deleteResult.status === "success") {
         fetchYojanaBudgetSecondLocal()
         fetchYojanaBudgetLocal()
@@ -339,7 +372,7 @@ export default function YojanaBudget() {
         return
       }
 
-      const data = await fetchYojanaBudgetData()
+      const data = await fetchYojanaBudgetData(value || "")
 
       const hasMatch = data.some(
         (item) => item.yojanaKoNaam === yojanaKoNaam && item.wadaNum === wadaNum
@@ -354,7 +387,8 @@ export default function YojanaBudget() {
       if (!yojanaKoNaamChange) {
         await editYojanaBudgetYojanaKoNaamFromFirstEdit(
           checkFirstYojanaKoNaamForEdit,
-          yojanaKoNaam
+          yojanaKoNaam,
+          value || ""
         )
         fetchYojanaBudgetSecondLocal()
       }
@@ -374,7 +408,8 @@ export default function YojanaBudget() {
         const sumOfAll =
           await sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
             matchOldBudget.yojanaKoNaam,
-            wadaNum
+            wadaNum,
+            value || ""
           )
         const budget1 = Number(biniyojanBudget)
         const budget2 = Number(sumOfAll.totalBudget)
@@ -393,7 +428,8 @@ export default function YojanaBudget() {
           res, // Pass `res` directly instead of `biniyojanBudget`
           budgetKaryakram,
           yojanaKisim,
-          mukhyaSamiti
+          mukhyaSamiti,
+          value || ""
         )
 
         if (result.status === "success") {
@@ -429,7 +465,7 @@ export default function YojanaBudget() {
   }
 
   const editSecond = async () => {
-    const data = await fetchYojanaBudgetDataSecond()
+    const data = await fetchYojanaBudgetDataSecond(value || "")
 
     const hasMatch = data.some(
       (item) =>
@@ -453,7 +489,8 @@ export default function YojanaBudget() {
         const dataOfYojanaKoNaam: any =
           await getIdForYojanaBudgetFromSecondEdit(
             chaniyekoMukhyaYojana,
-            wadaNumDt
+            wadaNumDt,
+            value || ""
           )
         const remainAmount = dataOfYojanaKoNaam.map((items: any) =>
           Number(items.biniyojanBudget)
@@ -470,7 +507,8 @@ export default function YojanaBudget() {
         yojanaKoNaamDt,
         wadaNumDt,
         biniyojanBudgetDt,
-        chaniyekoMukhyaYojana
+        chaniyekoMukhyaYojana,
+        value || ""
       )
 
       // update budget rs
@@ -485,7 +523,7 @@ export default function YojanaBudget() {
       const res = budget1 - budget2 + budget3
       const resNew = res.toString()
 
-      await updateBiniyojanBudget(secondId, resNew)
+      await updateBiniyojanBudget(secondId, resNew, value || "")
 
       if (result.status === "success") {
         setYojanaKoNaamDt("")
@@ -505,7 +543,7 @@ export default function YojanaBudget() {
   }
 
   const onSubmit = async () => {
-    const data = await fetchYojanaBudgetData()
+    const data = await fetchYojanaBudgetData(value || "")
 
     const trimmedyojanaKoNaam = yojanaKoNaam.trimEnd()
 
@@ -530,7 +568,8 @@ export default function YojanaBudget() {
           biniyojanBudget,
           budgetKaryakram,
           yojanaKisim,
-          mukhyaSamiti
+          mukhyaSamiti,
+          value || ""
         )
 
         if (result.status === "success") {
@@ -554,7 +593,7 @@ export default function YojanaBudget() {
   }
 
   const onSubmitDt = async () => {
-    const data = await fetchYojanaBudgetDataSecond()
+    const data = await fetchYojanaBudgetDataSecond(value || "")
 
     const trimmedyojanaKoNaamSecond = yojanaKoNaamDt.trimEnd()
 
@@ -606,7 +645,7 @@ export default function YojanaBudget() {
       const resNew = res.toString()
 
       // Update the budget in the database
-      await updateBiniyojanBudget(secondId, resNew)
+      await updateBiniyojanBudget(secondId, resNew, value || "")
       await fetchYojanaBudgetLocal()
 
       const result = await saveYojanaBudgetDt(
@@ -617,7 +656,8 @@ export default function YojanaBudget() {
         budgetKaryakramDt,
         yojanaKisimDt,
         mukhyaSamitiDt,
-        chaniyekoMukhyaYojana
+        chaniyekoMukhyaYojana,
+        value || ""
       )
 
       if (result.status === "success") {
