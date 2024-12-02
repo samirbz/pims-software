@@ -100,12 +100,13 @@ export default function AccountButton() {
           <DropdownItem
             key="logout"
             className="flex items-center gap-2 font-semibold"
-            onPress={async () => {
+            onPress={() => {
               try {
-                clearValue() // Wait for the first async function
-                await signOutUser() // Then run the second async function
+                clearValue()
               } catch (error) {
-                console.error("Error during logout:", error) // Optional error handling
+                console.error("Error during logout:", error)
+              } finally {
+                signOutUser()
               }
             }}
             endContent={<IoLogOut />}
