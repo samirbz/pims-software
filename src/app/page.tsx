@@ -11,19 +11,23 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import Image from "next/image"
 import { GrLogin } from "react-icons/gr"
 import { MdCopyright } from "react-icons/md"
+import { useMyContext } from "@/context/MyContext"
 
 export default function LoginForm() {
+  const { clearValue } = useMyContext()
+
   const router = useRouter()
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     mode: "onTouched",
   })
 
   const onSubmit = async (data: LoginSchema) => {
+    clearValue()
     const result = await signInUser(data)
     if (result.status === "success") {
       router.refresh()
@@ -69,8 +73,8 @@ export default function LoginForm() {
               label="username"
               variant="bordered"
               {...register("username")}
-              isInvalid={!!errors.username}
-              errorMessage={errors.username?.message}
+              // isInvalid={!!errors.username}
+              // errorMessage={errors.username?.message}
               radius="full"
               size="sm"
             />
@@ -81,8 +85,8 @@ export default function LoginForm() {
               label="password"
               variant="bordered"
               {...register("password")}
-              isInvalid={!!errors.password}
-              errorMessage={errors.password?.message}
+              // isInvalid={!!errors.password}
+              // errorMessage={errors.password?.message}
               endContent={
                 <button
                   className="mb-1 focus:outline-none"
@@ -101,7 +105,7 @@ export default function LoginForm() {
             <div>
               <Button
                 isLoading={isSubmitting}
-                isDisabled={!isValid}
+                // isDisabled={!isValid}
                 color="primary"
                 type="submit"
                 radius="sm"

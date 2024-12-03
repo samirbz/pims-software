@@ -13,7 +13,7 @@ import { FaUserAlt } from "react-icons/fa"
 import { IoLogOut } from "react-icons/io5"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { getSessionDetail, signOutUser } from "@/actions/authActions"
-import { useMyContext } from "@/context/MyContext"
+// import { useMyContext } from "@/context/MyContext"
 
 interface Userd {
   name: string
@@ -22,7 +22,7 @@ interface Userd {
 
 export default function AccountButton() {
   const [userd, setUserd] = useState<Userd | null>(null)
-  const { clearValue } = useMyContext()
+  // const { clearValue } = useMyContext()
 
   const fetchUserData = async () => {
     const userData: any = await getSessionDetail()
@@ -101,13 +101,7 @@ export default function AccountButton() {
             key="logout"
             className="flex items-center gap-2 font-semibold"
             onPress={() => {
-              try {
-                clearValue()
-              } catch (error) {
-                console.error("Error during logout:", error)
-              } finally {
-                signOutUser()
-              }
+              signOutUser()
             }}
             endContent={<IoLogOut />}
           >
