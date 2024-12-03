@@ -35,7 +35,10 @@ import { ConvertToNepaliNumerals } from "@/lib/util"
 export default function FiscalYearPage() {
   const [startDate, setStartDate] = useState<string>("")
   const [endDate, setEndDate] = useState<string>("")
-  const [fy, setFy] = useState<string>("")
+  // const [fy, setFy] = useState<string>("")
+  const [autofyStart, setAutoFyStart] = useState<string>("")
+  const [autofyEnd, setAutoFyEnd] = useState<string>("")
+  const [autofy, setAutoFy] = useState<string>("")
   const [fiscalYears, setFiscalYears] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
@@ -65,11 +68,11 @@ export default function FiscalYearPage() {
   }
 
   const onSubmit = async () => {
-    if (!startDate || !endDate || !fy) {
+    if (!startDate || !endDate) {
       toast.error("Please choose all fields")
       return
     }
-    const result = await saveFiscalYearDate(startDate, endDate, fy)
+    const result = await saveFiscalYearDate(startDate, endDate, autofy)
     if (result.status === "success") {
       // Fetch the updated list of fiscal years
       fetchFiscalYears()
@@ -104,6 +107,23 @@ export default function FiscalYearPage() {
     }
   }
 
+  const handleFiscalYearStart = (value: string) => {
+    setStartDate(value)
+    setAutoFyStart(value)
+  }
+  const handleFiscalYearEnd = (value: string) => {
+    setEndDate(value)
+    setAutoFyEnd(value)
+  }
+
+  useEffect(() => {
+    const text = `${autofyStart} / ${autofyEnd}`
+    const [start, end] = text.split(" / ") // Split by " / "
+    const startYear = start.substring(0, 4) // Extract first 4 characters from start
+    const endYear = end.substring(2, 4) // Extract last 2 characters from end
+    setAutoFy(`${startYear}/${endYear}`)
+  }, [startDate, endDate, autofyStart, autofyEnd])
+
   return (
     <>
       <div className="flex flex-col justify-between bg-white">
@@ -121,7 +141,7 @@ export default function FiscalYearPage() {
                 inputClassName="form-control"
                 className="rounded-lg border p-1"
                 value={startDate}
-                onChange={(value: string) => setStartDate(value)}
+                onChange={handleFiscalYearStart}
                 options={{ calenderLocale: "ne", valueLocale: "en" }}
               />
             </form>
@@ -132,15 +152,15 @@ export default function FiscalYearPage() {
               inputClassName="form-control"
               className="rounded-lg border p-1 "
               value={endDate}
-              onChange={(value: string) => setEndDate(value)}
+              onChange={handleFiscalYearEnd}
               options={{ calenderLocale: "ne", valueLocale: "en" }}
             />
           </div>
         </div>
         <br />
-        <div className="flex flex-col items-center gap-4 md:flex-row">
+        <div className="flex items-center gap-4 md:flex-row">
           <p className="text-sm md:text-base">आर्थिक बर्ष</p>
-          <select
+          {/* <select
             className="w-full rounded-lg border p-1 md:w-auto"
             value={fy}
             onChange={(event) => setFy(event.target.value)}
@@ -149,13 +169,14 @@ export default function FiscalYearPage() {
             <option value="2081/82">2081/82</option>
             <option value="2082/83">2082/83</option>
             <option value="2083/84">2083/84</option>
-          </select>
+          </select> */}
+          <p className="mb-2 w-[7%] rounded-md border-1 p-1">{autofy}</p>
           <Button
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
             className="w-full md:w-auto"
-            isDisabled={!endDate || !startDate || !fy}
+            isDisabled={!endDate || !startDate}
           >
             Save
           </Button>
