@@ -1329,7 +1329,8 @@ export default function YojanaSamjhauta() {
             Number(data[0].lagatAnumanRakam) + Number(data[0].lagatSramDan)
           ).toString()
         )
-        // setGharpariwarSankhya(data[0].gharpariwarSankhya)
+        setGharpariwarSankhya(data[0].gharPariwarSankhya)
+        setJanaSankhya(data[0].janaSankhya)
       } catch (e) {
         console.error("Error fetching data", e)
       }
@@ -1487,9 +1488,9 @@ export default function YojanaSamjhauta() {
                           size="sm"
                           fullWidth
                         >
-                          {swikritiGarneNikaya.map((animal) => (
-                            <SelectItem key={animal.key}>
-                              {animal.label}
+                          {swikritiGarneNikaya.map((items) => (
+                            <SelectItem key={items.key}>
+                              {items.label}
                             </SelectItem>
                           ))}
                         </Select>

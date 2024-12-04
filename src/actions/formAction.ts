@@ -1544,7 +1544,9 @@ export async function saveYojanaSwikritiTippani(
   sanyojak: string,
   sadasyaOne: string,
   sadasyaTwo: string,
-  fiscalyear: string
+  fiscalyear: string,
+  gharPariwarSankhya :string,
+  janaSankhya:string,
 ) {
   try {
     const dt = await prisma.samjhautaSwikritiTippani.create({
@@ -1575,6 +1577,8 @@ export async function saveYojanaSwikritiTippani(
         sadasyaOne,
         sadasyaTwo,
         fiscalyear,
+        gharPariwarSankhya,
+        janaSankhya,
       },
     })
     return { status: "success", data: dt }

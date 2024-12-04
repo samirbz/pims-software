@@ -56,6 +56,8 @@ export default function SamjhautaSwikriti() {
   const [sanyojak, setSanyojak] = useState("")
   const [sadasyaOne, setSadasyaOne] = useState("")
   const [sadasyaTwo, setSadasyaTwo] = useState("")
+  const [gharPariwarSankhya, setgharpariwarSankhya] = useState("")
+  const [janaSankhya, setjanaSankhya] = useState("")
 
   const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
 
@@ -179,7 +181,9 @@ export default function SamjhautaSwikriti() {
         sanyojak,
         sadasyaOne,
         sadasyaTwo,
-        value || ""
+        value || "",
+        gharPariwarSankhya,
+        janaSankhya
       )
       if (result.status === "success") {
         setAawa("")
@@ -343,6 +347,8 @@ export default function SamjhautaSwikriti() {
         const data = await fetchYojanaDartaData(value || "")
         console.log("Fetched Anudaan Data:", data) // For debugging
         setYojanaKoNaam(data)
+        setgharpariwarSankhya(data[0].gharPariwarSankhya)
+        setjanaSankhya(data[0].janaSankhya)
       } catch (e) {
         console.error("Error fetching anudaan data", e)
       }
