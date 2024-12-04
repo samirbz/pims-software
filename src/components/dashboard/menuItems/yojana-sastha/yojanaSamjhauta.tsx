@@ -29,6 +29,7 @@ import {
   fetchYojanaDartaData,
   fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta,
   getYojanaSamjhauta,
+  getSamjhautaSwikritiTippani,
   updateYojanaSamjhauta,
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
@@ -174,6 +175,37 @@ export default function YojanaSamjhauta() {
     { key: "whale", label: "Whale" },
     { key: "otter", label: "Otter" },
     { key: "crocodile", label: "Crocodile" },
+  ]
+
+  const swikritiGarneNikaya = [
+    { key: "कार्यपालिका", label: "कार्यपालिका" },
+    { key: "गाउँ सभा", label: "गाउँ सभा" },
+    { key: "कार्यालय", label: "कार्यालय" },
+    { key: "वडा समिति", label: "वडा समिति" },
+    { key: "प्रदेश", label: "प्रदेश" },
+    { key: "सघं", label: "सघं" },
+    { key: "अन्य", label: "अन्य" },
+  ]
+
+  const yojanaKoKaryaData = [
+    { key: "नयाँ निर्माण", label: "नयाँ निर्माण" },
+    { key: "कालो पत्रे", label: "कालो पत्रे" },
+    { key: "नालि", label: "नालि" },
+    { key: "पि.सि.सि", label: "पि.सि.सि" },
+    { key: "ग्राभेल", label: "ग्राभेल" },
+    { key: "पि.पि.सि", label: "पि.पि.सि" },
+    { key: "कल्भर्ट", label: "कल्भर्ट" },
+    { key: "नयाँ निर्माण", label: "नयाँ निर्माण" },
+    { key: "मर्मत सम्भार", label: "मर्मत सम्भार" },
+    { key: "तालिम सञ्चालन", label: "तालिम सञ्चालन" },
+    { key: "ह्यूम पाइप निर्माण", label: "ह्यूम पाइप निर्माण" },
+    { key: "डि.पि.आर निर्माण", label: "डि.पि.आर निर्माण" },
+  ]
+
+  const kisimPrakarData = [
+    { key: "कालेपत्रे", label: "कालेपत्रे" },
+    { key: "ग्राभेल", label: "ग्राभेल" },
+    { key: "नयाँ निर्माण", label: "नयाँ निर्माण" },
   ]
 
   const [budgetKaryakram, setBudgetKarayakram] = useState("")
@@ -1268,7 +1300,6 @@ export default function YojanaSamjhauta() {
     const fetchYojanaDartaKoNaamData = async () => {
       try {
         const data = await fetchYojanaDartaData(value || "")
-        console.log("Fetched Anudaan Data:", data) // For debugging
         setYojanaKoNaam(data)
         setLoading(false)
       } catch (e) {
@@ -1280,6 +1311,32 @@ export default function YojanaSamjhauta() {
     }
   }, [saveOrEdit, value])
 
+  useEffect(() => {
+    const fetchSamjhautaSwikritiData = async () => {
+      try {
+        const data = await getSamjhautaSwikritiTippani(
+          yojanaKaryaKramKoNaam,
+          value || ""
+        )
+        console.log(data)
+        setSamjhautaNaam(data[0].adhyachyaKoNaam)
+        setPaad("अध्यक्ष")
+        setLagatAnumanRu(data[0].lagatAnumanRakam)
+        setBinbatkachyat(data[0].lagatAnumanRakam)
+        setJanaSramdanRu(data[0].lagatSramDan)
+        setJammaRakamRuTwo(
+          (
+            Number(data[0].lagatAnumanRakam) + Number(data[0].lagatSramDan)
+          ).toString()
+        )
+        // setGharpariwarSankhya(data[0].gharpariwarSankhya)
+      } catch (e) {
+        console.error("Error fetching data", e)
+      }
+    }
+    fetchSamjhautaSwikritiData()
+  }, [yojanaKaryaKramKoNaam, value])
+
   return (
     <div className="flex w-full justify-center ">
       <div className="flex w-full flex-col ">
@@ -1290,28 +1347,6 @@ export default function YojanaSamjhauta() {
             </h1>
             <br />
             <div className="flex items-center gap-4">
-              <Select
-                label="योजना / कार्यक्रमको नाम"
-                size="sm"
-                className="w-[30%]"
-                placeholder="Select an option" // Optional: if you want a placeholder
-                selectedKeys={
-                  yojanaKaryaKramKoNaam
-                    ? new Set([yojanaKaryaKramKoNaam])
-                    : new Set()
-                }
-                endContent={loading ? "loading..." : null}
-                onSelectionChange={(keys) => {
-                  const selectedValue = Array.from(keys).join(", ")
-                  setYojanaKaryaKramKoNaam(selectedValue)
-                }}
-              >
-                {yojanaKoNaam.map((item) => (
-                  <SelectItem key={item.yojanaKoNaam} value={item.yojanaKoNaam}>
-                    {item.yojanaKoNaam}
-                  </SelectItem>
-                ))}
-              </Select>
               <Input
                 type="text"
                 label="वजेट कार्यक्रम "
@@ -1320,7 +1355,7 @@ export default function YojanaSamjhauta() {
                 value={budgetKaryakram}
                 onChange={(e) => setBudgetKarayakram(e.target.value)}
               />
-              <p className="text-blue-600">चालु आ.वः- {chaluAawa}</p>
+              <p className="text-lg text-blue-600">चालु आ.वः- {value}</p>
             </div>
           </div>
           <br />
@@ -1396,10 +1431,27 @@ export default function YojanaSamjhauta() {
 
                       <div className="flex w-3/5 flex-col gap-2">
                         <p>योजनाको विवरण</p>
-                        <Select label="नाम" size="sm" fullWidth>
-                          {animals.map((animal) => (
-                            <SelectItem key={animal.key}>
-                              {animal.label}
+                        <Select
+                          label="योजना / कार्यक्रमको नाम"
+                          size="sm"
+                          fullWidth
+                          selectedKeys={
+                            yojanaKaryaKramKoNaam
+                              ? new Set([yojanaKaryaKramKoNaam])
+                              : new Set()
+                          }
+                          endContent={loading ? "loading..." : null}
+                          onSelectionChange={(keys) => {
+                            const selectedValue = Array.from(keys).join(", ")
+                            setYojanaKaryaKramKoNaam(selectedValue)
+                          }}
+                        >
+                          {yojanaKoNaam.map((item) => (
+                            <SelectItem
+                              key={item.yojanaKoNaam}
+                              value={item.yojanaKoNaam}
+                            >
+                              {item.yojanaKoNaam}
                             </SelectItem>
                           ))}
                         </Select>
@@ -1435,7 +1487,7 @@ export default function YojanaSamjhauta() {
                           size="sm"
                           fullWidth
                         >
-                          {animals.map((animal) => (
+                          {swikritiGarneNikaya.map((animal) => (
                             <SelectItem key={animal.key}>
                               {animal.label}
                             </SelectItem>
@@ -1476,16 +1528,16 @@ export default function YojanaSamjhauta() {
                         <p>आयोजनाको लागत अनुमानबाट प्राविधिक विवरण</p>
                         <div className="flex gap-2">
                           <Select label="योजना कार्य" size="sm" fullWidth>
-                            {animals.map((animal) => (
-                              <SelectItem key={animal.key}>
-                                {animal.label}
+                            {yojanaKoKaryaData.map((items) => (
+                              <SelectItem key={items.key}>
+                                {items.label}
                               </SelectItem>
                             ))}
                           </Select>
                           <Select label="किसिम / प्रकार" size="sm" fullWidth>
-                            {animals.map((animal) => (
-                              <SelectItem key={animal.key}>
-                                {animal.label}
+                            {kisimPrakarData.map((items) => (
+                              <SelectItem key={items.key}>
+                                {items.label}
                               </SelectItem>
                             ))}
                           </Select>

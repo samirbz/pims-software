@@ -1584,6 +1584,7 @@ export async function saveYojanaSwikritiTippani(
   }
 }
 
+
 // Get swikriti tippani data
 export async function fetchDataByYojanaKaryaKramKoNaam(
   yojanaKaryaKramKoNaam: string,
