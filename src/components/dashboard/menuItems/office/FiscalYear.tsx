@@ -159,27 +159,19 @@ export default function FiscalYearPage() {
         </div>
         <br />
         <div className="flex items-center gap-4 md:flex-row">
-          <p className="text-sm md:text-base">आर्थिक बर्ष</p>
-          {/* <select
-            className="w-full rounded-lg border p-1 md:w-auto"
-            value={fy}
-            onChange={(event) => setFy(event.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="2081/82">2081/82</option>
-            <option value="2082/83">2082/83</option>
-            <option value="2083/84">2083/84</option>
-          </select> */}
-          <p className="mb-2 w-[7%] rounded-md border-1 p-1">{autofy}</p>
-          <Button
-            color="secondary"
-            startContent={<FaRegSave />}
-            onClick={onSubmit}
-            className="w-full md:w-auto"
-            isDisabled={!endDate || !startDate}
-          >
-            Save
-          </Button>
+          <div>
+            <p className="text-sm md:text-base">आर्थिक बर्ष</p>
+            <p className="mb-2 w-auto rounded-md border-1 p-1">{autofy}</p>
+            <Button
+              color="secondary"
+              startContent={<FaRegSave />}
+              onClick={onSubmit}
+              className="w-full md:w-auto"
+              isDisabled={!endDate || !startDate}
+            >
+              Save
+            </Button>
+          </div>
         </div>
         <br />
         <span className="text-sm text-black">
