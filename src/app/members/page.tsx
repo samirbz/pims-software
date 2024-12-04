@@ -80,7 +80,6 @@ import YojanaJachpass from "@/components/dashboard/menuItems/anugaman/yojanaJach
 import YojanaHastantaran from "@/components/dashboard/menuItems/anugaman/yojanaHastantaran"
 import JachPassTathafarfarakPratibedan from "@/components/dashboard/menuItems/anugaman/jachPassTathafarfarakPratibedan"
 import AnugamanGarekoMiti from "@/components/dashboard/menuItems/anugaman/anugamanGarekoMiti"
-import { toast } from "react-toastify"
 
 const { Header, Content, Sider } = Layout
 
@@ -236,6 +235,7 @@ const Nav = () => {
   const [userd, setUserd] = useState<Userd | null>(null)
   const [fiscalYears, setFiscalYears] = useState<any[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisibleWarn, setIsModalVisibleWarn] = useState(false)
   const { value, setValue, clearValue } = useMyContext()
 
   useEffect(() => {
@@ -244,7 +244,7 @@ const Nav = () => {
         const data = await fetchFyData()
         if (data.length === 0) {
           clearValue()
-          toast.warning("fiscal year not found!")
+          setIsModalVisibleWarn(true)
         } else if (value === null) {
           setValue(data[data.length - 1]?.fy)
         }
@@ -291,6 +291,12 @@ const Nav = () => {
   useEffect(() => {
     fetchUserData()
   }, [])
+
+  // useEffect(() => {
+  //   if (value === null || value === undefined || value === "") {
+  //     alert("Please add fiscal year")
+  //   }
+  // }, [value])
 
   // Handle fiscal year selection
   const handleSelectYear = (year: string) => {
@@ -546,6 +552,43 @@ const Nav = () => {
                 {year.fy} {/* Render a specific property like `fy` */}
               </button>
             ))}
+          </div>
+        </div>
+      </Modal>
+
+      <Modal open={isModalVisibleWarn} footer={null} closable={false} centered>
+        <div className="rounded-md border-l-4 border-red-500 bg-red-100 p-4 text-red-700">
+          <div className="flex items-center space-x-3">
+            <svg
+              className="size-6 text-red-500"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-10.75a.75.75 0 011.5 0v3a.75.75 0 01-1.5 0v-3zm.75 7a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <div>
+              <p className="text-lg font-bold">Warning!!</p>
+              <p className="text-sm">
+                Please add a fiscal year before adding any data. <br />
+                If you proceed, the data may become irrelevant. <br />
+                <span className="font-bold">
+                  Refresh page after adding fiscal year for first time.
+                </span>
+              </p>
+            </div>
+          </div>
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={() => setIsModalVisibleWarn(false)}
+              className="rounded bg-red-500 px-4 py-2 font-medium text-white shadow hover:bg-red-600"
+            >
+              Ok
+            </button>
           </div>
         </div>
       </Modal>
