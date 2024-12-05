@@ -3,10 +3,17 @@ import { Button, Input, Select, SelectItem } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useMyContext } from "@/context/MyContext"
+
+import { fetchYojanaDartaData } from "@/actions/formAction"
 
 export default function Karyadesh() {
   const [date, setDate] = useState<string>("")
+  const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
+  const [yojanaKaryaKramKoNaam, setYojanaKaryaKramKoNaam] = useState("")
+
+  const { value } = useMyContext()
 
   const animals = [
     { key: "cat", label: "1234567890123456789" },
@@ -23,6 +30,18 @@ export default function Karyadesh() {
     { key: "otter", label: "Otter" },
     { key: "crocodile", label: "Crocodile" },
   ]
+
+  useEffect(() => {
+    const fetchYojanaDartaKoNaamData = async () => {
+      try {
+        const data = await fetchYojanaDartaData(value || "")
+        setYojanaKoNaam(data)
+      } catch (e) {
+        console.error("Error fetching anudaan data", e)
+      }
+    }
+    fetchYojanaDartaKoNaamData()
+  }, [value])
 
   return (
     <div className="flex flex-col justify-between bg-white ">
@@ -50,11 +69,33 @@ export default function Karyadesh() {
               />
             </form>
           </div>
-          <Select label="योजना/कार्यक्रमको नाम" size="sm" fullWidth>
+          {/* <Select label="योजना/कार्यक्रमको नाम" size="sm" fullWidth>
             {animals.map((animal) => (
               <SelectItem key={animal.key}>{animal.label}</SelectItem>
             ))}
+          </Select> */}
+
+          <Select
+            label="योजना / कार्यक्रमको नाम"
+            size="sm"
+            placeholder="Select an option" // Optional: if you want a placeholder
+            selectedKeys={
+              yojanaKaryaKramKoNaam
+                ? new Set([yojanaKaryaKramKoNaam])
+                : new Set()
+            }
+            onSelectionChange={(keys) => {
+              const selectedValue = Array.from(keys).join(", ")
+              setYojanaKaryaKramKoNaam(selectedValue)
+            }}
+          >
+            {yojanaKoNaam.map((item) => (
+              <SelectItem key={item.yojanaKoNaam} value={item.yojanaKoNaam}>
+                {item.yojanaKoNaam}
+              </SelectItem>
+            ))}
           </Select>
+
           <Input type="text" label="उ.स./ सस्थाको नाम" size="sm" />
           <Input
             type="text"
