@@ -12,7 +12,6 @@ import {
   ModalFooter,
   ModalHeader,
   Pagination,
-  Select as NextSelect,
   Spinner,
   Table,
   TableBody,
@@ -21,7 +20,6 @@ import {
   TableHeader,
   TableRow,
   useDisclosure,
-  SelectItem,
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
@@ -44,7 +42,6 @@ import {
   sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond,
   getIdForYojanaBudgetFromSecondEdit,
   editYojanaBudgetYojanaKoNaamFromFirstEdit,
-  fetchMukyaSamitiData,
 } from "@/actions/formAction"
 import React, { useState, useEffect } from "react"
 import * as XLSX from "xlsx"
@@ -98,8 +95,6 @@ export default function YojanaBudget() {
   ] = useState("")
 
   const [checkBiniyojanBudget, setCheckBiniyojanBudget] = useState("")
-
-  const [mukhyaSamitiData, setMukhyaSamitiData] = useState<any[]>([])
 
   const [clearAndCancelBtn, setClearAndCancelBtn] = useState(false)
   const [clearAndCancelBtnSecond, setClearAndCancelBtnSecond] = useState(false)
@@ -687,19 +682,6 @@ export default function YojanaBudget() {
     }
   }
 
-  useEffect(() => {
-    const fetchMukhyaSamitiDataLocal = async () => {
-      try {
-        const data = await fetchMukyaSamitiData(value || "")
-        console.log("Fetched Anudaan Data:", data) // For debugging
-        setMukhyaSamitiData(data)
-      } catch (e) {
-        console.error("Error fetching anudaan data", e)
-      }
-    }
-    fetchMukhyaSamitiDataLocal()
-  }, [value])
-
   // Function to export the table data to Excel
   const exportToExcel = () => {
     // Define your custom headers
@@ -839,7 +821,6 @@ export default function YojanaBudget() {
               isInvalid={!!errors.anudanKisim}
               errorMessage={errors.anudanKisim}
             />
-
             <Input
               type="Number"
               label=" विनियोजन बजेट"
@@ -870,7 +851,7 @@ export default function YojanaBudget() {
               errorMessage={errors.yojanaKisim}
             />
           </div>
-          {/* <Input
+          <Input
             type="text"
             label="मुख्य समिति"
             size="sm"
@@ -878,31 +859,7 @@ export default function YojanaBudget() {
             onChange={handleChange(setMukyaSamiti, "mukhyaSamiti")}
             isInvalid={!!errors.mukhyaSamiti}
             errorMessage={errors.mukhyaSamiti}
-          /> */}
-
-          <NextSelect
-            label="मुख्य समिति"
-            size="sm"
-            className="w-1/2"
-            isInvalid={!!errors.mukhyaSamiti}
-            errorMessage={errors.mukhyaSamiti}
-            placeholder="Select an option"
-            selectedKeys={mukhyaSamiti ? new Set([mukhyaSamiti]) : new Set()}
-            onSelectionChange={(keys) => {
-              const selectedValue = Array.from(keys).join(", ")
-              setMukyaSamiti(selectedValue)
-            }}
-          >
-            {mukhyaSamitiData.map((item) => (
-              <SelectItem
-                key={item.mukhyaSamitiKoNaam}
-                value={item.mukhyaSamitiKoNaam}
-              >
-                {item.mukhyaSamitiKoNaam}
-              </SelectItem>
-            ))}
-          </NextSelect>
-
+          />
           <div className="flex gap-2">
             {showEditBtn ? (
               <Button
