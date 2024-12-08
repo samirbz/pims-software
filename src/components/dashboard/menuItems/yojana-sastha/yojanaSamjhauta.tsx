@@ -31,6 +31,7 @@ import {
   getYojanaSamjhauta,
   getSamjhautaSwikritiTippani,
   updateYojanaSamjhauta,
+  getYojanaDartaForSwikriti,
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
 import yojanaSamjhautaPrint from "@/lib/print/PrintYojanaSamjhauta"
@@ -1318,12 +1319,27 @@ export default function YojanaSamjhauta() {
           yojanaKaryaKramKoNaam,
           value || ""
         )
-        console.log(data)
+        const dataFromYojanaDarta = await getYojanaDartaForSwikriti(
+          yojanaKaryaKramKoNaam,
+          value || ""
+        )
         setSamjhautaNaam(data[0].adhyachyaKoNaam)
         setPaad("अध्यक्ष")
         setLagatAnumanRu(data[0].lagatAnumanRakam)
         setBinbatkachyat(data[0].lagatAnumanRakam)
         setJanaSramdanRu(data[0].lagatSramDan)
+        setBudgetKarayakram(
+          `${dataFromYojanaDarta[0].anudanKoNaam} - ${dataFromYojanaDarta[0].lagatSrotHaru}`
+        )
+        setYojanaThegana(dataFromYojanaDarta[0].thegana)
+        setYojanaTheganaChild(dataFromYojanaDarta[0].wada)
+        setKamgarneNikaya(dataFromYojanaDarta[0].karyagatSamuha)
+        setUpavoktaSamiti(dataFromYojanaDarta[0].yojanaKoNaam)
+        setAdhyakchya(data[0].adhyachyaKoNaam)
+        setGathanGardaUpastithi(data[0].velamaUpasthitiSankhya)
+        setSamitimaJamma(data[0].padakariSankhya)
+        setMahilaSadasya(data[0].mahilaSankhya)
+        setMarmatSambhar(data[0].yojanaKaryaKramKoNaam)
         setJammaRakamRuTwo(
           (
             Number(data[0].lagatAnumanRakam) + Number(data[0].lagatSramDan)
@@ -2062,13 +2078,20 @@ export default function YojanaSamjhauta() {
                       विवरण
                     </p>
                     <div className="mt-2 flex flex-col gap-2">
-                      <Select label="काम गर्ने निकाय" placeholder="" size="sm">
+                      {/* <Select label="काम गर्ने निकाय" placeholder="" size="sm">
                         {animals.map((animal) => (
                           <SelectItem key={animal.key}>
                             {animal.label}
                           </SelectItem>
                         ))}
-                      </Select>
+                      </Select> */}
+                      <Input
+                        type="text"
+                        label="काम गर्ने निकाय"
+                        size="sm"
+                        value={kamgarneNikaya}
+                        onChange={(e) => setKamgarneNikaya(e.target.value)}
+                      />
                       <Input
                         type="text"
                         label="उपवोक्ता समिति"
