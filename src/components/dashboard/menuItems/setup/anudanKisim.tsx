@@ -221,7 +221,7 @@ export default function AnudanKisim() {
           >
             <TableHeader>
               <TableColumn>सि.न.</TableColumn>
-              <TableColumn>समिती को नाम</TableColumn>
+              <TableColumn>अनुदानको नाम</TableColumn>
               <TableColumn>Edit</TableColumn>
             </TableHeader>
             <TableBody>
