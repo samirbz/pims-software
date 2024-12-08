@@ -1545,8 +1545,8 @@ export async function saveYojanaSwikritiTippani(
   sadasyaOne: string,
   sadasyaTwo: string,
   fiscalyear: string,
-  gharPariwarSankhya :string,
-  janaSankhya:string,
+  gharPariwarSankhya: string,
+  janaSankhya: string
 ) {
   try {
     const dt = await prisma.samjhautaSwikritiTippani.create({
@@ -1587,7 +1587,6 @@ export async function saveYojanaSwikritiTippani(
     return { status: "error", error: "Something went wrong" }
   }
 }
-
 
 // Get swikriti tippani data
 export async function fetchDataByYojanaKaryaKramKoNaam(
@@ -2196,6 +2195,111 @@ export async function updateYojanaSamjhauta(
         karyalayaKoTarfabataChild,
         yojanaSakhaTarfabata,
         yojanaSakhaTarfabataChild,
+      },
+    })
+
+    if (result.count > 0) {
+      return { status: "success", message: "Record updated successfully" }
+    } else {
+      return { status: "error", error: "No matching record found" }
+    }
+  } catch (error) {
+    console.error("Error updating record:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function saveKaryaDesh(
+  patraSankhya: string,
+  date: string,
+  yojanaKaryaKramKoNaam: string,
+  sansthaKoNaam: string,
+  adachyaKoNaam: string,
+  lagatAnumanRakam: string,
+  nagarpalikaRu: string,
+  contengencyRakam: string,
+  khudpauneRakam: string,
+  budgetKitabSNum: string,
+  gathanMiti: string,
+  mukhyaSamitiKoNaam: string,
+  sabhaNirnayaMiti: string,
+  ayojanaSampanaMiti: string,
+  karmachariKoNaam: string,
+  karmachariKoPaad: string,
+  fiscalyear: string
+) {
+  try {
+    const dt = await prisma.karyadesh.create({
+      data: {
+        patraSankhya,
+        date,
+        yojanaKaryaKramKoNaam,
+        sansthaKoNaam,
+        adachyaKoNaam,
+        lagatAnumanRakam,
+        nagarpalikaRu,
+        contengencyRakam,
+        khudpauneRakam,
+        budgetKitabSNum,
+        gathanMiti,
+        mukhyaSamitiKoNaam,
+        sabhaNirnayaMiti,
+        ayojanaSampanaMiti,
+        karmachariKoNaam,
+        karmachariKoPaad,
+        fiscalyear,
+      },
+    })
+    return { status: "success", data: dt }
+  } catch (error) {
+    console.error("Error in data:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
+export async function updatekaryaDesh(
+  patraSankhya: string,
+  date: string,
+  yojanaKaryaKramKoNaam: string,
+  sansthaKoNaam: string,
+  adachyaKoNaam: string,
+  lagatAnumanRakam: string,
+  nagarpalikaRu: string,
+  contengencyRakam: string,
+  khudpauneRakam: string,
+  budgetKitabSNum: string,
+  gathanMiti: string,
+  mukhyaSamitiKoNaam: string,
+  sabhaNirnayaMiti: string,
+  ayojanaSampanaMiti: string,
+  karmachariKoNaam: string,
+  karmachariKoPaad: string,
+  fiscalyear: string
+) {
+  try {
+    const result = await prisma.karyadesh.updateMany({
+      where: {
+        yojanaKaryaKramKoNaam,
+        fiscalyear,
+      },
+      data: {
+        patraSankhya,
+        date,
+        yojanaKaryaKramKoNaam,
+        sansthaKoNaam,
+        adachyaKoNaam,
+        lagatAnumanRakam,
+        nagarpalikaRu,
+        contengencyRakam,
+        khudpauneRakam,
+        budgetKitabSNum,
+        gathanMiti,
+        mukhyaSamitiKoNaam,
+        sabhaNirnayaMiti,
+        ayojanaSampanaMiti,
+        karmachariKoNaam,
+        karmachariKoPaad,
+        fiscalyear,
       },
     })
 

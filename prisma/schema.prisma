@@ -355,25 +355,25 @@ model YojanaSamjhauta {
   yojanaSakhaTarfabataChild        String
 }
 
-model KaryaDesh {
-  id                      String @id @default(cuid())
-  fiscalyear              String
-  patraSankhya            String
-  miti                    String
-  yojanaKaryakramNaam     String
-  ushaSansthaKoNaam       String
-  adashyaKarmaCharikoNaam String
-  lagatAnumanRakam        String
-  nagarpalikaRakama       String
-  contengencyRakam        String
-  khudpauneRakam          String
-  budgetKitabSnum         String
-  ushaGathanmiti          String
-  mukhyaSamitiKoNaam      String
-  sabhaNirnayaMiti        String
-  ayojanaSampannaMiti     String
-  karamcharikoNaam        String
-  karmacharikoPaad        String
+model karyadesh {
+  id                    String @id @default(cuid())
+  patraSankhya          String
+  date                  String
+  yojanaKaryaKramKoNaam String
+  sansthaKoNaam         String
+  adachyaKoNaam         String
+  lagatAnumanRakam      String
+  nagarpalikaRu         String
+  contengencyRakam      String
+  khudpauneRakam        String
+  budgetKitabSNum       String
+  gathanMiti            String
+  mukhyaSamitiKoNaam    String
+  sabhaNirnayaMiti      String
+  ayojanaSampanaMiti    String
+  karmachariKoNaam      String
+  karmachariKoPaad      String
+  fiscalyear            String
 }
 
 model bankKhataSifaris {
