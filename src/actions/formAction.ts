@@ -1626,10 +1626,14 @@ export async function fetchDataByYojanaKaryaKramKoNaam(
       },
     })
 
-    return data
+    if (data && data.length > 0) {
+      return { status: "success", data }
+    } else {
+      return { status: "error", error: "No records found" }
+    }
   } catch (error) {
-    console.error("Error fetching Yojana Darta data:", error)
-    throw error
+    console.error("Error fetching data:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }
 
