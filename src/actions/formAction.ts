@@ -681,6 +681,20 @@ export async function fetchBankBivaranData(fiscalyear: string) {
     throw error
   }
 }
+export async function fetchBankBivaranByBank(
+  fiscalyear: string,
+  bankKoNaam: string
+) {
+  try {
+    const data = await prisma.bankBivaran.findMany({
+      where: { fiscalyear, bankKoNaam },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
 export async function deleteBankBivaran(id: string, fiscalyear: string) {
   try {
     await prisma.bankBivaran.deleteMany({
@@ -1589,6 +1603,17 @@ export async function saveYojanaSwikritiTippani(
 }
 
 // Get swikriti tippani data
+export async function fetchSamjhautaSwikritiData(fiscalyear: string) {
+  try {
+    const data = await prisma.samjhautaSwikritiTippani.findMany({
+      where: { fiscalyear },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching staff names:", error)
+    throw error
+  }
+}
 export async function fetchDataByYojanaKaryaKramKoNaam(
   yojanaKaryaKramKoNaam: string,
   fiscalyear: string
@@ -1601,14 +1626,10 @@ export async function fetchDataByYojanaKaryaKramKoNaam(
       },
     })
 
-    if (data && data.length > 0) {
-      return { status: "success", data }
-    } else {
-      return { status: "error", error: "No records found" }
-    }
+    return data
   } catch (error) {
-    console.error("Error fetching data:", error)
-    return { status: "error", error: "Something went wrong" }
+    console.error("Error fetching Yojana Darta data:", error)
+    throw error
   }
 }
 
@@ -1932,6 +1953,19 @@ export async function saveYojanaSamjhauta(
   }
 }
 
+export async function getYojanaSamjhautaData(fiscalyear: string) {
+  try {
+    const data = await prisma.yojanaSamjhauta.findMany({
+      where: {
+        fiscalyear,
+      },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching Yojana Darta data:", error)
+    throw error
+  }
+}
 export async function getYojanaSamjhauta(
   yojanaKaryaKramKoNaam: string,
   fiscalyear: string
