@@ -230,13 +230,13 @@ export default function SamjhautaSwikriti() {
         setLoading(true)
         const response = await getYojanaDartaForSwikriti(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
 
         if (response && response.length > 0) {
           const data = response[0]
           setAawa(value || "")
-          setPid(data.id)
           setLagatAnumanRakam(data.prabidhikEstimateAmount)
           setNagarpalikaRakamRu(data.kulAnudaanRakam)
           setlagatSramDan(data.janaSramdanRakam)
@@ -355,6 +355,7 @@ export default function SamjhautaSwikriti() {
       try {
         const data = await fetchYojanaDartaData(value || "")
         console.log("Fetched Anudaan Data:", data) // For debugging
+        setPid(data[0].id)
         setYojanaKoNaam(data)
         setgharpariwarSankhya(data[0].gharPariwarSankhya)
         setjanaSankhya(data[0].janaSankhya)
