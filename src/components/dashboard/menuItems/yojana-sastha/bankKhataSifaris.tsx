@@ -30,6 +30,8 @@ export default function BankKhataSifaris() {
   const [karmacharikoNaam, setkarmacharikoNaam] = useState<string>("")
   const [karmachariKoPaad, setkarmachariKoPaad] = useState<string>("")
 
+  const [pid, setPid] = useState("")
+
   const { value } = useMyContext()
 
   useEffect(() => {
@@ -52,8 +54,9 @@ export default function BankKhataSifaris() {
   useEffect(() => {
     const fetchYojanaSamkhautaData = async () => {
       try {
-        const data = await getYojanaSamjhauta(yojanakoNaam, value || "")
+        const data = await getYojanaSamjhauta(yojanakoNaam, value || "", pid)
         console.log(data)
+        setPid(data[0].pid)
         setushakoNaam(data[0].kamgarneNikaya)
         setadasyakoNaam(data[0].adhyakchya)
         setkosadasyaKoNaam(data[0].kosaAdakshya)
@@ -63,7 +66,7 @@ export default function BankKhataSifaris() {
       }
     }
     fetchYojanaSamkhautaData()
-  }, [value, yojanakoNaam])
+  }, [value, yojanakoNaam, pid])
 
   useEffect(() => {
     const fetchYojanaSamkhautaData = async () => {

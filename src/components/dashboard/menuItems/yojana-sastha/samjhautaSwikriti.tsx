@@ -31,6 +31,7 @@ import SamjhautaSwikritiPrint from "@/lib/print/PrintSamjhautaSwikrit"
 import { useMyContext } from "@/context/MyContext"
 
 export default function SamjhautaSwikriti() {
+  const [pid, setPid] = useState("")
   const [aawa, setAawa] = useState("")
   const [miti, setMiti] = useState("")
   const [yojanaKaryaKramKoNaam, setYojanaKaryaKramKoNaam] = useState("")
@@ -78,7 +79,8 @@ export default function SamjhautaSwikriti() {
     try {
       const response = await fetchDataByYojanaKaryaKramKoNaam(
         yojanaKaryaKramKoNaam,
-        value || ""
+        value || "",
+        pid
       )
 
       if (response.status === "success") {
@@ -96,6 +98,7 @@ export default function SamjhautaSwikriti() {
   const onSubmit = async () => {
     if (saveOrEdit === "Edit") {
       const result = await updateYojanaSwikritiTippani(
+        pid,
         aawa,
         miti,
         yojanaKaryaKramKoNaam,
@@ -124,6 +127,7 @@ export default function SamjhautaSwikriti() {
         value || ""
       )
       if (result.status === "success") {
+        setPid("")
         setAawa("")
         setMiti("")
         setYojanaKaryaKramKoNaam("")
@@ -156,6 +160,7 @@ export default function SamjhautaSwikriti() {
       }
     } else {
       const result = await saveYojanaSwikritiTippani(
+        pid,
         aawa,
         miti,
         yojanaKaryaKramKoNaam,
@@ -186,6 +191,7 @@ export default function SamjhautaSwikriti() {
         janaSankhya
       )
       if (result.status === "success") {
+        setPid("")
         setAawa("")
         setMiti("")
         setYojanaKaryaKramKoNaam("")
@@ -229,6 +235,8 @@ export default function SamjhautaSwikriti() {
 
         if (response && response.length > 0) {
           const data = response[0]
+          setAawa(value || "")
+          setPid(data.id)
           setLagatAnumanRakam(data.prabidhikEstimateAmount)
           setNagarpalikaRakamRu(data.kulAnudaanRakam)
           setlagatSramDan(data.janaSramdanRakam)
@@ -275,11 +283,13 @@ export default function SamjhautaSwikriti() {
       try {
         const response = await fetchDataByYojanaKaryaKramKoNaam(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
         const data = await getSamjhautaSwikritiTippani(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
 
         if (
@@ -289,7 +299,6 @@ export default function SamjhautaSwikriti() {
           response.data.length > 0
         ) {
           const data = response.data[0]
-          setAawa(data.aawa)
           setMiti(data.miti)
           setYojanaKaryaKramKoNaam(data.yojanaKaryaKramKoNaam)
           setUpavoktaSamitiKoNaam(data.upavoktaSamitiKoNaam)
@@ -339,7 +348,7 @@ export default function SamjhautaSwikriti() {
     }
     handleSaveOrEdit(yojanaKaryaKramKoNaam)
     getData()
-  }, [yojanaKaryaKramKoNaam, value])
+  }, [yojanaKaryaKramKoNaam, value, pid])
 
   useEffect(() => {
     const fetchYojanaDartaKoNaamData = async () => {
@@ -373,7 +382,7 @@ export default function SamjhautaSwikriti() {
                 label=" आ.व "
                 size="sm"
                 className="w-1/2"
-                value={value || ""}
+                value={aawa}
                 onChange={(e) => setAawa(e.target.value)}
               />
               <form className="flex items-center gap-2 ">
@@ -583,7 +592,8 @@ export default function SamjhautaSwikriti() {
                     try {
                       const response = await fetchDataByYojanaKaryaKramKoNaam(
                         yojanaKaryaKramKoNaam,
-                        value || ""
+                        value || "",
+                        pid
                       )
 
                       // Ensure response.data exists and is not empty

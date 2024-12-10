@@ -1405,13 +1405,15 @@ export async function fetchYojanaDartaData(fiscalyear: string) {
 
 export async function getYojanaDartaForSwikriti(
   yojanaKoNaam: string,
-  fiscalyear: string
+  fiscalyear: string,
+  id: string
 ) {
   try {
     const data = await prisma.yojanaDarta.findMany({
       where: {
         yojanaKoNaam,
         fiscalyear,
+        id,
       },
     })
     return data
@@ -1533,6 +1535,7 @@ export async function editYojanaDarta(
 
 // 30-2 samjhauta swikriti tippani
 export async function saveYojanaSwikritiTippani(
+  pid: string,
   aawa: string,
   miti: string,
   yojanaKaryaKramKoNaam: string,
@@ -1565,6 +1568,7 @@ export async function saveYojanaSwikritiTippani(
   try {
     const dt = await prisma.samjhautaSwikritiTippani.create({
       data: {
+        pid,
         aawa,
         miti,
         yojanaKaryaKramKoNaam,
@@ -1616,13 +1620,15 @@ export async function fetchSamjhautaSwikritiData(fiscalyear: string) {
 }
 export async function fetchDataByYojanaKaryaKramKoNaam(
   yojanaKaryaKramKoNaam: string,
-  fiscalyear: string
+  fiscalyear: string,
+  pid: string
 ) {
   try {
     const data = await prisma.samjhautaSwikritiTippani.findMany({
       where: {
         yojanaKaryaKramKoNaam,
         fiscalyear,
+        pid,
       },
     })
 
@@ -1639,13 +1645,15 @@ export async function fetchDataByYojanaKaryaKramKoNaam(
 
 export async function getSamjhautaSwikritiTippani(
   yojanaKaryaKramKoNaam: string,
-  fiscalyear: string
+  fiscalyear: string,
+  pid: string
 ) {
   try {
     const data = await prisma.samjhautaSwikritiTippani.findMany({
       where: {
         yojanaKaryaKramKoNaam,
         fiscalyear,
+        pid,
       },
     })
     return data
@@ -1656,6 +1664,7 @@ export async function getSamjhautaSwikritiTippani(
 }
 
 export async function updateYojanaSwikritiTippani(
+  pid: string,
   aawa: string,
   miti: string,
   yojanaKaryaKramKoNaam: string,
@@ -1688,6 +1697,7 @@ export async function updateYojanaSwikritiTippani(
       where: {
         yojanaKaryaKramKoNaam,
         fiscalyear,
+        pid,
       },
       data: {
         aawa,
@@ -1730,6 +1740,7 @@ export async function updateYojanaSwikritiTippani(
 
 // 3-1. yojana samjhauta
 export async function saveYojanaSamjhauta(
+  pid: string,
   yojanaKaryaKramKoNaam: string,
   budgetKaryakram: string,
   chaluAawa: string,
@@ -1841,6 +1852,7 @@ export async function saveYojanaSamjhauta(
   try {
     const dt = await prisma.yojanaSamjhauta.create({
       data: {
+        pid,
         yojanaKaryaKramKoNaam,
         budgetKaryakram,
         chaluAawa,
@@ -1972,13 +1984,15 @@ export async function getYojanaSamjhautaData(fiscalyear: string) {
 }
 export async function getYojanaSamjhauta(
   yojanaKaryaKramKoNaam: string,
-  fiscalyear: string
+  fiscalyear: string,
+  pid: string
 ) {
   try {
     const data = await prisma.yojanaSamjhauta.findMany({
       where: {
         yojanaKaryaKramKoNaam,
         fiscalyear,
+        pid,
       },
     })
     return data
@@ -1990,13 +2004,15 @@ export async function getYojanaSamjhauta(
 
 export async function fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
   yojanaKaryaKramKoNaam: string,
-  fiscalyear: string
+  fiscalyear: string,
+  pid: string
 ) {
   try {
     const data = await prisma.yojanaSamjhauta.findMany({
       where: {
         yojanaKaryaKramKoNaam,
         fiscalyear,
+        pid,
       },
     })
 
@@ -2012,6 +2028,7 @@ export async function fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
 }
 
 export async function updateYojanaSamjhauta(
+  pid: string,
   yojanaKaryaKramKoNaam: string,
   budgetKaryakram: string,
   chaluAawa: string,
@@ -2125,6 +2142,7 @@ export async function updateYojanaSamjhauta(
       where: {
         yojanaKaryaKramKoNaam,
         fiscalyear,
+        pid,
       },
       data: {
         yojanaKaryaKramKoNaam,
@@ -2248,6 +2266,7 @@ export async function updateYojanaSamjhauta(
 }
 
 export async function saveKaryaDesh(
+  pid: string,
   patraSankhya: string,
   date: string,
   yojanaKaryaKramKoNaam: string,
@@ -2269,6 +2288,7 @@ export async function saveKaryaDesh(
   try {
     const dt = await prisma.karyadesh.create({
       data: {
+        pid,
         patraSankhya,
         date,
         yojanaKaryaKramKoNaam,

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useMyContext } from "@/context/MyContext"
 
 import {
-  fetchYojanaDartaData,
+  getYojanaSamjhautaData,
   getYojanaSamjhauta,
   getYojanaDartaForSwikriti,
   getSamjhautaSwikritiTippani,
@@ -18,9 +18,7 @@ import { getStaff } from "@/actions/memberActions"
 import { toast } from "react-toastify"
 
 export default function Karyadesh() {
-  const [yojanaKoNaam, setYojanaKoNaam] = useState<{ yojanaKoNaam: string }[]>(
-    []
-  )
+  const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
   const [karmachariKoNaamData, setKarmachariKoNaamData] = useState<any[]>([])
   const [patraSankhya, setPatraSankhya] = useState("")
   const [date, setDate] = useState("")
@@ -39,10 +37,13 @@ export default function Karyadesh() {
   const [karmachariKoNaam, setKarmachariKoNaam] = useState("")
   const [karmachariKoPaad, setKarmachariKoPaad] = useState("")
 
+  const [pid, setPid] = useState("")
+
   const { value } = useMyContext()
 
   const onSubmit = async () => {
     const result = await saveKaryaDesh(
+      pid,
       patraSankhya,
       date,
       yojanaKaryaKramKoNaam,
@@ -62,6 +63,7 @@ export default function Karyadesh() {
       value || ""
     )
     if (result.status === "success") {
+      setPid("")
       setPatraSankhya("")
       setDate("")
       setYojanaKaryaKramKoNaam("")
@@ -87,9 +89,10 @@ export default function Karyadesh() {
   useEffect(() => {
     const fetchYojanaDartaKoNaamData = async () => {
       try {
-        const data = await fetchYojanaDartaData(value || "")
+        const data = await getYojanaSamjhautaData(value || "")
         setPatraSankhya(value || "")
         setYojanaKoNaam(data)
+        setPid(data[0].pid)
       } catch (e) {
         console.error("Error fetching anudaan data", e)
       }
@@ -102,15 +105,18 @@ export default function Karyadesh() {
       try {
         const dataYojanaSamjhuta = await getYojanaSamjhauta(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
         const dataYojanaDarta = await getYojanaDartaForSwikriti(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
         const dataSamjhautaSwikriti = await getSamjhautaSwikritiTippani(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
         const dataGetStaff = await getStaff()
 
@@ -131,7 +137,7 @@ export default function Karyadesh() {
       }
     }
     fetchyojanaSamjhautaData()
-  }, [value, yojanaKaryaKramKoNaam])
+  }, [value, yojanaKaryaKramKoNaam,pid])
 
   return (
     <div className="flex flex-col justify-between bg-white ">
@@ -182,8 +188,11 @@ export default function Karyadesh() {
             }}
           >
             {yojanaKoNaam.map((item) => (
-              <SelectItem key={item.yojanaKoNaam} value={item.yojanaKoNaam}>
-                {item.yojanaKoNaam}
+              <SelectItem
+                key={item.yojanaKaryaKramKoNaam}
+                value={item.yojanaKaryaKramKoNaam}
+              >
+                {item.yojanaKaryaKramKoNaam}
               </SelectItem>
             ))}
           </Select>

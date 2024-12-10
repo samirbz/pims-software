@@ -26,7 +26,7 @@ import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
 import {
   saveYojanaSamjhauta,
-  fetchYojanaDartaData,
+  fetchSamjhautaSwikritiData,
   fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta,
   getYojanaSamjhauta,
   getSamjhautaSwikritiTippani,
@@ -211,6 +211,7 @@ export default function YojanaSamjhauta() {
 
   const [budgetKaryakram, setBudgetKarayakram] = useState("")
   const [chaluAawa, setChaluAawa] = useState("")
+  const [pid, setPid] = useState("")
 
   // Tab 1
   const [samjhautaMiti, setSamjhautaMiti] = useState("")
@@ -347,6 +348,7 @@ export default function YojanaSamjhauta() {
   const onSubmit = async () => {
     if (saveOrEdit === "Edit") {
       const result = await updateYojanaSamjhauta(
+        pid,
         yojanaKaryaKramKoNaam,
         budgetKaryakram,
         chaluAawa,
@@ -456,6 +458,7 @@ export default function YojanaSamjhauta() {
         value || ""
       )
       if (result.status === "success") {
+        setPid("")
         setYojanaKaryaKramKoNaam("")
         setBudgetKarayakram("")
         setChaluAawa("")
@@ -568,6 +571,7 @@ export default function YojanaSamjhauta() {
       }
     } else {
       const result = await saveYojanaSamjhauta(
+        pid,
         yojanaKaryaKramKoNaam,
         budgetKaryakram,
         chaluAawa,
@@ -677,6 +681,7 @@ export default function YojanaSamjhauta() {
         value || ""
       )
       if (result.status === "success") {
+        setPid("")
         setBudgetKarayakram("")
         setChaluAawa("")
         setSamjhautaMiti("")
@@ -799,7 +804,8 @@ export default function YojanaSamjhauta() {
     try {
       const response = await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
         yojanaKaryaKramKoNaam,
-        value || ""
+        value || "",
+        pid
       )
 
       if (response.status === "success") {
@@ -820,7 +826,8 @@ export default function YojanaSamjhauta() {
         setLoading(true)
         const data = await getYojanaSamjhauta(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
 
         console.log(data)
@@ -1166,7 +1173,8 @@ export default function YojanaSamjhauta() {
         const response =
           await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
             yojanaKaryaKramKoNaam,
-            value || ""
+            value || "",
+            pid
           )
 
         if (
@@ -1295,13 +1303,14 @@ export default function YojanaSamjhauta() {
     }
     handleSaveOrEdit(yojanaKaryaKramKoNaam)
     getData()
-  }, [yojanaKaryaKramKoNaam, value])
+  }, [yojanaKaryaKramKoNaam, value, pid])
 
   useEffect(() => {
     const fetchYojanaDartaKoNaamData = async () => {
       try {
-        const data = await fetchYojanaDartaData(value || "")
+        const data = await fetchSamjhautaSwikritiData(value || "")
         setYojanaKoNaam(data)
+        setPid(data[0].pid)
         setLoading(false)
       } catch (e) {
         console.error("Error fetching anudaan data", e)
@@ -1310,18 +1319,20 @@ export default function YojanaSamjhauta() {
     if (saveOrEdit === "Save") {
       fetchYojanaDartaKoNaamData()
     }
-  }, [saveOrEdit, value])
+  }, [saveOrEdit, value, pid])
 
   useEffect(() => {
     const fetchSamjhautaSwikritiData = async () => {
       try {
         const data = await getSamjhautaSwikritiTippani(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
         const dataFromYojanaDarta = await getYojanaDartaForSwikriti(
           yojanaKaryaKramKoNaam,
-          value || ""
+          value || "",
+          pid
         )
         setSamjhautaNaam(data[0].adhyachyaKoNaam)
         setPaad("अध्यक्ष")
@@ -1352,7 +1363,7 @@ export default function YojanaSamjhauta() {
       }
     }
     fetchSamjhautaSwikritiData()
-  }, [yojanaKaryaKramKoNaam, value])
+  }, [yojanaKaryaKramKoNaam, value, pid])
 
   return (
     <div className="flex w-full justify-center ">
@@ -1465,10 +1476,10 @@ export default function YojanaSamjhauta() {
                         >
                           {yojanaKoNaam.map((item) => (
                             <SelectItem
-                              key={item.yojanaKoNaam}
-                              value={item.yojanaKoNaam}
+                              key={item.yojanaKaryaKramKoNaam}
+                              value={item.yojanaKaryaKramKoNaam}
                             >
-                              {item.yojanaKoNaam}
+                              {item.yojanaKaryaKramKoNaam}
                             </SelectItem>
                           ))}
                         </Select>
@@ -2650,7 +2661,8 @@ export default function YojanaSamjhauta() {
                   const response =
                     await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
                       yojanaKaryaKramKoNaam,
-                      value || ""
+                      value || "",
+                      pid
                     )
 
                   // Ensure response.data exists and is not empty
