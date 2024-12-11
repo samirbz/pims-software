@@ -236,7 +236,6 @@ export default function SamjhautaSwikriti() {
 
         if (response && response.length > 0) {
           const data = response[0]
-          setAawa(value || "")
           setLagatAnumanRakam(data.prabidhikEstimateAmount)
           setNagarpalikaRakamRu(data.kulAnudaanRakam)
           setlagatSramDan(data.janaSramdanRakam)
@@ -249,28 +248,6 @@ export default function SamjhautaSwikriti() {
               ? yojanaKaryaKramKoNaam + " (उपभोक्ता समिति)"
               : ""
           )
-        } else {
-          setAdhyachyaKoNaam("")
-          setVelamaUpasthitiSankhya("")
-          setPadakariSankhya("")
-          setMahilaSankhya("")
-          setLagatAnumanRakam("")
-          setNagarpalikaRakamRu("")
-          setlagatSramDan("")
-          setContengencyRakam("")
-          setKhudPauneRakam("")
-          setAnugamanSamitikaSadasya("")
-          setVudgetKitabSNum("")
-          setUshaGathanMiti("")
-          setMukhyaSamitiKoNaam("")
-          setUshaNibedandiyiyekoMiti("")
-          setAnyaTipaniBivaran("")
-          setYojanakoNaam("")
-          setWadaNum("")
-          setBiniyojitRakamRu("")
-          setSanyojak("")
-          setSadasyaOne("")
-          setSadasyaTwo("")
         }
       } catch (error) {
         console.error("Error fetching Yojana Darta data:", error)
@@ -315,7 +292,7 @@ export default function SamjhautaSwikriti() {
           setVudgetKitabSNum(data.budgetKitabSNum)
           setUshaGathanMiti(data.ushaGathanMiti)
           setMukhyaSamitiKoNaam(data.mukhyaSamitiKoNaam)
-          setUshaNibedandiyiyekoMiti(data.ushaGathanMiti)
+          setUshaNibedandiyiyekoMiti(data.ushaNibedandiyiyekoMiti)
           setAnyaTipaniBivaran(data.anyaTipaniBivaran)
           setYojanakoNaam(data.yojanakoNaam)
           setWadaNum(data.wadaNum)
@@ -325,20 +302,6 @@ export default function SamjhautaSwikriti() {
           setSadasyaTwo(data.sadasyaTwo)
           setSaveOrEdit("Edit")
         } else {
-          setAdhyachyaKoNaam("")
-          setVelamaUpasthitiSankhya("")
-          setPadakariSankhya("")
-          setMahilaSankhya("")
-          setAnugamanSamitikaSadasya("")
-          setUshaGathanMiti("")
-          setUshaNibedandiyiyekoMiti("")
-          setAnyaTipaniBivaran("")
-          setYojanakoNaam("")
-          setWadaNum("")
-          setBiniyojitRakamRu("")
-          setSanyojak("")
-          setSadasyaOne("")
-          setSadasyaTwo("")
           setSaveOrEdit("Save")
         }
       } catch (error) {
@@ -354,7 +317,7 @@ export default function SamjhautaSwikriti() {
     const fetchYojanaDartaKoNaamData = async () => {
       try {
         const data = await fetchYojanaDartaData(value || "")
-        console.log("Fetched Anudaan Data:", data) // For debugging
+        setAawa(value || "")
         setPid(data[0].id)
         setYojanaKoNaam(data)
         setgharpariwarSankhya(data[0].gharPariwarSankhya)
@@ -518,12 +481,18 @@ export default function SamjhautaSwikriti() {
               />
               <form className="flex items-center gap-2 ">
                 <label htmlFor="date">उ.स. गठन मिति:-</label>
+
                 <NepaliDatePicker
                   inputClassName="form-control"
-                  className="rounded-lg border p-1 "
+                  className="rounded-lg border p-1"
                   value={ushaGathanMiti}
-                  onChange={(value: string) => setUshaGathanMiti(value)}
-                  options={{ calenderLocale: "ne", valueLocale: "en" }}
+                  onChange={(value: string) => {
+                    setUshaGathanMiti(value)
+                  }}
+                  options={{
+                    calenderLocale: "ne",
+                    valueLocale: "en",
+                  }}
                 />
               </form>
             </div>
@@ -542,14 +511,18 @@ export default function SamjhautaSwikriti() {
                 <label htmlFor="date" className="whitespace-nowrap">
                   उ.स. निवेदन दिईएको मिति:-
                 </label>
+
                 <NepaliDatePicker
                   inputClassName="form-control"
-                  className="rounded-lg border p-1 "
+                  className="rounded-lg border p-1"
                   value={ushaNibedandiyiyekoMiti}
-                  onChange={(value: string) =>
+                  onChange={(value: string) => {
                     setUshaNibedandiyiyekoMiti(value)
-                  }
-                  options={{ calenderLocale: "ne", valueLocale: "en" }}
+                  }}
+                  options={{
+                    calenderLocale: "ne",
+                    valueLocale: "en",
+                  }}
                 />
               </form>
               <Button
