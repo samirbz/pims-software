@@ -77,11 +77,7 @@ export default function SamjhautaSwikriti() {
     }
 
     try {
-      const response = await fetchDataByYojanaKaryaKramKoNaam(
-        yojanaKaryaKramKoNaam,
-        value || "",
-        pid
-      )
+      const response = await fetchDataByYojanaKaryaKramKoNaam(value || "", pid)
 
       if (response.status === "success") {
         // Alerting the data as a string
@@ -228,14 +224,17 @@ export default function SamjhautaSwikriti() {
     const getData = async () => {
       try {
         setLoading(true)
+        setAawa(value || "")
         const response = await getYojanaDartaForSwikriti(
           yojanaKaryaKramKoNaam,
-          value || "",
-          pid
+          value || ""
         )
 
         if (response && response.length > 0) {
           const data = response[0]
+          setgharpariwarSankhya(data.gharPariwarSankhya)
+          setjanaSankhya(data.janaSankhya)
+          setPid(data.id)
           setLagatAnumanRakam(data.prabidhikEstimateAmount)
           setNagarpalikaRakamRu(data.kulAnudaanRakam)
           setlagatSramDan(data.janaSramdanRakam)
@@ -256,18 +255,13 @@ export default function SamjhautaSwikriti() {
       }
     }
 
-    const handleSaveOrEdit = async (yojanaKaryaKramKoNaam: string) => {
+    const handleSaveOrEdit = async () => {
       try {
         const response = await fetchDataByYojanaKaryaKramKoNaam(
-          yojanaKaryaKramKoNaam,
           value || "",
           pid
         )
-        const data = await getSamjhautaSwikritiTippani(
-          yojanaKaryaKramKoNaam,
-          value || "",
-          pid
-        )
+        const data = await getSamjhautaSwikritiTippani(value || "", pid)
 
         if (
           response.status === "success" &&
@@ -277,7 +271,6 @@ export default function SamjhautaSwikriti() {
         ) {
           const data = response.data[0]
           setMiti(data.miti)
-          setYojanaKaryaKramKoNaam(data.yojanaKaryaKramKoNaam)
           setUpavoktaSamitiKoNaam(data.upavoktaSamitiKoNaam)
           setAdhyachyaKoNaam(data.adhyachyaKoNaam)
           setVelamaUpasthitiSankhya(data.velamaUpasthitiSankhya)
@@ -309,7 +302,7 @@ export default function SamjhautaSwikriti() {
         alert("An unexpected error occurred.")
       }
     }
-    handleSaveOrEdit(yojanaKaryaKramKoNaam)
+    handleSaveOrEdit()
     getData()
   }, [yojanaKaryaKramKoNaam, value, pid])
 
@@ -318,10 +311,7 @@ export default function SamjhautaSwikriti() {
       try {
         const data = await fetchYojanaDartaData(value || "")
         setAawa(value || "")
-        setPid(data[0].id)
         setYojanaKoNaam(data)
-        setgharpariwarSankhya(data[0].gharPariwarSankhya)
-        setjanaSankhya(data[0].janaSankhya)
       } catch (e) {
         console.error("Error fetching anudaan data", e)
       }
@@ -542,10 +532,7 @@ export default function SamjhautaSwikriti() {
               value={anyaTipaniBivaran}
               onChange={(e) => setAnyaTipaniBivaran(e.target.value)}
             />
-            <div className="flex justify-between">
-              <Button color="default" className="flex justify-start">
-                Reset Form
-              </Button>
+            <div className="">
               <div className="flex justify-end gap-2">
                 <Button
                   color="secondary"
@@ -565,7 +552,6 @@ export default function SamjhautaSwikriti() {
 
                     try {
                       const response = await fetchDataByYojanaKaryaKramKoNaam(
-                        yojanaKaryaKramKoNaam,
                         value || "",
                         pid
                       )

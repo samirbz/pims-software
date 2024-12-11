@@ -1406,14 +1406,12 @@ export async function fetchYojanaDartaData(fiscalyear: string) {
 export async function getYojanaDartaForSwikriti(
   yojanaKoNaam: string,
   fiscalyear: string,
-  id: string
 ) {
   try {
     const data = await prisma.yojanaDarta.findMany({
       where: {
         yojanaKoNaam,
         fiscalyear,
-        id,
       },
     })
     return data
@@ -1619,14 +1617,12 @@ export async function fetchSamjhautaSwikritiData(fiscalyear: string) {
   }
 }
 export async function fetchDataByYojanaKaryaKramKoNaam(
-  yojanaKaryaKramKoNaam: string,
   fiscalyear: string,
   pid: string
 ) {
   try {
     const data = await prisma.samjhautaSwikritiTippani.findMany({
       where: {
-        yojanaKaryaKramKoNaam,
         fiscalyear,
         pid,
       },
@@ -1644,14 +1640,12 @@ export async function fetchDataByYojanaKaryaKramKoNaam(
 }
 
 export async function getSamjhautaSwikritiTippani(
-  yojanaKaryaKramKoNaam: string,
   fiscalyear: string,
   pid: string
 ) {
   try {
     const data = await prisma.samjhautaSwikritiTippani.findMany({
       where: {
-        yojanaKaryaKramKoNaam,
         fiscalyear,
         pid,
       },
@@ -1695,13 +1689,13 @@ export async function updateYojanaSwikritiTippani(
   try {
     const result = await prisma.samjhautaSwikritiTippani.updateMany({
       where: {
-        yojanaKaryaKramKoNaam,
         fiscalyear,
         pid,
       },
       data: {
         aawa,
         miti,
+        yojanaKaryaKramKoNaam,
         upavoktaSamitiKoNaam,
         adhyachyaKoNaam,
         velamaUpasthitiSankhya,
