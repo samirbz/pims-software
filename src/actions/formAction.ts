@@ -1405,7 +1405,7 @@ export async function fetchYojanaDartaData(fiscalyear: string) {
 
 export async function getYojanaDartaForSwikriti(
   yojanaKoNaam: string,
-  fiscalyear: string,
+  fiscalyear: string
 ) {
   try {
     const data = await prisma.yojanaDarta.findMany({
@@ -1534,34 +1534,25 @@ export async function editYojanaDarta(
 // 30-2 samjhauta swikriti tippani
 export async function saveYojanaSwikritiTippani(
   pid: string,
+  fiscalyear: string,
   aawa: string,
   miti: string,
-  yojanaKaryaKramKoNaam: string,
   upavoktaSamitiKoNaam: string,
   adhyachyaKoNaam: string,
   velamaUpasthitiSankhya: string,
   padakariSankhya: string,
   mahilaSankhya: string,
-  lagatAnumanRakam: string,
-  nagarpalikaRakamRu: string,
-  lagatSramDan: string,
-  contengencyRakam: string,
-  khudPauneRakam: string,
   anugamanSamitikaSadasya: string,
-  budgetKitabSNum: string,
   ushaGathanMiti: string,
-  mukhyaSamitiKoNaam: string,
   ushaNibedandiyiyekoMiti: string,
   anyaTipaniBivaran: string,
+
   yojanakoNaam: string,
   wadaNum: string,
   biniyojitRakamRu: string,
   sanyojak: string,
   sadasyaOne: string,
-  sadasyaTwo: string,
-  fiscalyear: string,
-  gharPariwarSankhya: string,
-  janaSankhya: string
+  sadasyaTwo: string
 ) {
   try {
     const dt = await prisma.samjhautaSwikritiTippani.create({
@@ -1569,21 +1560,13 @@ export async function saveYojanaSwikritiTippani(
         pid,
         aawa,
         miti,
-        yojanaKaryaKramKoNaam,
         upavoktaSamitiKoNaam,
         adhyachyaKoNaam,
         velamaUpasthitiSankhya,
         padakariSankhya,
         mahilaSankhya,
-        lagatAnumanRakam,
-        nagarpalikaRakamRu,
-        lagatSramDan,
-        contengencyRakam,
-        khudPauneRakam,
         anugamanSamitikaSadasya,
-        budgetKitabSNum,
         ushaGathanMiti,
-        mukhyaSamitiKoNaam,
         ushaNibedandiyiyekoMiti,
         anyaTipaniBivaran,
         yojanakoNaam,
@@ -1593,8 +1576,6 @@ export async function saveYojanaSwikritiTippani(
         sadasyaOne,
         sadasyaTwo,
         fiscalyear,
-        gharPariwarSankhya,
-        janaSankhya,
       },
     })
     return { status: "success", data: dt }
@@ -1659,32 +1640,25 @@ export async function getSamjhautaSwikritiTippani(
 
 export async function updateYojanaSwikritiTippani(
   pid: string,
+  fiscalyear: string,
   aawa: string,
   miti: string,
-  yojanaKaryaKramKoNaam: string,
   upavoktaSamitiKoNaam: string,
   adhyachyaKoNaam: string,
   velamaUpasthitiSankhya: string,
   padakariSankhya: string,
   mahilaSankhya: string,
-  lagatAnumanRakam: string,
-  nagarpalikaRakamRu: string,
-  lagatSramDan: string,
-  contengencyRakam: string,
-  khudPauneRakam: string,
   anugamanSamitikaSadasya: string,
-  budgetKitabSNum: string,
   ushaGathanMiti: string,
-  mukhyaSamitiKoNaam: string,
   ushaNibedandiyiyekoMiti: string,
   anyaTipaniBivaran: string,
+
   yojanakoNaam: string,
   wadaNum: string,
   biniyojitRakamRu: string,
   sanyojak: string,
   sadasyaOne: string,
-  sadasyaTwo: string,
-  fiscalyear: string
+  sadasyaTwo: string
 ) {
   try {
     const result = await prisma.samjhautaSwikritiTippani.updateMany({
@@ -1695,21 +1669,14 @@ export async function updateYojanaSwikritiTippani(
       data: {
         aawa,
         miti,
-        yojanaKaryaKramKoNaam,
         upavoktaSamitiKoNaam,
         adhyachyaKoNaam,
         velamaUpasthitiSankhya,
         padakariSankhya,
         mahilaSankhya,
-        lagatAnumanRakam,
-        nagarpalikaRakamRu,
-        lagatSramDan,
-        contengencyRakam,
-        khudPauneRakam,
+
         anugamanSamitikaSadasya,
-        budgetKitabSNum,
         ushaGathanMiti,
-        mukhyaSamitiKoNaam,
         ushaNibedandiyiyekoMiti,
         anyaTipaniBivaran,
         yojanakoNaam,

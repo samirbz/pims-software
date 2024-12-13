@@ -57,8 +57,6 @@ export default function SamjhautaSwikriti() {
   const [sanyojak, setSanyojak] = useState("")
   const [sadasyaOne, setSadasyaOne] = useState("")
   const [sadasyaTwo, setSadasyaTwo] = useState("")
-  const [gharPariwarSankhya, setgharpariwarSankhya] = useState("")
-  const [janaSankhya, setjanaSankhya] = useState("")
 
   const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
 
@@ -67,6 +65,8 @@ export default function SamjhautaSwikriti() {
   const [saveOrEdit, setSaveOrEdit] = useState("Save")
 
   const { value } = useMyContext()
+
+  const [hide, setHide] = useState(false)
 
   // const [btnDisable, setBtnDisable] = useState(false)
 
@@ -95,23 +95,16 @@ export default function SamjhautaSwikriti() {
     if (saveOrEdit === "Edit") {
       const result = await updateYojanaSwikritiTippani(
         pid,
+        value || "",
         aawa,
         miti,
-        yojanaKaryaKramKoNaam,
         upavoktaSamitiKoNaam,
         adhyachyaKoNaam,
         velamaUpasthitiSankhya,
         padakariSankhya,
         mahilaSankhya,
-        lagatAnumanRakam,
-        nagarpalikaRakamRu,
-        lagatSramDan,
-        contengencyRakam,
-        khudPauneRakam,
         anugamanSamitikaSadasya,
-        budgetKitabSNum,
         ushaGathanMiti,
-        mukhyaSamitiKoNaam,
         ushaNibedandiyiyekoMiti,
         anyaTipaniBivaran,
         yojanakoNaam,
@@ -119,8 +112,7 @@ export default function SamjhautaSwikriti() {
         biniyojitRakamRu,
         sanyojak,
         sadasyaOne,
-        sadasyaTwo,
-        value || ""
+        sadasyaTwo
       )
       if (result.status === "success") {
         setPid("")
@@ -157,23 +149,16 @@ export default function SamjhautaSwikriti() {
     } else {
       const result = await saveYojanaSwikritiTippani(
         pid,
+        value || "",
         aawa,
         miti,
-        yojanaKaryaKramKoNaam,
         upavoktaSamitiKoNaam,
         adhyachyaKoNaam,
         velamaUpasthitiSankhya,
         padakariSankhya,
         mahilaSankhya,
-        lagatAnumanRakam,
-        nagarpalikaRakamRu,
-        lagatSramDan,
-        contengencyRakam,
-        khudPauneRakam,
         anugamanSamitikaSadasya,
-        budgetKitabSNum,
         ushaGathanMiti,
-        mukhyaSamitiKoNaam,
         ushaNibedandiyiyekoMiti,
         anyaTipaniBivaran,
         yojanakoNaam,
@@ -181,10 +166,7 @@ export default function SamjhautaSwikriti() {
         biniyojitRakamRu,
         sanyojak,
         sadasyaOne,
-        sadasyaTwo,
-        value || "",
-        gharPariwarSankhya,
-        janaSankhya
+        sadasyaTwo
       )
       if (result.status === "success") {
         setPid("")
@@ -232,8 +214,6 @@ export default function SamjhautaSwikriti() {
 
         if (response && response.length > 0) {
           const data = response[0]
-          setgharpariwarSankhya(data.gharPariwarSankhya)
-          setjanaSankhya(data.janaSankhya)
           setPid(data.id)
           setLagatAnumanRakam(data.prabidhikEstimateAmount)
           setNagarpalikaRakamRu(data.kulAnudaanRakam)
@@ -242,15 +222,20 @@ export default function SamjhautaSwikriti() {
           setKhudPauneRakam(data.kulAnudaanRakam)
           setMukhyaSamitiKoNaam(data.mukhyaSamiti)
           setVudgetKitabSNum(data.budgetKitabSnum)
+          // setUpavoktaSamitiKoNaam(
+          //   data.karyagatSamuha === "उपभोक्ता समिति"
+          //     ? yojanaKaryaKramKoNaam + " (उपभोक्ता समिति)"
+          //     : yojanaKaryaKramKoNaam
+          // )
           setUpavoktaSamitiKoNaam(
-            data.karyagatSamuha === "उपभोक्ता समिति"
-              ? yojanaKaryaKramKoNaam + " (उपभोक्ता समिति)"
-              : ""
+            `${yojanaKaryaKramKoNaam} (${data.karyagatSamuha})`
           )
+          setHide(data.karyagatSamuha !== "उपभोक्ता समिति")
         }
       } catch (error) {
         console.error("Error fetching Yojana Darta data:", error)
       } finally {
+        console.log(hide)
         setLoading(false)
       }
     }
@@ -276,15 +261,9 @@ export default function SamjhautaSwikriti() {
           setVelamaUpasthitiSankhya(data.velamaUpasthitiSankhya)
           setPadakariSankhya(data.padakariSankhya)
           setMahilaSankhya(data.mahilaSankhya)
-          setLagatAnumanRakam(data.lagatAnumanRakam)
-          setNagarpalikaRakamRu(data.nagarpalikaRakamRu)
-          setlagatSramDan(data.lagatSramDan)
-          setContengencyRakam(data.contengencyRakam)
-          setKhudPauneRakam(data.khudPauneRakam)
+
           setAnugamanSamitikaSadasya(data.anugamanSamitikaSadasya)
-          setVudgetKitabSNum(data.budgetKitabSNum)
           setUshaGathanMiti(data.ushaGathanMiti)
-          setMukhyaSamitiKoNaam(data.mukhyaSamitiKoNaam)
           setUshaNibedandiyiyekoMiti(data.ushaNibedandiyiyekoMiti)
           setAnyaTipaniBivaran(data.anyaTipaniBivaran)
           setYojanakoNaam(data.yojanakoNaam)
@@ -295,6 +274,15 @@ export default function SamjhautaSwikriti() {
           setSadasyaTwo(data.sadasyaTwo)
           setSaveOrEdit("Edit")
         } else {
+          setMiti("")
+          setAdhyachyaKoNaam("")
+          setVelamaUpasthitiSankhya("")
+          setPadakariSankhya("")
+          setMahilaSankhya("")
+          setAnugamanSamitikaSadasya("")
+          setUshaGathanMiti("")
+          setUshaNibedandiyiyekoMiti("")
+          setAnyaTipaniBivaran("")
           setSaveOrEdit("Save")
         }
       } catch (error) {
@@ -304,7 +292,7 @@ export default function SamjhautaSwikriti() {
     }
     handleSaveOrEdit()
     getData()
-  }, [yojanaKaryaKramKoNaam, value, pid])
+  }, [yojanaKaryaKramKoNaam, value, pid, hide])
 
   useEffect(() => {
     const fetchYojanaDartaKoNaamData = async () => {
@@ -386,27 +374,33 @@ export default function SamjhautaSwikriti() {
               onChange={(e) => setAdhyachyaKoNaam(e.target.value)}
             />
             <div className="flex gap-2">
-              <Input
-                type="Number"
-                label="भेलामा उपस्थिती संख्या"
-                size="sm"
-                value={velamaUpasthitiSankhya}
-                onChange={(e) => setVelamaUpasthitiSankhya(e.target.value)}
-              />
-              <Input
-                type="Number"
-                label="पदाधिकारी संख्या"
-                size="sm"
-                value={padakariSankhya}
-                onChange={(e) => setPadakariSankhya(e.target.value)}
-              />
-              <Input
-                type="Number"
-                label="महिला संख्या"
-                size="sm"
-                value={mahilaSankhya}
-                onChange={(e) => setMahilaSankhya(e.target.value)}
-              />
+              {!hide && (
+                <Input
+                  type="Number"
+                  label="भेलामा उपस्थिती संख्या"
+                  size="sm"
+                  value={velamaUpasthitiSankhya}
+                  onChange={(e) => setVelamaUpasthitiSankhya(e.target.value)}
+                />
+              )}
+              {!hide && (
+                <Input
+                  type="Number"
+                  label="पदाधिकारी संख्या"
+                  size="sm"
+                  value={padakariSankhya}
+                  onChange={(e) => setPadakariSankhya(e.target.value)}
+                />
+              )}
+              {!hide && (
+                <Input
+                  type="Number"
+                  label="महिला संख्या"
+                  size="sm"
+                  value={mahilaSankhya}
+                  onChange={(e) => setMahilaSankhya(e.target.value)}
+                />
+              )}
             </div>
             <div className="flex gap-2">
               <Input
@@ -469,22 +463,25 @@ export default function SamjhautaSwikriti() {
                 value={budgetKitabSNum}
                 onChange={(e) => setVudgetKitabSNum(e.target.value)}
               />
-              <form className="flex items-center gap-2 ">
-                <label htmlFor="date">उ.स. गठन मिति:-</label>
 
-                <NepaliDatePicker
-                  inputClassName="form-control"
-                  className="rounded-lg border p-1"
-                  value={ushaGathanMiti}
-                  onChange={(value: string) => {
-                    setUshaGathanMiti(value)
-                  }}
-                  options={{
-                    calenderLocale: "ne",
-                    valueLocale: "en",
-                  }}
-                />
-              </form>
+              {!hide && (
+                <form className="flex items-center gap-2 ">
+                  <label htmlFor="date">उ.स. गठन मिति:-</label>
+
+                  <NepaliDatePicker
+                    inputClassName="form-control"
+                    className="rounded-lg border p-1"
+                    value={ushaGathanMiti}
+                    onChange={(value: string) => {
+                      setUshaGathanMiti(value)
+                    }}
+                    options={{
+                      calenderLocale: "ne",
+                      valueLocale: "en",
+                    }}
+                  />
+                </form>
+              )}
             </div>
 
             <div className="flex gap-2">
@@ -497,33 +494,37 @@ export default function SamjhautaSwikriti() {
                 onChange={(e) => setMukhyaSamitiKoNaam(e.target.value)}
               />
 
-              <form className="flex items-center gap-2 ">
-                <label htmlFor="date" className="whitespace-nowrap">
-                  उ.स. निवेदन दिईएको मिति:-
-                </label>
+              {!hide && (
+                <form className="flex items-center gap-2 ">
+                  <label htmlFor="date" className="whitespace-nowrap">
+                    उ.स. निवेदन दिईएको मिति:-
+                  </label>
 
-                <NepaliDatePicker
-                  inputClassName="form-control"
-                  className="rounded-lg border p-1"
-                  value={ushaNibedandiyiyekoMiti}
-                  onChange={(value: string) => {
-                    setUshaNibedandiyiyekoMiti(value)
-                  }}
-                  options={{
-                    calenderLocale: "ne",
-                    valueLocale: "en",
-                  }}
-                />
-              </form>
-              <Button
-                className="bg-pink-500 text-white "
-                startContent={
-                  <MdOutlineSupervisorAccount size={18} className="mb-1" />
-                }
-                onPress={onOpen}
-              >
-                Add Member
-              </Button>
+                  <NepaliDatePicker
+                    inputClassName="form-control"
+                    className="rounded-lg border p-1"
+                    value={ushaNibedandiyiyekoMiti}
+                    onChange={(value: string) => {
+                      setUshaNibedandiyiyekoMiti(value)
+                    }}
+                    options={{
+                      calenderLocale: "ne",
+                      valueLocale: "en",
+                    }}
+                  />
+                </form>
+              )}
+              {!hide && (
+                <Button
+                  className="bg-pink-500 text-white "
+                  startContent={
+                    <MdOutlineSupervisorAccount size={18} className="mb-1" />
+                  }
+                  onPress={onOpen}
+                >
+                  Add Member
+                </Button>
+              )}
             </div>
             <Textarea
               label="अन्य टिप्पणी विवरण"

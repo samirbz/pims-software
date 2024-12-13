@@ -1640,10 +1640,14 @@ export default function YojanaDarta() {
             />
             <Input
               type="Number"
-              label="जनश्रमदान रु."
+              // label="जनश्रमदान रु."
+              label={
+                karyagatSamuha === "उपभोक्ता समिति"
+                  ? "जनश्रमदान रु."
+                  : "लागत सहभागिता "
+              }
               size="sm"
               className="w-full"
-              // value={janaSramDan}
               value={janaSramdanRakam}
               readOnly
             />
