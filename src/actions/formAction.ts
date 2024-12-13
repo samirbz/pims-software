@@ -1404,13 +1404,13 @@ export async function fetchYojanaDartaData(fiscalyear: string) {
 }
 
 export async function getYojanaDartaForSwikriti(
-  yojanaKoNaam: string,
+  id: string,
   fiscalyear: string
 ) {
   try {
     const data = await prisma.yojanaDarta.findMany({
       where: {
-        yojanaKoNaam,
+        id,
         fiscalyear,
       },
     })
@@ -1702,17 +1702,9 @@ export async function updateYojanaSwikritiTippani(
 // 3-1. yojana samjhauta
 export async function saveYojanaSamjhauta(
   pid: string,
-  yojanaKaryaKramKoNaam: string,
-  budgetKaryakram: string,
+  fiscalyear: string,
   chaluAawa: string,
-  samjhautaMiti: string,
-  samjhautaNaam: string,
-  paad: string,
-  samjhautaThegana: string,
   phoneNum: string,
-  yonanaNaam: string,
-  yojanaThegana: string,
-  yojanaTheganaChild: string,
   yojanaUdeskya: string,
   yojanaSwikritiGarneNikaya: string,
   yojanaSuruhuneMiti: string,
@@ -1757,14 +1749,8 @@ export async function saveYojanaSamjhauta(
   bideshDatriSanghRuShramRu: string,
   lagatSahavagitaRuShramRu: string,
   anyaNikayaRuShramRu: string,
-  gharpariwarSankhya: string,
-  janaSankhya: string,
-  samudaya: string,
   samudayaAdharit: string,
-  kamgarneNikaya: string,
   upavoktaSamiti: string,
-  gathanVayekoMiti: string,
-  adhyakchya: string,
   adhyakchyaNaPraNa: string,
   upadhyekchya: string,
   sachib: string,
@@ -1778,9 +1764,6 @@ export async function saveYojanaSamjhauta(
   sadasyaFive: string,
   sadasyaSix: string,
   sadasyaSeven: string,
-  gathanGardaUpastithi: string,
-  samitimaJamma: string,
-  mahilaSadasya: string,
   pahiloKistaMiti: string,
   pahiloKistaPratisad: string,
   pahiloKistaKistaKoRakam: string,
@@ -1807,24 +1790,15 @@ export async function saveYojanaSamjhauta(
   karyalayaKoTarfabata: string,
   karyalayaKoTarfabataChild: string,
   yojanaSakhaTarfabata: string,
-  yojanaSakhaTarfabataChild: string,
-  fiscalyear: string
+  yojanaSakhaTarfabataChild: string
 ) {
   try {
     const dt = await prisma.yojanaSamjhauta.create({
       data: {
         pid,
-        yojanaKaryaKramKoNaam,
-        budgetKaryakram,
+        fiscalyear,
         chaluAawa,
-        samjhautaMiti,
-        samjhautaNaam,
-        paad,
-        samjhautaThegana,
         phoneNum,
-        yonanaNaam,
-        yojanaThegana,
-        yojanaTheganaChild,
         yojanaUdeskya,
         yojanaSwikritiGarneNikaya,
         yojanaSuruhuneMiti,
@@ -1869,14 +1843,8 @@ export async function saveYojanaSamjhauta(
         bideshDatriSanghRuShramRu,
         lagatSahavagitaRuShramRu,
         anyaNikayaRuShramRu,
-        gharpariwarSankhya,
-        janaSankhya,
-        samudaya,
         samudayaAdharit,
-        kamgarneNikaya,
         upavoktaSamiti,
-        gathanVayekoMiti,
-        adhyakchya,
         adhyakchyaNaPraNa,
         upadhyekchya,
         sachib,
@@ -1890,9 +1858,6 @@ export async function saveYojanaSamjhauta(
         sadasyaFive,
         sadasyaSix,
         sadasyaSeven,
-        gathanGardaUpastithi,
-        samitimaJamma,
-        mahilaSadasya,
         pahiloKistaMiti,
         pahiloKistaPratisad,
         pahiloKistaKistaKoRakam,
@@ -1920,7 +1885,6 @@ export async function saveYojanaSamjhauta(
         karyalayaKoTarfabataChild,
         yojanaSakhaTarfabata,
         yojanaSakhaTarfabataChild,
-        fiscalyear,
       },
     })
     return { status: "success", data: dt }
@@ -1943,15 +1907,10 @@ export async function getYojanaSamjhautaData(fiscalyear: string) {
     throw error
   }
 }
-export async function getYojanaSamjhauta(
-  yojanaKaryaKramKoNaam: string,
-  fiscalyear: string,
-  pid: string
-) {
+export async function getYojanaSamjhauta(fiscalyear: string, pid: string) {
   try {
     const data = await prisma.yojanaSamjhauta.findMany({
       where: {
-        yojanaKaryaKramKoNaam,
         fiscalyear,
         pid,
       },
@@ -1964,14 +1923,12 @@ export async function getYojanaSamjhauta(
 }
 
 export async function fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
-  yojanaKaryaKramKoNaam: string,
   fiscalyear: string,
   pid: string
 ) {
   try {
     const data = await prisma.yojanaSamjhauta.findMany({
       where: {
-        yojanaKaryaKramKoNaam,
         fiscalyear,
         pid,
       },
@@ -1990,17 +1947,8 @@ export async function fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
 
 export async function updateYojanaSamjhauta(
   pid: string,
-  yojanaKaryaKramKoNaam: string,
-  budgetKaryakram: string,
-  chaluAawa: string,
-  samjhautaMiti: string,
-  samjhautaNaam: string,
-  paad: string,
-  samjhautaThegana: string,
+  fiscalyear: string,
   phoneNum: string,
-  yonanaNaam: string,
-  yojanaThegana: string,
-  yojanaTheganaChild: string,
   yojanaUdeskya: string,
   yojanaSwikritiGarneNikaya: string,
   yojanaSuruhuneMiti: string,
@@ -2045,14 +1993,8 @@ export async function updateYojanaSamjhauta(
   bideshDatriSanghRuShramRu: string,
   lagatSahavagitaRuShramRu: string,
   anyaNikayaRuShramRu: string,
-  gharpariwarSankhya: string,
-  janaSankhya: string,
-  samudaya: string,
   samudayaAdharit: string,
-  kamgarneNikaya: string,
   upavoktaSamiti: string,
-  gathanVayekoMiti: string,
-  adhyakchya: string,
   adhyakchyaNaPraNa: string,
   upadhyekchya: string,
   sachib: string,
@@ -2066,9 +2008,6 @@ export async function updateYojanaSamjhauta(
   sadasyaFive: string,
   sadasyaSix: string,
   sadasyaSeven: string,
-  gathanGardaUpastithi: string,
-  samitimaJamma: string,
-  mahilaSadasya: string,
   pahiloKistaMiti: string,
   pahiloKistaPratisad: string,
   pahiloKistaKistaKoRakam: string,
@@ -2095,28 +2034,16 @@ export async function updateYojanaSamjhauta(
   karyalayaKoTarfabata: string,
   karyalayaKoTarfabataChild: string,
   yojanaSakhaTarfabata: string,
-  yojanaSakhaTarfabataChild: string,
-  fiscalyear: string
+  yojanaSakhaTarfabataChild: string
 ) {
   try {
     const result = await prisma.yojanaSamjhauta.updateMany({
       where: {
-        yojanaKaryaKramKoNaam,
         fiscalyear,
         pid,
       },
       data: {
-        yojanaKaryaKramKoNaam,
-        budgetKaryakram,
-        chaluAawa,
-        samjhautaMiti,
-        samjhautaNaam,
-        paad,
-        samjhautaThegana,
         phoneNum,
-        yonanaNaam,
-        yojanaThegana,
-        yojanaTheganaChild,
         yojanaUdeskya,
         yojanaSwikritiGarneNikaya,
         yojanaSuruhuneMiti,
@@ -2161,14 +2088,8 @@ export async function updateYojanaSamjhauta(
         bideshDatriSanghRuShramRu,
         lagatSahavagitaRuShramRu,
         anyaNikayaRuShramRu,
-        gharpariwarSankhya,
-        janaSankhya,
-        samudaya,
         samudayaAdharit,
-        kamgarneNikaya,
         upavoktaSamiti,
-        gathanVayekoMiti,
-        adhyakchya,
         adhyakchyaNaPraNa,
         upadhyekchya,
         sachib,
@@ -2182,9 +2103,6 @@ export async function updateYojanaSamjhauta(
         sadasyaFive,
         sadasyaSix,
         sadasyaSeven,
-        gathanGardaUpastithi,
-        samitimaJamma,
-        mahilaSadasya,
         pahiloKistaMiti,
         pahiloKistaPratisad,
         pahiloKistaKistaKoRakam,

@@ -58,7 +58,7 @@ export default function SamjhautaSwikriti() {
   const [sadasyaOne, setSadasyaOne] = useState("")
   const [sadasyaTwo, setSadasyaTwo] = useState("")
 
-  const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
+  const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
 
   const [loading, setLoading] = useState(true)
 
@@ -208,7 +208,7 @@ export default function SamjhautaSwikriti() {
         setLoading(true)
         setAawa(value || "")
         const response = await getYojanaDartaForSwikriti(
-          yojanaKaryaKramKoNaam,
+          pid,
           value || ""
         )
 
@@ -235,7 +235,6 @@ export default function SamjhautaSwikriti() {
       } catch (error) {
         console.error("Error fetching Yojana Darta data:", error)
       } finally {
-        console.log(hide)
         setLoading(false)
       }
     }
@@ -299,7 +298,7 @@ export default function SamjhautaSwikriti() {
       try {
         const data = await fetchYojanaDartaData(value || "")
         setAawa(value || "")
-        setYojanaKoNaam(data)
+        setYojanaKoNaamData(data)
       } catch (e) {
         console.error("Error fetching anudaan data", e)
       }
@@ -351,9 +350,17 @@ export default function SamjhautaSwikriti() {
               onSelectionChange={(keys) => {
                 const selectedValue = Array.from(keys).join(", ")
                 setYojanaKaryaKramKoNaam(selectedValue)
+
+                // Find the selected item by its name and set the pid
+                const selectedItem = yojanaKoNaamData.find(
+                  (item) => item.yojanaKoNaam === selectedValue
+                )
+                if (selectedItem) {
+                  setPid(selectedItem.id)
+                }
               }}
             >
-              {yojanaKoNaam.map((item) => (
+              {yojanaKoNaamData.map((item) => (
                 <SelectItem key={item.yojanaKoNaam} value={item.yojanaKoNaam}>
                   {item.yojanaKoNaam}
                 </SelectItem>
@@ -609,7 +616,7 @@ export default function SamjhautaSwikriti() {
                       setYojanakoNaam(selectedValue)
                     }}
                   >
-                    {yojanaKoNaam.map((item) => (
+                    {yojanaKoNaamData.map((item) => (
                       <SelectItem
                         key={item.yojanaKoNaam}
                         value={item.yojanaKoNaam}

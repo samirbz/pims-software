@@ -103,32 +103,23 @@ export default function Karyadesh() {
   useEffect(() => {
     const fetchyojanaSamjhautaData = async () => {
       try {
-        const dataYojanaSamjhuta = await getYojanaSamjhauta(
-          yojanaKaryaKramKoNaam,
-          value || "",
-          pid
-        )
+        const dataYojanaSamjhuta = await getYojanaSamjhauta(value || "", pid)
         const dataYojanaDarta = await getYojanaDartaForSwikriti(
-          yojanaKaryaKramKoNaam,
           value || "",
           pid
         )
         const dataSamjhautaSwikriti = await getSamjhautaSwikritiTippani(
-          yojanaKaryaKramKoNaam,
           value || "",
           pid
         )
         const dataGetStaff = await getStaff()
 
-        setSansthaKoNaam(dataYojanaSamjhuta[0].yojanaKaryaKramKoNaam)
-        setAdachyaKoNaam(dataYojanaSamjhuta[0].adhyakchya)
         setLagatAnumanRakam(dataYojanaSamjhuta[0].lagatAnumanRu)
         setContengencyRakam(dataYojanaDarta[0].contengencyResult)
         setNagarpalikaRu(dataYojanaDarta[0].kulAnudaanRakam)
         setKhudpauneRakam(dataYojanaDarta[0].kulAnudaanRakam)
         setBudgetKitabSNum(dataYojanaDarta[0].budgetKitabSnum)
         setGathanMiti(dataSamjhautaSwikriti[0].ushaGathanMiti)
-        setMukhyaSamitiKoNaam(dataSamjhautaSwikriti[0].mukhyaSamitiKoNaam)
         setSabhaNirnayaMiti(dataYojanaDarta[0].sabhaNirnayaMiti)
         setAyojanaSampanaMiti(dataYojanaSamjhuta[0].yojanaSsampanaHuneMiti)
         setKarmachariKoNaamData(dataGetStaff || [])
@@ -137,7 +128,7 @@ export default function Karyadesh() {
       }
     }
     fetchyojanaSamjhautaData()
-  }, [value, yojanaKaryaKramKoNaam,pid])
+  }, [value, yojanaKaryaKramKoNaam, pid])
 
   return (
     <div className="flex flex-col justify-between bg-white ">

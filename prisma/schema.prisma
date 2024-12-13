@@ -213,10 +213,10 @@ model YojanaDarta {
 }
 
 model SamjhautaSwikritiTippani {
-  id                      String @id @default(cuid())
-  pid                     String
-  fiscalyear              String
-  
+  id         String @id @default(cuid())
+  pid        String
+  fiscalyear String
+
   aawa                    String
   miti                    String
   upavoktaSamitiKoNaam    String
@@ -228,42 +228,35 @@ model SamjhautaSwikritiTippani {
   ushaGathanMiti          String
   ushaNibedandiyiyekoMiti String
   anyaTipaniBivaran       String
-  
-  yojanakoNaam            String
-  wadaNum                 String
-  biniyojitRakamRu        String
-  sanyojak                String
-  sadasyaOne              String
-  sadasyaTwo              String
+
+  yojanakoNaam     String
+  wadaNum          String
+  biniyojitRakamRu String
+  sanyojak         String
+  sadasyaOne       String
+  sadasyaTwo       String
 }
 
 model YojanaSamjhauta {
-  id                               String @id @default(cuid())
-  pid                              String
-  fiscalyear                       String
-  yojanaKaryaKramKoNaam            String
-  budgetKaryakram                  String
-  chaluAawa                        String
-  samjhautaMiti                    String
-  samjhautaNaam                    String
-  paad                             String
-  samjhautaThegana                 String
-  phoneNum                         String
-  yonanaNaam                       String
-  yojanaThegana                    String
-  yojanaTheganaChild               String
-  yojanaUdeskya                    String
-  yojanaSwikritiGarneNikaya        String
-  yojanaSuruhuneMiti               String
-  yojanaSsampanaHuneMiti           String
-  yojanaKarya                      String
-  kisimPrakar                      String
-  lambaiMi                         String
-  chetrafal                        String
-  lagatAnumanRu                    String
-  binbatkachyat                    String
-  janaSramdanRu                    String
-  jammaRakamRuTwo                  String
+  id                        String @id @default(cuid())
+  pid                       String
+  fiscalyear                String
+  chaluAawa                 String
+  phoneNum                  String
+  yojanaUdeskya             String
+  yojanaSwikritiGarneNikaya String
+  yojanaSuruhuneMiti        String
+  yojanaSsampanaHuneMiti    String
+  yojanaKarya               String
+  kisimPrakar               String
+  lambaiMi                  String
+  chetrafal                 String
+
+  lagatAnumanRu   String
+  binbatkachyat   String
+  janaSramdanRu   String
+  jammaRakamRuTwo String
+
   nepalsarkarbataRuPariman         String
   nagarpalikabataRuPariman         String
   gaupalikaBataRuPariman           String
@@ -296,57 +289,51 @@ model YojanaSamjhauta {
   bideshDatriSanghRuShramRu        String
   lagatSahavagitaRuShramRu         String
   anyaNikayaRuShramRu              String
-  gharpariwarSankhya               String
-  janaSankhya                      String
-  samudaya                         String
-  samudayaAdharit                  String
-  kamgarneNikaya                   String
-  upavoktaSamiti                   String
-  gathanVayekoMiti                 String
-  adhyakchya                       String
-  adhyakchyaNaPraNa                String
-  upadhyekchya                     String
-  sachib                           String
-  sachibNaPraNa                    String
-  kosaAdakshya                     String
-  kosaAdakshyaNaPraNa              String
-  sadasyaOne                       String
-  sadasyaTwo                       String
-  sadasyaThree                     String
-  sadasyaFour                      String
-  sadasyaFive                      String
-  sadasyaSix                       String
-  sadasyaSeven                     String
-  gathanGardaUpastithi             String
-  samitimaJamma                    String
-  mahilaSadasya                    String
-  pahiloKistaMiti                  String
-  pahiloKistaPratisad              String
-  pahiloKistaKistaKoRakam          String
-  pahiloKistaNirmanSamagri         String
-  pahiloKistaKaifiyat              String
-  dosroKistaMiti                   String
-  dosroKistaPratisat               String
-  dosroKistaKistaKoRakam           String
-  dosroKistaNirmanSamagri          String
-  dosroKistaKaifiyat               String
-  tesroKistaMiti                   String
-  tesroKistaPratisat               String
-  tesroKistaKistaKoRakam           String
-  tesroKistaNirmanSamagri          String
-  tesroKistaKaifiyat               String
-  jammaRakamRuTwoFour              String
-  marmatSambhar                    String
-  janaSramdan                      String
-  dastur                           String
-  byaj                             String
-  lagatSahavagita                  String
-  anyaSartHaruOne                  String
-  anyaSartHaruTwo                  String
-  karyalayaKoTarfabata             String
-  karyalayaKoTarfabataChild        String
-  yojanaSakhaTarfabata             String
-  yojanaSakhaTarfabataChild        String
+
+  samudayaAdharit String
+
+  upavoktaSamiti      String
+  adhyakchyaNaPraNa   String
+  upadhyekchya        String
+  sachib              String
+  sachibNaPraNa       String
+  kosaAdakshya        String
+  kosaAdakshyaNaPraNa String
+  sadasyaOne          String
+  sadasyaTwo          String
+  sadasyaThree        String
+  sadasyaFour         String
+  sadasyaFive         String
+  sadasyaSix          String
+  sadasyaSeven        String
+
+  pahiloKistaMiti           String
+  pahiloKistaPratisad       String
+  pahiloKistaKistaKoRakam   String
+  pahiloKistaNirmanSamagri  String
+  pahiloKistaKaifiyat       String
+  dosroKistaMiti            String
+  dosroKistaPratisat        String
+  dosroKistaKistaKoRakam    String
+  dosroKistaNirmanSamagri   String
+  dosroKistaKaifiyat        String
+  tesroKistaMiti            String
+  tesroKistaPratisat        String
+  tesroKistaKistaKoRakam    String
+  tesroKistaNirmanSamagri   String
+  tesroKistaKaifiyat        String
+  jammaRakamRuTwoFour       String
+  marmatSambhar             String
+  janaSramdan               String
+  dastur                    String
+  byaj                      String
+  lagatSahavagita           String
+  anyaSartHaruOne           String
+  anyaSartHaruTwo           String
+  karyalayaKoTarfabata      String
+  karyalayaKoTarfabataChild String
+  yojanaSakhaTarfabata      String
+  yojanaSakhaTarfabataChild String
 }
 
 model karyadesh {

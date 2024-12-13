@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 3002",
     "lint": "next lint",
-    "vercel-build": "prisma generate && prisma db push --accept-data-loss && prisma db seed && next build"
+    "vercel-build": "prisma db push --force-reset && prisma generate && prisma db seed && next build"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
