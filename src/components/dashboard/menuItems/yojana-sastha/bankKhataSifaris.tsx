@@ -54,11 +54,10 @@ export default function BankKhataSifaris() {
   useEffect(() => {
     const fetchYojanaSamkhautaData = async () => {
       try {
-        const data = await getYojanaSamjhauta(yojanakoNaam, value || "", pid)
+        const data = await getYojanaSamjhauta(value || "", pid)
         console.log(data)
         setPid(data[0].pid)
-        setushakoNaam(data[0].kamgarneNikaya)
-        setadasyakoNaam(data[0].adhyakchya)
+
         setkosadasyaKoNaam(data[0].kosaAdakshya)
         setsachibkoNaam(data[0].sachib)
       } catch (err) {
