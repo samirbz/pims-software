@@ -48,7 +48,7 @@ import {
 import { ConvertToNepaliNumerals } from "@/lib/util"
 import { toast } from "react-toastify"
 import { AiOutlineClear } from "react-icons/ai"
-import { useMyContext } from "@/context/MyContext"
+import { useMyContext, usePlaceContext } from "@/context/MyContext"
 
 const qtyDataList = [
   { key: "1", label: "वटा" },
@@ -189,6 +189,7 @@ export default function YojanaDarta() {
   const [clearAndCancelBtn, setClearAndCancelBtn] = useState(false)
 
   const { value } = useMyContext()
+  const { place } = usePlaceContext()
 
   const handleBarsikYojanaChange = async () => {
     setSelectedCheckbox("barsik")
@@ -816,6 +817,10 @@ export default function YojanaDarta() {
     }
     fetchYojanaDarta()
   }, [yojanaKoNaam, value])
+
+  useEffect(() => {
+    setThegana(`${place} - ${wada}`)
+  }, [place, wada])
 
   useEffect(() => {
     const fetchLagatSrotHaru = async (anudaanKoNaam: any) => {
