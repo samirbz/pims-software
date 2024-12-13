@@ -54,3 +54,43 @@ export const useMyContext = (): MyContextType => {
   }
   return context
 }
+
+// Define types for PlaceContext
+interface PlaceContextType {
+  place: string
+  setPlace: (newPlace: string) => void
+}
+
+interface PlaceContextProviderProps {
+  children: React.ReactNode
+}
+
+// Create PlaceContext
+const PlaceContext = createContext<PlaceContextType | undefined>(undefined)
+
+export const PlaceContextProvider = ({
+  children,
+}: PlaceContextProviderProps) => {
+  const [place, setPlaceState] = useState<string>("गोदावरी नगरपालिका")
+
+  // Set place
+  const setPlace = (newPlace: string) => {
+    setPlaceState(newPlace)
+  }
+
+  return (
+    <PlaceContext.Provider value={{ place, setPlace }}>
+      {children}
+    </PlaceContext.Provider>
+  )
+}
+
+export const usePlaceContext = (): PlaceContextType => {
+  const context = useContext(PlaceContext)
+  if (!context) {
+    throw new Error(
+      "usePlaceContext must be used within a PlaceContextProvider"
+    )
+  }
+  return context
+}

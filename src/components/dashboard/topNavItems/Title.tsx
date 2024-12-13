@@ -1,13 +1,14 @@
 import React from "react"
-import { useMyContext } from "../../../context/MyContext"
+import { useMyContext, usePlaceContext } from "../../../context/MyContext"
 
 export default function Title() {
   const { value } = useMyContext()
+  const { place } = usePlaceContext()
 
   return (
     <div className="mr-14 flex items-center gap-2">
       <p className="text-xl font-semibold text-gray-500">
-        वाणगङ्गा नगरपालिका, कपिलवस्तु - {value === null ? "waiting..." : value}
+        {place} - {value === null ? "waiting..." : value}
       </p>
     </div>
   )
