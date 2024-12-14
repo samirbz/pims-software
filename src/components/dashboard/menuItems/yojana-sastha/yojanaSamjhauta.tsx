@@ -37,130 +37,7 @@ import { getStaff } from "@/actions/memberActions"
 import { toast } from "react-toastify"
 import yojanaSamjhautaPrint from "@/lib/print/PrintYojanaSamjhauta"
 import { useMyContext, usePlaceContext } from "@/context/MyContext"
-
-const Content = () => (
-  <div>
-    <p>
-      १.आयोजना/कार्यक्रम मिति .....देखि शुरु गरी मिति ..... सम्ममा पुरा
-      गर्नुपर्ने छ । तोकिएको अवधिमा कार्य सम्पन्न गर्न नसकेको अवस्थामा म्याद
-      समाप्त हुनु भन्दा अगाडी म्याद थपका लागि कार्यालयमा निवेदन दिनु पर्नेछ ।
-    </p>
-    <br />
-    <p>
-      २.प्राप्त रकम तथा निर्माण सामाग्री सम्बन्धित आयोजनाको उद्धेश्यको लागि
-      मात्र प्रयोग गर्नुपर्नेछ ।
-    </p>
-    <br />
-    <p>
-      ३.नगदी,जिन्सी सामानको प्राप्ती,खर्च बाँकी तथा आयोजनाको प्रगति विवरण
-      राख्नुपर्नेछ ।
-    </p>
-    <br />
-    <p>
-      ४.योजनाको कुल लागत भन्दा घटी लागतमा आयोजना सम्पन्न भएको अवस्थामा सो
-      मुताविक नै अनुदान र श्रमदानको प्रतिशत निर्धारण गरी भुक्तानी गरिने छ ।
-    </p>
-    <br />
-    <p>
-      ५.उपभोक्ता समितिले प्राविधिकको राय,परामर्श एवम् निर्देशन बमोजिम काम
-      गर्नुपर्नेछ ।
-    </p>
-    <br />
-    <p>
-      ६.उपभोक्ता समितिले आयोजनासँग सम्बन्धित विल,भर्पाइहरु,डोर हाजिरी
-      फारामहरु,जिन्सी नगदी खाताहरु,समिति/समूहको निर्णय पुस्तिका आदी कागजातहरु
-      कार्यालयले मागेको बखत उपलब्ध गराउनु पर्नेछ ।
-    </p>
-    <br />
-    <p>
-      ७.कुनै सामाग्री खरिद गर्दा आन्तरिक राजस्व कार्यालयबाट स्थायी लेखा नम्बर र
-      मुल्य अभिवृद्धी कर दर्ता प्रमाण पत्र प्राप्त व्यक्ति, फर्म वा कम्पनीबाट
-      खरिद गरी सोही अनुसारका विल भर्पाइ आधिकारिक व्यक्तिबाट प्रमाणि गराई पेश
-      गर्नुपर्नेछ ।
-    </p>
-    <br />
-    <p>
-      ८.मुल्य अभिवृद्धी कर लाग्ने वस्तु तथा सेवा खरिद गर्दा रु.२००००/- भन्दा बढी
-      मूल्यको सामाग्रीमा अनिवार्य रुपमा मुल्य अभिवृद्धी कर दर्ता प्रमाण पत्र
-      व्यक्ति, फर्म वा कम्पनीबाट खरिद गर्नुपर्नेछ । साथै उक्त विलमा उल्लेखित
-      मू.अ.कर बाहेकको रकममा १.५% अग्रिम आयकर वापत करकट्टी गरी बाँकी रकम मात्र
-      सम्बन्धित सेवा प्रदायकलाई भुक्तानी हुनेछ । रु.२००००/- भन्दा कम मूल्यको
-      सामाग्री खरिदमा पान नम्बर लिएको व्यक्ति वा फर्मबाट खरिद गर्नुपर्नेछ ।
-      अन्यथा खरिद गर्ने पदाधिकारी स्वयं जिम्मेवारी हुनेछ ।
-    </p>
-    <br />
-    <p>
-      ९.निर्माणको क्रममा हेभी इक्वीपमेन्ट प्रयोग गर्नुपर्ने भएमा नगरपालिकाको
-      कार्यालयमा सूचीकृत हेभी इक्वीपमेन्ट प्रयोग गर्नुपर्नेछ । भुक्तानी लिन
-      आउँदा स्वीकृत सूचीकृत भएको हेभी इक्वीपमेन्टको अनुमति पत्र पेश गर्नुपर्नेछ
-      ।
-    </p>
-    <br />
-    <p>
-      १०.निर्माण कार्यको हकमा शुरु लागत अनुमानका कुनै आइटमहरुमा परिवर्तन हुने
-      भएमा अधिकार प्राप्त व्यक्ति-कार्यालयबाट लागत अनुमान संशोधन गरे पश्चात
-      मात्र कार्य गराउनु पर्नेछ । यसरी लागत अनुमान संशोधन नगरी कार्य गरेमा
-      उपभोक्ता समिति/समूह नै जिम्मेवार हुनेछ ।
-    </p>
-    <br />
-    <p>
-      ११.आयोजनाको आवश्यक मर्मत संभारको व्यवस्था सम्बन्धित उपभोक्ताहरुले नै गर्नु
-      पर्नेछ ।
-    </p>
-    <br />
-    <p>
-      १०.निर्माण कार्यको हकमा शुरु लागत अनुमानका कुनै आइटमहरुमा परिवर्तन हुने
-      भएमा अधिकार प्राप्त व्यक्ति-कार्यालयबाट लागत अनुमान संशोधन गरे पश्चात
-      मात्र कार्य गराउनु पर्नेछ । यसरी लागत अनुमान संशोधन नगरी कार्य गरेमा
-      उपभोक्ता समिति/समूह नै जिम्मेवार हुनेछ ।
-    </p>
-    <br />
-    <p>
-      १२.आयोजनाको सबै काम उपभोक्ता समिति/समुहको निर्णय अनुसार गर्नु गराउनु
-      पर्नेछ ।
-    </p>
-    <br />
-    <p>
-      १३.रु. ३ लाख वा सो भन्दा माथिको आयोजनामा आयोजना सम्बन्धी विवरण समेटिएको
-      सूचना पाटी योजना स्थलमा राख्नु पर्नेछ ।
-    </p>
-    <br />
-    <p>
-      १४.आयोजनाको प्राविधिक सुपरिवेक्षणको लागि कार्यालयको तर्फबाट प्राविधिक
-      खटाइनेछ । उपभोक्ता समितिबाट भएका कामको नियमित सुपरिवेक्षण गर्ने जिम्मेवारी
-      निज प्राविधिकको हुनेछ ।
-    </p>
-    <br />
-    <p>
-      १५.श्रममूलक प्रविधिबाट कार्य गराउने गरी लागत अनुमान स्वीकृत गराई सोही
-      बमोजिम सम्झौता गरी मेशीनरी उपकरणको प्रयोगबाट कार्य गरेको पाइएमा त्यस्तो
-      उपभोक्ता समितिसँग सम्झौता रद्ध गरी उपभोक्ता समितिलाई भुक्तानी गरिएको रकम
-      मूल्यांकन गरी बढी भएको रकम सरकारी बाँकी सरह असूलउपर गरिनेछ । साथै उपभोक्ता
-      समिति मार्फत सम्झौता भएको आयोजना समितिले ठेक्का मार्फत गराएको बुझिएमा रकम
-      भुक्तानी हुने छैन ।
-    </p>
-    <br />
-    <p>
-      १६.सम्झौता बमोजिम आयोजना सम्पन्न भए पछि अन्तिम भुक्तानीको लागि
-      कार्यसम्पन्न प्रतिवेदन, नापी किताब, प्रमाणित विल भरपाई, योजनाको मुख्य
-      फोटोहरु, रु ३ लाख वा सो भन्दा माथिका आयोजनामा सुचना पाटी राखेको फोटो,
-      सम्बन्धित उपभोक्ता समितिले आयोजना सञ्चालन गर्दा भएको आय व्ययको अनुमोदन
-      सहित कार्य सम्पन्न भएको निर्णय प्रतिलिपी, उपभोक्ता भेलाबाट सार्वजनिक लेखा
-      परिवेरक्षणको प्रतिलिपी अनुसूची-३, अनुसूची-४ बमोजिम खर्च सार्वजानिक गरेको
-      समितिको निर्णय, अनुसूची ६ बमोजिमको कार्यक्रमको भौतिक तथा वित्तिय
-      प्रतिवेदन, अनुगमन समितिको कार्य सम्पन्न भएको निर्णय प्रतिलिपी तथा
-      सम्बन्धित वडा कार्यालयको सिफारिस सहित अन्तिम किस्ता भुक्तानीको लागि निवेदन
-      पेश गर्नु पर्नेछ ।
-    </p>
-    <br />
-    <p>
-      १७.आवश्यक कागजात संलग्न गरी भुक्तानी उपलब्ध गराउन सम्बन्धित उपभोक्ता
-      समितिबाट अनुरोध भई आएमा उपभोक्ता समितिको बैंक खातामा भुक्तानी दिईनेछ ।
-    </p>
-    <br />
-    <p>१८.यसमा उल्लेख नभएका कुराहरु प्रचलित कानुन बमोजिम हुनेछ ।</p>
-  </div>
-)
+import Content from "./yojanaSamjhautaContent"
 
 export default function YojanaSamjhauta() {
   const test = [{ key: "test", label: "test" }]
@@ -530,10 +407,6 @@ export default function YojanaSamjhauta() {
         setLagatSahavagita("")
         setAnyaSartHaruOne("")
         setAnyaSartHaruTwo("")
-        setKaryalayaKoTarfabata("")
-        setKaryalayaKoTarfabataChild("")
-        setYojanaSakhaTarfabata("")
-        setYojanaSakhaTarfabataChild("")
         setSaveOrEdit("Save")
         toast.success("successfully Edited")
       } else {
@@ -734,10 +607,6 @@ export default function YojanaSamjhauta() {
         setLagatSahavagita("")
         setAnyaSartHaruOne("")
         setAnyaSartHaruTwo("")
-        setKaryalayaKoTarfabata("")
-        setKaryalayaKoTarfabataChild("")
-        setYojanaSakhaTarfabata("")
-        setYojanaSakhaTarfabataChild("")
         setYojanaKaryaKramKoNaam("")
         toast.success("successfully Created")
       } else {
@@ -1037,10 +906,6 @@ export default function YojanaSamjhauta() {
           setLagatSahavagita("")
           setAnyaSartHaruOne("")
           setAnyaSartHaruTwo("")
-          setKaryalayaKoTarfabata("")
-          setKaryalayaKoTarfabataChild("")
-          setYojanaSakhaTarfabata("")
-          setYojanaSakhaTarfabataChild("")
           setSaveOrEdit("Save")
         }
       } catch (error) {
@@ -1071,6 +936,7 @@ export default function YojanaSamjhauta() {
                 onChange={(e) => setBudgetKarayakram(e.target.value)}
               />
               <p className="text-lg text-blue-600">चालु आ.वः- {value}</p>
+              
             </div>
           </div>
           <br />
@@ -1178,6 +1044,7 @@ export default function YojanaSamjhauta() {
                             </SelectItem>
                           ))}
                         </Select>
+                        
                         <div className="flex w-full gap-8">
                           <Input
                             type="text"
@@ -1205,10 +1072,19 @@ export default function YojanaSamjhauta() {
                           value={yojanaUdeskya}
                           onChange={(e) => setYojanaUdeskya(e.target.value)}
                         />
+
                         <Select
                           label="योजना स्वीकृत गर्ने निकाय"
                           size="sm"
                           fullWidth
+                          selectedKeys={
+                            yojanaSwikritiGarneNikaya
+                              ? new Set([yojanaSwikritiGarneNikaya])
+                              : new Set()
+                          }
+                          onChange={(e) =>
+                            setYojanaSwikritiGarneNikaya(e.target.value)
+                          }
                         >
                           {swikritiGarneNikaya.map((items) => (
                             <SelectItem key={items.key}>
@@ -1250,14 +1126,37 @@ export default function YojanaSamjhauta() {
                         </form>
                         <p>आयोजनाको लागत अनुमानबाट प्राविधिक विवरण</p>
                         <div className="flex gap-2">
-                          <Select label="योजना कार्य" size="sm" fullWidth>
+                          <Select
+                            label="योजना कार्य"
+                            size="sm"
+                            placeholder="Select an option"
+                            fullWidth
+                            selectedKeys={
+                              yojanaKarya
+                                ? new Set([yojanaKarya])
+                                : new Set()
+                            }
+                            onChange={(e) =>
+                              setYojanaKarya(e.target.value)
+                            }
+                          >
                             {yojanaKoKaryaData.map((items) => (
                               <SelectItem key={items.key}>
                                 {items.label}
                               </SelectItem>
                             ))}
                           </Select>
-                          <Select label="किसिम / प्रकार" size="sm" fullWidth>
+
+                          <Select label="किसिम / प्रकार" size="sm" 
+                           selectedKeys={
+                            kisimPrakar
+                              ? new Set([kisimPrakar])
+                              : new Set()
+                          }
+                          onChange={(e) =>
+                            setKisimPrakar(e.target.value)
+                          }
+                          fullWidth>
                             {kisimPrakarData.map((items) => (
                               <SelectItem key={items.key}>
                                 {items.label}
@@ -1784,13 +1683,6 @@ export default function YojanaSamjhauta() {
                       विवरण
                     </p>
                     <div className="mt-2 flex flex-col gap-2">
-                      {/* <Select label="काम गर्ने निकाय" placeholder="" size="sm">
-                        {test.map((animal) => (
-                          <SelectItem key={animal.key}>
-                            {animal.label}
-                          </SelectItem>
-                        ))}
-                      </Select> */}
                       <Input
                         type="text"
                         label="काम गर्ने निकाय"
@@ -2276,17 +2168,6 @@ export default function YojanaSamjhauta() {
                       <div className="w-full ">
                         <div className="flex gap-2">
                           <div className="flex w-full flex-col gap-2">
-                            {/* <Select
-                              label="कार्यालय तर्फबाट "
-                              placeholder=""
-                              size="sm"
-                            >
-                              {test.map((animal) => (
-                                <SelectItem key={animal.key}>
-                                  {animal.label}
-                                </SelectItem>
-                              ))}
-                            </Select> */}
                             <Select
                               label="कार्यालय तर्फबाट "
                               size="sm"
@@ -2303,41 +2184,29 @@ export default function YojanaSamjhauta() {
                               }}
                             >
                               {karmachariKoNaamData.map((item) => (
-                                <SelectItem key={item.id} value={item.name}>
+                                <SelectItem key={item.name} value={item.name}>
                                   {item.name}
                                 </SelectItem>
                               ))}
                             </Select>
-
-                            {/* <Select
-                              label="योजना शाखा तर्फबाट"
-                              placeholder=""
-                              size="sm"
-                            >
-                              {test.map((animal) => (
-                                <SelectItem key={animal.key}>
-                                  {animal.label}
-                                </SelectItem>
-                              ))}
-                            </Select> */}
 
                             <Select
                               label="योजना शाखा तर्फबाट"
                               size="sm"
                               placeholder="Select an option"
                               selectedKeys={
-                                yojanaSakhaTarfabataChild
-                                  ? new Set([yojanaSakhaTarfabataChild])
+                                yojanaSakhaTarfabata
+                                  ? new Set([yojanaSakhaTarfabata])
                                   : new Set()
                               }
                               onSelectionChange={(keys) => {
                                 const selectedValue =
                                   Array.from(keys).join(", ")
-                                setKaryalayaKoTarfabata(selectedValue)
+                                setYojanaSakhaTarfabata(selectedValue)
                               }}
                             >
                               {karmachariKoNaamData.map((item) => (
-                                <SelectItem key={item.id} value={item.name}>
+                                <SelectItem key={item.name} value={item.name}>
                                   {item.name}
                                 </SelectItem>
                               ))}
@@ -2348,7 +2217,11 @@ export default function YojanaSamjhauta() {
                               size="sm"
                               label="कर्मचारी पद "
                               placeholder="select"
-                              value={karyalayaKoTarfabataChild}
+                              selectedKeys={
+                                karyalayaKoTarfabataChild
+                                  ? new Set([karyalayaKoTarfabataChild])
+                                  : new Set()
+                              }
                               onChange={(e) =>
                                 setKaryalayaKoTarfabataChild(e.target.value)
                               }
@@ -2395,7 +2268,11 @@ export default function YojanaSamjhauta() {
                               size="sm"
                               label="कर्मचारी पद "
                               placeholder="select"
-                              value={yojanaSakhaTarfabataChild}
+                              selectedKeys={
+                                yojanaSakhaTarfabataChild
+                                  ? new Set([yojanaSakhaTarfabataChild])
+                                  : new Set()
+                              }
                               onChange={(e) =>
                                 setYojanaSakhaTarfabataChild(e.target.value)
                               }
