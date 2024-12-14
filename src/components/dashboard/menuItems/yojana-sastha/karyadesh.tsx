@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useMyContext } from "@/context/MyContext"
 
 import {
-  getYojanaSamjhautaData,
+  fetchYojanaDartaData,
   getYojanaSamjhauta,
   getYojanaDartaForSwikriti,
   getSamjhautaSwikritiTippani,
@@ -18,7 +18,6 @@ import { getStaff } from "@/actions/memberActions"
 import { toast } from "react-toastify"
 
 export default function Karyadesh() {
-  const [yojanaKoNaam, setYojanaKoNaam] = useState<any[]>([])
   const [karmachariKoNaamData, setKarmachariKoNaamData] = useState<any[]>([])
   const [patraSankhya, setPatraSankhya] = useState("")
   const [date, setDate] = useState("")
@@ -36,6 +35,7 @@ export default function Karyadesh() {
   const [ayojanaSampanaMiti, setAyojanaSampanaMiti] = useState("")
   const [karmachariKoNaam, setKarmachariKoNaam] = useState("")
   const [karmachariKoPaad, setKarmachariKoPaad] = useState("")
+  const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
 
   const [pid, setPid] = useState("")
 
@@ -89,10 +89,12 @@ export default function Karyadesh() {
   useEffect(() => {
     const fetchYojanaDartaKoNaamData = async () => {
       try {
-        const data = await getYojanaSamjhautaData(value || "")
+        const data = await fetchYojanaDartaData(value || "")
+        const dataGetStaff = await getStaff()
         setPatraSankhya(value || "")
-        setYojanaKoNaam(data)
-        setPid(data[0].pid)
+        setYojanaKoNaamData(data)
+        setPid(data[0].id)
+        setKarmachariKoNaamData(dataGetStaff || [])
       } catch (e) {
         console.error("Error fetching anudaan data", e)
       }
@@ -103,26 +105,31 @@ export default function Karyadesh() {
   useEffect(() => {
     const fetchyojanaSamjhautaData = async () => {
       try {
-        const dataYojanaSamjhuta = await getYojanaSamjhauta(value || "", pid)
         const dataYojanaDarta = await getYojanaDartaForSwikriti(
-          value || "",
-          pid
+          pid,
+          value || ""
         )
+        // const dataYojanaSamjhuta = await getYojanaSamjhauta(value || "", pid)
         const dataSamjhautaSwikriti = await getSamjhautaSwikritiTippani(
           value || "",
           pid
         )
-        const dataGetStaff = await getStaff()
 
-        setLagatAnumanRakam(dataYojanaSamjhuta[0].lagatAnumanRu)
+        const dataYojanaSamjhauta = await getYojanaSamjhauta(value || "", pid)
+
+        console.log(dataYojanaDarta[0].prabidhikEstimateAmount)
+
+        setSansthaKoNaam(dataSamjhautaSwikriti[0].upavoktaSamitiKoNaam)
+        setAdachyaKoNaam(dataSamjhautaSwikriti[0].adhyachyaKoNaam)
+        setLagatAnumanRakam(dataYojanaDarta[0].prabidhikEstimateAmount)
         setContengencyRakam(dataYojanaDarta[0].contengencyResult)
         setNagarpalikaRu(dataYojanaDarta[0].kulAnudaanRakam)
         setKhudpauneRakam(dataYojanaDarta[0].kulAnudaanRakam)
         setBudgetKitabSNum(dataYojanaDarta[0].budgetKitabSnum)
         setGathanMiti(dataSamjhautaSwikriti[0].ushaGathanMiti)
         setSabhaNirnayaMiti(dataYojanaDarta[0].sabhaNirnayaMiti)
-        setAyojanaSampanaMiti(dataYojanaSamjhuta[0].yojanaSsampanaHuneMiti)
-        setKarmachariKoNaamData(dataGetStaff || [])
+        setAyojanaSampanaMiti(dataYojanaSamjhauta[0].yojanaSsampanaHuneMiti)
+        setMukhyaSamitiKoNaam(dataYojanaDarta[0].mukhyaSamiti)
       } catch (e) {
         console.error("Error fetching data", e)
       }
@@ -158,11 +165,6 @@ export default function Karyadesh() {
               />
             </form>
           </div>
-          {/* <Select label="योजना/कार्यक्रमको नाम" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select> */}
 
           <Select
             label="योजना / कार्यक्रमको नाम"
@@ -176,14 +178,19 @@ export default function Karyadesh() {
             onSelectionChange={(keys) => {
               const selectedValue = Array.from(keys).join(", ")
               setYojanaKaryaKramKoNaam(selectedValue)
+
+              // Find the selected item by its name and set the pid
+              const selectedItem = yojanaKoNaamData.find(
+                (item) => item.yojanaKoNaam === selectedValue
+              )
+              if (selectedItem) {
+                setPid(selectedItem.id)
+              }
             }}
           >
-            {yojanaKoNaam.map((item) => (
-              <SelectItem
-                key={item.yojanaKaryaKramKoNaam}
-                value={item.yojanaKaryaKramKoNaam}
-              >
-                {item.yojanaKaryaKramKoNaam}
+            {yojanaKoNaamData.map((item) => (
+              <SelectItem key={item.yojanaKoNaam} value={item.yojanaKoNaam}>
+                {item.yojanaKoNaam}
               </SelectItem>
             ))}
           </Select>
@@ -275,11 +282,6 @@ export default function Karyadesh() {
               onChange={(e) => setAyojanaSampanaMiti(e.target.value)}
             />
           </div>
-          {/* <Select label="कर्मचारीको नाम" size="sm" className="sm:w-1/2">
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select> */}
 
           <Select
             label="कर्मचारीको नाम"
@@ -291,7 +293,14 @@ export default function Karyadesh() {
             }
             onSelectionChange={(keys) => {
               const selectedValue = Array.from(keys).join(", ")
-              setKarmachariKoNaam(selectedValue)
+              // Find the selected item by its name and set the position
+              const selectedItem = karmachariKoNaamData.find(
+                (item) => item.id === selectedValue
+              )
+              if (selectedItem) {
+                setKarmachariKoPaad(selectedItem.position)
+                setKarmachariKoNaam(selectedItem.name)
+              }
             }}
           >
             {karmachariKoNaamData.map((item) => (
@@ -302,31 +311,14 @@ export default function Karyadesh() {
           </Select>
 
           <div className="flex items-center justify-between">
-            <Select
+
+            <Input
+              type="text"
+              label="कर्मचारी पद"
               size="sm"
-              label="कर्मचारी पद "
-              placeholder="select"
               value={karmachariKoPaad}
               onChange={(e) => setKarmachariKoPaad(e.target.value)}
-            >
-              <SelectItem key="प्रमुख प्रशासकिय अधिकृत">
-                प्रमुख प्रशासकिय अधिकृत
-              </SelectItem>
-              <SelectItem key=" निमित्त प्रमुख प्रशासकिय अधिकृत">
-                निमित्त प्रमुख प्रशासकिय अधिकृत
-              </SelectItem>
-              <SelectItem key="प्रशासकीय  अधिकृत ">प्रशासकीय अधिकृत</SelectItem>
-              <SelectItem key="अधिकृतस्तर आठौँ">अधिकृतस्तर आठौँ</SelectItem>
-              <SelectItem key="अधिकृतस्तर सातौँ">अधिकृतस्तर सातौँ</SelectItem>
-              <SelectItem key="लेखा अधिकृत">लेखा अधिकृत</SelectItem>
-              <SelectItem key="अधिकृतस्तर छैठौँ">अधिकृतस्तर छैठौँ</SelectItem>
-              <SelectItem key="कार्यक्रम अधिकृत">कार्यक्रम अधिकृत</SelectItem>
-              <SelectItem key="योजना अधिकृत">योजना अधिकृत</SelectItem>
-              <SelectItem key="शाखा अधिकृत">शाखा अधिकृत </SelectItem>
-              <SelectItem key="इन्जिनियर">इन्जिनियर</SelectItem>
-              <SelectItem key="सहायकस्तर पाचौँ">सहायकस्तर पाचौँ</SelectItem>
-              <SelectItem key="सहायकस्तर चौथो">सहायकस्तर चौथो</SelectItem>
-            </Select>
+            />
 
             <Button
               color="secondary"
