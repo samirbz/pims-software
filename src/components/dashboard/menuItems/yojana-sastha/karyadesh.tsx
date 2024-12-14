@@ -34,6 +34,7 @@ export default function Karyadesh() {
   const [sabhaNirnayaMiti, setSabhaNirnayaMiti] = useState("")
   const [ayojanaSampanaMiti, setAyojanaSampanaMiti] = useState("")
   const [karmachariKoNaam, setKarmachariKoNaam] = useState("")
+  const [karmachariKoNaamDt, setKarmachariKoNaamDt] = useState("")
   const [karmachariKoPaad, setKarmachariKoPaad] = useState("")
   const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
 
@@ -46,19 +47,7 @@ export default function Karyadesh() {
       pid,
       patraSankhya,
       date,
-      yojanaKaryaKramKoNaam,
-      sansthaKoNaam,
-      adachyaKoNaam,
-      lagatAnumanRakam,
-      nagarpalikaRu,
-      contengencyRakam,
-      khudpauneRakam,
-      budgetKitabSNum,
-      gathanMiti,
-      mukhyaSamitiKoNaam,
-      sabhaNirnayaMiti,
-      ayojanaSampanaMiti,
-      karmachariKoNaam,
+      karmachariKoNaamDt,
       karmachariKoPaad,
       value || ""
     )
@@ -116,8 +105,6 @@ export default function Karyadesh() {
         )
 
         const dataYojanaSamjhauta = await getYojanaSamjhauta(value || "", pid)
-
-        console.log(dataYojanaDarta[0].prabidhikEstimateAmount)
 
         setSansthaKoNaam(dataSamjhautaSwikriti[0].upavoktaSamitiKoNaam)
         setAdachyaKoNaam(dataSamjhautaSwikriti[0].adhyachyaKoNaam)
@@ -293,25 +280,26 @@ export default function Karyadesh() {
             }
             onSelectionChange={(keys) => {
               const selectedValue = Array.from(keys).join(", ")
-              // Find the selected item by its name and set the position
+              // Find the selected item by its id
               const selectedItem = karmachariKoNaamData.find(
                 (item) => item.id === selectedValue
               )
               if (selectedItem) {
-                setKarmachariKoPaad(selectedItem.position)
-                setKarmachariKoNaam(selectedItem.name)
+                console.log(selectedItem.name)
+                setKarmachariKoNaam(selectedItem.id) // Save the id
+                setKarmachariKoPaad(selectedItem.position) // Set the position
+                setKarmachariKoNaamDt(selectedItem.name) // Set the name
               }
             }}
           >
             {karmachariKoNaamData.map((item) => (
-              <SelectItem key={item.id} value={item.name}>
+              <SelectItem key={item.id} value={item.id}>
                 {item.name}
               </SelectItem>
             ))}
           </Select>
 
           <div className="flex items-center justify-between">
-
             <Input
               type="text"
               label="कर्मचारी पद"

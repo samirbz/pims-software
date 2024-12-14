@@ -341,18 +341,6 @@ model karyadesh {
   pid                   String
   patraSankhya          String
   date                  String
-  yojanaKaryaKramKoNaam String
-  sansthaKoNaam         String
-  adachyaKoNaam         String
-  lagatAnumanRakam      String
-  nagarpalikaRu         String
-  contengencyRakam      String
-  khudpauneRakam        String
-  budgetKitabSNum       String
-  gathanMiti            String
-  mukhyaSamitiKoNaam    String
-  sabhaNirnayaMiti      String
-  ayojanaSampanaMiti    String
   karmachariKoNaam      String
   karmachariKoPaad      String
   fiscalyear            String
