@@ -647,8 +647,32 @@ export default function YojanaSamjhauta() {
         console.error("Error fetching anudaan data", e)
       }
     }
+
+    const loadStaffData = async () => {
+
+      const selectedItem = karmachariKoNaamData.find(
+        (item) => item.id === localStorage.getItem("karyalayaKoTarfabataChild")
+      )
+      if (selectedItem) {
+        setKaryalayaKoTarfabata(selectedItem.id)
+        setKaryalayaKoTarfabataChild(
+          selectedItem.position
+        )
+      }
+
+      const selectedItem2 = karmachariKoNaamData.find(
+        (item) => item.id === localStorage.getItem("yojanaSakhaTarfabataChild")
+      )
+      if (selectedItem2) {
+        setYojanaSakhaTarfabata(selectedItem2.id)
+        setYojanaSakhaTarfabataChild(
+          selectedItem2.position
+        )
+      }
+    }
     fetchYojanaDartaKoNaamData()
-  }, [value])
+    loadStaffData()
+  }, [value,karmachariKoNaamData])
 
   useEffect(() => {
     const getData = async () => {
@@ -2193,6 +2217,7 @@ export default function YojanaSamjhauta() {
                                   setKaryalayaKoTarfabataChild(
                                     selectedItem.position
                                   )
+                                  localStorage.setItem("karyalayaKoTarfabataChild", selectedItem.id)
                                 }
                               }}
                             >
@@ -2224,6 +2249,7 @@ export default function YojanaSamjhauta() {
                                   setYojanaSakhaTarfabataChild(
                                     selectedItem.position
                                   )
+                                  localStorage.setItem("yojanaSakhaTarfabataChild", selectedItem.id)
                                 }
                               }}
                             >
@@ -2235,117 +2261,12 @@ export default function YojanaSamjhauta() {
                             </Select>
                           </div>
                           <div className="flex w-full flex-col gap-2">
-                            {/* <Select
-                              size="sm"
-                              label="कर्मचारी पद "
-                              placeholder="select"
-                              selectedKeys={
-                                karyalayaKoTarfabataChild
-                                  ? new Set([karyalayaKoTarfabataChild])
-                                  : new Set()
-                              }
-                              onChange={(e) =>
-                                setKaryalayaKoTarfabataChild(e.target.value)
-                              }
-                            >
-                              <SelectItem key="प्रमुख प्रशासकिय अधिकृत">
-                                प्रमुख प्रशासकिय अधिकृत
-                              </SelectItem>
-                              <SelectItem key=" निमित्त प्रमुख प्रशासकिय अधिकृत">
-                                निमित्त प्रमुख प्रशासकिय अधिकृत
-                              </SelectItem>
-                              <SelectItem key="प्रशासकीय  अधिकृत ">
-                                प्रशासकीय अधिकृत
-                              </SelectItem>
-                              <SelectItem key="अधिकृतस्तर आठौँ">
-                                अधिकृतस्तर आठौँ
-                              </SelectItem>
-                              <SelectItem key="अधिकृतस्तर सातौँ">
-                                अधिकृतस्तर सातौँ
-                              </SelectItem>
-                              <SelectItem key="लेखा अधिकृत">
-                                लेखा अधिकृत
-                              </SelectItem>
-                              <SelectItem key="अधिकृतस्तर छैठौँ">
-                                अधिकृतस्तर छैठौँ
-                              </SelectItem>
-                              <SelectItem key="कार्यक्रम अधिकृत">
-                                कार्यक्रम अधिकृत
-                              </SelectItem>
-                              <SelectItem key="योजना अधिकृत">
-                                योजना अधिकृत
-                              </SelectItem>
-                              <SelectItem key="शाखा अधिकृत">
-                                शाखा अधिकृत{" "}
-                              </SelectItem>
-                              <SelectItem key="इन्जिनियर">इन्जिनियर</SelectItem>
-                              <SelectItem key="सहायकस्तर पाचौँ">
-                                सहायकस्तर पाचौँ
-                              </SelectItem>
-                              <SelectItem key="सहायकस्तर चौथो">
-                                सहायकस्तर चौथो
-                              </SelectItem>
-                            </Select> */}
-
                             <Input
                               type="text"
                               label="कर्मचारी पद"
                               size="sm"
                               value={karyalayaKoTarfabataChild}
                             />
-
-                            {/* <Select
-                              size="sm"
-                              label="कर्मचारी पद "
-                              placeholder="select"
-                              selectedKeys={
-                                yojanaSakhaTarfabataChild
-                                  ? new Set([yojanaSakhaTarfabataChild])
-                                  : new Set()
-                              }
-                              onChange={(e) =>
-                                setYojanaSakhaTarfabataChild(e.target.value)
-                              }
-                            >
-                              <SelectItem key="प्रमुख प्रशासकिय अधिकृत">
-                                प्रमुख प्रशासकिय अधिकृत
-                              </SelectItem>
-                              <SelectItem key=" निमित्त प्रमुख प्रशासकिय अधिकृत">
-                                निमित्त प्रमुख प्रशासकिय अधिकृत
-                              </SelectItem>
-                              <SelectItem key="प्रशासकीय  अधिकृत ">
-                                प्रशासकीय अधिकृत
-                              </SelectItem>
-                              <SelectItem key="अधिकृतस्तर आठौँ">
-                                अधिकृतस्तर आठौँ
-                              </SelectItem>
-                              <SelectItem key="अधिकृतस्तर सातौँ">
-                                अधिकृतस्तर सातौँ
-                              </SelectItem>
-                              <SelectItem key="लेखा अधिकृत">
-                                लेखा अधिकृत
-                              </SelectItem>
-                              <SelectItem key="अधिकृतस्तर छैठौँ">
-                                अधिकृतस्तर छैठौँ
-                              </SelectItem>
-                              <SelectItem key="कार्यक्रम अधिकृत">
-                                कार्यक्रम अधिकृत
-                              </SelectItem>
-                              <SelectItem key="योजना अधिकृत">
-                                योजना अधिकृत
-                              </SelectItem>
-                              <SelectItem key="शाखा अधिकृत">
-                                शाखा अधिकृत{" "}
-                              </SelectItem>
-                              <SelectItem key="इन्जिनियर">इन्जिनियर</SelectItem>
-                              <SelectItem key="सहायकस्तर पाचौँ">
-                                सहायकस्तर पाचौँ
-                              </SelectItem>
-                              <SelectItem key="सहायकस्तर चौथो">
-                                सहायकस्तर चौथो
-                              </SelectItem>
-                            </Select> */}
-
                             <Input
                               type="text"
                               label="कर्मचारी पद"
