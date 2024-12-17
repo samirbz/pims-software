@@ -144,11 +144,11 @@ export default function YojanaDarta() {
   const [lagatSrotHaru3, setLagatSrotHaru3] = useState("")
   const [lagatSrotAmount3, setLagatSrotAmount3] = useState("")
   const [yojanaUpachetra, setYojanaUpachetra] = useState("")
-  const [yojanaKoKisim, setYojanaKoKisim] = useState("")
+  const [yojanaKoKisim, setYojanaKoKisim] = useState("अनुदान (गाउँ/नगरपालिका)")
   const [wada, setWada] = useState("")
-  const [karyagatSamuha, setKaryagatSamuha] = useState("")
+  const [karyagatSamuha, setKaryagatSamuha] = useState("उपभोक्ता समिति")
   const [prabidhikEstimateAmount, setPrabidhikEstimateAmount] = useState("")
-  const [budgetType, setBudgetType] = useState("")
+  const [budgetType, setBudgetType] = useState("ल.ई.")
   const [biniyojitRakam, setBiniyojitRakam] = useState(totalSum.toString())
   const [yojanaSwikrit, setYojanaSwikrit] = useState("")
   const [contengency, setContengency] = useState("")
@@ -1422,7 +1422,7 @@ export default function YojanaDarta() {
               }}
             >
               {yojanaKoKisimList.map((item) => (
-                <SelectItem key={item.key}>{item.label}</SelectItem>
+                <SelectItem key={item.label}>{item.label}</SelectItem>
               ))}
             </Select>
             <Select
