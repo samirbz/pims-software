@@ -12,6 +12,9 @@ import {
   getYojanaDartaForSwikriti,
   getSamjhautaSwikritiTippani,
   saveKaryaDesh,
+  updatekaryaDesh,
+  fetchKaryadeshData,
+  getKaryadeshData
 } from "@/actions/formAction"
 
 import { getStaff } from "@/actions/memberActions"
@@ -34,44 +37,77 @@ export default function Karyadesh() {
   const [sabhaNirnayaMiti, setSabhaNirnayaMiti] = useState("")
   const [ayojanaSampanaMiti, setAyojanaSampanaMiti] = useState("")
   const [karmachariKoNaam, setKarmachariKoNaam] = useState("")
-  const [karmachariKoNaamDt, setKarmachariKoNaamDt] = useState("")
   const [karmachariKoPaad, setKarmachariKoPaad] = useState("")
   const [yojanaKoNaamData, setYojanaKoNaamData] = useState<any[]>([])
 
   const [pid, setPid] = useState("")
 
+  const [saveOrEdit, setSaveOrEdit] = useState("Save")
+
   const { value } = useMyContext()
 
   const onSubmit = async () => {
-    const result = await saveKaryaDesh(
-      pid,
-      patraSankhya,
-      date,
-      karmachariKoNaamDt,
-      karmachariKoPaad,
-      value || ""
-    )
-    if (result.status === "success") {
-      setPid("")
-      setPatraSankhya("")
-      setDate("")
-      setYojanaKaryaKramKoNaam("")
-      setSansthaKoNaam("")
-      setAdachyaKoNaam("")
-      setLagatAnumanRakam("")
-      setNagarpalikaRu("")
-      setContengencyRakam("")
-      setKhudpauneRakam("")
-      setBudgetKitabSNum("")
-      setGathanMiti("")
-      setMukhyaSamitiKoNaam("")
-      setSabhaNirnayaMiti("")
-      setAyojanaSampanaMiti("")
-      setKarmachariKoNaam("")
-      setKarmachariKoPaad("")
-      toast.success("successfully created")
+    if (saveOrEdit === "Edit") {
+      const result = await updatekaryaDesh(
+        pid,
+        patraSankhya,
+        date,
+        karmachariKoNaam,
+        value || patraSankhya
+      )
+      if (result.status === "success") {
+        setPid("")
+        setPatraSankhya("")
+        setDate("")
+        setYojanaKaryaKramKoNaam("")
+        setSansthaKoNaam("")
+        setAdachyaKoNaam("")
+        setLagatAnumanRakam("")
+        setNagarpalikaRu("")
+        setContengencyRakam("")
+        setKhudpauneRakam("")
+        setBudgetKitabSNum("")
+        setGathanMiti("")
+        setMukhyaSamitiKoNaam("")
+        setSabhaNirnayaMiti("")
+        setAyojanaSampanaMiti("")
+        setKarmachariKoNaam("")
+        setKarmachariKoPaad("")
+        setSaveOrEdit("Save")
+        toast.success("successfully Edited")
+      } else {
+        console.error("Error occurred during save")
+      }
     } else {
-      console.error("Error occurred during save")
+      const result = await saveKaryaDesh(
+        pid,
+        patraSankhya,
+        date,
+        karmachariKoNaam,
+        value || ""
+      )
+      if (result.status === "success") {
+        setPid("")
+        setPatraSankhya("")
+        setDate("")
+        setYojanaKaryaKramKoNaam("")
+        setSansthaKoNaam("")
+        setAdachyaKoNaam("")
+        setLagatAnumanRakam("")
+        setNagarpalikaRu("")
+        setContengencyRakam("")
+        setKhudpauneRakam("")
+        setBudgetKitabSNum("")
+        setGathanMiti("")
+        setMukhyaSamitiKoNaam("")
+        setSabhaNirnayaMiti("")
+        setAyojanaSampanaMiti("")
+        setKarmachariKoNaam("")
+        setKarmachariKoPaad("")
+        toast.success("successfully created")
+      } else {
+        console.error("Error occurred during save")
+      }
     }
   }
 
@@ -87,13 +123,45 @@ export default function Karyadesh() {
         console.error("Error fetching anudaan data", e)
       }
     }
+
+     const handleSaveOrEdit = async () => {
+          try {
+            const response =
+              await fetchKaryadeshData(
+                value || "",
+                pid
+              )
+    
+            const dataCheck = await getKaryadeshData(value || "", pid)
+    
+            if (
+              response.status === "success" &&
+              response.data &&
+              dataCheck &&
+              response.data.length > 0
+            ) {
+              const data = response.data[0]
+              setDate(data.date)
+              setKarmachariKoNaam(data.karmachariKoNaam)
+              setSaveOrEdit("Edit")
+            }else{
+              setDate("")
+              setKarmachariKoNaam("")
+              setSaveOrEdit("Save")
+            } 
+          } catch (error) {
+            console.error("Error in handleAlertData:", error)
+            alert("An unexpected error occurred.")
+          }
+        }
+        handleSaveOrEdit()
     fetchYojanaDartaKoNaamData()
-  }, [value])
+  }, [value,pid])
 
   useEffect(() => {
     const fetchyojanaSamjhautaData = async () => {
       try {
-        if(pid === "") return
+        if (pid === "") return
         const dataYojanaDarta = await getYojanaDartaForSwikriti(
           pid,
           value || ""
@@ -105,6 +173,13 @@ export default function Karyadesh() {
         )
 
         const dataYojanaSamjhauta = await getYojanaSamjhauta(value || "", pid)
+
+        const selectedItem = karmachariKoNaamData.find(
+          (item) => item.id === karmachariKoNaam
+        )
+        if (selectedItem) {
+          setKarmachariKoPaad(selectedItem.position) // Set the position
+        }
 
         setSansthaKoNaam(dataSamjhautaSwikriti[0].upavoktaSamitiKoNaam)
         setAdachyaKoNaam(dataSamjhautaSwikriti[0].adhyachyaKoNaam)
@@ -122,7 +197,7 @@ export default function Karyadesh() {
       }
     }
     fetchyojanaSamjhautaData()
-  }, [value, yojanaKaryaKramKoNaam, pid])
+  }, [value, yojanaKaryaKramKoNaam, pid,karmachariKoNaamData,karmachariKoNaam])
 
   return (
     <div className="flex flex-col justify-between bg-white ">
@@ -280,20 +355,18 @@ export default function Karyadesh() {
             }
             onSelectionChange={(keys) => {
               const selectedValue = Array.from(keys).join(", ")
+              setKarmachariKoNaam(selectedValue) // Save the id
               // Find the selected item by its id
               const selectedItem = karmachariKoNaamData.find(
                 (item) => item.id === selectedValue
               )
               if (selectedItem) {
-                console.log(selectedItem.name)
-                setKarmachariKoNaam(selectedItem.id) // Save the id
                 setKarmachariKoPaad(selectedItem.position) // Set the position
-                setKarmachariKoNaamDt(selectedItem.name) // Set the name
               }
             }}
           >
             {karmachariKoNaamData.map((item) => (
-              <SelectItem key={item.id} value={item.id}>
+              <SelectItem key={item.id} value={item.name}>
                 {item.name}
               </SelectItem>
             ))}
@@ -314,7 +387,7 @@ export default function Karyadesh() {
               startContent={<FaRegSave />}
               onClick={onSubmit}
             >
-              Save
+              {saveOrEdit}
             </Button>
           </div>
         </div>

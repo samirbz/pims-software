@@ -2143,7 +2143,6 @@ export async function saveKaryaDesh(
   patraSankhya: string,
   date: string,
   karmachariKoNaam: string,
-  karmachariKoPaad: string,
   fiscalyear: string
 ) {
   try {
@@ -2153,7 +2152,6 @@ export async function saveKaryaDesh(
         patraSankhya,
         date,
         karmachariKoNaam,
-        karmachariKoPaad,
         fiscalyear,
       },
     })
@@ -2164,12 +2162,51 @@ export async function saveKaryaDesh(
   }
 }
 
+export async function fetchKaryadeshData(
+  fiscalyear: string,
+  pid: string
+) {
+  try {
+    const data = await prisma.karyadesh.findMany({
+      where: {
+        fiscalyear,
+        pid,
+      },
+    })
+
+    if (data && data.length > 0) {
+      return { status: "success", data }
+    } else {
+      return { status: "error", error: "No records found" }
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+export async function getKaryadeshData(
+  fiscalyear: string,
+  pid: string
+) {
+  try {
+    const data = await prisma.karyadesh.findMany({
+      where: {
+        fiscalyear,
+        pid,
+      },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching data:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 export async function updatekaryaDesh(
   pid:string,
   patraSankhya: string,
   date: string,
   karmachariKoNaam: string,
-  karmachariKoPaad: string,
   fiscalyear: string
 ) {
   try {
@@ -2182,7 +2219,6 @@ export async function updatekaryaDesh(
         patraSankhya,
         date,
         karmachariKoNaam,
-        karmachariKoPaad,
         fiscalyear,
       },
     })

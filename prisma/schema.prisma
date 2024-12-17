@@ -340,7 +340,6 @@ model karyadesh {
   patraSankhya          String
   date                  String
   karmachariKoNaam      String
-  karmachariKoPaad      String
   fiscalyear            String
 }
 
