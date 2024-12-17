@@ -331,9 +331,7 @@ model YojanaSamjhauta {
   anyaSartHaruOne           String
   anyaSartHaruTwo           String
   karyalayaKoTarfabata      String
-  karyalayaKoTarfabataChild String
   yojanaSakhaTarfabata      String
-  yojanaSakhaTarfabataChild String
 }
 
 model karyadesh {

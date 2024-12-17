@@ -300,9 +300,7 @@ export default function YojanaSamjhauta() {
         anyaSartHaruOne,
         anyaSartHaruTwo,
         karyalayaKoTarfabata,
-        karyalayaKoTarfabataChild,
-        yojanaSakhaTarfabata,
-        yojanaSakhaTarfabataChild
+        yojanaSakhaTarfabata
       )
       if (result.status === "success") {
         setPid("")
@@ -501,9 +499,7 @@ export default function YojanaSamjhauta() {
         anyaSartHaruOne,
         anyaSartHaruTwo,
         karyalayaKoTarfabata,
-        karyalayaKoTarfabataChild,
-        yojanaSakhaTarfabata,
-        yojanaSakhaTarfabataChild
+        yojanaSakhaTarfabata
       )
       if (result.status === "success") {
         setPid("")
@@ -818,9 +814,7 @@ export default function YojanaSamjhauta() {
           setAnyaSartHaruOne(data.anyaSartHaruOne)
           setAnyaSartHaruTwo(data.anyaSartHaruTwo)
           setKaryalayaKoTarfabata(data.karyalayaKoTarfabata)
-          setKaryalayaKoTarfabataChild(data.karyalayaKoTarfabataChild)
           setYojanaSakhaTarfabata(data.yojanaSakhaTarfabata)
-          setYojanaSakhaTarfabataChild(data.yojanaSakhaTarfabataChild)
           setSaveOrEdit("Edit")
         } else {
           setPhoneNum("")
@@ -917,6 +911,22 @@ export default function YojanaSamjhauta() {
     getData()
   }, [yojanaKaryaKramKoNaam, value, pid, place])
 
+  useEffect(() => {
+    const selectedItem = karmachariKoNaamData.find(
+      (item) => item.id === yojanaSakhaTarfabata
+    )
+    if (selectedItem) {
+      setYojanaSakhaTarfabataChild(selectedItem.position)
+    }
+
+    const selectedItem2 = karmachariKoNaamData.find(
+      (item) => item.id === karyalayaKoTarfabata
+    )
+    if (selectedItem2) {
+      setKaryalayaKoTarfabataChild(selectedItem2.position)
+    }
+  }, [yojanaSakhaTarfabata, karmachariKoNaamData, karyalayaKoTarfabata])
+
   return (
     <div className="flex w-full justify-center ">
       <div className="flex w-full flex-col ">
@@ -936,7 +946,6 @@ export default function YojanaSamjhauta() {
                 onChange={(e) => setBudgetKarayakram(e.target.value)}
               />
               <p className="text-lg text-blue-600">चालु आ.वः- {value}</p>
-              
             </div>
           </div>
           <br />
@@ -1044,7 +1053,7 @@ export default function YojanaSamjhauta() {
                             </SelectItem>
                           ))}
                         </Select>
-                        
+
                         <div className="flex w-full gap-8">
                           <Input
                             type="text"
@@ -1132,13 +1141,9 @@ export default function YojanaSamjhauta() {
                             placeholder="Select an option"
                             fullWidth
                             selectedKeys={
-                              yojanaKarya
-                                ? new Set([yojanaKarya])
-                                : new Set()
+                              yojanaKarya ? new Set([yojanaKarya]) : new Set()
                             }
-                            onChange={(e) =>
-                              setYojanaKarya(e.target.value)
-                            }
+                            onChange={(e) => setYojanaKarya(e.target.value)}
                           >
                             {yojanaKoKaryaData.map((items) => (
                               <SelectItem key={items.key}>
@@ -1147,16 +1152,15 @@ export default function YojanaSamjhauta() {
                             ))}
                           </Select>
 
-                          <Select label="किसिम / प्रकार" size="sm" 
-                           selectedKeys={
-                            kisimPrakar
-                              ? new Set([kisimPrakar])
-                              : new Set()
-                          }
-                          onChange={(e) =>
-                            setKisimPrakar(e.target.value)
-                          }
-                          fullWidth>
+                          <Select
+                            label="किसिम / प्रकार"
+                            size="sm"
+                            selectedKeys={
+                              kisimPrakar ? new Set([kisimPrakar]) : new Set()
+                            }
+                            onChange={(e) => setKisimPrakar(e.target.value)}
+                            fullWidth
+                          >
                             {kisimPrakarData.map((items) => (
                               <SelectItem key={items.key}>
                                 {items.label}
@@ -2181,10 +2185,19 @@ export default function YojanaSamjhauta() {
                                 const selectedValue =
                                   Array.from(keys).join(", ")
                                 setKaryalayaKoTarfabata(selectedValue)
+
+                                const selectedItem = karmachariKoNaamData.find(
+                                  (item) => item.id === selectedValue
+                                )
+                                if (selectedItem) {
+                                  setKaryalayaKoTarfabataChild(
+                                    selectedItem.position
+                                  )
+                                }
                               }}
                             >
                               {karmachariKoNaamData.map((item) => (
-                                <SelectItem key={item.name} value={item.name}>
+                                <SelectItem key={item.id} value={item.name}>
                                   {item.name}
                                 </SelectItem>
                               ))}
@@ -2203,17 +2216,26 @@ export default function YojanaSamjhauta() {
                                 const selectedValue =
                                   Array.from(keys).join(", ")
                                 setYojanaSakhaTarfabata(selectedValue)
+
+                                const selectedItem = karmachariKoNaamData.find(
+                                  (item) => item.id === selectedValue
+                                )
+                                if (selectedItem) {
+                                  setYojanaSakhaTarfabataChild(
+                                    selectedItem.position
+                                  )
+                                }
                               }}
                             >
                               {karmachariKoNaamData.map((item) => (
-                                <SelectItem key={item.name} value={item.name}>
+                                <SelectItem key={item.id} value={item.name}>
                                   {item.name}
                                 </SelectItem>
                               ))}
                             </Select>
                           </div>
                           <div className="flex w-full flex-col gap-2">
-                            <Select
+                            {/* <Select
                               size="sm"
                               label="कर्मचारी पद "
                               placeholder="select"
@@ -2263,8 +2285,16 @@ export default function YojanaSamjhauta() {
                               <SelectItem key="सहायकस्तर चौथो">
                                 सहायकस्तर चौथो
                               </SelectItem>
-                            </Select>
-                            <Select
+                            </Select> */}
+
+                            <Input
+                              type="text"
+                              label="कर्मचारी पद"
+                              size="sm"
+                              value={karyalayaKoTarfabataChild}
+                            />
+
+                            {/* <Select
                               size="sm"
                               label="कर्मचारी पद "
                               placeholder="select"
@@ -2314,7 +2344,14 @@ export default function YojanaSamjhauta() {
                               <SelectItem key="सहायकस्तर चौथो">
                                 सहायकस्तर चौथो
                               </SelectItem>
-                            </Select>
+                            </Select> */}
+
+                            <Input
+                              type="text"
+                              label="कर्मचारी पद"
+                              size="sm"
+                              value={yojanaSakhaTarfabataChild}
+                            />
                           </div>
                         </div>
                       </div>

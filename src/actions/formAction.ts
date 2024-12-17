@@ -1788,9 +1788,7 @@ export async function saveYojanaSamjhauta(
   anyaSartHaruOne: string,
   anyaSartHaruTwo: string,
   karyalayaKoTarfabata: string,
-  karyalayaKoTarfabataChild: string,
   yojanaSakhaTarfabata: string,
-  yojanaSakhaTarfabataChild: string
 ) {
   try {
     const dt = await prisma.yojanaSamjhauta.create({
@@ -1882,9 +1880,7 @@ export async function saveYojanaSamjhauta(
         anyaSartHaruOne,
         anyaSartHaruTwo,
         karyalayaKoTarfabata,
-        karyalayaKoTarfabataChild,
         yojanaSakhaTarfabata,
-        yojanaSakhaTarfabataChild,
       },
     })
     return { status: "success", data: dt }
@@ -2032,9 +2028,7 @@ export async function updateYojanaSamjhauta(
   anyaSartHaruOne: string,
   anyaSartHaruTwo: string,
   karyalayaKoTarfabata: string,
-  karyalayaKoTarfabataChild: string,
   yojanaSakhaTarfabata: string,
-  yojanaSakhaTarfabataChild: string
 ) {
   try {
     const result = await prisma.yojanaSamjhauta.updateMany({
@@ -2127,9 +2121,7 @@ export async function updateYojanaSamjhauta(
         anyaSartHaruOne,
         anyaSartHaruTwo,
         karyalayaKoTarfabata,
-        karyalayaKoTarfabataChild,
         yojanaSakhaTarfabata,
-        yojanaSakhaTarfabataChild,
       },
     })
 
@@ -2144,6 +2136,8 @@ export async function updateYojanaSamjhauta(
   }
 }
 
+
+// Karyadesh
 export async function saveKaryaDesh(
   pid: string,
   patraSankhya: string,
