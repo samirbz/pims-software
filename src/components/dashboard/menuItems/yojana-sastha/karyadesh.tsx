@@ -82,7 +82,6 @@ export default function Karyadesh() {
         const dataGetStaff = await getStaff()
         setPatraSankhya(value || "")
         setYojanaKoNaamData(data)
-        setPid(data[0].id)
         setKarmachariKoNaamData(dataGetStaff || [])
       } catch (e) {
         console.error("Error fetching anudaan data", e)
@@ -94,6 +93,7 @@ export default function Karyadesh() {
   useEffect(() => {
     const fetchyojanaSamjhautaData = async () => {
       try {
+        if(pid === "") return
         const dataYojanaDarta = await getYojanaDartaForSwikriti(
           pid,
           value || ""
