@@ -42,9 +42,9 @@ export default function LoginForm() {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-400 to-indigo-600 p-4">
-      <Card className="w-full max-w-md rounded-lg bg-white shadow-2xl">
-        <CardHeader className="flex flex-col items-center justify-center rounded-t-lg bg-blue-600 py-6">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-200 to-blue-300 p-4">
+      <Card className="w-full max-w-md rounded-lg bg-white shadow-xl">
+        <CardHeader className="flex flex-col items-center justify-center rounded-t-lg bg-blue-700 py-6">
           <Image
             src="/images/gov-logo.png"
             alt="logo"
@@ -54,11 +54,11 @@ export default function LoginForm() {
             priority
           />
           <p className="text-xl font-bold text-white">{place}</p>
-          <p className="text-xl text-gray-200">नगर कार्यपालिकाको कार्यालय</p>
-          <p className="text-xl font-semibold text-gray-300">{district}</p>
+          <p className="text-lg text-gray-100">नगर कार्यपालिकाको कार्यालय</p>
+          <p className="text-lg font-semibold text-gray-200">{district}</p>
         </CardHeader>
 
-        <CardBody className="p-6">
+        <CardBody className="bg-gray-50 p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Input
               label="Username"
@@ -67,6 +67,7 @@ export default function LoginForm() {
               {...register("username")}
               radius="lg"
               size="md"
+              className="bg-gray-100"
             />
             <Input
               label="Password"
@@ -75,6 +76,7 @@ export default function LoginForm() {
               {...register("password")}
               radius="lg"
               size="md"
+              className="bg-gray-100"
               endContent={
                 <button
                   type="button"
@@ -82,9 +84,9 @@ export default function LoginForm() {
                   className="focus:outline-none"
                 >
                   {isVisible ? (
-                    <FaRegEye className="text-2xl text-gray-400" />
+                    <FaRegEye className="text-2xl text-gray-500" />
                   ) : (
-                    <FaRegEyeSlash className="text-2xl text-gray-400" />
+                    <FaRegEyeSlash className="text-2xl text-gray-500" />
                   )}
                 </button>
               }
@@ -97,7 +99,7 @@ export default function LoginForm() {
                 type="submit"
                 radius="md"
                 size="lg"
-                className="flex items-center gap-2 font-semibold"
+                className="flex items-center gap-2 bg-blue-600 font-semibold text-white hover:bg-blue-600"
               >
                 <GrLogin />
                 Sign in
