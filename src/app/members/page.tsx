@@ -657,7 +657,7 @@ const Nav = () => {
           </Header>
           <Content
             style={{
-              margin: "8px 8px",
+              margin: "6px 6px",
               overflow: "auto", // Enable scrolling
             }}
             className="vertical-center "
