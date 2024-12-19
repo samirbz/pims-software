@@ -605,11 +605,11 @@ const Nav = () => {
             height: "100vh",
           }}
         >
-          <div className="my-4 ml-6 flex gap-4 font-semibold ">
+          <div className="my-2 ml-6 flex gap-4 font-semibold ">
             <Image
               src="/PIMS.ico"
-              width={40}
-              height={40}
+              width={30}
+              height={30}
               alt="logo"
               onClick={handleClick}
               className="cursor-pointer"
@@ -620,7 +620,7 @@ const Nav = () => {
             ) : (
               <p
                 onClick={handleClick}
-                className="cursor-pointer text-3xl text-orange-500"
+                className="cursor-pointer text-2xl text-orange-500"
               >
                 PIMS
               </p>
@@ -641,7 +641,7 @@ const Nav = () => {
             style={{
               padding: 0,
               background: "#F5F5F5",
-              height: 60,
+              height: 40,
               boxShadow:
                 "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
