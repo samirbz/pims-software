@@ -11,10 +11,13 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import Image from "next/image"
 import { GrLogin } from "react-icons/gr"
 import { MdCopyright } from "react-icons/md"
-import { useMyContext } from "@/context/MyContext"
+import { useMyContext, usePlaceContext,useDistrictContext } from "@/context/MyContext"
+
 
 export default function LoginForm() {
   const { clearValue } = useMyContext()
+  const { place } = usePlaceContext()
+  const {district}=useDistrictContext()
 
   const router = useRouter()
   const {
@@ -54,12 +57,12 @@ export default function LoginForm() {
               priority
             />
             <p className="mr-4 text-xl font-semibold text-blue-600 sm:text-2xl">
-              वाणगङ्गा नगरपालिका
+              {place}
             </p>
             <p className="mt-2 whitespace-nowrap text-sm font-semibold text-red-600 sm:text-lg">
               नगर कार्यपालिकाको कार्यालय
             </p>
-            <p className="mr-4 text-lg font-semibold text-red-600">कपिलवस्तु</p>
+            <p className="mr-4 text-lg font-semibold text-red-600">{district}</p>
           </div>
         </CardHeader>
 

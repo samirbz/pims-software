@@ -7,6 +7,11 @@ import React, {
 } from "react"
 import nookies from "nookies"
 
+const listName ={
+  nagarpalika:"गोदावरी नगरपालिका",
+  district:"ललितपुर"
+}
+
 interface MyContextType {
   value: string | null
   setValue: (newValue: string) => void
@@ -71,7 +76,7 @@ const PlaceContext = createContext<PlaceContextType | undefined>(undefined)
 export const PlaceContextProvider = ({
   children,
 }: PlaceContextProviderProps) => {
-  const [place, setPlaceState] = useState<string>("गोदावरी नगरपालिका")
+  const [place, setPlaceState] = useState<string>(listName.nagarpalika)
 
   // Set place
   const setPlace = (newPlace: string) => {
@@ -94,3 +99,47 @@ export const usePlaceContext = (): PlaceContextType => {
   }
   return context
 }
+
+
+
+
+// Define types for DistrictContext
+interface DistrictContextType {
+    district: string
+    setDistrict: (newDistrict: string) => void
+  }
+  
+  interface DistrictContextProviderProps {
+    children: React.ReactNode
+  }
+  
+  // Create DistrictContext
+  const DistrictContext = createContext<DistrictContextType | undefined>(undefined)
+  
+  export const DistrictContextProvider = ({
+    children,
+  }: DistrictContextProviderProps) => {
+    const [district, setDistrictState] = useState<string>(listName.district)
+  
+    // Set district
+    const setDistrict = (newDistrict: string) => {
+      setDistrictState(newDistrict)
+    }
+  
+    return (
+      <DistrictContext.Provider value={{ district, setDistrict }}>
+        {children}
+      </DistrictContext.Provider>
+    )
+  }
+  
+  export const useDistrictContext = (): DistrictContextType => {
+    const context = useContext(DistrictContext)
+    if (!context) {
+      throw new Error(
+        "useDistrictContext must be used within a DistrictContextProvider"
+      )
+    }
+    return context
+  }
+  
