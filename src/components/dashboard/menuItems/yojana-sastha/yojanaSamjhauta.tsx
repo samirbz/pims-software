@@ -635,6 +635,45 @@ export default function YojanaSamjhauta() {
     }
   }
 
+  // useEffect(() => {
+  //   const fetchYojanaDartaKoNaamData = async () => {
+  //     try {
+  //       const data = await fetchYojanaDartaData(value || "")
+  //       const dataGetStaff = await getStaff()
+  //       setKarmachariKoNaamData(dataGetStaff || [])
+  //       setYojanaKoNaamData(data)
+  //       setLoading(false)
+  //     } catch (e) {
+  //       console.error("Error fetching anudaan data", e)
+  //     }
+  //   }
+
+  //   const loadStaffData = async () => {
+
+  //     const selectedItem = karmachariKoNaamData.find(
+  //       (item) => item.id === localStorage.getItem("karyalayaKoTarfabataChild")
+  //     )
+  //     if (selectedItem) {
+  //       setKaryalayaKoTarfabata(selectedItem.id)
+  //       setKaryalayaKoTarfabataChild(
+  //         selectedItem.position
+  //       )
+  //     }
+
+  //     const selectedItem2 = karmachariKoNaamData.find(
+  //       (item) => item.id === localStorage.getItem("yojanaSakhaTarfabataChild")
+  //     )
+  //     if (selectedItem2) {
+  //       setYojanaSakhaTarfabata(selectedItem2.id)
+  //       setYojanaSakhaTarfabataChild(
+  //         selectedItem2.position
+  //       )
+  //     }
+  //   }
+  //   fetchYojanaDartaKoNaamData()
+  //   loadStaffData()
+  // }, [value,karmachariKoNaamData])
+
   useEffect(() => {
     const fetchYojanaDartaKoNaamData = async () => {
       try {
@@ -647,17 +686,17 @@ export default function YojanaSamjhauta() {
         console.error("Error fetching anudaan data", e)
       }
     }
+    fetchYojanaDartaKoNaamData()
+  }, [value])
 
-    const loadStaffData = async () => {
-
+  useEffect(() => {
+    const loadStaffData = () => {
       const selectedItem = karmachariKoNaamData.find(
         (item) => item.id === localStorage.getItem("karyalayaKoTarfabataChild")
       )
       if (selectedItem) {
         setKaryalayaKoTarfabata(selectedItem.id)
-        setKaryalayaKoTarfabataChild(
-          selectedItem.position
-        )
+        setKaryalayaKoTarfabataChild(selectedItem.position)
       }
 
       const selectedItem2 = karmachariKoNaamData.find(
@@ -665,14 +704,13 @@ export default function YojanaSamjhauta() {
       )
       if (selectedItem2) {
         setYojanaSakhaTarfabata(selectedItem2.id)
-        setYojanaSakhaTarfabataChild(
-          selectedItem2.position
-        )
+        setYojanaSakhaTarfabataChild(selectedItem2.position)
       }
     }
-    fetchYojanaDartaKoNaamData()
-    loadStaffData()
-  }, [value,karmachariKoNaamData])
+    if (karmachariKoNaamData.length > 0) {
+      loadStaffData()
+    }
+  }, [karmachariKoNaamData])
 
   useEffect(() => {
     const getData = async () => {
