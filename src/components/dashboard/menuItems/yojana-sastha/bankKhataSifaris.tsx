@@ -4,11 +4,13 @@ import { FaRegSave } from "react-icons/fa"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { useState, useEffect } from "react"
+import bankSifaris from "@/lib/print/PrintBankSifaris"
 import { useMyContext } from "@/context/MyContext"
 
 import {
-  getYojanaSamjhautaData,
+  fetchYojanaDartaData,
   getYojanaSamjhauta,
+  getSamjhautaSwikritiTippani,
   fetchBankBivaranData,
   fetchBankBivaranByBank,
 } from "@/actions/formAction"
@@ -37,7 +39,7 @@ export default function BankKhataSifaris() {
   useEffect(() => {
     const fetchYojanaKoNaam = async () => {
       try {
-        const data = await getYojanaSamjhautaData(value || "")
+        const data = await fetchYojanaDartaData(value || "")
         const dataBank = await fetchBankBivaranData(value || "")
         const dataGetStaff = await getStaff()
         setYojanaKoNaamData(data)
@@ -55,9 +57,11 @@ export default function BankKhataSifaris() {
     const fetchYojanaSamkhautaData = async () => {
       try {
         const data = await getYojanaSamjhauta(value || "", pid)
-        console.log(data)
+        const dd = await getSamjhautaSwikritiTippani(value || "", pid)
+        const dk = await getSamjhautaSwikritiTippani(value || "", pid)
         setPid(data[0].pid)
-
+        setadasyakoNaam(dd[0].adhyachyaKoNaam)
+        setushakoNaam(dk[0].upavoktaSamitiKoNaam)
         setkosadasyaKoNaam(data[0].kosaAdakshya)
         setsachibkoNaam(data[0].sachib)
       } catch (err) {
@@ -71,7 +75,6 @@ export default function BankKhataSifaris() {
     const fetchYojanaSamkhautaData = async () => {
       try {
         const data = await fetchBankBivaranByBank(value || "", bankKoNaam)
-        console.log(data)
         setbankKoSakha(data[0].sakha)
       } catch (err) {
         console.log(err)
@@ -93,7 +96,7 @@ export default function BankKhataSifaris() {
               type="text"
               label="पत्र संख्या"
               size="sm"
-              className="w-1/2"
+              className="w-auto"
               value={patraSankhya}
               onChange={(e) => setpatraSankhya(e.target.value)}
             />
@@ -108,28 +111,27 @@ export default function BankKhataSifaris() {
               />
             </form>
           </div>
-          {/* <Select label="योजनाको मिति" size="sm" fullWidth>
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select> */}
           <Select
             label="योजना / कार्यक्रमको नाम"
             size="sm"
-            className="w-1/2"
+            className="w-auto"
             placeholder="Select an option" // Optional: if you want a placeholder
             selectedKeys={yojanakoNaam ? new Set([yojanakoNaam]) : new Set()}
             onSelectionChange={(keys) => {
               const selectedValue = Array.from(keys).join(", ")
               setyojanakoNaam(selectedValue)
+              // Find the selected item by its name and set the pid
+              const selectedItem = yojanaKoNaamData.find(
+                (item) => item.yojanaKoNaam === selectedValue
+              )
+              if (selectedItem) {
+                setPid(selectedItem.id)
+              }
             }}
           >
             {yojanaKoNaamData.map((item) => (
-              <SelectItem
-                key={item.yojanaKaryaKramKoNaam}
-                value={item.yojanaKaryaKramKoNaam}
-              >
-                {item.yojanaKaryaKramKoNaam}
+              <SelectItem key={item.yojanaKoNaam} value={item.yojanaKoNaam}>
+                {item.yojanaKoNaam}
               </SelectItem>
             ))}
           </Select>
@@ -148,7 +150,6 @@ export default function BankKhataSifaris() {
             size="sm"
             className="w-auto"
             value={adasyakoNaam}
-            onChange={(e) => setadasyakoNaam(e.target.value)}
           />
 
           <Input
@@ -169,12 +170,6 @@ export default function BankKhataSifaris() {
           />
 
           <div className="flex gap-2">
-            {/* <Select label="बैकको नाम" size="sm">
-              {animals.map((animal) => (
-                <SelectItem key={animal.key}>{animal.label}</SelectItem>
-              ))}
-            </Select> */}
-
             <Select
               label="बैकको नाम"
               size="sm"
@@ -200,64 +195,71 @@ export default function BankKhataSifaris() {
               onChange={(e) => setbankKoSakha(e.target.value)}
             />
           </div>
-          {/* <Select label="कर्मचारीको नाम" size="sm" className="w-1/2">
-            {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
-            ))}
-          </Select> */}
 
-          <Select
-            label="कर्मचारीको नाम"
-            size="sm"
-            className="sm:w-auto"
-            placeholder="Select an option" // Optional: if you want a placeholder
-            selectedKeys={
-              karmacharikoNaam ? new Set([karmacharikoNaam]) : new Set()
-            }
-            onSelectionChange={(keys) => {
-              const selectedValue = Array.from(keys).join(", ")
-              setkarmacharikoNaam(selectedValue)
-            }}
-          >
-            {karmachariKoNaamData.map((item) => (
-              <SelectItem key={item.id} value={item.name}>
-                {item.name}
-              </SelectItem>
-            ))}
-          </Select>
-
-          <div className="relative flex items-center gap-2">
+          <div className="flex gap-2">
             <Select
+              label="कर्मचारीको नाम"
               size="sm"
-              label="कर्मचारी पद "
-              placeholder="select"
               className="w-1/2"
-              value={karmachariKoPaad}
-              onChange={(e) => setkarmachariKoPaad(e.target.value)}
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={
+                karmacharikoNaam ? new Set([karmacharikoNaam]) : new Set()
+              }
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setkarmacharikoNaam(selectedValue) // Save the id
+                // Find the selected item by its id
+                const selectedItem = karmachariKoNaamData.find(
+                  (item) => item.id === selectedValue
+                )
+                if (selectedItem) {
+                  setkarmachariKoPaad(selectedItem.position) // Set the position
+                }
+              }}
             >
-              <SelectItem key="प्रमुख प्रशासकिय अधिकृत">
-                प्रमुख प्रशासकिय अधिकृत
-              </SelectItem>
-              <SelectItem key=" निमित्त प्रमुख प्रशासकिय अधिकृत">
-                निमित्त प्रमुख प्रशासकिय अधिकृत
-              </SelectItem>
-              <SelectItem key="प्रशासकीय  अधिकृत ">प्रशासकीय अधिकृत</SelectItem>
-              <SelectItem key="अधिकृतस्तर आठौँ">अधिकृतस्तर आठौँ</SelectItem>
-              <SelectItem key="अधिकृतस्तर सातौँ">अधिकृतस्तर सातौँ</SelectItem>
-              <SelectItem key="लेखा अधिकृत">लेखा अधिकृत</SelectItem>
-              <SelectItem key="अधिकृतस्तर छैठौँ">अधिकृतस्तर छैठौँ</SelectItem>
-              <SelectItem key="कार्यक्रम अधिकृत">कार्यक्रम अधिकृत</SelectItem>
-              <SelectItem key="योजना अधिकृत">योजना अधिकृत</SelectItem>
-              <SelectItem key="शाखा अधिकृत">शाखा अधिकृत </SelectItem>
-              <SelectItem key="इन्जिनियर">इन्जिनियर</SelectItem>
-              <SelectItem key="सहायकस्तर पाचौँ">सहायकस्तर पाचौँ</SelectItem>
-              <SelectItem key="सहायकस्तर चौथो">सहायकस्तर चौथो</SelectItem>
+              {karmachariKoNaamData.map((item) => (
+                <SelectItem key={item.id} value={item.name}>
+                  {item.name}
+                </SelectItem>
+              ))}
             </Select>
 
-            <Button color="secondary" startContent={<FaRegSave />}>
-              Print
-            </Button>
+            <Input
+              type="text"
+              label="कर्मचारी पद"
+              className="w-1/2"
+              size="sm"
+              value={karmachariKoPaad}
+              onChange={(e) => setkarmachariKoPaad(e.target.value)}
+            />
           </div>
+
+          <Button
+            color="secondary"
+            startContent={<FaRegSave />}
+            className="flex w-32 self-end"
+            onClick={async () => {
+              if (!yojanakoNaam) {
+                alert("Please select yojana")
+              } else {
+                await bankSifaris({
+                  patraSankhya,
+                  sifarisMiti,
+                  yojanakoNaam,
+                  ushakoNaam,
+                  adasyakoNaam,
+                  kosadasyaKoNaam,
+                  sachibkoNaam,
+                  bankKoNaam,
+                  bankKoSakha,
+                  karmacharikoNaam,
+                  karmachariKoPaad,
+                })
+              }
+            }}
+          >
+            Print
+          </Button>
         </div>
       </div>
     </div>

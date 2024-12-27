@@ -307,40 +307,40 @@ model YojanaSamjhauta {
   sadasyaSix          String
   sadasyaSeven        String
 
-  pahiloKistaMiti           String
-  pahiloKistaPratisad       String
-  pahiloKistaKistaKoRakam   String
-  pahiloKistaNirmanSamagri  String
-  pahiloKistaKaifiyat       String
-  dosroKistaMiti            String
-  dosroKistaPratisat        String
-  dosroKistaKistaKoRakam    String
-  dosroKistaNirmanSamagri   String
-  dosroKistaKaifiyat        String
-  tesroKistaMiti            String
-  tesroKistaPratisat        String
-  tesroKistaKistaKoRakam    String
-  tesroKistaNirmanSamagri   String
-  tesroKistaKaifiyat        String
-  jammaRakamRuTwoFour       String
-  marmatSambhar             String
-  janaSramdan               String
-  dastur                    String
-  byaj                      String
-  lagatSahavagita           String
-  anyaSartHaruOne           String
-  anyaSartHaruTwo           String
-  karyalayaKoTarfabata      String
-  yojanaSakhaTarfabata      String
+  pahiloKistaMiti          String
+  pahiloKistaPratisad      String
+  pahiloKistaKistaKoRakam  String
+  pahiloKistaNirmanSamagri String
+  pahiloKistaKaifiyat      String
+  dosroKistaMiti           String
+  dosroKistaPratisat       String
+  dosroKistaKistaKoRakam   String
+  dosroKistaNirmanSamagri  String
+  dosroKistaKaifiyat       String
+  tesroKistaMiti           String
+  tesroKistaPratisat       String
+  tesroKistaKistaKoRakam   String
+  tesroKistaNirmanSamagri  String
+  tesroKistaKaifiyat       String
+  jammaRakamRuTwoFour      String
+  marmatSambhar            String
+  janaSramdan              String
+  dastur                   String
+  byaj                     String
+  lagatSahavagita          String
+  anyaSartHaruOne          String
+  anyaSartHaruTwo          String
+  karyalayaKoTarfabata     String
+  yojanaSakhaTarfabata     String
 }
 
 model karyadesh {
-  id                    String @id @default(cuid())
-  pid                   String
-  patraSankhya          String
-  date                  String
-  karmachariKoNaam      String
-  fiscalyear            String
+  id               String @id @default(cuid())
+  pid              String
+  patraSankhya     String
+  date             String
+  karmachariKoNaam String
+  fiscalyear       String
 }
 
 model bankKhataSifaris {
@@ -349,15 +349,9 @@ model bankKhataSifaris {
   fiscalyear       String
   patraSankhya     String
   sifarisMiti      String
-  yojanakoNaam     String
-  ushakoNaam       String
-  adasyakoNaam     String
-  kosadasyaKoNaam  String
-  sachibkoNaam     String
   bankKoNaam       String
   bankKoSakha      String
   karmacharikoNaam String
-  karmachariKoPaad String
 }
 
 model bankKhataBandaSifaris {
