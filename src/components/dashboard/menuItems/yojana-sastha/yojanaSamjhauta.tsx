@@ -2352,8 +2352,8 @@ export default function YojanaSamjhauta() {
                 try {
                   const response =
                     await fetchDataByYojanaKaryakramKonaamInYojanaSamjhauta(
+                      value || "",
                       pid,
-                      value || ""
                     )
 
                   // Ensure response.data exists and is not empty
