@@ -1168,7 +1168,7 @@ export default function YojanaDarta() {
             startContent={loading && <Spinner color="primary" />}
           >
             {mukhyaSamitiData.map((item) => (
-              <SelectItem key={item.mukhyaSamitiKoNaam}>
+               <SelectItem key={item.id} value={item.id}>
                 {item.mukhyaSamitiKoNaam}
               </SelectItem>
             ))}
