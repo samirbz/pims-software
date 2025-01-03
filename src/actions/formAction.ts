@@ -153,6 +153,20 @@ export async function fetchMukyaSamitiData(fiscalyear: string) {
     throw error
   }
 }
+export async function fetchMukyaSamitiDataById(id:string,fiscalyear: string) {
+  try {
+    const data = await prisma.mukhyaSamitiKoNaam.findMany({
+      where: {
+        id,
+        fiscalyear, // Match the provided fiscalyear
+      },
+    })
+    return data
+  } catch (error) {
+    console.error("Error fetching Mukya Samiti data:", error)
+    throw error
+  }
+}
 
 export async function deleteMukyaSamitiKoNaam(id: string, fiscalyear: string) {
   try {

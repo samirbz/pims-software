@@ -25,6 +25,7 @@ import {
   fetchDataByYojanaKaryaKramKoNaam,
   updateYojanaSwikritiTippani,
   getSamjhautaSwikritiTippani,
+  fetchMukyaSamitiDataById
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
 import SamjhautaSwikritiPrint from "@/lib/print/PrintSamjhautaSwikrit"
@@ -212,6 +213,8 @@ export default function SamjhautaSwikriti() {
           value || ""
         )
 
+        const mukhyaSamitiDt = await fetchMukyaSamitiDataById(response[0].mukhyaSamiti, value || "")
+    
         if (response && response.length > 0) {
           const data = response[0]
           setPid(data.id)
@@ -220,7 +223,7 @@ export default function SamjhautaSwikriti() {
           setlagatSramDan(data.janaSramdanRakam)
           setContengencyRakam(data.dharautiRakamResult)
           setKhudPauneRakam(data.kulAnudaanRakam)
-          setMukhyaSamitiKoNaam(data.mukhyaSamiti)
+          setMukhyaSamitiKoNaam(mukhyaSamitiDt[0].mukhyaSamitiKoNaam)
           setVudgetKitabSNum(data.budgetKitabSnum)
           // setUpavoktaSamitiKoNaam(
           //   data.karyagatSamuha === "उपभोक्ता समिति"
@@ -238,6 +241,8 @@ export default function SamjhautaSwikriti() {
         setLoading(false)
       }
     }
+
+
 
     const handleSaveOrEdit = async () => {
       try {
@@ -498,7 +503,6 @@ export default function SamjhautaSwikriti() {
                 className="w-1/2"
                 size="sm"
                 value={mukhyaSamitiKoNaam}
-                onChange={(e) => setMukhyaSamitiKoNaam(e.target.value)}
               />
 
               {!hide && (

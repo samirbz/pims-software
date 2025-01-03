@@ -1196,7 +1196,7 @@ export default function YojanaDarta() {
                 startContent={loading && <Spinner color="primary" />}
               >
                 {aunudaanKisimData.map((item) => (
-                  <SelectItem key={item.anudaanKoNaam}>
+                   <SelectItem key={item.id} value={item.id}>
                     {item.anudaanKoNaam}
                   </SelectItem>
                 ))}
@@ -1216,7 +1216,7 @@ export default function YojanaDarta() {
                 endContent={showLoadingLagatSrot1 && <Spinner size="sm" />}
               >
                 {lagatSrotData.map((item) => (
-                  <SelectItem key={item.lagatSrotKoNaam}>
+                  <SelectItem key={item.id} value={item.id}>
                     {item.lagatSrotKoNaam}
                   </SelectItem>
                 ))}
@@ -1253,7 +1253,7 @@ export default function YojanaDarta() {
                   }}
                 >
                   {aunudaanKisimSecondData.map((item) => (
-                    <SelectItem key={item.anudaanKoNaam}>
+                    <SelectItem key={item.id} value={item.id}>
                       {item.anudaanKoNaam}
                     </SelectItem>
                   ))}
@@ -1274,7 +1274,7 @@ export default function YojanaDarta() {
                   }
                 >
                   {lagatSrotSecondData.map((item) => (
-                    <SelectItem key={item.lagatSrotKoNaam}>
+                    <SelectItem key={item.id} value={item.id}>
                       {item.lagatSrotKoNaam}
                     </SelectItem>
                   ))}
@@ -1312,7 +1312,7 @@ export default function YojanaDarta() {
                   }}
                 >
                   {aunudaanKisimThirdData.map((item) => (
-                    <SelectItem key={item.anudaanKoNaam}>
+                     <SelectItem key={item.id} value={item.id}>
                       {item.anudaanKoNaam}
                     </SelectItem>
                   ))}
@@ -1333,7 +1333,7 @@ export default function YojanaDarta() {
                   }
                 >
                   {lagatSrotThirdData.map((item) => (
-                    <SelectItem key={item.lagatSrotKoNaam}>
+                    <SelectItem key={item.id} value={item.id}>
                       {item.lagatSrotKoNaam}
                     </SelectItem>
                   ))}
@@ -1398,7 +1398,7 @@ export default function YojanaDarta() {
             startContent={loading && <Spinner color="primary" />}
           >
             {ayojanaUpachetraData.map((item) => (
-              <SelectItem key={item.yojanaPrakar}>
+              <SelectItem key={item.id} value={item.id}>
                 {item.yojanaPrakar}
               </SelectItem>
             ))}
