@@ -215,6 +215,7 @@ export async function fetchAnudaanKoNaamData(fiscalyear: string) {
     throw error
   }
 }
+
 export async function deleteAnudaanKoNaam(id: string, fiscalyear: string) {
   try {
     await prisma.anudaanKoNaam.deleteMany({

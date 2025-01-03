@@ -171,10 +171,20 @@ export default function LagatSrot() {
         console.error("Error fetching anudaan data", e)
       }
     }
-
     fetchLagatSrot()
     fetchAnudaanData()
   }, [value])
+
+  // const fetchAnudaanByIdData = async (id:string) => {
+  //   try {
+  //     const data = await fetchAnudaanKoNaamDataById(id,value || "")
+  //     return data
+  //   } catch (e) {
+  //     console.error("Error fetching anudaan data", e)
+  //   }
+  // }
+
+
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -217,7 +227,7 @@ export default function LagatSrot() {
             }}
           >
             {anudanData.map((item) => (
-              <SelectItem key={item.anudaanKoNaam} value={item.anudaanKoNaam}>
+              <SelectItem key={item.id} value={item.id}>
                 {item.anudaanKoNaam}
               </SelectItem>
             ))}
@@ -283,7 +293,7 @@ export default function LagatSrot() {
               {items.map((item, index) => (
                 <TableRow key={item.id}>
                   <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
-                  <TableCell>{item.anudanKoKisim}</TableCell>
+                  <TableCell> {anudanData.find((data) => data.id === item.anudanKoKisim)?.anudaanKoNaam || "Loading..."}</TableCell>
                   <TableCell>{item.lagatSrotKoNaam}</TableCell>
                   <TableCell>
                     <Dropdown>
