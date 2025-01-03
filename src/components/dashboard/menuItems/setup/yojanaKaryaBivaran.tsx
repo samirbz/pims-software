@@ -216,7 +216,7 @@ export default function YojanaKaryaBivaran() {
             }}
           >
             {yojanaPrakarData.map((item) => (
-              <SelectItem key={item.yojanaPrakar} value={item.yojanaPrakar}>
+              <SelectItem key={item.id} value={item.id}>
                 {item.yojanaPrakar}
               </SelectItem>
             ))}
@@ -283,7 +283,7 @@ export default function YojanaKaryaBivaran() {
                 <TableRow key={item.id}>
                   <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                   <TableCell>{item.yojanaKoKarya}</TableCell>
-                  <TableCell>{item.yojanaKoKisim}</TableCell>
+                  <TableCell> {yojanaPrakarData.find((data) => data.id === item.yojanaKoKisim)?.yojanaPrakar || "Loading..."}</TableCell>
                   <TableCell>
                     <Dropdown>
                       <DropdownTrigger>

@@ -12,6 +12,8 @@ import {
   ModalFooter,
   ModalHeader,
   Pagination,
+  Select,
+  SelectItem,
   Spinner,
   Table,
   TableBody,
@@ -34,6 +36,13 @@ import {
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { ConvertToNepaliNumerals } from "@/lib/util"
+
+const suchikritHunaChanekoList = [
+  { value: "1", label: "मालसामान आपूर्ति" },
+  { value: "2", label: "निर्माण कार्य" },
+  { value: "3", label: "परामर्श सेवा" },
+  { value: "4", label: "अन्य सेवा" },
+]
 
 export default function SuchikritForm() {
   const [formKoNaam, setFormKoNaam] = useState("")
@@ -313,31 +322,40 @@ export default function SuchikritForm() {
             />
           </div>
           <div className="flex gap-2">
-            <Input
+            {/* <Input
               type="text"
               label="सुचिकृत हुन चाहेको खरिद प्रकृतिको विवरण"
               size="sm"
               className="w-1/2"
               value={suchikritHunaChahekoKharid}
               onChange={(e) => setSuchikritHunaChahekoKharid(e.target.value)}
-            />
+            /> */}
+
+            <Select
+              label="सुचिकृत हुन चाहेको खरिद प्रकृतिको विवरण"
+              size="sm"
+              className="w-full sm:w-1/2"
+              placeholder="Select an option" // Optional: if you want a placeholder
+              selectedKeys={
+                suchikritHunaChahekoKharid
+                  ? new Set([suchikritHunaChahekoKharid])
+                  : new Set()
+              } // Binding the selected value
+              onSelectionChange={(keys) => {
+                const selectedValue = Array.from(keys).join(", ")
+                setSuchikritHunaChahekoKharid(selectedValue)
+              }}
+            >
+              {suchikritHunaChanekoList.map((item) => (
+                <SelectItem key={item.label}>{item.label}</SelectItem>
+              ))}
+            </Select>
 
             <Button
               color="secondary"
               startContent={<FaRegSave />}
               onClick={onSubmit}
-              isDisabled={
-                !suchikritHunaChahekoKharid ||
-                !suchiDartaNum ||
-                !phoneNum ||
-                !pramanPatraSankhya ||
-                !companyDartaNum ||
-                !panVat ||
-                !formKoThegana ||
-                !dartaMiti ||
-                !formKoNaam.trimEnd() ||
-                btnDisable
-              }
+              isDisabled={!formKoNaam.trimEnd() || btnDisable}
             >
               {editMode ? "Edit" : "Save"}
             </Button>
