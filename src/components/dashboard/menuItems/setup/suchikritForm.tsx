@@ -223,6 +223,18 @@ export default function SuchikritForm() {
     fetchSuchikritForm() // Fetch data when the component mounts
   }, [value])
 
+  useEffect(() => {
+  if (dartaMiti) {
+    const selectedDate = new NepaliDate(dartaMiti);
+    const today = new NepaliDate();
+
+    if (selectedDate > today) {
+      alert("Future dates are not allowed");
+      setDartaMiti(today.format("YYYY-MM-DD"));
+    }
+  }
+  },[dartaMiti])
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
