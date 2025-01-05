@@ -36,6 +36,9 @@ import {
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { ConvertToNepaliNumerals } from "@/lib/util"
+import NepaliDate from 'nepali-date-converter'
+
+const date1 = new NepaliDate()
 
 const suchikritHunaChanekoList = [
   { value: "1", label: "मालसामान आपूर्ति" },
@@ -146,7 +149,7 @@ export default function SuchikritForm() {
         // Proceed with the save operation
         const result = await saveSuchikritForm(
           trimmedNaam,
-          dartaMiti,
+          dartaMiti || date1.format("YYYY-MM-DD"),
           formKoThegana,
           panVat,
           companyDartaNum,
