@@ -74,6 +74,9 @@ biniyojitRakamRu:string,
 sanyojak:string,
 sadasyaOne:string,
 sadasyaTwo:string,
+place:string,
+district:string,
+office:string,
 ) => {
   const imagePath = "/images/gov-logo.png"
   const blob = await fetch(imagePath).then((r) => r.blob())
@@ -97,10 +100,9 @@ sadasyaTwo:string,
     <img src="${imageDataUrl}" alt="Logo" style="width: 115px; height: 95px;" />
   </div>
   <div style="text-align: center; margin-right:40%;">
-    <p style="font-size: 1rem; line-height: 0.6;">शुद्धोधन गाउँपालिका</p>
-    <p style="font-size: 0.8rem; line-height: 0.6;">गाउँ कार्यपालिकाको कार्यालय</p>
-    <p style="font-size: 0.8rem; line-height: 0.6;">मानपकडी, रुपन्देही</p>
-    <p style="font-size: 0.8rem; line-height: 0.6;">लुम्बिनी प्रदेश नेपाल</p>
+    <p style="font-size: 1rem; line-height: 0.6;">${place}</p>
+    <p style="font-size: 0.8rem; line-height: 0.6;">${office}</p>
+    <p style="font-size: 0.8rem; line-height: 0.6;">${district}</p>
   </div>
 </div>
 

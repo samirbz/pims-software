@@ -25,11 +25,16 @@ import {
   fetchDataByYojanaKaryaKramKoNaam,
   updateYojanaSwikritiTippani,
   getSamjhautaSwikritiTippani,
-  fetchMukyaSamitiDataById
+  fetchMukyaSamitiDataById,
 } from "@/actions/formAction"
 import { toast } from "react-toastify"
 import SamjhautaSwikritiPrint from "@/lib/print/PrintSamjhautaSwikrit"
-import { useMyContext } from "@/context/MyContext"
+import {
+  useMyContext,
+  usePlaceContext,
+  useDistrictContext,
+  useOfficeContext,
+} from "@/context/MyContext"
 
 export default function SamjhautaSwikriti() {
   const [pid, setPid] = useState("")
@@ -66,6 +71,9 @@ export default function SamjhautaSwikriti() {
   const [saveOrEdit, setSaveOrEdit] = useState("Save")
 
   const { value } = useMyContext()
+  const { place } = usePlaceContext()
+  const { district } = useDistrictContext()
+  const { office } = useOfficeContext()
 
   const [hide, setHide] = useState(false)
 
@@ -86,8 +94,8 @@ export default function SamjhautaSwikriti() {
       // } else {
       //   alert("Error: " + response.error)
       // }
-alert(
-  `
+      alert(
+        `
  aawa = ${aawa},
  miti = ${miti},
  yojanaKaryaKramKoNaam = ${yojanaKaryaKramKoNaam},
@@ -113,10 +121,11 @@ alert(
  sanyojak = ${sanyojak},
  sadasyaOne = ${sadasyaOne},
  sadasyaTwo = ${sadasyaTwo},
+ place = ${place},
+ district = ${district},
+ office = ${office},
   `
-)
-
-
+      )
     } catch (error) {
       console.error("Error in handleAlertData:", error)
       alert("An unexpected error occurred.")
@@ -239,13 +248,13 @@ alert(
       try {
         setLoading(true)
         setAawa(value || "")
-        const response = await getYojanaDartaForSwikriti(
-          pid,
+        const response = await getYojanaDartaForSwikriti(pid, value || "")
+
+        const mukhyaSamitiDt = await fetchMukyaSamitiDataById(
+          response[0].mukhyaSamiti,
           value || ""
         )
 
-        const mukhyaSamitiDt = await fetchMukyaSamitiDataById(response[0].mukhyaSamiti, value || "")
-    
         if (response && response.length > 0) {
           const data = response[0]
           setPid(data.id)
@@ -272,8 +281,6 @@ alert(
         setLoading(false)
       }
     }
-
-
 
     const handleSaveOrEdit = async () => {
       try {
@@ -640,8 +647,11 @@ alert(
                       biniyojitRakamRu,
                       sanyojak,
                       sadasyaOne,
-                      sadasyaTwo,)
-
+                      sadasyaTwo,
+                      place,
+district,
+office,
+                    )
                   }}
                 >
                   Print
