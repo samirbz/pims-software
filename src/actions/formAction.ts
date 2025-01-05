@@ -1561,8 +1561,6 @@ export async function saveYojanaSwikritiTippani(
   ushaGathanMiti: string,
   ushaNibedandiyiyekoMiti: string,
   anyaTipaniBivaran: string,
-
-  yojanakoNaam: string,
   wadaNum: string,
   biniyojitRakamRu: string,
   sanyojak: string,
@@ -1584,7 +1582,6 @@ export async function saveYojanaSwikritiTippani(
         ushaGathanMiti,
         ushaNibedandiyiyekoMiti,
         anyaTipaniBivaran,
-        yojanakoNaam,
         wadaNum,
         biniyojitRakamRu,
         sanyojak,
@@ -1668,7 +1665,6 @@ export async function updateYojanaSwikritiTippani(
   ushaNibedandiyiyekoMiti: string,
   anyaTipaniBivaran: string,
 
-  yojanakoNaam: string,
   wadaNum: string,
   biniyojitRakamRu: string,
   sanyojak: string,
@@ -1694,7 +1690,6 @@ export async function updateYojanaSwikritiTippani(
         ushaGathanMiti,
         ushaNibedandiyiyekoMiti,
         anyaTipaniBivaran,
-        yojanakoNaam,
         wadaNum,
         biniyojitRakamRu,
         sanyojak,

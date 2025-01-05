@@ -25,6 +25,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
+import NepaliDate from 'nepali-date-converter'
 import { useMyContext } from "@/context/MyContext"
 
 import {
@@ -36,7 +37,7 @@ import {
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { ConvertToNepaliNumerals } from "@/lib/util"
-import NepaliDate from 'nepali-date-converter'
+
 
 const date1 = new NepaliDate()
 

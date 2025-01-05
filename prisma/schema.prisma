@@ -229,7 +229,6 @@ model SamjhautaSwikritiTippani {
   ushaNibedandiyiyekoMiti String
   anyaTipaniBivaran       String
 
-  yojanakoNaam     String
   wadaNum          String
   biniyojitRakamRu String
   sanyojak         String

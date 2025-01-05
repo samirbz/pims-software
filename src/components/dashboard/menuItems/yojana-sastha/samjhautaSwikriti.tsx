@@ -14,6 +14,7 @@ import {
 } from "@nextui-org/react"
 import { FaRegSave } from "react-icons/fa"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
+import NepaliDate from "nepali-date-converter"
 import "nepali-datepicker-reactjs/dist/index.css"
 import { useEffect, useState } from "react"
 import { MdOutlineSupervisorAccount } from "react-icons/md"
@@ -36,6 +37,8 @@ import {
   useOfficeContext,
   usePradeshContext,
 } from "@/context/MyContext"
+
+const date1 = new NepaliDate()
 
 export default function SamjhautaSwikriti() {
   const [pid, setPid] = useState("")
@@ -117,7 +120,6 @@ export default function SamjhautaSwikriti() {
  mukhyaSamitiKoNaam = ${mukhyaSamitiKoNaam},
  ushaNibedandiyiyekoMiti = ${ushaNibedandiyiyekoMiti},
  anyaTipaniBivaran = ${anyaTipaniBivaran},
- yojanakoNaam = ${yojanakoNaam},
  wadaNum = ${wadaNum},
  biniyojitRakamRu = ${biniyojitRakamRu},
  sanyojak = ${sanyojak},
@@ -155,7 +157,6 @@ export default function SamjhautaSwikriti() {
         ushaGathanMiti,
         ushaNibedandiyiyekoMiti,
         anyaTipaniBivaran,
-        yojanakoNaam,
         wadaNum,
         biniyojitRakamRu,
         sanyojak,
@@ -183,7 +184,6 @@ export default function SamjhautaSwikriti() {
         setMukhyaSamitiKoNaam("")
         setUshaNibedandiyiyekoMiti("")
         setAnyaTipaniBivaran("")
-        setYojanakoNaam("")
         setWadaNum("")
         setBiniyojitRakamRu("")
         setSanyojak("")
@@ -199,17 +199,16 @@ export default function SamjhautaSwikriti() {
         pid,
         value || "",
         aawa,
-        miti,
+        miti || date1.format("YYYY-MM-DD"),
         upavoktaSamitiKoNaam,
         adhyachyaKoNaam,
         velamaUpasthitiSankhya,
         padakariSankhya,
         mahilaSankhya,
         anugamanSamitikaSadasya,
-        ushaGathanMiti,
-        ushaNibedandiyiyekoMiti,
+        ushaGathanMiti || date1.format("YYYY-MM-DD"),
+        ushaNibedandiyiyekoMiti || date1.format("YYYY-MM-DD"),
         anyaTipaniBivaran,
-        yojanakoNaam,
         wadaNum,
         biniyojitRakamRu,
         sanyojak,
@@ -315,7 +314,6 @@ export default function SamjhautaSwikriti() {
           setUshaGathanMiti(data.ushaGathanMiti)
           setUshaNibedandiyiyekoMiti(data.ushaNibedandiyiyekoMiti)
           setAnyaTipaniBivaran(data.anyaTipaniBivaran)
-          setYojanakoNaam(data.yojanakoNaam)
           setWadaNum(data.wadaNum)
           setBiniyojitRakamRu(data.biniyojitRakamRu)
           setSanyojak(data.sanyojak)
@@ -355,6 +353,42 @@ export default function SamjhautaSwikriti() {
     }
     fetchYojanaDartaKoNaamData()
   }, [value])
+
+  useEffect(() => {
+    if (miti) {
+      const selectedDate = new NepaliDate(miti)
+      const today = new NepaliDate()
+
+      if (selectedDate > today) {
+        alert("Future dates are not allowed")
+        setMiti(today.format("YYYY-MM-DD"))
+      }
+    } 
+  }, [miti])
+
+  useEffect(() => {
+   if (ushaGathanMiti) {
+      const selectedDate = new NepaliDate(ushaGathanMiti)
+      const today = new NepaliDate()
+
+      if (selectedDate > today) {
+        alert("Future dates are not allowed")
+        setUshaGathanMiti(today.format("YYYY-MM-DD"))
+      }
+    }
+  }, [ushaGathanMiti])
+
+  useEffect(() => {
+   if (ushaNibedandiyiyekoMiti) {
+      const selectedDate = new NepaliDate(ushaNibedandiyiyekoMiti)
+      const today = new NepaliDate()
+
+      if (selectedDate > today) {
+        alert("Future dates are not allowed")
+        setUshaNibedandiyiyekoMiti(today.format("YYYY-MM-DD"))
+      }
+    }
+  }, [ushaNibedandiyiyekoMiti])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 

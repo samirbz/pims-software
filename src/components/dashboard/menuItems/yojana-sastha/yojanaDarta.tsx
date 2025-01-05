@@ -26,6 +26,7 @@ import {
 } from "@nextui-org/react"
 import React, { useEffect, useState } from "react"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
+import NepaliDate from 'nepali-date-converter'
 
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
@@ -49,6 +50,8 @@ import { ConvertToNepaliNumerals } from "@/lib/util"
 import { toast } from "react-toastify"
 import { AiOutlineClear } from "react-icons/ai"
 import { useMyContext, usePlaceContext } from "@/context/MyContext"
+
+const date1 = new NepaliDate()
 
 const qtyDataList = [
   { key: "1", label: "वटा" },
@@ -410,8 +413,8 @@ export default function YojanaDarta() {
       }
     }
     const result = await saveYojanaDarta(
-      sabhaNirnayaMiti,
-      prastabSwikritMiti,
+      sabhaNirnayaMiti || date1.format("YYYY-MM-DD"),
+      prastabSwikritMiti || date1.format("YYYY-MM-DD"),
       yojanaKoWada,
       trimmedyojanaKoNaam,
       budgetKitabSnum,
@@ -871,6 +874,29 @@ export default function YojanaDarta() {
     fetchSecondLagatSrotHaru(anudanKoNaam2)
     fetchThirdLagatSrotHaru(anudanKoNaam3)
   }, [anudanKoNaam, anudanKoNaam2, anudanKoNaam3, value])
+
+  useEffect(() => {
+    if (sabhaNirnayaMiti) {
+      const selectedDate = new NepaliDate(sabhaNirnayaMiti);
+      const today = new NepaliDate();
+  
+      if (selectedDate > today) {
+        alert("Future dates are not allowed");
+        setSabhaNirnayaMiti(today.format("YYYY-MM-DD"));
+      }
+    }
+    },[sabhaNirnayaMiti])
+  useEffect(() => {
+   if(prastabSwikritMiti){
+      const selectedDate = new NepaliDate(prastabSwikritMiti);
+      const today = new NepaliDate();
+  
+      if (selectedDate > today) {
+        alert("Future dates are not allowed");
+        setPrastabSwikritMiti(today.format("YYYY-MM-DD"));
+      }
+    }
+    },[prastabSwikritMiti])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
