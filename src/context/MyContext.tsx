@@ -9,6 +9,7 @@ import nookies from "nookies"
 
 const listName ={
   nagarpalika:"गोदावरी नगरपालिका",
+  office:"नगर कार्यपालिकाको कार्यालय",
   district:"ललितपुर"
 }
 
@@ -101,6 +102,47 @@ export const usePlaceContext = (): PlaceContextType => {
 }
 
 
+
+
+// Define types for OfficeContext
+interface OfficeContextType {
+    office: string
+    setOffice: (newOffice: string) => void
+  }
+  
+  interface OfficeContextProviderProps {
+    children: React.ReactNode
+  }
+  
+  // Create OfficeContext
+  const OfficeContext = createContext<OfficeContextType | undefined>(undefined)
+  
+  export const OfficeContextProvider = ({
+    children,
+  }: OfficeContextProviderProps) => {
+    const [office, setOfficeState] = useState<string>(listName.office)
+  
+    // Set office
+    const setOffice = (newOffice: string) => {
+      setOfficeState(newOffice)
+    }
+  
+    return (
+      <OfficeContext.Provider value={{ office, setOffice }}>
+        {children}
+      </OfficeContext.Provider>
+    )
+  }
+  
+  export const useOfficeContext = (): OfficeContextType => {
+    const context = useContext(OfficeContext)
+    if (!context) {
+      throw new Error(
+        "useOfficeContext must be used within a DistrictContextProvider"
+      )
+    }
+    return context
+  }
 
 
 // Define types for DistrictContext

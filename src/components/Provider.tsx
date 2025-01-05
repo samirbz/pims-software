@@ -2,7 +2,7 @@
 import { NextUIProvider } from "@nextui-org/react"
 import React, { ReactNode } from "react"
 import { ToastContainer } from "react-toastify"
-import { MyContextProvider, PlaceContextProvider,DistrictContextProvider } from "../context/MyContext"
+import { MyContextProvider, PlaceContextProvider,DistrictContextProvider,OfficeContextProvider } from "../context/MyContext"
 import "react-toastify/dist/ReactToastify.css"
 
 export default function Providers({ children }: { children: ReactNode }) {
@@ -14,7 +14,7 @@ export default function Providers({ children }: { children: ReactNode }) {
         className="z-50"
       />
       <MyContextProvider>
-        <PlaceContextProvider><DistrictContextProvider>{children}</DistrictContextProvider> </PlaceContextProvider>
+        <PlaceContextProvider><DistrictContextProvider><OfficeContextProvider>{children}</OfficeContextProvider></DistrictContextProvider> </PlaceContextProvider>
       </MyContextProvider>
     </NextUIProvider>
   )

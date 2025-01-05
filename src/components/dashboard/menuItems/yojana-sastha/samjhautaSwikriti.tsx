@@ -78,14 +78,45 @@ export default function SamjhautaSwikriti() {
     }
 
     try {
-      const response = await fetchDataByYojanaKaryaKramKoNaam(value || "", pid)
+      // const response = await fetchDataByYojanaKaryaKramKoNaam(value || "", pid)
 
-      if (response.status === "success") {
-        // Alerting the data as a string
-        alert(JSON.stringify(response.data, null, 2))
-      } else {
-        alert("Error: " + response.error)
-      }
+      // if (response.status === "success") {
+      //   // Alerting the data as a string
+      //   alert(JSON.stringify(response.data, null, 2))
+      // } else {
+      //   alert("Error: " + response.error)
+      // }
+alert(
+  `
+ aawa = ${aawa},
+ miti = ${miti},
+ yojanaKaryaKramKoNaam = ${yojanaKaryaKramKoNaam},
+ upavoktaSamitiKoNaam = ${upavoktaSamitiKoNaam},
+ adhyachyaKoNaam = ${adhyachyaKoNaam},
+ velamaUpasthitiSankhya = ${velamaUpasthitiSankhya},
+ padakariSankhya = ${padakariSankhya},
+ mahilaSankhya = ${mahilaSankhya},
+ lagatAnumanRakam = ${lagatAnumanRakam},
+ nagarpalikaRakamRu = ${nagarpalikaRakamRu},
+ lagatSramDan = ${lagatSramDan},
+ contengencyRakam = ${contengencyRakam},
+ khudPauneRakam = ${khudPauneRakam},
+ anugamanSamitikaSadasya = ${anugamanSamitikaSadasya},
+ budgetKitabSNum = ${budgetKitabSNum},
+ ushaGathanMiti = ${ushaGathanMiti},
+ mukhyaSamitiKoNaam = ${mukhyaSamitiKoNaam},
+ ushaNibedandiyiyekoMiti = ${ushaNibedandiyiyekoMiti},
+ anyaTipaniBivaran = ${anyaTipaniBivaran},
+ yojanakoNaam = ${yojanakoNaam},
+ wadaNum = ${wadaNum},
+ biniyojitRakamRu = ${biniyojitRakamRu},
+ sanyojak = ${sanyojak},
+ sadasyaOne = ${sadasyaOne},
+ sadasyaTwo = ${sadasyaTwo},
+  `
+)
+
+
     } catch (error) {
       console.error("Error in handleAlertData:", error)
       alert("An unexpected error occurred.")
@@ -562,27 +593,55 @@ export default function SamjhautaSwikriti() {
                       return
                     }
 
-                    try {
-                      const response = await fetchDataByYojanaKaryaKramKoNaam(
-                        value || "",
-                        pid
-                      )
+                    // try {
+                    //   const response = await fetchDataByYojanaKaryaKramKoNaam(
+                    //     value || "",
+                    //     pid
+                    //   )
 
-                      // Ensure response.data exists and is not empty
-                      if (
-                        response.status === "success" &&
-                        response.data &&
-                        response.data.length > 0
-                      ) {
-                        // Pass the first item in the data array to printContent
-                        SamjhautaSwikritiPrint(response.data[0])
-                      } else {
-                        alert("No data found or error occurred.")
-                      }
-                    } catch (error) {
-                      console.error("Error fetching data:", error)
-                      alert("An unexpected error occurred.")
-                    }
+                    //   // Ensure response.data exists and is not empty
+                    //   if (
+                    //     response.status === "success" &&
+                    //     response.data &&
+                    //     response.data.length > 0
+                    //   ) {
+                    //     // Pass the first item in the data array to printContent
+                    //     SamjhautaSwikritiPrint(response.data[0])
+                    //   } else {
+                    //     alert("No data found or error occurred.")
+                    //   }
+                    // } catch (error) {
+                    //   console.error("Error fetching data:", error)
+                    //   alert("An unexpected error occurred.")
+                    // }
+
+                    SamjhautaSwikritiPrint(
+                      aawa,
+                      miti,
+                      yojanaKaryaKramKoNaam,
+                      upavoktaSamitiKoNaam,
+                      adhyachyaKoNaam,
+                      velamaUpasthitiSankhya,
+                      padakariSankhya,
+                      mahilaSankhya,
+                      lagatAnumanRakam,
+                      nagarpalikaRakamRu,
+                      lagatSramDan,
+                      contengencyRakam,
+                      khudPauneRakam,
+                      anugamanSamitikaSadasya,
+                      budgetKitabSNum,
+                      ushaGathanMiti,
+                      mukhyaSamitiKoNaam,
+                      ushaNibedandiyiyekoMiti,
+                      anyaTipaniBivaran,
+                      yojanakoNaam,
+                      wadaNum,
+                      biniyojitRakamRu,
+                      sanyojak,
+                      sadasyaOne,
+                      sadasyaTwo,)
+
                   }}
                 >
                   Print
