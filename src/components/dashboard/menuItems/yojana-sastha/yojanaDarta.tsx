@@ -990,7 +990,14 @@ export default function YojanaDarta() {
                               {(page - 1) * rowsPerPage + index + 1}
                             </TableCell>
                             <TableCell>{item.yojanaKoNaam}</TableCell>
-                            <TableCell>{item.yojanaUpachetra}</TableCell>
+                            {/* <TableCell>{item.yojanaUpachetra}</TableCell> */}
+                            <TableCell>
+                              {ayojanaUpachetraData.find((data) => {
+                                return (
+                                  data.id === item.yojanaUpachetra
+                                )
+                              })?.yojanaPrakar || "Loading..."}
+                            </TableCell>
                             <TableCell>
                               {ConvertToNepaliNumerals(item.wada)}
                             </TableCell>
@@ -1168,7 +1175,7 @@ export default function YojanaDarta() {
             startContent={loading && <Spinner color="primary" />}
           >
             {mukhyaSamitiData.map((item) => (
-               <SelectItem key={item.id} value={item.id}>
+              <SelectItem key={item.id} value={item.id}>
                 {item.mukhyaSamitiKoNaam}
               </SelectItem>
             ))}
@@ -1196,7 +1203,7 @@ export default function YojanaDarta() {
                 startContent={loading && <Spinner color="primary" />}
               >
                 {aunudaanKisimData.map((item) => (
-                   <SelectItem key={item.id} value={item.id}>
+                  <SelectItem key={item.id} value={item.id}>
                     {item.anudaanKoNaam}
                   </SelectItem>
                 ))}
@@ -1312,7 +1319,7 @@ export default function YojanaDarta() {
                   }}
                 >
                   {aunudaanKisimThirdData.map((item) => (
-                     <SelectItem key={item.id} value={item.id}>
+                    <SelectItem key={item.id} value={item.id}>
                       {item.anudaanKoNaam}
                     </SelectItem>
                   ))}
