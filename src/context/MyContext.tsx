@@ -10,7 +10,8 @@ import nookies from "nookies"
 const listName ={
   nagarpalika:"गोदावरी नगरपालिका",
   office:"नगर कार्यपालिकाको कार्यालय",
-  district:"ललितपुर"
+  district:"ललितपुर",
+  pradesh:"प्रदेश ३",
 }
 
 interface MyContextType {
@@ -177,6 +178,47 @@ interface DistrictContextType {
   
   export const useDistrictContext = (): DistrictContextType => {
     const context = useContext(DistrictContext)
+    if (!context) {
+      throw new Error(
+        "useDistrictContext must be used within a DistrictContextProvider"
+      )
+    }
+    return context
+  }
+  
+
+// Define types for PradeshContext
+interface PradeshContextType {
+    pradesh: string
+    setPradesh: (newPradesh: string) => void
+  }
+  
+  interface PradeshContextProviderProps {
+    children: React.ReactNode
+  }
+  
+  // Create DistrictContext
+  const PradeshContext = createContext<PradeshContextType | undefined>(undefined)
+  
+  export const PradeshContextProvider = ({
+    children,
+  }: PradeshContextProviderProps) => {
+    const [pradesh, setPradeshState] = useState<string>(listName.pradesh)
+  
+    // Set district
+    const setPradesh = (newPradesh: string) => {
+      setPradeshState(newPradesh)
+    }
+  
+    return (
+      <PradeshContext.Provider value={{ pradesh, setPradesh }}>
+        {children}
+      </PradeshContext.Provider>
+    )
+  }
+  
+  export const usePradeshContext = (): PradeshContextType => {
+    const context = useContext(PradeshContext)
     if (!context) {
       throw new Error(
         "useDistrictContext must be used within a DistrictContextProvider"

@@ -77,6 +77,7 @@ sadasyaTwo:string,
 place:string,
 district:string,
 office:string,
+pradesh:string
 ) => {
   const imagePath = "/images/gov-logo.png"
   const blob = await fetch(imagePath).then((r) => r.blob())
@@ -103,6 +104,7 @@ office:string,
     <p style="font-size: 1rem; line-height: 0.6;">${place}</p>
     <p style="font-size: 0.8rem; line-height: 0.6;">${office}</p>
     <p style="font-size: 0.8rem; line-height: 0.6;">${district}</p>
+    <p style="font-size: 0.8rem; line-height: 0.6;">${pradesh}</p>
   </div>
 </div>
 

@@ -34,6 +34,7 @@ import {
   usePlaceContext,
   useDistrictContext,
   useOfficeContext,
+  usePradeshContext,
 } from "@/context/MyContext"
 
 export default function SamjhautaSwikriti() {
@@ -74,6 +75,7 @@ export default function SamjhautaSwikriti() {
   const { place } = usePlaceContext()
   const { district } = useDistrictContext()
   const { office } = useOfficeContext()
+  const { pradesh } = usePradeshContext()
 
   const [hide, setHide] = useState(false)
 
@@ -124,6 +126,7 @@ export default function SamjhautaSwikriti() {
  place = ${place},
  district = ${district},
  office = ${office},
+ pradesh = ${pradesh},
   `
       )
     } catch (error) {
@@ -133,6 +136,10 @@ export default function SamjhautaSwikriti() {
   }
 
   const onSubmit = async () => {
+    if (!yojanaKaryaKramKoNaam) {
+      alert("Please fill form select yojana")
+      return
+    }
     if (saveOrEdit === "Edit") {
       const result = await updateYojanaSwikritiTippani(
         pid,
@@ -599,29 +606,6 @@ export default function SamjhautaSwikriti() {
                       alert("Please select yojana")
                       return
                     }
-
-                    // try {
-                    //   const response = await fetchDataByYojanaKaryaKramKoNaam(
-                    //     value || "",
-                    //     pid
-                    //   )
-
-                    //   // Ensure response.data exists and is not empty
-                    //   if (
-                    //     response.status === "success" &&
-                    //     response.data &&
-                    //     response.data.length > 0
-                    //   ) {
-                    //     // Pass the first item in the data array to printContent
-                    //     SamjhautaSwikritiPrint(response.data[0])
-                    //   } else {
-                    //     alert("No data found or error occurred.")
-                    //   }
-                    // } catch (error) {
-                    //   console.error("Error fetching data:", error)
-                    //   alert("An unexpected error occurred.")
-                    // }
-
                     SamjhautaSwikritiPrint(
                       aawa,
                       miti,
@@ -649,8 +633,9 @@ export default function SamjhautaSwikriti() {
                       sadasyaOne,
                       sadasyaTwo,
                       place,
-district,
-office,
+                      district,
+                      office,
+                      pradesh
                     )
                   }}
                 >
