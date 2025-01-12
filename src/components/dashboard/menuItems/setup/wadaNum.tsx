@@ -35,9 +35,44 @@ import { toast } from "react-toastify"
 import { ConvertToNepaliNumerals } from "@/lib/util"
 import { useMyContext } from "@/context/MyContext"
 
+const englishToNepali = (englishNum:any) => {
+  const nepaliDigits = "०१२३४५६७८९";
+  const englishDigits = "0123456789";
+
+  return englishNum
+    .split("")
+    .map((char:any) => {
+      const index = englishDigits.indexOf(char);
+      return index !== -1 ? nepaliDigits[index] : char;
+    })
+    .join("");
+};
+
+const nepaliToEnglish = (nepaliNum:any) => {
+  const nepaliDigits = "०१२३४५६७८९";
+  const englishDigits = "0123456789";
+
+  return nepaliNum
+    .split("")
+    .map((char:any) => {
+      const index = nepaliDigits.indexOf(char);
+      return index !== -1 ? englishDigits[index] : char;
+    })
+    .join("");
+};
+
+const isValidNumber = (value:any) => {
+  const allowedCharacters = /^[०-९0-9]*$/; // Nepali (०-९) and English (0-9) digits
+  return allowedCharacters.test(value);
+};
+
+
 export default function Wada() {
   const [wadaNum, setWadaNum] = useState("")
   const [wadaNumData, setWadaNumData] = useState<any[]>([])
+
+  const [displayValue, setDisplayValue] = useState(""); // To show Nepali numbers
+  const [savedValue, setSavedValue] = useState(""); // To save English numbers
 
   const [loading, setLoading] = useState(true)
   const [editMode, setEditMode] = useState(false)
@@ -49,7 +84,7 @@ export default function Wada() {
   const rowsPerPage = 7
 
   const pages = Math.ceil(wadaNumData.length / rowsPerPage)
-const { value } = useMyContext()
+  const { value } = useMyContext()
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
@@ -69,57 +104,72 @@ const { value } = useMyContext()
     }
   }
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+  
+    if (isValidNumber(input)) {
+      // Convert to English for saving
+      const englishValue = nepaliToEnglish(input);
+  
+      // Convert to Nepali for display
+      const nepaliValue = englishToNepali(englishValue);
+  
+      setDisplayValue(nepaliValue); // Display Nepali numbers
+      setSavedValue(englishValue); // Save English numbers
+      setWadaNum(englishValue); // Update wadaNum with English numbers for saving
+    }
+  };
+  
   const onSubmit = async () => {
-    setBtnDisable(true)
-
-    const trimmedName = wadaNum.trimEnd()
-
+    setBtnDisable(true);
+  
+    // Use the English value (savedValue) for saving
+    const trimmedName = savedValue.trimEnd();
+  
     // Check if the item exists only when not in edit mode
-    const result = wadaNumData.some((data) => data.wadaNum === trimmedName)
-
+    const result = wadaNumData.some((data) => data.wadaNum === trimmedName);
+  
     if (editMode && editId) {
-      // In edit mode, don't check for duplicates against the current edited item
-      setBtnDisable(false)
-
-      // Check if the current `wadaNum` exists but ignore the one being edited
       const existsInOtherItems = wadaNumData.some(
         (data) => data.wadaNum === trimmedName && data.id !== editId
-      )
-
+      );
+  
       if (existsInOtherItems) {
-        toast.error("Item already exists")
-        setBtnDisable(false)
-        return
+        toast.error("Item already exists");
+        setBtnDisable(false);
+        return;
       }
-
-      // Perform edit operation
-      const result = await editWadaNum(editId, trimmedName, value || "")
+  
+      const result = await editWadaNum(editId, trimmedName, value || "");
       if (result.status === "success") {
-        setWadaNum("")
-        setEditMode(false)
-        setEditId(null)
-        fetchWadaNum()
+        setWadaNum("");
+        setSavedValue("");
+        setDisplayValue("");
+        setEditMode(false);
+        setEditId(null);
+        fetchWadaNum();
       } else {
-        console.error("Error occurred during edit")
+        console.error("Error occurred during edit");
       }
     } else {
-      // For create mode, check if item already exists
       if (result) {
-        toast.error("Item already exists")
+        toast.error("Item already exists");
       } else {
-        // Perform save operation
-        const result = await savewadaNum(trimmedName, value || "")
+        const result = await savewadaNum(trimmedName, value || "");
         if (result.status === "success") {
-          setWadaNum("")
-          fetchWadaNum()
+          setWadaNum("");
+          setSavedValue("");
+          setDisplayValue("");
+          fetchWadaNum();
         } else {
-          console.error("Error occurred during save")
+          console.error("Error occurred during save");
         }
       }
     }
-
-    setBtnDisable(false)
-  }
+  
+    setBtnDisable(false);
+  };
+  
 
   const handleEdit = (item: any) => {
     setWadaNum(item.wadaNum)
@@ -179,11 +229,10 @@ const { value } = useMyContext()
         <br />
         <div className="flex w-full gap-2">
           <Input
-            type="Number"
-            label="वडा न."
-            size="sm"
-            value={wadaNum}
-            onChange={(e) => setWadaNum(e.target.value)}
+            type="text"
+            value={displayValue}
+            onChange={handleInputChange}
+            placeholder="वडा न."
           />
           <Button
             color="secondary"
