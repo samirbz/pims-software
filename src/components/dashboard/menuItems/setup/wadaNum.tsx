@@ -1,4 +1,6 @@
-"use client"
+"use client";
+
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Button,
   Dropdown,
@@ -19,211 +21,218 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from "@nextui-org/react"
-import { FaRegSave } from "react-icons/fa"
-import "nepali-datepicker-reactjs/dist/index.css"
-import { MdModeEditOutline } from "react-icons/md"
+} from "@nextui-org/react";
+import { FaRegSave } from "react-icons/fa";
+import { MdModeEditOutline } from "react-icons/md";
+import { toast } from "react-toastify";
+import "nepali-datepicker-reactjs/dist/index.css";
 
 import {
   savewadaNum,
   fetchWadaNumData,
   deleteWadaNum,
   editWadaNum,
-} from "@/actions/formAction"
-import React, { useState, useEffect } from "react"
-import { toast } from "react-toastify"
-import { ConvertToNepaliNumerals } from "@/lib/util"
-import { useMyContext } from "@/context/MyContext"
+} from "@/actions/formAction";
+import { ConvertToNepaliNumerals } from "@/lib/util";
+import { useMyContext } from "@/context/MyContext";
 
-const englishToNepali = (englishNum:any) => {
+// Utility functions
+const englishToNepali = (englishNum: string): string => {
   const nepaliDigits = "०१२३४५६७८९";
   const englishDigits = "0123456789";
 
   return englishNum
     .split("")
-    .map((char:any) => {
+    .map((char) => {
       const index = englishDigits.indexOf(char);
       return index !== -1 ? nepaliDigits[index] : char;
     })
     .join("");
 };
 
-const nepaliToEnglish = (nepaliNum:any) => {
+const nepaliToEnglish = (nepaliNum: string): string => {
   const nepaliDigits = "०१२३४५६७८९";
   const englishDigits = "0123456789";
 
   return nepaliNum
     .split("")
-    .map((char:any) => {
+    .map((char) => {
       const index = nepaliDigits.indexOf(char);
       return index !== -1 ? englishDigits[index] : char;
     })
     .join("");
 };
 
-const isValidNumber = (value:any) => {
+const isValidNumber = (value: string): boolean => {
   const allowedCharacters = /^[०-९0-9]*$/; // Nepali (०-९) and English (0-9) digits
   return allowedCharacters.test(value);
 };
 
-
 export default function Wada() {
-  const [wadaNum, setWadaNum] = useState("")
-  const [wadaNumData, setWadaNumData] = useState<any[]>([])
-
+  // State management
   const [displayValue, setDisplayValue] = useState(""); // To show Nepali numbers
   const [savedValue, setSavedValue] = useState(""); // To save English numbers
+  const [wadaNum, setWadaNum] = useState("");
+  const [wadaNumData, setWadaNumData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
+  const [btnDisable, setBtnDisable] = useState(false);
+  const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  const [loading, setLoading] = useState(true)
-  const [editMode, setEditMode] = useState(false)
-  const [editId, setEditId] = useState<string | null>(null)
+  const rowsPerPage = 7;
+  const { value } = useMyContext();
 
-  const [btnDisable, setBtnDisable] = useState(false)
+  // Memoized data for pagination
+  const items = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    return wadaNumData.slice(start, end);
+  }, [page, wadaNumData]);
 
-  const [page, setPage] = React.useState(1)
-  const rowsPerPage = 7
+  const pages = Math.ceil(wadaNumData.length / rowsPerPage);
 
-  const pages = Math.ceil(wadaNumData.length / rowsPerPage)
-  const { value } = useMyContext()
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage
-    const end = start + rowsPerPage
-
-    return wadaNumData.slice(start, end)
-  }, [page, wadaNumData])
-
-  const fetchWadaNum = async () => {
-    try {
-      setLoading(true)
-      const data = await fetchWadaNumData(value || "")
-      setWadaNumData(data)
-    } catch (error) {
-      console.error("Error fetching fiscal years:", error)
-    } finally {
-      setLoading(false)
-    }
+  // Fetch Wada data
+ // Memoized fetchWadaNum function
+ const fetchWadaNum = useCallback(async () => {
+  try {
+    setLoading(true);
+    const data = await fetchWadaNumData(value || "");
+    setWadaNumData(data);
+  } catch (error) {
+    console.error("Error fetching wada numbers:", error);
+    toast.error("Failed to fetch data");
+  } finally {
+    setLoading(false);
   }
+}, [value]);
 
+// Fetch data on component mount or when 'value' changes
+useEffect(() => {
+  fetchWadaNum();
+}, [fetchWadaNum]);
+
+  // Input change handler
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
-  
+
     if (isValidNumber(input)) {
-      // Convert to English for saving
       const englishValue = nepaliToEnglish(input);
-  
-      // Convert to Nepali for display
       const nepaliValue = englishToNepali(englishValue);
-  
-      setDisplayValue(nepaliValue); // Display Nepali numbers
-      setSavedValue(englishValue); // Save English numbers
-      setWadaNum(englishValue); // Update wadaNum with English numbers for saving
+
+      setDisplayValue(nepaliValue);
+      setSavedValue(englishValue);
+      setWadaNum(englishValue);
     }
   };
-  
+
+  // Reset form states
+  const resetStates = () => {
+    setWadaNum("");
+    setDisplayValue("");
+    setSavedValue("");
+    setEditMode(false);
+    setEditId(null);
+  };
+
+  // Save or update Wada number
   const onSubmit = async () => {
     setBtnDisable(true);
-  
-    // Use the English value (savedValue) for saving
-    const trimmedName = savedValue.trimEnd();
-  
-    // Check if the item exists only when not in edit mode
-    const result = wadaNumData.some((data) => data.wadaNum === trimmedName);
-  
-    if (editMode && editId) {
-      const existsInOtherItems = wadaNumData.some(
-        (data) => data.wadaNum === trimmedName && data.id !== editId
-      );
-  
-      if (existsInOtherItems) {
-        toast.error("Item already exists");
-        setBtnDisable(false);
-        return;
-      }
-  
-      const result = await editWadaNum(editId, trimmedName, value || "");
-      if (result.status === "success") {
-        setWadaNum("");
-        setSavedValue("");
-        setDisplayValue("");
-        setEditMode(false);
-        setEditId(null);
-        fetchWadaNum();
-      } else {
-        console.error("Error occurred during edit");
-      }
-    } else {
-      if (result) {
-        toast.error("Item already exists");
-      } else {
-        const result = await savewadaNum(trimmedName, value || "");
+    const trimmedName = savedValue.trim();
+
+    if (!trimmedName) {
+      toast.error("Wada number cannot be empty");
+      setBtnDisable(false);
+      return;
+    }
+
+    try {
+      if (editMode && editId) {
+        const exists = wadaNumData.some(
+          (data) => data.wadaNum === trimmedName && data.id !== editId
+        );
+
+        if (exists) {
+          toast.error("Item already exists");
+          return;
+        }
+
+        const result = await editWadaNum(editId, trimmedName, value || "");
         if (result.status === "success") {
-          setWadaNum("");
-          setSavedValue("");
-          setDisplayValue("");
+          toast.success("Wada number updated successfully");
+          resetStates();
           fetchWadaNum();
         } else {
-          console.error("Error occurred during save");
+          toast.error("Failed to update wada number");
+        }
+      } else {
+        const exists = wadaNumData.some((data) => data.wadaNum === trimmedName);
+
+        if (exists) {
+          toast.error("Item already exists");
+        } else {
+          const result = await savewadaNum(trimmedName, value || "");
+          if (result.status === "success") {
+            toast.success("Wada number saved successfully");
+            resetStates();
+            fetchWadaNum();
+          } else {
+            toast.error("Failed to save wada number");
+          }
         }
       }
+    } catch (error) {
+      console.error("Error in onSubmit:", error);
+      toast.error("An error occurred");
+    } finally {
+      setBtnDisable(false);
     }
-  
-    setBtnDisable(false);
   };
-  
 
+  // Edit handler
   const handleEdit = (item: any) => {
-    setWadaNum(item.wadaNum)
-    setEditId(item.id)
-    setEditMode(true)
-  }
+    setDisplayValue(englishToNepali(item.wadaNum));
+    setSavedValue(item.wadaNum);
+    setWadaNum(item.wadaNum);
+    setEditId(item.id);
+    setEditMode(true);
+  };
 
-  const cancelEdit = () => {
-    setWadaNum("")
-    setEditMode(false)
-    setEditId(null)
-  }
+  // Cancel edit handler
+  const cancelEdit = () => resetStates();
 
-  useEffect(() => {
-    const fetchWadaNum = async () => {
-      try {
-        setLoading(true)
-        const data = await fetchWadaNumData(value || "")
-        setWadaNumData(data)
-      } catch (error) {
-        console.error("Error fetching fiscal years:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchWadaNum()
-  }, [value])
-
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [deleteId, setDeleteId] = useState<string | null>(null)
-
+  // Delete handler
   const confirmDelete = (id: string) => {
-    setDeleteId(id)
-    setIsModalOpen(true)
-  }
+    setDeleteId(id);
+    setIsModalOpen(true);
+  };
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteWadaNum(deleteId, value || "")
-      if (result.status === "success") {
-        // Fetch the updated list of fiscal years
-        fetchWadaNum()
-      } else {
-        console.error("Delete unsuccessful")
+      try {
+        const result = await deleteWadaNum(deleteId, value || "");
+        if (result.status === "success") {
+          toast.success("Deleted successfully");
+          fetchWadaNum();
+        } else {
+          toast.error("Failed to delete wada number");
+        }
+      } catch (error) {
+        console.error("Error deleting wada number:", error);
+        toast.error("An error occurred while deleting");
+      } finally {
+        setIsModalOpen(false);
+        setDeleteId(null);
       }
-      setIsModalOpen(false)
-      setDeleteId(null)
     }
-  }
+  };
 
   return (
     <>
-      <div className="flex flex-col justify-between bg-white ">
-        <h1 className="form-title text-xl font-semibold sm:text-2xl ">
+      <div className="flex flex-col justify-between bg-white">
+        <h1 className="form-title text-xl font-semibold sm:text-2xl">
           वडा सेटअप
         </h1>
         <br />
@@ -238,7 +247,7 @@ export default function Wada() {
             color="secondary"
             startContent={<FaRegSave />}
             onClick={onSubmit}
-            isDisabled={!wadaNum.trimEnd() || btnDisable}
+            isDisabled={!wadaNum.trim() || btnDisable}
           >
             {editMode ? "Edit" : "Save"}
           </Button>
@@ -255,7 +264,7 @@ export default function Wada() {
           </div>
         ) : (
           <Table
-            aria-label="Example table with dynamic content"
+            aria-label="Wada number table"
             className="h-auto min-w-full"
             bottomContent={
               <div className="flex w-full justify-center">
@@ -266,7 +275,7 @@ export default function Wada() {
                   color="secondary"
                   page={page}
                   total={pages}
-                  onChange={(page) => setPage(page)}
+                  onChange={(p) => setPage(p)}
                 />
               </div>
             }
@@ -274,13 +283,17 @@ export default function Wada() {
             <TableHeader>
               <TableColumn>सि.न.</TableColumn>
               <TableColumn>वडा न.</TableColumn>
-              <TableColumn>Edit</TableColumn>
+              <TableColumn>Actions</TableColumn>
             </TableHeader>
             <TableBody>
               {items.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
-                  <TableCell>{ConvertToNepaliNumerals(item.wadaNum)}</TableCell>
+                  <TableCell>
+                    {(page - 1) * rowsPerPage + index + 1}
+                  </TableCell>
+                  <TableCell>
+                    {ConvertToNepaliNumerals(item.wadaNum)}
+                  </TableCell>
                   <TableCell>
                     <Dropdown>
                       <DropdownTrigger>
@@ -289,9 +302,9 @@ export default function Wada() {
                           variant="shadow"
                           size="sm"
                           startContent={<MdModeEditOutline />}
-                        ></Button>
+                        />
                       </DropdownTrigger>
-                      <DropdownMenu aria-label="Static Actions">
+                      <DropdownMenu aria-label="Actions">
                         <DropdownItem onPress={() => handleEdit(item)}>
                           Edit
                         </DropdownItem>
@@ -315,7 +328,7 @@ export default function Wada() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalContent>
           <ModalHeader>Confirm Deletion</ModalHeader>
-          <ModalBody>Are you sure you want to delete?</ModalBody>
+          <ModalBody>Are you sure you want to delete this item?</ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => setIsModalOpen(false)}>
               Cancel
@@ -327,5 +340,5 @@ export default function Wada() {
         </ModalContent>
       </Modal>
     </>
-  )
+  );
 }
