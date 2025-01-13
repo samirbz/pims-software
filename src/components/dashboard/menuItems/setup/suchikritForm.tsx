@@ -220,15 +220,21 @@ export default function SuchikritForm() {
 
     setBtnDisable(false)
   }
+
   const handleEdit = (item: any) => {
     setFormKoNaam(item.formKoNaam)
     setDartaMiti(item.dartaMiti)
     setFormKoThegana(item.formKoThegana)
     setDisplayValuePanVat(englishToNepali(item.panVat))
+    setSavedValuePanVat(item.panVat)
     setDisplayValueComapanyDartaNum(englishToNepali(item.companyDartaNum))
+    setSavedValueComapanyDartaNum(item.companyDartaNum)
     setDisplayValuePramanPatraSankhya(englishToNepali(item.pramanPatraSankhya))
+    setSavedValuePramanPatraSankhya(item.pramanPatraSankhya)
     setDisplayValuePhoneNum(englishToNepali(item.phoneNum))
+    setSavedValuePhoneNum(item.phoneNum)
     setDisplayValueSuchiDartaNum(englishToNepali(item.suchiDartaNum))
+    setSavedValueSuchiDartaNum(item.suchiDartaNum)
     setSuchikritHunaChahekoKharid(item.suchikritHunaChahekoKharid)
 
     setEditId(item.id)
