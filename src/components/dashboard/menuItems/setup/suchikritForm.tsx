@@ -25,7 +25,7 @@ import {
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
-import NepaliDate from 'nepali-date-converter'
+import NepaliDate from "nepali-date-converter"
 import { useMyContext } from "@/context/MyContext"
 
 import {
@@ -38,6 +38,37 @@ import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { ConvertToNepaliNumerals } from "@/lib/util"
 
+// Utility functions
+const englishToNepali = (englishNum: string): string => {
+  const nepaliDigits = "०१२३४५६७८९"
+  const englishDigits = "0123456789"
+
+  return englishNum
+    .split("")
+    .map((char) => {
+      const index = englishDigits.indexOf(char)
+      return index !== -1 ? nepaliDigits[index] : char
+    })
+    .join("")
+}
+
+const nepaliToEnglish = (nepaliNum: string): string => {
+  const nepaliDigits = "०१२३४५६७८९"
+  const englishDigits = "0123456789"
+
+  return nepaliNum
+    .split("")
+    .map((char) => {
+      const index = nepaliDigits.indexOf(char)
+      return index !== -1 ? englishDigits[index] : char
+    })
+    .join("")
+}
+
+const isValidNumber = (value: string): boolean => {
+  const allowedCharacters = /^[०-९0-9]*$/ // Nepali (०-९) and English (0-9) digits
+  return allowedCharacters.test(value)
+}
 
 const date1 = new NepaliDate()
 
@@ -49,14 +80,19 @@ const suchikritHunaChanekoList = [
 ]
 
 export default function SuchikritForm() {
+  const [displayValuePanVat, setDisplayValuePanVat] = useState("") 
+  const [savedValuePanVat, setSavedValuePanVat] = useState("") 
+  const [displayValueComapanyDartaNum, setDisplayValueComapanyDartaNum] = useState("") 
+  const [savedValueComapanyDartaNum, setSavedValueComapanyDartaNum] = useState("") 
+  const [displayValuePramanPatraSankhya, setDisplayValuePramanPatraSankhya] = useState("") 
+  const [savedValuePramanPatraSankhya, setSavedValuePramanPatraSankhya] = useState("") 
+  const [displayValuePhoneNum, setDisplayValuePhoneNum] = useState("") 
+  const [savedValuePhoneNum, setSavedValuePhoneNum] = useState("") 
+  const [displayValueSuchiDartaNum, setDisplayValueSuchiDartaNum] = useState("") 
+  const [savedValueSuchiDartaNum, setSavedValueSuchiDartaNum] = useState("") 
   const [formKoNaam, setFormKoNaam] = useState("")
   const [dartaMiti, setDartaMiti] = useState("")
   const [formKoThegana, setFormKoThegana] = useState("")
-  const [panVat, setPanVat] = useState("")
-  const [companyDartaNum, setCompanyDartaNum] = useState("")
-  const [pramanPatraSankhya, setPramanPatraSankhya] = useState("")
-  const [phoneNum, setPhoneNum] = useState("")
-  const [suchiDartaNum, setSuchiDartaNum] = useState("")
   const [suchikritHunaChahekoKharid, setSuchikritHunaChahekoKharid] =
     useState("")
   const [suchikritFormData, setSuchikritFormData] = useState<any[]>([])
@@ -95,9 +131,14 @@ export default function SuchikritForm() {
   const onSubmit = async () => {
     setBtnDisable(true)
     const trimmedNaam = formKoNaam.trimEnd()
+    const panVatConvert =savedValuePanVat.trim();
+    const companyDartaNumConvert = savedValueComapanyDartaNum.trim();
+    const pramanPatraSankhyaConvert = savedValuePramanPatraSankhya.trim();
+    const phoneNumConvert = savedValuePhoneNum.trim();
+    const suchiDartaNumConvert = savedValueSuchiDartaNum.trim();
 
     if (editMode && editId) {
-      // Check if `formKoNaam` exists in other records, excluding the one being edited
+      // Check if formKoNaam exists in other records, excluding the one being edited
       const existsInOtherItems = suchikritFormData.some(
         (data) => data.formKoNaam === trimmedNaam && data.id !== editId
       )
@@ -114,11 +155,11 @@ export default function SuchikritForm() {
         trimmedNaam,
         dartaMiti,
         formKoThegana,
-        panVat,
-        companyDartaNum,
-        pramanPatraSankhya,
-        phoneNum,
-        suchiDartaNum,
+        panVatConvert,
+        companyDartaNumConvert,
+        pramanPatraSankhyaConvert,
+        phoneNumConvert,
+        suchiDartaNumConvert,
         suchikritHunaChahekoKharid,
         value || ""
       )
@@ -126,12 +167,12 @@ export default function SuchikritForm() {
         setFormKoNaam("")
         setDartaMiti("")
         setFormKoThegana("")
-        setPanVat("")
-        setCompanyDartaNum("")
-        setPramanPatraSankhya("")
-        setPhoneNum("")
-        setSuchiDartaNum("")
         setSuchikritHunaChahekoKharid("")
+        setDisplayValuePanVat("")
+        setDisplayValueComapanyDartaNum("")
+        setDisplayValuePramanPatraSankhya("")
+        setDisplayValuePhoneNum("")
+        setDisplayValueSuchiDartaNum("")
         setEditMode(false)
         setEditId(null)
         fetchSuchikritForm()
@@ -139,7 +180,7 @@ export default function SuchikritForm() {
         console.error("Error occurred during edit")
       }
     } else {
-      // Check if `formKoNaam` already exists in the data
+      // Check if formKoNaam already exists in the data
       const exists = suchikritFormData.some(
         (data) => data.formKoNaam === trimmedNaam
       )
@@ -152,11 +193,11 @@ export default function SuchikritForm() {
           trimmedNaam,
           dartaMiti || date1.format("YYYY-MM-DD"),
           formKoThegana,
-          panVat,
-          companyDartaNum,
-          pramanPatraSankhya,
-          phoneNum,
-          suchiDartaNum,
+          panVatConvert,
+          companyDartaNumConvert,
+          pramanPatraSankhyaConvert,
+          phoneNumConvert,
+          suchiDartaNumConvert,
           suchikritHunaChahekoKharid,
           value || ""
         )
@@ -164,11 +205,11 @@ export default function SuchikritForm() {
           setFormKoNaam("")
           setDartaMiti("")
           setFormKoThegana("")
-          setPanVat("")
-          setCompanyDartaNum("")
-          setPramanPatraSankhya("")
-          setPhoneNum("")
-          setSuchiDartaNum("")
+          setDisplayValuePanVat("")
+          setDisplayValueComapanyDartaNum("")
+          setDisplayValuePramanPatraSankhya("")
+          setDisplayValuePhoneNum("")
+          setDisplayValueSuchiDartaNum("")
           setSuchikritHunaChahekoKharid("")
           fetchSuchikritForm()
         } else {
@@ -179,16 +220,15 @@ export default function SuchikritForm() {
 
     setBtnDisable(false)
   }
-
   const handleEdit = (item: any) => {
     setFormKoNaam(item.formKoNaam)
     setDartaMiti(item.dartaMiti)
     setFormKoThegana(item.formKoThegana)
-    setPanVat(item.panVat)
-    setCompanyDartaNum(item.companyDartaNum)
-    setPramanPatraSankhya(item.pramanPatraSankhya)
-    setPhoneNum(item.phoneNum)
-    setSuchiDartaNum(item.suchiDartaNum)
+    setDisplayValuePanVat(englishToNepali(item.panVat))
+    setDisplayValueComapanyDartaNum(englishToNepali(item.companyDartaNum))
+    setDisplayValuePramanPatraSankhya(englishToNepali(item.pramanPatraSankhya))
+    setDisplayValuePhoneNum(englishToNepali(item.phoneNum))
+    setDisplayValueSuchiDartaNum(englishToNepali(item.suchiDartaNum))
     setSuchikritHunaChahekoKharid(item.suchikritHunaChahekoKharid)
 
     setEditId(item.id)
@@ -199,12 +239,12 @@ export default function SuchikritForm() {
     setFormKoNaam("")
     setDartaMiti("")
     setFormKoThegana("")
-    setPanVat("")
-    setCompanyDartaNum("")
-    setPramanPatraSankhya("")
-    setPhoneNum("")
-    setSuchiDartaNum("")
     setSuchikritHunaChahekoKharid("")
+    setDisplayValuePanVat("")
+    setDisplayValueComapanyDartaNum("")
+    setDisplayValuePramanPatraSankhya("")
+    setDisplayValuePhoneNum("")
+    setDisplayValueSuchiDartaNum("")
     setEditMode(false)
     setEditId(null)
   }
@@ -225,16 +265,16 @@ export default function SuchikritForm() {
   }, [value])
 
   useEffect(() => {
-  if (dartaMiti) {
-    const selectedDate = new NepaliDate(dartaMiti);
-    const today = new NepaliDate();
+    if (dartaMiti) {
+      const selectedDate = new NepaliDate(dartaMiti)
+      const today = new NepaliDate()
 
-    if (selectedDate > today) {
-      alert("Future dates are not allowed");
-      setDartaMiti(today.format("YYYY-MM-DD"));
+      if (selectedDate > today) {
+        alert("Future dates are not allowed")
+        setDartaMiti(today.format("YYYY-MM-DD"))
+      }
     }
-  }
-  },[dartaMiti])
+  }, [dartaMiti])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -257,6 +297,63 @@ export default function SuchikritForm() {
       setDeleteId(null)
     }
   }
+
+   // Input change handler
+    const handleInputChangePanVat = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setDisplayValuePanVat(nepaliValue);
+        setSavedValuePanVat(englishValue);
+      }
+    };
+    const handleInputChangeCompanyDartaNum = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setDisplayValueComapanyDartaNum(nepaliValue);
+        setSavedValueComapanyDartaNum(englishValue);
+      }
+    };
+    const handleInputChangePramanPatraSankhya = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setDisplayValuePramanPatraSankhya(nepaliValue);
+        setSavedValuePramanPatraSankhya(englishValue);
+      }
+    };
+    const handleInputChangePhoneNum = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setDisplayValuePhoneNum(nepaliValue);
+        setSavedValuePhoneNum(englishValue);
+      }
+    };
+    const handleInputChangeSuchiDartaNum = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setDisplayValueSuchiDartaNum(nepaliValue);
+        setSavedValueSuchiDartaNum(englishValue);
+      }
+    };
 
   return (
     <>
@@ -299,53 +396,45 @@ export default function SuchikritForm() {
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
-              type="Number"
+              type="text"
               label="पान भ्याट न."
               size="sm"
-              value={panVat}
-              onChange={(e) => setPanVat(e.target.value)}
+              value={displayValuePanVat}
+              onChange={handleInputChangePanVat}
             />
             <Input
-              type="Number"
+              type="text"
               label="कम्पनि दर्ता न."
               size="sm"
-              value={companyDartaNum}
-              onChange={(e) => setCompanyDartaNum(e.target.value)}
+              value={displayValueComapanyDartaNum}
+              onChange={handleInputChangeCompanyDartaNum}
             />
             <Input
-              type="Number"
+              type="text"
               label="प्रमाण पत्र संख्याः "
               size="sm"
-              value={pramanPatraSankhya}
-              onChange={(e) => setPramanPatraSankhya(e.target.value)}
+              value={displayValuePramanPatraSankhya}
+              onChange={handleInputChangePramanPatraSankhya}
             />
           </div>
           <div className="flex gap-2">
             <Input
-              type="Number"
+              type="text"
               label="फोन न."
               placeholder="+977"
               size="sm"
-              value={phoneNum}
-              onChange={(e) => setPhoneNum(e.target.value)}
+              value={displayValuePhoneNum}
+              onChange={handleInputChangePhoneNum}
             />
             <Input
-              type="Number"
+              type="text"
               label="सुची दर्ता नः"
               size="sm"
-              value={suchiDartaNum}
-              onChange={(e) => setSuchiDartaNum(e.target.value)}
+              value={displayValueSuchiDartaNum}
+              onChange={handleInputChangeSuchiDartaNum}
             />
           </div>
           <div className="flex gap-2">
-            {/* <Input
-              type="text"
-              label="सुचिकृत हुन चाहेको खरिद प्रकृतिको विवरण"
-              size="sm"
-              className="w-1/2"
-              value={suchikritHunaChahekoKharid}
-              onChange={(e) => setSuchikritHunaChahekoKharid(e.target.value)}
-            /> */}
 
             <Select
               label="सुचिकृत हुन चाहेको खरिद प्रकृतिको विवरण"
