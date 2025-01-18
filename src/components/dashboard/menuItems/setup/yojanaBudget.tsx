@@ -50,11 +50,45 @@ import "react-toastify/dist/ReactToastify.css"
 import { ConvertToNepaliNumerals } from "@/lib/util"
 import { useMyContext } from "@/context/MyContext"
 
+// Utility functions
+const englishToNepali = (englishNum: string): string => {
+  const nepaliDigits = "०१२३४५६७८९"
+  const englishDigits = "0123456789"
+
+  return englishNum
+    .split("")
+    .map((char) => {
+      const index = englishDigits.indexOf(char)
+      return index !== -1 ? nepaliDigits[index] : char
+    })
+    .join("")
+}
+
+const nepaliToEnglish = (nepaliNum: string): string => {
+  const nepaliDigits = "०१२३४५६७८९"
+  const englishDigits = "0123456789"
+
+  return nepaliNum
+    .split("")
+    .map((char) => {
+      const index = nepaliDigits.indexOf(char)
+      return index !== -1 ? englishDigits[index] : char
+    })
+    .join("")
+}
+
+const isValidNumber = (value: string): boolean => {
+  const allowedCharacters = /^[०-९0-9]*$/ // Nepali (०-९) and English (0-9) digits
+  return allowedCharacters.test(value)
+}
+
 export default function YojanaBudget() {
   const [yojanaKoNaam, setYojanaKoNaam] = useState("")
   const [wadaNum, setWadaNum] = useState("")
+  const [savedWadaNum, setSavedWadaNum] = useState("")
   const [anudanKisim, setAnudanKisim] = useState("")
   const [biniyojanBudget, setBiniyojanBudget] = useState("")
+  const [savedBiniyojanBudget, setSavedBiniyojanBudget] = useState("")
   const [budgetKaryakram, setBudgetKaryakram] = useState("")
   const [yojanaKisim, setYojanaKisim] = useState("")
   const [mukhyaSamiti, setMukyaSamiti] = useState("")
@@ -64,7 +98,9 @@ export default function YojanaBudget() {
   const [yojanaKoNaamDt, setYojanaKoNaamDt] = useState("")
   const [chaniyekoMukhyaYojana, setChaniyekoMukhyaYojana] = useState("")
   const [wadaNumDt, setWadaNumDt] = useState("")
+  const [savedWadaNumDt, setSavedWadaNumDt] = useState("")
   const [biniyojanBudgetDt, setBiniyojanBudgetDt] = useState("")
+  const [savedBiniyojanBudgetDt, setSavedBiniyojanBudgetDt] = useState("")
   const [anudanKisimDt, setAnudanKisimDt] = useState("")
   const [budgetKaryakramDt, setBudgetKaryakramDt] = useState("")
   const [yojanaKisimDt, setYojanaKisimDt] = useState("")
@@ -354,9 +390,9 @@ export default function YojanaBudget() {
     setShowEditBtn(true)
     setFirstEditId(item.id)
     setYojanaKoNaam(item.yojanaKoNaam)
-    setWadaNum(item.wadaNum)
+    setWadaNum(englishToNepali(item.wadaNum))
     setAnudanKisim(item.anudanKisim)
-    setBiniyojanBudget(item.biniyojanBudget)
+    setBiniyojanBudget(englishToNepali(item.biniyojanBudget))
     setBudgetKaryakram(item.budgetKaryakram)
     setYojanaKisim(item.yojanaKisim)
     setMukyaSamiti(item.mukhyaSamiti)
@@ -366,8 +402,10 @@ export default function YojanaBudget() {
   }
 
   const editFirst = async () => {
+    const wadaNumConvert = savedWadaNum.trim()
+    const biniyojanBudgetConvert = savedBiniyojanBudget.trim()
     if (validateFields()) {
-      if (Number(biniyojanBudget) < 0) {
+      if (Number(biniyojanBudgetConvert) < 0) {
         toast.error("Amount should not be negative")
         return
       }
@@ -375,12 +413,12 @@ export default function YojanaBudget() {
       const data = await fetchYojanaBudgetData(value || "")
 
       const hasMatch = data.some(
-        (item) => item.yojanaKoNaam === yojanaKoNaam && item.wadaNum === wadaNum
+        (item) => item.yojanaKoNaam === yojanaKoNaam && item.wadaNum === wadaNumConvert
       )
 
       const sameData =
         checkFirstYojanaKoNaamForEdit === yojanaKoNaam &&
-        checkFirstWodaForEdit === wadaNum
+        checkFirstWodaForEdit === wadaNumConvert
 
       const yojanaKoNaamChange = checkFirstYojanaKoNaamForEdit === yojanaKoNaam
 
@@ -393,7 +431,7 @@ export default function YojanaBudget() {
         fetchYojanaBudgetSecondLocal()
       }
 
-      const wodaNumChangeCheck = checkFirstWodaForEdit === wadaNum
+      const wodaNumChangeCheck = checkFirstWodaForEdit === nepaliToEnglish(wadaNumConvert)
       if (!wodaNumChangeCheck) {
         toast.error("You cannot change woda number")
         setWadaNum(checkFirstWodaForEdit)
@@ -408,22 +446,22 @@ export default function YojanaBudget() {
         const sumOfAll =
           await sumAllChaniyekoMukhyaYojanaBiniyojanBudgetDtSecond(
             matchOldBudget.yojanaKoNaam,
-            wadaNum,
+            wadaNumConvert,
             value || ""
           )
-        const budget1 = Number(biniyojanBudget)
+        const budget1 = Number(biniyojanBudgetConvert)
         const budget2 = Number(sumOfAll.totalBudget)
 
         const res = (budget1 - budget2).toString()
 
-        if (matchOldBudget.biniyojanBudget !== biniyojanBudget) {
+        if (matchOldBudget.biniyojanBudget !== biniyojanBudgetConvert) {
           setBiniyojanBudget(res)
         }
 
         const result = await editYojanaBudgetFirst(
           firstEditId,
           yojanaKoNaam,
-          wadaNum,
+          wadaNumConvert,
           anudanKisim,
           res, // Pass `res` directly instead of `biniyojanBudget`
           budgetKaryakram,
@@ -456,8 +494,8 @@ export default function YojanaBudget() {
     setSecondShowEditBtn(true)
     setSecondEditId(item.id)
     setYojanaKoNaamDt(item.yojanaKoNaamDt)
-    setWadaNumDt(item.wadaNumDt)
-    setBiniyojanBudgetDt(item.biniyojanBudgetDt)
+    setWadaNumDt(englishToNepali(item.wadaNumDt))
+    setBiniyojanBudgetDt(englishToNepali(item.biniyojanBudgetDt))
     setChaniyekoMukhyaYojana(item.chaniyekoMukhyaYojana)
     setCheckBiniyojanBudget(item.biniyojanBudgetDt)
     setCheckFirstYojanaKoNaamForEditSecond(item.yojanaKoNaamDt)
@@ -467,10 +505,13 @@ export default function YojanaBudget() {
   const editSecond = async () => {
     const data = await fetchYojanaBudgetDataSecond(value || "")
 
+    const wadaNumConvertDt = savedWadaNumDt.trim()
+    const biniyojanBudgetConvertDt = savedBiniyojanBudgetDt.trim()
+
     const hasMatch = data.some(
       (item) =>
         item.yojanaKoNaamDt === yojanaKoNaamDt.trim() &&
-        item.wadaNumDt === wadaNumDt
+        item.wadaNumDt === wadaNumConvertDt
     )
 
     const sameData = checkFirstYojanaKoNaamForEditSecond === yojanaKoNaamDt
@@ -480,23 +521,23 @@ export default function YojanaBudget() {
       return
     }
     if (validateFieldsSecond()) {
-      if (Number(biniyojanBudgetDt) < 0) {
+      if (Number(biniyojanBudgetConvertDt) < 0) {
         toast.error("Amount should not be negative")
         return
       }
 
-      if (checkBiniyojanBudget !== biniyojanBudget) {
+      if (checkBiniyojanBudget !== biniyojanBudgetConvertDt) {
         const dataOfYojanaKoNaam: any =
           await getIdForYojanaBudgetFromSecondEdit(
             chaniyekoMukhyaYojana,
-            wadaNumDt,
+            wadaNumConvertDt,
             value || ""
           )
         const remainAmount = dataOfYojanaKoNaam.map((items: any) =>
           Number(items.biniyojanBudget)
         )
         const checkAmount =
-          Number(biniyojanBudgetDt) - Number(checkBiniyojanBudget)
+          Number(biniyojanBudgetConvertDt) - Number(checkBiniyojanBudget)
         if (remainAmount < checkAmount) {
           toast.error("Amount is greater than budget")
           return
@@ -505,8 +546,8 @@ export default function YojanaBudget() {
       const result = await editYojanaBudgetSecond(
         secondEditId,
         yojanaKoNaamDt,
-        wadaNumDt,
-        biniyojanBudgetDt,
+        wadaNumConvertDt,
+        biniyojanBudgetConvertDt,
         chaniyekoMukhyaYojana,
         value || ""
       )
@@ -517,7 +558,7 @@ export default function YojanaBudget() {
         (data) => data.id === secondEditId && data.wadaNumDt
       )
       const budget1 = Number(matchedItem.biniyojanBudget)
-      const budget2 = Number(biniyojanBudgetDt)
+      const budget2 = Number(biniyojanBudgetConvertDt)
       const budget3 = Number(matchedOldBudget.biniyojanBudgetDt)
       // Perform the subtraction
       const res = budget1 - budget2 + budget3
@@ -546,6 +587,8 @@ export default function YojanaBudget() {
     const data = await fetchYojanaBudgetData(value || "")
 
     const trimmedyojanaKoNaam = yojanaKoNaam.trimEnd()
+    const wadaNumConvert = savedWadaNum.trim()
+    const biniyojanConvert = savedBiniyojanBudget.trim()
 
     const hasMatch = data.some(
       (item) =>
@@ -563,9 +606,9 @@ export default function YojanaBudget() {
       if (validateFields()) {
         const result = await saveYojanaBudget(
           trimmedyojanaKoNaam,
-          wadaNum,
+          wadaNumConvert,
           anudanKisim,
-          biniyojanBudget,
+          biniyojanConvert,
           budgetKaryakram,
           yojanaKisim,
           mukhyaSamiti,
@@ -596,11 +639,13 @@ export default function YojanaBudget() {
     const data = await fetchYojanaBudgetDataSecond(value || "")
 
     const trimmedyojanaKoNaamSecond = yojanaKoNaamDt.trimEnd()
+    const wadaNumConvertDt = savedWadaNumDt.trim()
+    const biniyojanConvertDt = savedBiniyojanBudgetDt.trim()
 
     const hasMatch = data.some(
       (item) =>
         item.yojanaKoNaamDt === trimmedyojanaKoNaamSecond.trim() &&
-        item.wadaNumDt === wadaNumDt
+        item.wadaNumDt === wadaNumConvertDt
     )
 
     if (hasMatch) {
@@ -608,7 +653,7 @@ export default function YojanaBudget() {
       return
     }
     // alert(Number(biniyojanBudgetDt) > Number(amountCheck))
-    if (Number(biniyojanBudgetDt) > Number(amountCheck)) {
+    if (Number(biniyojanConvertDt) > Number(amountCheck)) {
       toast.error("Amount is greater than budget")
       return
     }
@@ -618,7 +663,7 @@ export default function YojanaBudget() {
     }
 
     try {
-      if (Number(biniyojanBudgetDt) < 0) {
+      if (Number(biniyojanConvertDt) < 0) {
         toast.error("Amount should not be negative")
         return
       }
@@ -633,7 +678,7 @@ export default function YojanaBudget() {
 
       // Extract and convert the budgets to numbers
       const budget1 = Number(matchedItem.biniyojanBudget)
-      const budget2 = Number(biniyojanBudgetDt)
+      const budget2 = Number(biniyojanConvertDt)
 
       if (isNaN(budget1) || isNaN(budget2)) {
         console.error("Invalid budget values. Could not convert to number.")
@@ -650,9 +695,9 @@ export default function YojanaBudget() {
 
       const result = await saveYojanaBudgetDt(
         trimmedyojanaKoNaamSecond,
-        wadaNumDt,
+        wadaNumConvertDt,
         anudanKisimDt,
-        biniyojanBudgetDt,
+        biniyojanConvertDt,
         budgetKaryakramDt,
         yojanaKisimDt,
         mukhyaSamitiDt,
@@ -732,6 +777,79 @@ export default function YojanaBudget() {
     XLSX.writeFile(workbook, "योजना.xlsx")
   }
 
+  // Input change handler
+
+  const handleInputChangeWadaNum =
+    (setter: React.Dispatch<React.SetStateAction<string>>, fieldName: string) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value
+
+      if (isValidNumber(input)) {
+        setter(e.target.value)
+        // Clear the error for this field
+        setErrors((prevErrors: any) => ({ ...prevErrors, [fieldName]: "" }))
+
+        const englishValue = nepaliToEnglish(input)
+        const nepaliValue = englishToNepali(englishValue)
+
+        setWadaNum(nepaliValue)
+        setSavedWadaNum(englishValue)
+      }
+    }
+
+  const handleInputChangeBiniyojanBudget =
+    (setter: React.Dispatch<React.SetStateAction<string>>, fieldName: string) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value
+
+      if (isValidNumber(input)) {
+        setter(e.target.value)
+        // Clear the error for this field
+        setErrors((prevErrors: any) => ({ ...prevErrors, [fieldName]: "" }))
+
+        const englishValue = nepaliToEnglish(input)
+        const nepaliValue = englishToNepali(englishValue)
+        setBiniyojanBudget(nepaliValue)
+        setSavedBiniyojanBudget(englishValue)
+      }
+    }
+
+      // Input change handler second
+
+  const handleInputChangeWadaNumDt =
+    (setter: React.Dispatch<React.SetStateAction<string>>, fieldName: string) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value
+
+      if (isValidNumber(input)) {
+        setter(e.target.value)
+        // Clear the error for this field
+        setErrors((prevErrors: any) => ({ ...prevErrors, [fieldName]: "" }))
+
+        const englishValue = nepaliToEnglish(input)
+        const nepaliValue = englishToNepali(englishValue)
+        setWadaNumDt(nepaliValue)
+        setSavedWadaNumDt(englishValue)
+      }
+    }
+
+  const handleInputChangeBiniyojanBudgetDt =
+    (setter: React.Dispatch<React.SetStateAction<string>>, fieldName: string) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value
+
+      if (isValidNumber(input)) {
+        setter(e.target.value)
+        // Clear the error for this field
+        setErrors((prevErrors: any) => ({ ...prevErrors, [fieldName]: "" }))
+
+        const englishValue = nepaliToEnglish(input)
+        const nepaliValue = englishToNepali(englishValue)
+        setBiniyojanBudgetDt(nepaliValue)
+        setSavedBiniyojanBudgetDt(englishValue)
+      }
+    }
+
   return (
     <>
       <Modal
@@ -802,11 +920,11 @@ export default function YojanaBudget() {
               errorMessage={errors.yojanaKoNaam}
             />
             <Input
-              type="Number"
+              type="text"
               label="वडा न."
               size="sm"
               value={wadaNum}
-              onChange={handleChange(setWadaNum, "wadaNum")}
+              onChange={handleInputChangeWadaNum(setWadaNum, "wadaNum")}
               isInvalid={!!errors.wadaNum}
               errorMessage={errors.wadaNum}
             />
@@ -822,11 +940,14 @@ export default function YojanaBudget() {
               errorMessage={errors.anudanKisim}
             />
             <Input
-              type="Number"
+              type="text"
               label=" विनियोजन बजेट"
               size="sm"
               value={biniyojanBudget}
-              onChange={handleChange(setBiniyojanBudget, "biniyojanBudget")}
+              onChange={handleInputChangeBiniyojanBudget(
+                setBiniyojanBudget,
+                "biniyojanBudget"
+              )}
               isInvalid={!!errors.biniyojanBudget}
               errorMessage={errors.biniyojanBudget}
             />
@@ -1011,6 +1132,7 @@ export default function YojanaBudget() {
                   setSecondId(selected.id || "")
                   setFilterYojanakoNaam(selected.yojanaKoNaam || "")
                   setWadaNumDt(selected.wadaNum)
+                  setSavedWadaNumDt(selected.wadaNum)
                 }}
                 value={selectedItem?.id}
                 options={yojanaBudgetData.map((item) => ({
@@ -1057,21 +1179,21 @@ export default function YojanaBudget() {
           </div>
           <div className="flex gap-2">
             <Input
-              type="Number"
+              type="text"
               label="वडा न."
               size="sm"
               isReadOnly
-              value={wadaNumDt}
-              onChange={handleChangeSecond(setWadaNumDt, "wadaNumDt")}
+              value={englishToNepali(wadaNumDt)}
+              onChange={handleInputChangeWadaNumDt(setWadaNumDt, "wadaNumDt")}
               isInvalid={!!errorsSecond.wadaNumDt}
               errorMessage={errorsSecond.wadaNumDt}
             />
             <Input
-              type="Number"
+              type="text"
               label="विनियोजन बजेट रु. "
               size="sm"
               value={biniyojanBudgetDt}
-              onChange={handleChangeSecond(
+              onChange={handleInputChangeBiniyojanBudgetDt(
                 setBiniyojanBudgetDt,
                 "biniyojanBudgetDt"
               )}

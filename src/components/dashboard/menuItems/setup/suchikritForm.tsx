@@ -421,7 +421,7 @@ export default function SuchikritForm() {
             <Input
               type="text"
               label="फोन न."
-              placeholder="+977"
+              placeholder="+९७७"
               size="sm"
               value={displayValuePhoneNum}
               onChange={handleInputChangePhoneNum}
