@@ -62,7 +62,8 @@ export async function saveTskData(
   sadarTippaniMaDekhauneHo: boolean,
   sadarGarneKoNaamPadDekhauneHo: boolean,
   sifarishRujuGarneAmaanKoNaam: boolean,
-  sifarishRujuGarneUpovoktaKoNaam: boolean
+  sifarishRujuGarneUpovoktaKoNaam: boolean,
+  fiscalyear: string
 ) {
   try {
     const tskRecord = await prisma.tskData.create({
@@ -89,6 +90,7 @@ export async function saveTskData(
 
         sifarishRujuGarneAmaanKoNaam,
         sifarishRujuGarneUpovoktaKoNaam,
+        fiscalyear,
       },
     })
     return { status: "success", data: tskRecord }
@@ -98,9 +100,13 @@ export async function saveTskData(
   }
 }
 
-export async function fetchTskData() {
+export async function fetchTskData(fiscalyear: string) {
   try {
-    const tskData = await prisma.tskData.findMany()
+    const tskData = await prisma.tskData.findMany({
+      where: {
+        fiscalyear, // Match the provided fiscalyear
+      },
+    })
     return tskData
   } catch (error) {
     console.error("Error fetching staff names:", error)
@@ -108,15 +114,69 @@ export async function fetchTskData() {
   }
 }
 
-export async function deleteTskData(id: string) {
+export async function deleteTskData(id: string, fiscalyear: string) {
   try {
     await prisma.tskData.delete({
-      where: { id },
+      where: { id, fiscalyear },
     })
     return { status: "success" }
   } catch (error) {
     console.error("Failed to delete date:", error)
     return { status: "error", error: "something went wrong" }
+  }
+}
+
+export async function editTskData(
+  id: string,
+  tayarGarneKoName: string,
+  tayarGarneKoPad: string,
+  tippaniMaDekhauneHo: boolean,
+  tayarGarneKoNaamPadDekhauneHo: boolean,
+  peshGarneKoName: string,
+  peshGarneKoPad: string,
+  peshTippaniMaDekhauneHo: boolean,
+  peshGarneKoNaamPadDekhauneHo: boolean,
+  sifarishRujuGarne: string,
+  sifarishRujuGarneKoPad: string,
+  sifarisTippaniMaDekhauneHo: boolean,
+  sifarishGarneKoNaamPadDekhauneHo: boolean,
+  sadarGarneKoName: string,
+  sadarGarneKopad: string,
+  sadarTippaniMaDekhauneHo: boolean,
+  sadarGarneKoNaamPadDekhauneHo: boolean,
+  sifarishRujuGarneAmaanKoNaam: boolean,
+  sifarishRujuGarneUpovoktaKoNaam: boolean,
+  fiscalyear: string
+) {
+  try {
+    const updatedRecord = await prisma.tskData.updateMany({
+      where: { id, fiscalyear },
+      data: {
+        tayarGarneKoName,
+        tayarGarneKoPad,
+        tippaniMaDekhauneHo,
+        tayarGarneKoNaamPadDekhauneHo,
+        peshGarneKoName,
+        peshGarneKoPad,
+        peshTippaniMaDekhauneHo,
+        peshGarneKoNaamPadDekhauneHo,
+        sifarishRujuGarne,
+        sifarishRujuGarneKoPad,
+        sifarisTippaniMaDekhauneHo,
+        sifarishGarneKoNaamPadDekhauneHo,
+        sadarGarneKoName,
+        sadarGarneKopad,
+        sadarTippaniMaDekhauneHo,
+        sadarGarneKoNaamPadDekhauneHo,
+        sifarishRujuGarneAmaanKoNaam,
+        sifarishRujuGarneUpovoktaKoNaam,
+        fiscalyear,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in editTskData:", error)
+    return { status: "error", error: "Something went wrong" }
   }
 }
 
@@ -153,7 +213,7 @@ export async function fetchMukyaSamitiData(fiscalyear: string) {
     throw error
   }
 }
-export async function fetchMukyaSamitiDataById(id:string,fiscalyear: string) {
+export async function fetchMukyaSamitiDataById(id: string, fiscalyear: string) {
   try {
     const data = await prisma.mukhyaSamitiKoNaam.findMany({
       where: {
@@ -1798,7 +1858,7 @@ export async function saveYojanaSamjhauta(
   anyaSartHaruOne: string,
   anyaSartHaruTwo: string,
   karyalayaKoTarfabata: string,
-  yojanaSakhaTarfabata: string,
+  yojanaSakhaTarfabata: string
 ) {
   try {
     const dt = await prisma.yojanaSamjhauta.create({
@@ -2038,7 +2098,7 @@ export async function updateYojanaSamjhauta(
   anyaSartHaruOne: string,
   anyaSartHaruTwo: string,
   karyalayaKoTarfabata: string,
-  yojanaSakhaTarfabata: string,
+  yojanaSakhaTarfabata: string
 ) {
   try {
     const result = await prisma.yojanaSamjhauta.updateMany({
@@ -2146,7 +2206,6 @@ export async function updateYojanaSamjhauta(
   }
 }
 
-
 // Karyadesh
 export async function saveKaryaDesh(
   pid: string,
@@ -2172,10 +2231,7 @@ export async function saveKaryaDesh(
   }
 }
 
-export async function fetchKaryadeshData(
-  fiscalyear: string,
-  pid: string
-) {
+export async function fetchKaryadeshData(fiscalyear: string, pid: string) {
   try {
     const data = await prisma.karyadesh.findMany({
       where: {
@@ -2194,10 +2250,7 @@ export async function fetchKaryadeshData(
     return { status: "error", error: "Something went wrong" }
   }
 }
-export async function getKaryadeshData(
-  fiscalyear: string,
-  pid: string
-) {
+export async function getKaryadeshData(fiscalyear: string, pid: string) {
   try {
     const data = await prisma.karyadesh.findMany({
       where: {
@@ -2213,7 +2266,7 @@ export async function getKaryadeshData(
 }
 
 export async function updatekaryaDesh(
-  pid:string,
+  pid: string,
   patraSankhya: string,
   date: string,
   karmachariKoNaam: string,
@@ -2222,7 +2275,7 @@ export async function updatekaryaDesh(
   try {
     const result = await prisma.karyadesh.updateMany({
       where: {
-       pid,
+        pid,
         fiscalyear,
       },
       data: {

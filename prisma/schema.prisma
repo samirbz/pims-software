@@ -57,6 +57,7 @@ model TskData {
 
   sifarishRujuGarneAmaanKoNaam    Boolean
   sifarishRujuGarneUpovoktaKoNaam Boolean
+  fiscalyear    String
 }
 
 model MukhyaSamitiKoNaam {

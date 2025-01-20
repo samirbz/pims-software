@@ -22,9 +22,15 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react"
-import { deleteTskData, fetchTskData, saveTskData } from "@/actions/formAction"
+import {
+  deleteTskData,
+  fetchTskData,
+  saveTskData,
+  editTskData,
+} from "@/actions/formAction"
 import { FaRegSave } from "react-icons/fa"
 import { MdModeEditOutline } from "react-icons/md"
+import { useMyContext } from "@/context/MyContext"
 
 export default function TskPage() {
   const [tayarGarneKoName, setTayarGarneKoName] = useState<string>("")
@@ -63,39 +69,135 @@ export default function TskPage() {
     useState<boolean>(false)
 
   const [tskDetails, setTskDetails] = useState<any[]>([])
+  const [editMode, setEditMode] = useState<boolean>(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const onSubmit = async () => {
-    const result = await saveTskData(
-      tayarGarneKoName,
-      tayarGarneKoPad,
-      tippaniMaDekhauneHo,
-      tayarGarneKoNaamPadDekhauneHo,
-      peshGarneKoName,
-      peshGarneKoPad,
-      peshTippaniMaDekhauneHo,
-      peshGarneKoNaamPadDekhauneHo,
-      sifarishRujuGarne,
-      sifarishRujuGarneKoPad,
-      sifarisTippaniMaDekhauneHo,
-      sifarishGarneKoNaamPadDekhauneHo,
-      sadarGarneKoName,
-      sadarGarneKopad,
-      sadarTippaniMaDekhauneHo,
-      sadarGarneKoNaamPadDekhauneHo,
-      sifarishRujuGarneAmaanKoNaam,
-      sifarishRujuGarneUpovoktaKoNaam
-    )
-    if (result.status === "success") {
-      fetchTsk()
+    if (editMode && editId) {
+      const result = await editTskData(
+        editId,
+        tayarGarneKoName,
+        tayarGarneKoPad,
+        tippaniMaDekhauneHo,
+        tayarGarneKoNaamPadDekhauneHo,
+        peshGarneKoName,
+        peshGarneKoPad,
+        peshTippaniMaDekhauneHo,
+        peshGarneKoNaamPadDekhauneHo,
+        sifarishRujuGarne,
+        sifarishRujuGarneKoPad,
+        sifarisTippaniMaDekhauneHo,
+        sifarishGarneKoNaamPadDekhauneHo,
+        sadarGarneKoName,
+        sadarGarneKopad,
+        sadarTippaniMaDekhauneHo,
+        sadarGarneKoNaamPadDekhauneHo,
+        sifarishRujuGarneAmaanKoNaam,
+        sifarishRujuGarneUpovoktaKoNaam,
+        value || ""
+      )
+      if (result.status === "success") {
+        fetchTsk()
+        resetFields()
+        setEditMode(false)
+        setEditId(null)
+      } else {
+        console.error("Edit unsuccessful")
+      }
     } else {
-      console.error("Delete unsuccessful:")
+      const result = await saveTskData(
+        tayarGarneKoName,
+        tayarGarneKoPad,
+        tippaniMaDekhauneHo,
+        tayarGarneKoNaamPadDekhauneHo,
+        peshGarneKoName,
+        peshGarneKoPad,
+        peshTippaniMaDekhauneHo,
+        peshGarneKoNaamPadDekhauneHo,
+        sifarishRujuGarne,
+        sifarishRujuGarneKoPad,
+        sifarisTippaniMaDekhauneHo,
+        sifarishGarneKoNaamPadDekhauneHo,
+        sadarGarneKoName,
+        sadarGarneKopad,
+        sadarTippaniMaDekhauneHo,
+        sadarGarneKoNaamPadDekhauneHo,
+        sifarishRujuGarneAmaanKoNaam,
+        sifarishRujuGarneUpovoktaKoNaam,
+        value || ""
+      )
+      if (result.status === "success") {
+        resetFields()
+        fetchTsk()
+      } else {
+        console.error("Save unsuccessful")
+      }
     }
   }
+
+  const resetFields = () => {
+    setTayarGarneKoName("")
+    setTayarGarneKoPad("")
+    SetTippaniMaDekhauneHo(false)
+    SetTayarGarneKoNaamPadDekhauneHo(false)
+    setPeshGarneKoName("")
+    setPeshGarneKo("")
+    SetPeshTippaniMaDekhauneHo(false)
+    SetPeshGarneKoNaamPadDekhauneHo(false)
+    setSifarishRujuGarne("")
+    setSifarishRujuGarneKoPad("")
+    SetSifarisTippaniMaDekhauneHo(false)
+    SetSifarishGarneKoNaamPadDekhauneHo(false)
+    setSadarGarneKoName("")
+    setSadarGarneKopad("")
+    SetSadarTippaniMaDekhauneHo(false)
+    SetSadarishGarneKoNaamPadDekhauneHo(false)
+    setSifarishRujuGarneAmaanKoNaam(false)
+    setSifarishRujuGarneUpovoktaKoNaam(false)
+  }
+
+  const handleEdit = (item: any) => {
+    setTayarGarneKoName(item.tayarGarneKoName)
+    setTayarGarneKoPad(item.tayarGarneKoPad)
+    SetTippaniMaDekhauneHo(item.tippaniMaDekhauneHo)
+    SetTayarGarneKoNaamPadDekhauneHo(item.tayarGarneKoNaamPadDekhauneHo)
+
+    setPeshGarneKoName(item.peshGarneKoName)
+    setPeshGarneKo(item.peshGarneKoPad)
+    SetPeshTippaniMaDekhauneHo(item.peshTippaniMaDekhauneHo)
+    SetPeshGarneKoNaamPadDekhauneHo(item.peshGarneKoNaamPadDekhauneHo)
+
+    setSifarishRujuGarne(item.sifarishRujuGarne)
+    setSifarishRujuGarneKoPad(item.sifarishRujuGarneKoPad)
+    SetSifarisTippaniMaDekhauneHo(item.sifarisTippaniMaDekhauneHo)
+    SetSifarishGarneKoNaamPadDekhauneHo(item.sifarishGarneKoNaamPadDekhauneHo)
+
+    setSadarGarneKoName(item.sadarGarneKoName)
+    setSadarGarneKopad(item.sadarGarneKopad)
+    SetSadarTippaniMaDekhauneHo(item.sadarTippaniMaDekhauneHo)
+    SetSadarishGarneKoNaamPadDekhauneHo(item.sadarGarneKoNaamPadDekhauneHo)
+
+    setSifarishRujuGarneAmaanKoNaam(item.sifarishRujuGarneAmaanKoNaam)
+    setSifarishRujuGarneUpovoktaKoNaam(item.sifarishRujuGarneUpovoktaKoNaam)
+
+    setEditId(item.id)
+    setEditMode(true)
+  }
+
+  const cancelEdit = () => {
+   resetFields()
+    setEditMode(false)
+    setEditId(null)
+  }
+
+
   const [loading, setLoading] = useState(true)
   const [page, setPage] = React.useState(1)
   const rowsPerPage = 4
 
   const pages = Math.ceil(tskDetails.length / rowsPerPage)
+
+  const { value } = useMyContext()
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -107,7 +209,7 @@ export default function TskPage() {
   const fetchTsk = async () => {
     try {
       setLoading(true)
-      const data = await fetchTskData()
+      const data = await fetchTskData(value || "")
       setTskDetails(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
@@ -117,8 +219,19 @@ export default function TskPage() {
   }
 
   useEffect(() => {
+    const fetchTsk = async () => {
+      try {
+        setLoading(true)
+        const data = await fetchTskData(value || "")
+        setTskDetails(data)
+      } catch (error) {
+        console.error("Error fetching fiscal years:", error)
+      } finally {
+        setLoading(false) // Set loading to false after fetching data
+      }
+    }
     fetchTsk()
-  }, [])
+  }, [value])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
@@ -130,7 +243,7 @@ export default function TskPage() {
 
   const handleConfirmDelete = async () => {
     if (deleteId) {
-      const result = await deleteTskData(deleteId)
+      const result = await deleteTskData(deleteId, value || "")
       if (result.status === "success") {
         // Fetch the updated list of fiscal years
         fetchTsk()
@@ -168,14 +281,14 @@ export default function TskPage() {
             <div className="w-full flex-col sm:flex">
               <Checkbox
                 size="sm"
-                checked={tippaniMaDekhauneHo}
+                isSelected={tippaniMaDekhauneHo}
                 onChange={(e) => SetTippaniMaDekhauneHo(e.target.checked)}
               >
                 टिप्पणीमा देखाउने हो ?
               </Checkbox>
               <Checkbox
                 size="sm"
-                checked={tayarGarneKoNaamPadDekhauneHo}
+                isSelected={tayarGarneKoNaamPadDekhauneHo}
                 onChange={(e) =>
                   SetTayarGarneKoNaamPadDekhauneHo(e.target.checked)
                 }
@@ -202,14 +315,14 @@ export default function TskPage() {
             <div className="w-full flex-col sm:flex">
               <Checkbox
                 size="sm"
-                checked={peshTippaniMaDekhauneHo}
+                isSelected={peshTippaniMaDekhauneHo}
                 onChange={(e) => SetPeshTippaniMaDekhauneHo(e.target.checked)}
               >
                 टिप्पणीमा देखाउने हो ?
               </Checkbox>
               <Checkbox
                 size="sm"
-                checked={peshGarneKoNaamPadDekhauneHo}
+                isSelected={peshGarneKoNaamPadDekhauneHo}
                 onChange={(e) =>
                   SetPeshGarneKoNaamPadDekhauneHo(e.target.checked)
                 }
@@ -236,7 +349,7 @@ export default function TskPage() {
             <div className="w-full flex-col sm:flex">
               <Checkbox
                 size="sm"
-                checked={sifarisTippaniMaDekhauneHo}
+                isSelected={sifarisTippaniMaDekhauneHo}
                 onChange={(e) =>
                   SetSifarisTippaniMaDekhauneHo(e.target.checked)
                 }
@@ -245,7 +358,7 @@ export default function TskPage() {
               </Checkbox>
               <Checkbox
                 size="sm"
-                checked={sifarishGarneKoNaamPadDekhauneHo}
+                isSelected={sifarishGarneKoNaamPadDekhauneHo}
                 onChange={(e) =>
                   SetSifarishGarneKoNaamPadDekhauneHo(e.target.checked)
                 }
@@ -272,14 +385,14 @@ export default function TskPage() {
             <div className="w-full flex-col sm:flex">
               <Checkbox
                 size="sm"
-                checked={sadarTippaniMaDekhauneHo}
+                isSelected={sadarTippaniMaDekhauneHo}
                 onChange={(e) => SetSadarTippaniMaDekhauneHo(e.target.checked)}
               >
                 टिप्पणीमा देखाउने हो ?
               </Checkbox>
               <Checkbox
                 size="sm"
-                checked={sadarGarneKoNaamPadDekhauneHo}
+                isSelected={sadarGarneKoNaamPadDekhauneHo}
                 onChange={(e) =>
                   SetSadarishGarneKoNaamPadDekhauneHo(e.target.checked)
                 }
@@ -293,14 +406,14 @@ export default function TskPage() {
         <div className="flex gap-4">
           <Checkbox
             size="sm"
-            checked={sifarishRujuGarneAmaanKoNaam}
+            isSelected={sifarishRujuGarneAmaanKoNaam}
             onChange={(e) => setSifarishRujuGarneAmaanKoNaam(e.target.checked)}
           >
             सिफारिस / रुजु गर्ने अमानतको टिप्पणीमा देखाउने हो ?{" "}
           </Checkbox>
           <Checkbox
             size="sm"
-            checked={sifarishRujuGarneUpovoktaKoNaam}
+            isSelected={sifarishRujuGarneUpovoktaKoNaam}
             onChange={(e) =>
               setSifarishRujuGarneUpovoktaKoNaam(e.target.checked)
             }
@@ -322,8 +435,13 @@ export default function TskPage() {
               !sadarGarneKopad
             }
           >
-            Save
+            {editMode ? "Edit" : "Save"}
           </Button>
+             {editMode && (
+                      <Button color="default" onClick={cancelEdit}>
+                        Cancel
+                      </Button>
+                    )}
         </div>
         <br />
         {loading ? (
@@ -380,7 +498,9 @@ export default function TskPage() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onPress={() => handleEdit(item)}>
+                          Edit
+                        </DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"
