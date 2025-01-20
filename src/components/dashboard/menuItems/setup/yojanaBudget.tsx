@@ -1143,7 +1143,7 @@ export default function YojanaBudget() {
             </div>
             <p className="mt-4 w-full text-xl font-semibold text-red-600">
               बाँकी बजेट रु:{" "}
-              {selectedItem ? selectedItem.biniyojanBudget : "00.00"}
+            {selectedItem ? englishToNepali(selectedItem.biniyojanBudget) : "00.00"}
             </p>
           </div>
           <div className="flex flex-col gap-2 ">
