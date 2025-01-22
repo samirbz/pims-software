@@ -391,6 +391,7 @@ export default function YojanaBudget() {
     setFirstEditId(item.id)
     setYojanaKoNaam(item.yojanaKoNaam)
     setWadaNum(englishToNepali(item.wadaNum))
+    setSavedWadaNum(item.wadaNum)
     setAnudanKisim(item.anudanKisim)
     setBiniyojanBudget(englishToNepali(item.biniyojanBudget))
     setBudgetKaryakram(item.budgetKaryakram)
@@ -431,10 +432,12 @@ export default function YojanaBudget() {
         fetchYojanaBudgetSecondLocal()
       }
 
-      const wodaNumChangeCheck = checkFirstWodaForEdit === nepaliToEnglish(wadaNumConvert)
+      const wodaNumChangeCheck = checkFirstWodaForEdit === wadaNumConvert
+      console.log(wadaNumConvert)
       if (!wodaNumChangeCheck) {
         toast.error("You cannot change woda number")
-        setWadaNum(checkFirstWodaForEdit)
+        setWadaNum(englishToNepali(checkFirstWodaForEdit))
+        setSavedWadaNum(checkFirstWodaForEdit)
         return
       }
       if (hasMatch && !sameData) {
@@ -473,6 +476,7 @@ export default function YojanaBudget() {
         if (result.status === "success") {
           setYojanaKoNaam("")
           setWadaNum("")
+          setSavedWadaNum("")
           setAnudanKisim("")
           setBiniyojanBudget("")
           setBudgetKaryakram("")
