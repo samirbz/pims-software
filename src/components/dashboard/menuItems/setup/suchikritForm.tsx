@@ -155,11 +155,11 @@ export default function SuchikritForm() {
         trimmedNaam,
         dartaMiti,
         formKoThegana,
-        panVatConvert,
-        companyDartaNumConvert,
-        pramanPatraSankhyaConvert,
-        phoneNumConvert,
-        suchiDartaNumConvert,
+        nepaliToEnglish(panVatConvert),
+        nepaliToEnglish(companyDartaNumConvert),
+        nepaliToEnglish(pramanPatraSankhyaConvert),
+        nepaliToEnglish(phoneNumConvert),
+        nepaliToEnglish(suchiDartaNumConvert),
         suchikritHunaChahekoKharid,
         value || ""
       )
