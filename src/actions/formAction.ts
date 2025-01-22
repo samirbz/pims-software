@@ -44,6 +44,28 @@ export async function deleteFyDate(id: string) {
   }
 }
 
+export async function editFyDate(
+  id: string,
+  startDate: string,
+  endDate: string,
+  fy: string
+) {
+  try {
+    const updatedRecord = await prisma.fiscalyear.update({
+      where: { id },
+      data: {
+        startDate,
+        endDate,
+        fy,
+      },
+    })
+    return { status: "success", data: updatedRecord }
+  } catch (error) {
+    console.error("Error in editFyDate:", error)
+    return { status: "error", error: "Something went wrong" }
+  }
+}
+
 export async function saveTskData(
   tayarGarneKoName: string,
   tayarGarneKoPad: string,

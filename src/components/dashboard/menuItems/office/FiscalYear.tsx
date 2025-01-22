@@ -27,6 +27,7 @@ import {
   deleteFyDate,
   fetchFyData,
   saveFiscalYearDate,
+  editFyDate
 } from "@/actions/formAction"
 import { MdModeEditOutline } from "react-icons/md"
 import { toast } from "react-toastify"
@@ -35,11 +36,12 @@ import { ConvertToNepaliNumerals } from "@/lib/util"
 export default function FiscalYearPage() {
   const [startDate, setStartDate] = useState<string>("")
   const [endDate, setEndDate] = useState<string>("")
-  // const [fy, setFy] = useState<string>("")
   const [autofyStart, setAutoFyStart] = useState<string>("")
   const [autofyEnd, setAutoFyEnd] = useState<string>("")
   const [autofy, setAutoFy] = useState<string>("")
   const [fiscalYears, setFiscalYears] = useState<any[]>([])
+  const [editMode, setEditMode] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
 
   const [loading, setLoading] = useState(true)
 
@@ -57,13 +59,13 @@ export default function FiscalYearPage() {
 
   const fetchFiscalYears = async () => {
     try {
-      setLoading(true) // Set loading to true before fetching data
+      setLoading(true)
       const data = await fetchFyData()
       setFiscalYears(data)
     } catch (error) {
       console.error("Error fetching fiscal years:", error)
     } finally {
-      setLoading(false) // Set loading to false after fetching data
+      setLoading(false)
     }
   }
 
@@ -72,13 +74,41 @@ export default function FiscalYearPage() {
       toast.error("Please choose all fields")
       return
     }
-    const result = await saveFiscalYearDate(startDate, endDate, autofy)
-    if (result.status === "success") {
-      // Fetch the updated list of fiscal years
-      fetchFiscalYears()
+    if (editMode && editId) {
+      const result = await editFyDate(editId, startDate, endDate, autofy)
+      if (result.status === "success") {
+        onCancelEdit()
+        fetchFiscalYears()
+        setEditMode(false)
+        setEditId(null)
+      } else {
+        console.error("Edit unsuccessful")
+      }
     } else {
-      console.error("Error occurred")
+      const result = await saveFiscalYearDate(startDate, endDate, autofy)
+      if (result.status === "success") {
+        fetchFiscalYears()
+        onCancelEdit()
+      } else {
+        console.error("Error occurred")
+      }
     }
+  }
+
+  const onEdit = (year: any) => {
+    setStartDate(year.startDate)
+    setEndDate(year.endDate)
+    setAutoFy(year.fy)
+    setEditMode(true)
+    setEditId(year.id)
+  }
+
+  const onCancelEdit = () => {
+    setEditMode(false)
+    setEditId(null)
+    setStartDate("")
+    setEndDate("")
+    setAutoFy("")
   }
 
   useEffect(() => {
@@ -97,7 +127,6 @@ export default function FiscalYearPage() {
     if (deleteId) {
       const result = await deleteFyDate(deleteId)
       if (result.status === "success") {
-        // Fetch the updated list of fiscal years
         fetchFiscalYears()
       } else {
         console.error("Delete unsuccessful")
@@ -118,9 +147,9 @@ export default function FiscalYearPage() {
 
   useEffect(() => {
     const text = `${autofyStart} / ${autofyEnd}`
-    const [start, end] = text.split(" / ") // Split by " / "
-    const startYear = start.substring(0, 4) // Extract first 4 characters from start
-    const endYear = end.substring(2, 4) // Extract last 2 characters from end
+    const [start, end] = text.split(" / ")
+    const startYear = start.substring(0, 4)
+    const endYear = end.substring(2, 4)
     setAutoFy(`${startYear}/${endYear}`)
   }, [startDate, endDate, autofyStart, autofyEnd])
 
@@ -169,8 +198,17 @@ export default function FiscalYearPage() {
               className="w-full md:w-auto"
               isDisabled={!endDate || !startDate}
             >
-              Save
+              {editMode ? "Update" : "Save"}
             </Button>
+            {editMode && (
+              <Button
+                color="default"
+                onClick={onCancelEdit}
+                className="ml-2 w-full md:w-auto"
+              >
+                Cancel
+              </Button>
+            )}
           </div>
         </div>
         <br />
@@ -223,7 +261,7 @@ export default function FiscalYearPage() {
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem onClick={() => onEdit(year)}>Edit</DropdownItem>
                         <DropdownItem
                           key="delete"
                           className="text-danger"
