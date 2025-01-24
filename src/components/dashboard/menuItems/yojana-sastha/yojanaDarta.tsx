@@ -206,12 +206,25 @@ export default function YojanaDarta() {
   const [savedBiniyojitRakam, setSavedBiniyojitRakam] = useState(totalSum.toString())
 
   const [yojanaSwikrit, setYojanaSwikrit] = useState("")
+
   const [contengency, setContengency] = useState("")
+  const [savedContengency, setSavedContengency] = useState("")
+
   const [contengencyResult, setContengencyResult] = useState("")
+  const [savedContengencyResult, setSavedContengencyResult] = useState("")
+
   const [marmatRakam, setMarmatRakam] = useState("")
+  const [savedMarmatRakam, setSavedMarmatRakam] = useState("")
+
   const [markmatRakamResult, setMarkmatRakamResult] = useState("")
+  const [savedMarkmatRakamResult, setSavedMarkmatRakamResult] = useState("")
+
   const [dharautiRakam, setDharautiRakam] = useState("")
+  const [savedDharautiRakam, setSavedDharautiRakam] = useState("")
+
   const [dharautiRakamResult, setDharautiRakamResult] = useState("")
+  const [savedDharautiRakamResult, setSavedDharautiRakamResult] = useState("")
+
   const [kulAnudaanRakam, setKulAnudaanRakam] = useState("")
   const [janaSramdanRakam, setJanaSramdanRakam] = useState("")
   const [thegana, setThegana] = useState("")
@@ -445,6 +458,12 @@ export default function YojanaDarta() {
     const lagatSrotAmount3Convert = savedLagatSrotAmount3.trim()
     const biniyojitRakamConvert = savedBiniyojitRakam.trim()
     const prabidhikEstimateAmountConvert = savedPrabidhikEstimateAmount.trim()
+    const contengencyConvert = savedContengency.trim()
+    const contengencyResultConvert = savedContengencyResult.trim()
+    const marmatRakamConvert = savedMarmatRakam.trim()
+    const markmatRakamResultConvert = savedMarkmatRakamResult.trim()
+    const dharautiRakamConvert = savedDharautiRakam.trim()
+    const dharautiRakamResultConvert = savedDharautiRakamResult.trim()
 
     const existsYojanaKoNaam = yojanaDartaData.some(
       (data) => data.yojanaKoNaam === trimmedyojanaKoNaam
@@ -495,12 +514,12 @@ export default function YojanaDarta() {
       budgetType,
       biniyojitRakamConvert,
       yojanaSwikrit,
-      contengency,
-      contengencyResult,
-      marmatRakam,
-      markmatRakamResult,
-      dharautiRakam,
-      dharautiRakamResult,
+      contengencyConvert,
+      contengencyResultConvert,
+      marmatRakamConvert,
+      markmatRakamResultConvert,
+      dharautiRakamConvert,
+      dharautiRakamResultConvert,
       kulAnudaanRakam,
       janaSramdanRakam,
       thegana,
@@ -587,12 +606,12 @@ export default function YojanaDarta() {
     setBudgetType(item.budgetType)
     setBiniyojitRakam(englishToNepali(item.biniyojitRakam))
     setYojanaSwikrit(item.yojanaSwikrit)
-    setContengency(item.contengency)
-    setContengencyResult(item.contengencyResult)
-    setMarmatRakam(item.marmatRakam)
-    setMarkmatRakamResult(item.markmatRakamResult)
-    setDharautiRakam(item.dharautiRakam)
-    setDharautiRakamResult(item.dharautiRakamResult)
+    setContengency(englishToNepali(item.contengency))
+    setContengencyResult(englishToNepali(item.contengencyResult))
+    setMarmatRakam(englishToNepali(item.marmatRakam))
+    setMarkmatRakamResult(englishToNepali(item.markmatRakamResult))
+    setDharautiRakam(englishToNepali(item.dharautiRakam))
+    setDharautiRakamResult(englishToNepali(item.dharautiRakamResult))
     setKulAnudaanRakam(item.kulAnudaanRakam)
     setJanaSramdanRakam(item.janaSramdanRakam)
     setThegana(item.thegana)
@@ -638,12 +657,12 @@ export default function YojanaDarta() {
       budgetType,
       nepaliToEnglish(biniyojitRakam),
       yojanaSwikrit,
-      contengency,
-      contengencyResult,
-      marmatRakam,
-      markmatRakamResult,
-      dharautiRakam,
-      dharautiRakamResult,
+      nepaliToEnglish(contengency),
+      nepaliToEnglish(contengencyResult),
+      nepaliToEnglish(marmatRakam),
+      nepaliToEnglish(markmatRakamResult),
+      nepaliToEnglish(dharautiRakam),
+      nepaliToEnglish(dharautiRakamResult),
       kulAnudaanRakam,
       janaSramdanRakam,
       thegana,
@@ -792,19 +811,19 @@ export default function YojanaDarta() {
 
   useEffect(() => {
     setContengencyResult(
-      ((Number(contengency) / 100) * Number(totalSum)).toFixed(2).toString()
+      ((Number(nepaliToEnglish(contengency)) / 100) * Number(totalSum)).toFixed(2).toString()
     )
   }, [contengency, totalSum])
 
   useEffect(() => {
     setMarkmatRakamResult(
-      ((Number(marmatRakam) / 100) * Number(totalSum)).toFixed(2).toString()
+      ((Number(nepaliToEnglish(marmatRakam)) / 100) * Number(totalSum)).toFixed(2).toString()
     )
   }, [marmatRakam, totalSum])
 
   useEffect(() => {
     setDharautiRakamResult(
-      ((Number(dharautiRakam) / 100) * Number(totalSum)).toFixed(2).toString()
+      ((Number(nepaliToEnglish(dharautiRakam)) / 100) * Number(totalSum)).toFixed(2).toString()
     )
   }, [dharautiRakam, totalSum])
 
@@ -812,9 +831,9 @@ export default function YojanaDarta() {
     setKulAnudaanRakam(
       (
         Number(totalSum) -
-        (Number(contengencyResult) +
-          Number(markmatRakamResult) +
-          Number(dharautiRakamResult))
+        (Number(nepaliToEnglish(contengencyResult)) +
+          Number(nepaliToEnglish(markmatRakamResult)) +
+          Number(nepaliToEnglish(dharautiRakamResult)))
       ).toString()
     )
   }, [contengencyResult, markmatRakamResult, dharautiRakamResult, totalSum])
@@ -822,8 +841,8 @@ export default function YojanaDarta() {
   useEffect(() => {
     setJanaSramdanRakam(
       (
-        Number(contengencyResult) +
-        Number(markmatRakamResult) +
+        Number(nepaliToEnglish(contengencyResult)) +
+        Number(nepaliToEnglish(markmatRakamResult)) +
         Number(nepaliToEnglish(prabidhikEstimateAmount)) -
         Number(totalSum)
       ).toString()
@@ -841,15 +860,15 @@ export default function YojanaDarta() {
   }, [totalSum])
 
   useEffect(() => {
-    setContengencyResult(contengencyResult)
+    setContengencyResult(nepaliToEnglish(contengencyResult))
   }, [contengencyResult])
 
   useEffect(() => {
-    setMarkmatRakamResult(markmatRakamResult)
+    setMarkmatRakamResult(nepaliToEnglish(markmatRakamResult))
   }, [markmatRakamResult])
 
   useEffect(() => {
-    setDharautiRakamResult(dharautiRakamResult)
+    setDharautiRakamResult(nepaliToEnglish(dharautiRakamResult))
   }, [dharautiRakamResult])
 
   useEffect(() => {
@@ -1048,6 +1067,75 @@ export default function YojanaDarta() {
   
         setPrabidhikEstimateAmount(nepaliValue);
         setSavedPrabidhikEstimateAmount(englishValue);
+      }
+    };
+    const handleInputChangeContengency = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setContengency(nepaliValue);
+        setSavedContengency(englishValue);
+      }
+    };
+    const handleInputChangeContengencyResult = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setContengencyResult(nepaliValue);
+        setSavedContengencyResult(englishValue);
+        setContengency("")
+      }
+    };
+    const handleInputChangeMarmatRakam = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setMarmatRakam(nepaliValue);
+        setSavedMarmatRakam(englishValue);
+      }
+    };
+    const handleInputChangeMarmatRakamResult = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setMarkmatRakamResult(nepaliValue);
+        setSavedMarkmatRakamResult(englishValue);
+        setMarmatRakam("")
+      }
+    };
+    const handleInputChangeDharautiRakam = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setDharautiRakam(nepaliValue);
+        setSavedDharautiRakam(englishValue);
+      }
+    };
+    const handleInputChangeDharautiRakamResult = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setDharautiRakamResult(nepaliValue);
+        setSavedDharautiRakamResult(englishValue);
+        setDharautiRakam("")
       }
     };
 
@@ -1712,71 +1800,56 @@ export default function YojanaDarta() {
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
               <Input
-                type="Number"
+                type="text"
                 label="कन्टेन्जेन्सी&nbsp;%"
                 size="sm"
                 className="w-full"
                 value={contengency}
-                onChange={(e) => {
-                  setContengency(e.target.value)
-                }}
+                onChange={handleInputChangeContengency}
               />
               <Input
-                type="Number"
+                type="text"
                 label="&nbsp;"
                 size="sm"
                 className="w-full"
-                value={contengencyResult.toString()}
-                onChange={(e) => {
-                  setContengencyResult(e.target.value)
-                  setContengency("")
-                }}
+                value={englishToNepali(contengencyResult.toString())}
+                onChange={handleInputChangeContengencyResult}
               />
             </div>
             <div className="flex gap-2">
               <Input
-                type="Number"
+                type="text"
                 label="मर्मत&nbsp;रकम&nbsp;%"
                 size="sm"
                 className="w-full"
-                value={marmatRakam}
-                onChange={(e) => {
-                  setMarmatRakam(e.target.value)
-                }}
+                value={englishToNepali(marmatRakam)}
+                onChange={handleInputChangeMarmatRakam}
               />
               <Input
-                type="Number"
+                type="text"
                 label="&nbsp;"
                 size="sm"
                 className="w-full"
-                value={markmatRakamResult.toString()}
-                onChange={(e) => {
-                  setMarkmatRakamResult(e.target.value)
-                  setMarmatRakam("")
-                }}
+                value={englishToNepali(markmatRakamResult.toString())}
+                onChange={handleInputChangeMarmatRakamResult}
               />
             </div>
             <div className="flex gap-2">
               <Input
-                type="Number"
+                type="text"
                 label="धरौटी&nbsp;रकम&nbsp;%"
                 size="sm"
                 className="w-full"
-                value={dharautiRakam}
-                onChange={(e) => {
-                  setDharautiRakam(e.target.value)
-                }}
+                value={englishToNepali(dharautiRakam)}
+                onChange={handleInputChangeDharautiRakam}
               />
               <Input
-                type="Number"
+                type="text"
                 label="&nbsp;"
                 size="sm"
                 className="w-full"
-                value={dharautiRakamResult.toString()}
-                onChange={(e) => {
-                  setDharautiRakamResult(e.target.value)
-                  setDharautiRakam("")
-                }}
+                value={englishToNepali(dharautiRakamResult.toString())}
+                onChange={handleInputChangeDharautiRakamResult}
               />
             </div>
             <Input
