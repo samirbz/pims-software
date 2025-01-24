@@ -226,12 +226,24 @@ export default function YojanaDarta() {
   const [savedDharautiRakamResult, setSavedDharautiRakamResult] = useState("")
 
   const [kulAnudaanRakam, setKulAnudaanRakam] = useState("")
+  const [savedKulAnudaanRakam, setSavedKulAnudaanRakam] = useState("")
+
   const [janaSramdanRakam, setJanaSramdanRakam] = useState("")
+  const [savedJanaSramdanRakam, setSavedJanaSramdanRakam] = useState("")
+
   const [thegana, setThegana] = useState("")
+
   const [gharPariwarSankhya, setGharPariwarSankhya] = useState("")
+  const [savedGharPariwarSankhya, setSavedGharPariwarSankhya] = useState("")
+
   const [janaSankhya, setJanaSankhya] = useState("")
+  const [savedJanaSankhya, setSavedJanaSankhya] = useState("")
+
   const [karyaBivaran, setKaryaBivaran] = useState("")
+
   const [upalabdhiLakshya, setUpalabdhiLakshya] = useState("")
+  const [savedUpalabdhiLakshya, setSavedUpalabdhiLakshya] = useState("")
+
   const [uplabdhiLakhshyaQty, setUplabdhiLakhshyaQty] = useState("")
   const [barsikYojana, setBarsikYojana] = useState(true)
   const [kramagatYojana, setKramagatYojana] = useState(false)
@@ -453,7 +465,7 @@ export default function YojanaDarta() {
   const onSubmit = async () => {
     const trimmedyojanaKoNaam = yojanaKoNaam.trimEnd()
     const budgetKistabSnumConvert = savedBudgetKitabSnum.trim()
-    const lagatSrotAmountConvert = savedLagatSrotAmount.trim()
+    const lagatSrotAmountConvert = savedLagatSrotAmount.trim() || lagatSrotAmount.trim()
     const lagatSrotAmount2Convert = savedLagatSrotAmount2.trim()
     const lagatSrotAmount3Convert = savedLagatSrotAmount3.trim()
     const biniyojitRakamConvert = savedBiniyojitRakam.trim()
@@ -464,6 +476,11 @@ export default function YojanaDarta() {
     const markmatRakamResultConvert = savedMarkmatRakamResult.trim()
     const dharautiRakamConvert = savedDharautiRakam.trim()
     const dharautiRakamResultConvert = savedDharautiRakamResult.trim()
+    const kulAnudaanRakamConvert = savedKulAnudaanRakam.trim()
+    const janaSramdanRakamConvert = savedJanaSramdanRakam.trim()
+    const gharPariwarSankhyaConvert = savedGharPariwarSankhya.trim()
+    const janaSankhyaConvert = savedJanaSankhya.trim()
+    const upalabdhiLakshyaConvert = savedUpalabdhiLakshya.trim()
 
     const existsYojanaKoNaam = yojanaDartaData.some(
       (data) => data.yojanaKoNaam === trimmedyojanaKoNaam
@@ -481,7 +498,7 @@ export default function YojanaDarta() {
     console.log(totalBudget)
 
     setBiniyojitRakam(englishToNepali(totalSum.toString()))
-    const checkAmount = Number(prabidhikEstimateAmount) < Number(biniyojitRakam)
+    const checkAmount = Number(nepaliToEnglish(prabidhikEstimateAmount)) < Number(nepaliToEnglish(biniyojitRakam))
     if (karyagatSamuha === "उपभोक्ता समिति") {
       if (checkAmount) {
         toast.error(
@@ -520,13 +537,13 @@ export default function YojanaDarta() {
       markmatRakamResultConvert,
       dharautiRakamConvert,
       dharautiRakamResultConvert,
-      kulAnudaanRakam,
-      janaSramdanRakam,
+      kulAnudaanRakamConvert,
+      janaSramdanRakamConvert,
       thegana,
-      gharPariwarSankhya,
-      janaSankhya,
+      gharPariwarSankhyaConvert,
+      janaSankhyaConvert,
       karyaBivaran,
-      upalabdhiLakshya,
+      upalabdhiLakshyaConvert,
       uplabdhiLakhshyaQty,
       barsikYojana,
       kramagatYojana,
@@ -612,13 +629,13 @@ export default function YojanaDarta() {
     setMarkmatRakamResult(englishToNepali(item.markmatRakamResult))
     setDharautiRakam(englishToNepali(item.dharautiRakam))
     setDharautiRakamResult(englishToNepali(item.dharautiRakamResult))
-    setKulAnudaanRakam(item.kulAnudaanRakam)
-    setJanaSramdanRakam(item.janaSramdanRakam)
+    setKulAnudaanRakam(englishToNepali(item.kulAnudaanRakam))
+    setJanaSramdanRakam(englishToNepali(item.janaSramdanRakam))
     setThegana(item.thegana)
-    setGharPariwarSankhya(item.gharPariwarSankhya)
-    setJanaSankhya(item.janaSankhya)
+    setGharPariwarSankhya(englishToNepali(item.gharPariwarSankhya))
+    setJanaSankhya(englishToNepali(item.janaSankhya))
     setKaryaBivaran(item.karyaBivaran)
-    setUpalabdhiLakshya(item.upalabdhiLakshya)
+    setUpalabdhiLakshya(englishToNepali(item.upalabdhiLakshya))
     setUplabdhiLakhshyaQty(item.uplabdhiLakhshyaQty)
     setBarsikYojana(item.barsikYojana)
     setKramagatYojana(item.kramagatYojana)
@@ -663,13 +680,13 @@ export default function YojanaDarta() {
       nepaliToEnglish(markmatRakamResult),
       nepaliToEnglish(dharautiRakam),
       nepaliToEnglish(dharautiRakamResult),
-      kulAnudaanRakam,
-      janaSramdanRakam,
+      nepaliToEnglish(kulAnudaanRakam),
+      nepaliToEnglish(janaSramdanRakam),
       thegana,
-      gharPariwarSankhya,
-      janaSankhya,
+      nepaliToEnglish(gharPariwarSankhya),
+      nepaliToEnglish(janaSankhya),
       karyaBivaran,
-      upalabdhiLakshya,
+      nepaliToEnglish(upalabdhiLakshya),
       uplabdhiLakhshyaQty,
       barsikYojana,
       kramagatYojana,
@@ -1136,6 +1153,61 @@ export default function YojanaDarta() {
         setDharautiRakamResult(nepaliValue);
         setSavedDharautiRakamResult(englishValue);
         setDharautiRakam("")
+      }
+    };
+    const handleInputChangeKulanudaanRakam = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setKulAnudaanRakam(nepaliValue);
+        setSavedKulAnudaanRakam(englishValue);
+      }
+    };
+    const handleInputChangeJanaSramdanRakam = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setJanaSramdanRakam(nepaliValue);
+        setSavedJanaSramdanRakam(englishValue);
+      }
+    };
+    const handleInputChangeGharpariwarSankhya = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setGharPariwarSankhya(nepaliValue);
+        setSavedGharPariwarSankhya(englishValue);
+      }
+    };
+    const handleInputChangejanaSankhya = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setJanaSankhya(nepaliValue);
+        setSavedJanaSankhya(englishValue);
+      }
+    };
+    const handleInputChangeUpalabdhiLakshya = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setUpalabdhiLakshya(nepaliValue);
+        setSavedUpalabdhiLakshya(englishValue);
       }
     };
 
@@ -1853,15 +1925,16 @@ export default function YojanaDarta() {
               />
             </div>
             <Input
-              type="Number"
+              type="text"
               label="कुल अनुदान रु."
               size="sm"
               className="w-full"
-              value={kulAnudaanRakam}
+              value={englishToNepali(kulAnudaanRakam)}
+              onChange={handleInputChangeKulanudaanRakam}
               readOnly
             />
             <Input
-              type="Number"
+              type="text"
               // label="जनश्रमदान रु."
               label={
                 karyagatSamuha === "उपभोक्ता समिति"
@@ -1870,7 +1943,8 @@ export default function YojanaDarta() {
               }
               size="sm"
               className="w-full"
-              value={janaSramdanRakam}
+              value={englishToNepali(janaSramdanRakam)}
+              onChange={handleInputChangeJanaSramdanRakam}
               readOnly
             />
             <Input
@@ -1882,20 +1956,20 @@ export default function YojanaDarta() {
               onChange={(e) => setThegana(e.target.value)}
             />
             <Input
-              type="Number"
+              type="text"
               label="घर परिवार संख्या"
               size="sm"
               className="w-full"
               value={gharPariwarSankhya}
-              onChange={(e) => setGharPariwarSankhya(e.target.value)}
+              onChange={handleInputChangeGharpariwarSankhya}
             />
             <Input
-              type="Number"
+              type="text"
               label="जनसंख्या"
               size="sm"
               className="w-full"
               value={janaSankhya}
-              onChange={(e) => setJanaSankhya(e.target.value)}
+              onChange={handleInputChangejanaSankhya}
             />
             <Select
               label="कार्य बिवरण "
@@ -1916,12 +1990,12 @@ export default function YojanaDarta() {
             </Select>
             <div className="flex gap-2">
               <Input
-                type="Number"
+                type="text"
                 label="उपलब्धि&nbsp;लक्ष्य"
                 size="sm"
                 className="w-full"
                 value={upalabdhiLakshya}
-                onChange={(e) => setUpalabdhiLakshya(e.target.value)}
+                onChange={handleInputChangeUpalabdhiLakshya}
               />
               <Select
                 label="उपलब्धि&nbsp;किसिम"
