@@ -51,6 +51,38 @@ import { toast } from "react-toastify"
 import { AiOutlineClear } from "react-icons/ai"
 import { useMyContext, usePlaceContext } from "@/context/MyContext"
 
+// Utility functions
+const englishToNepali = (englishNum: string): string => {
+  const nepaliDigits = "०१२३४५६७८९"
+  const englishDigits = "0123456789"
+
+  return englishNum
+    .split("")
+    .map((char) => {
+      const index = englishDigits.indexOf(char)
+      return index !== -1 ? nepaliDigits[index] : char
+    })
+    .join("")
+}
+
+const nepaliToEnglish = (nepaliNum: string): string => {
+  const nepaliDigits = "०१२३४५६७८९"
+  const englishDigits = "0123456789"
+
+  return nepaliNum
+    .split("")
+    .map((char) => {
+      const index = nepaliDigits.indexOf(char)
+      return index !== -1 ? englishDigits[index] : char
+    })
+    .join("")
+}
+
+const isValidNumber = (value: string): boolean => {
+  const allowedCharacters = /^[०-९0-9]*$/ // Nepali (०-९) and English (0-9) digits
+  return allowedCharacters.test(value)
+}
+
 const date1 = new NepaliDate()
 
 const qtyDataList = [
@@ -135,24 +167,40 @@ export default function YojanaDarta() {
   const [prastabSwikritMiti, setPrastabSwikritMiti] = useState("")
   const [yojanaKoWada, setYojanaKoWada] = useState("")
   const [yojanaKoNaam, setYojanaKoNaam] = useState("")
+
   const [budgetKitabSnum, setBudgetKitabSnum] = useState("")
+  const [savedBudgetKitabSnum, setSavedBudgetKitabSnum] = useState("")
+
+
   const [mukhyaSamiti, setMukhyaSamiti] = useState("")
   const [anudanKoNaam, setAnudanKoNaam] = useState("")
   const [lagatSrotHaru, setLagatSrotHaru] = useState("")
+
   const [lagatSrotAmount, setLagatSrotAmount] = useState("")
+  const [savedLagatSrotAmount, setSavedLagatSrotAmount] = useState("")
+
   const [anudanKoNaam2, setAnudanKoNaam2] = useState("")
   const [lagatSrotHaru2, setLagatSrotHaru2] = useState("")
+
   const [lagatSrotAmount2, setLagatSrotAmount2] = useState("")
+  const [savedLagatSrotAmount2, setSavedLagatSrotAmount2] = useState("")
+
   const [anudanKoNaam3, setAnudanKoNaam3] = useState("")
   const [lagatSrotHaru3, setLagatSrotHaru3] = useState("")
+
   const [lagatSrotAmount3, setLagatSrotAmount3] = useState("")
+  const [savedLagatSrotAmount3, setSavedLagatSrotAmount3] = useState("")
+
   const [yojanaUpachetra, setYojanaUpachetra] = useState("")
   const [yojanaKoKisim, setYojanaKoKisim] = useState("अनुदान (गाउँ/नगरपालिका)")
   const [wada, setWada] = useState("")
   const [karyagatSamuha, setKaryagatSamuha] = useState("उपभोक्ता समिति")
   const [prabidhikEstimateAmount, setPrabidhikEstimateAmount] = useState("")
   const [budgetType, setBudgetType] = useState("ल.ई.")
+
   const [biniyojitRakam, setBiniyojitRakam] = useState(totalSum.toString())
+  const [savedBiniyojitRakam, setSavedBiniyojitRakam] = useState(totalSum.toString())
+
   const [yojanaSwikrit, setYojanaSwikrit] = useState("")
   const [contengency, setContengency] = useState("")
   const [contengencyResult, setContengencyResult] = useState("")
@@ -279,7 +327,7 @@ export default function YojanaDarta() {
       if (filteredData.length > 0) {
         // Assuming you want the first item if there are multiple matches
         const budgetData = filteredData[0].biniyojanBudgetDt
-        setLagatSrotAmount(budgetData)
+        setLagatSrotAmount(englishToNepali(budgetData))
         setTotalBudget(budgetData)
       } else {
         // Handle the case where no data was found
@@ -387,6 +435,11 @@ export default function YojanaDarta() {
 
   const onSubmit = async () => {
     const trimmedyojanaKoNaam = yojanaKoNaam.trimEnd()
+    const budgetKistabSnumConvert = savedBudgetKitabSnum.trim()
+    const lagatSrotAmountConvert = savedLagatSrotAmount.trim()
+    const lagatSrotAmount2Convert = savedLagatSrotAmount2.trim()
+    const lagatSrotAmount3Convert = savedLagatSrotAmount3.trim()
+    const biniyojitRakamConvert = savedBiniyojitRakam.trim()
 
     const existsYojanaKoNaam = yojanaDartaData.some(
       (data) => data.yojanaKoNaam === trimmedyojanaKoNaam
@@ -400,9 +453,8 @@ export default function YojanaDarta() {
       toast.error("duplicate yojana ko naam in same woda")
       return
     }
-    console.log(totalBudget)
 
-    setBiniyojitRakam(totalSum.toString())
+    setBiniyojitRakam(englishToNepali(totalSum.toString()))
     const checkAmount = Number(prabidhikEstimateAmount) < Number(biniyojitRakam)
     if (karyagatSamuha === "उपभोक्ता समिति") {
       if (checkAmount) {
@@ -417,24 +469,24 @@ export default function YojanaDarta() {
       prastabSwikritMiti || date1.format("YYYY-MM-DD"),
       yojanaKoWada,
       trimmedyojanaKoNaam,
-      budgetKitabSnum,
+      budgetKistabSnumConvert,
       mukhyaSamiti,
       anudanKoNaam,
       lagatSrotHaru,
-      lagatSrotAmount,
+      lagatSrotAmountConvert,
       anudanKoNaam2,
       lagatSrotHaru2,
-      lagatSrotAmount2,
+      lagatSrotAmount2Convert,
       anudanKoNaam3,
       lagatSrotHaru3,
-      lagatSrotAmount3,
+      lagatSrotAmount3Convert,
       yojanaUpachetra,
       yojanaKoKisim,
       wada,
       karyagatSamuha,
       prabidhikEstimateAmount,
       budgetType,
-      biniyojitRakam,
+      biniyojitRakamConvert,
       yojanaSwikrit,
       contengency,
       contengencyResult,
@@ -508,17 +560,17 @@ export default function YojanaDarta() {
     setPrastabSwikritMiti(item.prastabSwikritMiti)
     setYojanaKoWada(item.yojanaKoWada)
     setYojanaKoNaam(item.yojanaKoNaam)
-    setBudgetKitabSnum(item.budgetKitabSnum)
+    setBudgetKitabSnum(englishToNepali(item.budgetKitabSnum))
     setMukhyaSamiti(item.mukhyaSamiti)
     setAnudanKoNaam(item.anudanKoNaam)
     setLagatSrotHaru(item.lagatSrotHaru)
-    setLagatSrotAmount(item.lagatSrotAmount)
+    setLagatSrotAmount(englishToNepali(item.lagatSrotAmount))
     setAnudanKoNaam2(item.anudanKoNaam2)
     setLagatSrotHaru2(item.lagatSrotHaru2)
-    setLagatSrotAmount2(item.lagatSrotAmount2)
+    setLagatSrotAmount2(englishToNepali(item.lagatSrotAmount2))
     setAnudanKoNaam3(item.anudanKoNaam3)
     setLagatSrotHaru3(item.lagatSrotHaru3)
-    setLagatSrotAmount3(item.lagatSrotAmount3)
+    setLagatSrotAmount3(englishToNepali(item.lagatSrotAmount3))
     setYojanaUpachetra(item.yojanaUpachetra)
     setYojanaKoKisim(item.yojanaKoKisim)
     setWada(item.wada)
@@ -526,7 +578,7 @@ export default function YojanaDarta() {
     setDateDisabled(item.karyagatSamuha)
     setPrabidhikEstimateAmount(item.prabidhikEstimateAmount)
     setBudgetType(item.budgetType)
-    setBiniyojitRakam(item.biniyojitRakam)
+    setBiniyojitRakam(englishToNepali(item.biniyojitRakam))
     setYojanaSwikrit(item.yojanaSwikrit)
     setContengency(item.contengency)
     setContengencyResult(item.contengencyResult)
@@ -560,24 +612,24 @@ export default function YojanaDarta() {
       prastabSwikritMiti,
       yojanaKoWada,
       yojanaKoNaam,
-      budgetKitabSnum,
+      nepaliToEnglish(budgetKitabSnum),
       mukhyaSamiti,
       anudanKoNaam,
       lagatSrotHaru,
-      lagatSrotAmount,
+      nepaliToEnglish(lagatSrotAmount),
       anudanKoNaam2,
       lagatSrotHaru2,
-      lagatSrotAmount2,
+      nepaliToEnglish(lagatSrotAmount2),
       anudanKoNaam3,
       lagatSrotHaru3,
-      lagatSrotAmount3,
+      nepaliToEnglish(lagatSrotAmount3),
       yojanaUpachetra,
       yojanaKoKisim,
       wada,
       karyagatSamuha,
       prabidhikEstimateAmount,
       budgetType,
-      biniyojitRakam,
+      nepaliToEnglish(biniyojitRakam),
       yojanaSwikrit,
       contengency,
       contengencyResult,
@@ -725,9 +777,9 @@ export default function YojanaDarta() {
 
   useEffect(() => {
     setTotalSum(
-      Number(lagatSrotAmount) +
-        Number(lagatSrotAmount2) +
-        Number(lagatSrotAmount3)
+      Number(nepaliToEnglish(lagatSrotAmount)) +
+        Number(nepaliToEnglish(lagatSrotAmount2)) +
+        Number(nepaliToEnglish(lagatSrotAmount3))
     )
   }, [lagatSrotAmount, lagatSrotAmount2, lagatSrotAmount3])
 
@@ -778,7 +830,7 @@ export default function YojanaDarta() {
   ])
 
   useEffect(() => {
-    setBiniyojitRakam(totalSum.toString())
+    setBiniyojitRakam(englishToNepali(totalSum.toString()))
   }, [totalSum])
 
   useEffect(() => {
@@ -922,13 +974,64 @@ export default function YojanaDarta() {
     }
   }
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex h-screen items-center justify-center">
-  //       <Spinner color="primary" className="mb-36" />
-  //     </div>
-  //   )
-  // }
+   // Input change handler
+    const handleInputChangeBudgetKitabSnum = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setBudgetKitabSnum(nepaliValue);
+        setSavedBudgetKitabSnum(englishValue);
+      }
+    };
+
+    const handleInputChangelagatSrotAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setLagatSrotAmount(nepaliValue);
+        setSavedLagatSrotAmount(englishValue);
+      }
+    };
+
+    const handleInputChangelagatSrotAmount2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setLagatSrotAmount2(nepaliValue);
+        setSavedLagatSrotAmount2(englishValue);
+      }
+    };
+    const handleInputChangelagatSrotAmount3 = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setLagatSrotAmount3(nepaliValue);
+        setSavedLagatSrotAmount3(englishValue);
+      }
+    };
+    const handleInputChangeBiniyojitRakam = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setBiniyojitRakam(nepaliValue);
+        setSavedBiniyojitRakam(englishValue);
+      }
+    };
 
   const [filterAyojanaKoNaam, setFilterAyojanaKoNaam] = useState("")
   const [page, setPage] = useState(1)
@@ -1185,7 +1288,7 @@ export default function YojanaDarta() {
               className="w-full sm:w-1/3"
               color="primary"
               value={budgetKitabSnum}
-              onChange={(e) => setBudgetKitabSnum(e.target.value)}
+              onChange={handleInputChangeBudgetKitabSnum}
             />
           </div>
           <Select
@@ -1255,14 +1358,12 @@ export default function YojanaDarta() {
                 ))}
               </Select>
               <Input
-                type="Number"
+                type="text"
                 label="रकम "
                 size="sm"
                 className="w-1/4"
                 value={lagatSrotAmount}
-                onChange={(e) => {
-                  setLagatSrotAmount(e.target.value)
-                }}
+                onChange={handleInputChangelagatSrotAmount}
               />
             </div>
 
@@ -1313,14 +1414,12 @@ export default function YojanaDarta() {
                   ))}
                 </Select>
                 <Input
-                  type="Number"
+                  type="text"
                   label="रकम "
                   size="sm"
                   className="w-1/4"
                   value={lagatSrotAmount2}
-                  onChange={(e) => {
-                    setLagatSrotAmount2(e.target.value)
-                  }}
+                  onChange={handleInputChangelagatSrotAmount2}
                 />
               </div>
             )}
@@ -1372,14 +1471,12 @@ export default function YojanaDarta() {
                   ))}
                 </Select>
                 <Input
-                  type="Number"
+                  type="text"
                   label="रकम "
                   size="sm"
                   className="w-1/4"
                   value={lagatSrotAmount3}
-                  onChange={(e) => {
-                    setLagatSrotAmount3(e.target.value)
-                  }}
+                  onChange={handleInputChangelagatSrotAmount3}
                 />
               </div>
             )}
@@ -1547,11 +1644,12 @@ export default function YojanaDarta() {
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
-              type="Number"
+              type="text"
               label="विनियोजित रकम रु."
               size="sm"
               className="w-full sm:w-1/2"
-              value={biniyojitRakam}
+              value={englishToNepali(biniyojitRakam)}
+              onChange={handleInputChangeBiniyojitRakam}
             />
             <Select
               label="योजना स्वीकृत"
