@@ -195,7 +195,11 @@ export default function YojanaDarta() {
   const [yojanaKoKisim, setYojanaKoKisim] = useState("अनुदान (गाउँ/नगरपालिका)")
   const [wada, setWada] = useState("")
   const [karyagatSamuha, setKaryagatSamuha] = useState("उपभोक्ता समिति")
+
   const [prabidhikEstimateAmount, setPrabidhikEstimateAmount] = useState("")
+  const [savedPrabidhikEstimateAmount, setSavedPrabidhikEstimateAmount] = useState("")
+
+
   const [budgetType, setBudgetType] = useState("ल.ई.")
 
   const [biniyojitRakam, setBiniyojitRakam] = useState(totalSum.toString())
@@ -440,6 +444,7 @@ export default function YojanaDarta() {
     const lagatSrotAmount2Convert = savedLagatSrotAmount2.trim()
     const lagatSrotAmount3Convert = savedLagatSrotAmount3.trim()
     const biniyojitRakamConvert = savedBiniyojitRakam.trim()
+    const prabidhikEstimateAmountConvert = savedPrabidhikEstimateAmount.trim()
 
     const existsYojanaKoNaam = yojanaDartaData.some(
       (data) => data.yojanaKoNaam === trimmedyojanaKoNaam
@@ -453,6 +458,8 @@ export default function YojanaDarta() {
       toast.error("duplicate yojana ko naam in same woda")
       return
     }
+
+    console.log(totalBudget)
 
     setBiniyojitRakam(englishToNepali(totalSum.toString()))
     const checkAmount = Number(prabidhikEstimateAmount) < Number(biniyojitRakam)
@@ -484,7 +491,7 @@ export default function YojanaDarta() {
       yojanaKoKisim,
       wada,
       karyagatSamuha,
-      prabidhikEstimateAmount,
+      prabidhikEstimateAmountConvert,
       budgetType,
       biniyojitRakamConvert,
       yojanaSwikrit,
@@ -576,7 +583,7 @@ export default function YojanaDarta() {
     setWada(item.wada)
     setKaryagatSamuha(item.karyagatSamuha)
     setDateDisabled(item.karyagatSamuha)
-    setPrabidhikEstimateAmount(item.prabidhikEstimateAmount)
+    setPrabidhikEstimateAmount(englishToNepali(item.prabidhikEstimateAmount))
     setBudgetType(item.budgetType)
     setBiniyojitRakam(englishToNepali(item.biniyojitRakam))
     setYojanaSwikrit(item.yojanaSwikrit)
@@ -627,7 +634,7 @@ export default function YojanaDarta() {
       yojanaKoKisim,
       wada,
       karyagatSamuha,
-      prabidhikEstimateAmount,
+      nepaliToEnglish(prabidhikEstimateAmount),
       budgetType,
       nepaliToEnglish(biniyojitRakam),
       yojanaSwikrit,
@@ -817,7 +824,7 @@ export default function YojanaDarta() {
       (
         Number(contengencyResult) +
         Number(markmatRakamResult) +
-        Number(prabidhikEstimateAmount) -
+        Number(nepaliToEnglish(prabidhikEstimateAmount)) -
         Number(totalSum)
       ).toString()
     )
@@ -1030,6 +1037,17 @@ export default function YojanaDarta() {
   
         setBiniyojitRakam(nepaliValue);
         setSavedBiniyojitRakam(englishValue);
+      }
+    };
+    const handleInputChangePrabidhikEstimateAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.target.value;
+  
+      if (isValidNumber(input)) {
+        const englishValue = nepaliToEnglish(input);
+        const nepaliValue = englishToNepali(englishValue);
+  
+        setPrabidhikEstimateAmount(nepaliValue);
+        setSavedPrabidhikEstimateAmount(englishValue);
       }
     };
 
@@ -1608,7 +1626,7 @@ export default function YojanaDarta() {
 
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
-              type="Number"
+              type="text"
               label={
                 karyagatSamuha === "उपभोक्ता समिति" || karyagatSamuha === ""
                   ? "प्राविधिक इस्टिमेट रकम रु."
@@ -1620,9 +1638,7 @@ export default function YojanaDarta() {
               //   setPravidik(e.target.value)
               // }}
               value={prabidhikEstimateAmount}
-              onChange={(e) => {
-                setPrabidhikEstimateAmount(e.target.value)
-              }}
+              onChange={handleInputChangePrabidhikEstimateAmount}
               // value={pravidik}
             />
             <Select
