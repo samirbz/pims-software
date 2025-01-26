@@ -16,7 +16,7 @@ import { FaRegSave } from "react-icons/fa"
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import NepaliDate from "nepali-date-converter"
 import "nepali-datepicker-reactjs/dist/index.css"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { MdOutlineSupervisorAccount } from "react-icons/md"
 import { CiSearch } from "react-icons/ci"
 import {
@@ -38,24 +38,69 @@ import {
   usePradeshContext,
 } from "@/context/MyContext"
 
+// Utility functions
+const englishToNepali = (englishNum: string): string => {
+  const nepaliDigits = "०१२३४५६७८९";
+  const englishDigits = "0123456789";
+
+  return englishNum
+    .split("")
+    .map((char) => {
+      const index = englishDigits.indexOf(char);
+      return index !== -1 ? nepaliDigits[index] : char;
+    })
+    .join("");
+};
+
+const nepaliToEnglish = (nepaliNum: string): string => {
+  const nepaliDigits = "०१२३४५६७८९";
+  const englishDigits = "0123456789";
+
+  return nepaliNum
+    .split("")
+    .map((char) => {
+      const index = nepaliDigits.indexOf(char);
+      return index !== -1 ? englishDigits[index] : char;
+    })
+    .join("");
+};
+
+const isValidNumber = (value: string): boolean => {
+  const allowedCharacters = /^[०-९0-9]*$/; // Nepali (०-९) and English (0-9) digits
+  return allowedCharacters.test(value);
+};
+
+
 const date1 = new NepaliDate()
 
 export default function SamjhautaSwikriti() {
   const [pid, setPid] = useState("")
+
   const [aawa, setAawa] = useState("")
+  const [savedAawa, setSavedAawa] = useState("")
+
   const [miti, setMiti] = useState("")
   const [yojanaKaryaKramKoNaam, setYojanaKaryaKramKoNaam] = useState("")
   const [upavoktaSamitiKoNaam, setUpavoktaSamitiKoNaam] = useState("")
   const [adhyachyaKoNaam, setAdhyachyaKoNaam] = useState("")
+
   const [velamaUpasthitiSankhya, setVelamaUpasthitiSankhya] = useState("")
+  const [savedVelamaUpasthitiSankhya, setSavedVelamaUpasthitiSankhya] = useState("")
+
   const [padakariSankhya, setPadakariSankhya] = useState("")
+  const [savedPadakariSankhya, setSavedPadakariSankhya] = useState("")
+
   const [mahilaSankhya, setMahilaSankhya] = useState("")
+  const [savedMahilaSankhya, setSavedMahilaSankhya] = useState("")
   const [lagatAnumanRakam, setLagatAnumanRakam] = useState("")
   const [nagarpalikaRakamRu, setNagarpalikaRakamRu] = useState("")
   const [lagatSramDan, setlagatSramDan] = useState("")
   const [contengencyRakam, setContengencyRakam] = useState("")
   const [khudPauneRakam, setKhudPauneRakam] = useState("")
+
   const [anugamanSamitikaSadasya, setAnugamanSamitikaSadasya] = useState("")
+  const [savedAnugamanSamitikaSadasya, setSavedAnugamanSamitikaSadasya] = useState("")
+
   const [budgetKitabSNum, setVudgetKitabSNum] = useState("")
   const [ushaGathanMiti, setUshaGathanMiti] = useState("")
   const [mukhyaSamitiKoNaam, setMukhyaSamitiKoNaam] = useState("")
@@ -91,14 +136,6 @@ export default function SamjhautaSwikriti() {
     }
 
     try {
-      // const response = await fetchDataByYojanaKaryaKramKoNaam(value || "", pid)
-
-      // if (response.status === "success") {
-      //   // Alerting the data as a string
-      //   alert(JSON.stringify(response.data, null, 2))
-      // } else {
-      //   alert("Error: " + response.error)
-      // }
       alert(
         `
  aawa = ${aawa},
@@ -138,6 +175,11 @@ export default function SamjhautaSwikriti() {
   }
 
   const onSubmit = async () => {
+    const aawaConvert = savedAawa.trim()
+    const velamaUpasthitiSankhyaConvert = savedVelamaUpasthitiSankhya.trim()
+    const padakariSankhyaConvert = savedPadakariSankhya.trim() 
+    const mahilaSankhyaConvert = savedMahilaSankhya.trim() 
+    const anugamanSamitikaSadasyaConvert = savedAnugamanSamitikaSadasya.trim()
     if (!yojanaKaryaKramKoNaam) {
       alert("Please fill form select yojana")
       return
@@ -146,14 +188,14 @@ export default function SamjhautaSwikriti() {
       const result = await updateYojanaSwikritiTippani(
         pid,
         value || "",
-        aawa,
+        nepaliToEnglish(aawa),
         miti,
         upavoktaSamitiKoNaam,
         adhyachyaKoNaam,
-        velamaUpasthitiSankhya,
-        padakariSankhya,
-        mahilaSankhya,
-        anugamanSamitikaSadasya,
+        nepaliToEnglish(velamaUpasthitiSankhya),
+        nepaliToEnglish(padakariSankhya),
+        nepaliToEnglish(mahilaSankhya),
+        nepaliToEnglish(anugamanSamitikaSadasya),
         ushaGathanMiti,
         ushaNibedandiyiyekoMiti,
         anyaTipaniBivaran,
@@ -198,14 +240,14 @@ export default function SamjhautaSwikriti() {
       const result = await saveYojanaSwikritiTippani(
         pid,
         value || "",
-        aawa,
+        aawaConvert || aawa,
         miti || date1.format("YYYY-MM-DD"),
         upavoktaSamitiKoNaam,
         adhyachyaKoNaam,
-        velamaUpasthitiSankhya,
-        padakariSankhya,
-        mahilaSankhya,
-        anugamanSamitikaSadasya,
+        velamaUpasthitiSankhyaConvert,
+        padakariSankhyaConvert,
+        mahilaSankhyaConvert,
+        anugamanSamitikaSadasyaConvert,
         ushaGathanMiti || date1.format("YYYY-MM-DD"),
         ushaNibedandiyiyekoMiti || date1.format("YYYY-MM-DD"),
         anyaTipaniBivaran,
@@ -390,6 +432,63 @@ export default function SamjhautaSwikriti() {
     }
   }, [ushaNibedandiyiyekoMiti])
 
+
+      const handleInputChangeAawa = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value;
+    
+        if (isValidNumber(input)) {
+          const englishValue = nepaliToEnglish(input);
+          const nepaliValue = englishToNepali(englishValue);
+    
+          setAawa(nepaliValue);
+          setSavedAawa(englishValue);
+        }
+      };
+      const handleInputChangeVelamaUpasthitiSankhya = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value;
+    
+        if (isValidNumber(input)) {
+          const englishValue = nepaliToEnglish(input);
+          const nepaliValue = englishToNepali(englishValue);
+    
+          setVelamaUpasthitiSankhya(nepaliValue);
+          setSavedVelamaUpasthitiSankhya(englishValue);
+        }
+      };
+      const handleInputChangePadakariSankhya = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value;
+    
+        if (isValidNumber(input)) {
+          const englishValue = nepaliToEnglish(input);
+          const nepaliValue = englishToNepali(englishValue);
+    
+          setPadakariSankhya(nepaliValue);
+          setSavedPadakariSankhya(englishValue);
+        }
+      };
+      const handleInputChangeMahilaSankhya = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value;
+    
+        if (isValidNumber(input)) {
+          const englishValue = nepaliToEnglish(input);
+          const nepaliValue = englishToNepali(englishValue);
+    
+          setMahilaSankhya(nepaliValue);
+          setSavedMahilaSankhya(englishValue);
+        }
+      };
+      const handleInputChangeAnugamanSamitikaSadasya = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value;
+    
+        if (isValidNumber(input)) {
+          const englishValue = nepaliToEnglish(input);
+          const nepaliValue = englishToNepali(englishValue);
+    
+          setAnugamanSamitikaSadasya(nepaliValue);
+          setSavedAnugamanSamitikaSadasya(englishValue);
+        }
+      };
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   return (
@@ -407,8 +506,8 @@ export default function SamjhautaSwikriti() {
                 label=" आ.व "
                 size="sm"
                 className="w-1/2"
-                value={aawa}
-                onChange={(e) => setAawa(e.target.value)}
+                value={englishToNepali(aawa)}
+                onChange={handleInputChangeAawa}
               />
               <form className="flex items-center gap-2 ">
                 <label htmlFor="date">मितिः-</label>
@@ -467,81 +566,81 @@ export default function SamjhautaSwikriti() {
             <div className="flex gap-2">
               {!hide && (
                 <Input
-                  type="Number"
+                  type="text"
                   label="भेलामा उपस्थिती संख्या"
                   size="sm"
                   value={velamaUpasthitiSankhya}
-                  onChange={(e) => setVelamaUpasthitiSankhya(e.target.value)}
+                  onChange={handleInputChangeVelamaUpasthitiSankhya}
                 />
               )}
               {!hide && (
                 <Input
-                  type="Number"
+                  type="text"
                   label="पदाधिकारी संख्या"
                   size="sm"
                   value={padakariSankhya}
-                  onChange={(e) => setPadakariSankhya(e.target.value)}
+                  onChange={handleInputChangePadakariSankhya}
                 />
               )}
               {!hide && (
                 <Input
-                  type="Number"
+                  type="text"
                   label="महिला संख्या"
                   size="sm"
                   value={mahilaSankhya}
-                  onChange={(e) => setMahilaSankhya(e.target.value)}
+                  onChange={handleInputChangeMahilaSankhya}
                 />
               )}
             </div>
             <div className="flex gap-2">
               <Input
                 isReadOnly
-                type="Number"
+                type="text"
                 label=" लागत अनुमान रकम "
                 size="sm"
                 color="success"
-                value={lagatAnumanRakam}
+                value={englishToNepali(lagatAnumanRakam)}
               />
               <Input
                 isReadOnly
-                type="Number"
+                type="text"
                 label=" नगरपालिका रकम रु. "
                 color="success"
                 size="sm"
-                value={nagarpalikaRakamRu}
+                value={englishToNepali(nagarpalikaRakamRu)}
               />
               <Input
                 isReadOnly
-                type="Number"
+                type="text"
                 label=" लागत श्रमदान "
                 size="sm"
                 color="success"
-                value={lagatSramDan}
+                value={englishToNepali(lagatSramDan)}
               />
             </div>
             <div className="flex gap-2">
               <Input
                 isReadOnly
-                type="Number"
+                type="text"
                 label="कन्टेन्जेन्सी रकम"
                 color="success"
                 size="sm"
-                value={contengencyRakam}
+                value={englishToNepali(contengencyRakam)}
               />
               <Input
                 isReadOnly
-                type="Number"
+                type="text"
                 label=" खुद पाउने रकम"
                 color="success"
                 size="sm"
-                value={khudPauneRakam}
+                value={englishToNepali(khudPauneRakam)}
               />
               <Input
-                type="Number"
+                type="text"
                 label="अनुगमन समितिका सदस्य"
                 size="sm"
                 value={anugamanSamitikaSadasya}
-                onChange={(e) => setAnugamanSamitikaSadasya(e.target.value)}
+                onChange={handleInputChangeAnugamanSamitikaSadasya}
               />
             </div>
 
@@ -551,7 +650,7 @@ export default function SamjhautaSwikriti() {
                 label="बजेट किताबको सि.न."
                 size="sm"
                 className="w-1/2"
-                value={budgetKitabSNum}
+                value={englishToNepali(budgetKitabSNum)}
                 onChange={(e) => setVudgetKitabSNum(e.target.value)}
               />
 
@@ -641,21 +740,21 @@ export default function SamjhautaSwikriti() {
                       return
                     }
                     SamjhautaSwikritiPrint(
-                      aawa,
+                      englishToNepali(aawa),
                       miti,
                       yojanaKaryaKramKoNaam,
                       upavoktaSamitiKoNaam,
                       adhyachyaKoNaam,
-                      velamaUpasthitiSankhya,
-                      padakariSankhya,
-                      mahilaSankhya,
-                      lagatAnumanRakam,
-                      nagarpalikaRakamRu,
-                      lagatSramDan,
-                      contengencyRakam,
-                      khudPauneRakam,
-                      anugamanSamitikaSadasya,
-                      budgetKitabSNum,
+                      englishToNepali(velamaUpasthitiSankhya),
+                      englishToNepali(padakariSankhya),
+                      englishToNepali(mahilaSankhya),
+                      englishToNepali(lagatAnumanRakam),
+                      englishToNepali(nagarpalikaRakamRu),
+                      englishToNepali(lagatSramDan),
+                      englishToNepali(contengencyRakam),
+                      englishToNepali(khudPauneRakam),
+                      englishToNepali(anugamanSamitikaSadasya),
+                      englishToNepali(budgetKitabSNum),
                       ushaGathanMiti,
                       mukhyaSamitiKoNaam,
                       ushaNibedandiyiyekoMiti,
